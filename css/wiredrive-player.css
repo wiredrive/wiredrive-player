@@ -1,0 +1,235 @@
+/*
+ * Please feel free to edit this style sheet to fit your needs. Keep in mid that 
+ * when you upgrade the plugin this will be reset to the new settings. To combat this
+ * simply add the changes to your theme's stylesheet sheet instead. 
+*/
+
+/*The margin's above and below the player.*/
+.wd-player {
+	margin-top: 0;
+	margin-bottom: 1em;
+	/*An em is one text character high, you use an em when you want the gap to change depending on the font size of the text around the player.*/
+}
+
+/*The background color for the player*/
+.wd-stage, .wd-player object {
+	background-color: #000000;
+	/*Go here: http://html-color-codes.info/ to see what all the color codes are.*/
+}
+/*The gap between the video player and the list of thumbnails*/
+.wd-thumb-tray {
+	margin-top: 0;
+}
+
+/*The background color of the thumbs scroller*/
+.wd-thumb-list-container {
+	background-color: #eaeaea;
+}
+
+/*The height of the thumbnails */
+.wd-thumb {
+	height: 60px;
+}
+
+/*The height and width of the and next/prev buttons. In most cases you'd want this the same as the thumbnail height*/
+.wd-nav-prev, .wd-nav-next {
+	height: 60px;
+	width: 30px;
+	padding: 2px 0;
+}
+
+/*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
+ul.wd-thumb-list {
+	padding-left: 32px;
+	padding-right: 16px; /* This should be half of padding-left */
+}
+
+/*The border that the selected thumbnail gets*/
+ul.wd-thumb-list .wd-active  {
+	background-color: black;
+}
+
+/*The button that slides the thumb tray down */
+.wd-thumb-dropdown {
+    background-image: url(../images/player_icon_down.png);
+    height: 16px;
+    width: 22px;
+}
+/*The button that slides the thumb tray up */
+.wd-thumb-dropdown.wd-up-arrow {
+    background-image: url(../images/player_icon_up.png);
+}
+
+/*The image and background color to be used by the previous button on the thumb scroller*/
+.wd-nav-prev {
+    background-color: #eaeaea;
+	background-image: url(../images/player_icon_prev.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/*The image and background color to be used by the next button on the thumb scroller*/
+.wd-nav-next {
+    background-color: #eaeaea;
+	background-image: url(../images/player_icon_next.png);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+/*The gap between the thumb list and the credit block*/
+.wd-credits-container {
+	margin-top: 0;
+	text-align: left;
+}
+
+/*The color of the credit block when the tray is down*/
+.wd-credits-container, .wd-player .wd-credits-container.wd-active {
+    background-color: #eaeaea;
+}
+
+/*The title of the video you are watching. Leaving this empty will use the default styls of your theme.*/
+h3.wd-title {
+	text-transform: none;
+	padding: 0 0 0 6px;
+	margin: 0;
+	color: black;
+	font-size: 12px;
+	display: inline;
+}
+
+/*The credit of the video you are watching. Leaving this empty will use the default styls of your theme.*/
+h4.wd-credit {
+	text-transform: none;
+	padding: 0;
+	margin: 0;
+	font-size: 10px;
+	display: inline;
+}
+/*This is the error message that gets shown if the feed is invalid for whatever reason.*/
+.wd-error {
+	background: #F7F7F7;
+	border: 1px solid #DDDDDD;
+	display: block;
+	margin: 1em 0;
+	padding: 20px 5px;
+	color: #aa0000;
+}
+
+/*You don't need to edit anything below this, unless you know what you are doing.*/
+/*---------------------------------------------------------*/
+.wd-player {
+	overflow: hidden;
+	line-height: 0;
+}
+
+.wd-stage img, .wd-thumb-list img, img.wd-thumb {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+.wd-stage {
+	position: relative;
+}
+.wd-stage video {
+	margin: 0 auto;
+}
+
+/* Thumbnails */
+.wd-thumb-dropdown {
+    float: right;
+}
+.wd-thumb-tray {
+    position: relative;
+}
+.wd-thumb-list-container {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+ul.wd-thumb-list {
+	list-style: none;
+	margin: 0;
+	overflow: hidden;
+	width: 9999%;
+	padding-top: 0;
+	padding-bottom: 0;
+}
+ul.wd-thumb-list li {
+    float: left;
+	margin-bottom: 3px;
+	padding: 2px;
+}
+
+/* Buttons */
+.wd-nav-prev {
+	position: absolute;
+	left: 0;
+	cursor: pointer;
+    top: 0;
+    z-index: 100;
+}
+.wd-nav-next {
+	padding: 2px 0;
+	position: absolute;
+	right: 0;
+	cursor: pointer;
+	top: 0;
+	z-index: 100;
+}
+.wd-thumb-dropdown {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    display: none; /*This is hidden by default*/
+}
+.wd-thumb-dropdown:hover {
+    cursor: pointer;
+}
+
+/* Credits */
+.wd-credits-container {
+	position: relative;
+}
+ul.wd-credits {
+    margin: 0;
+    padding: 0;
+    list-style: 0;
+    line-height: 27px;
+}
+ul.wd-credits li {
+    display: none;
+}
+ul.wd-credits li:first-child {
+    display: block;
+}
+h3.wd-title {
+	margin-top: 0;
+}
+h4.wd-credit {
+	margin-bottom: 0;
+}
+
+/* Flash Fallback */
+.wd-player #no-flash-content {
+	line-height: 1;
+	text-align: center;
+}
+.wd-player #no-flash-content p {
+	text-align: left;
+}
+.wdp-chrome img, .wdp-flash img {
+	display: inline;
+	background: none;
+	margin: 0 20px;
+}
+
+/* Special stuff to deal with hiding the thumb tray */
+.hide-thumbs .wd-thumb-tray {
+    height: 0;
+}
+.wd-player.hide-thumbs .wd-thumb-dropdown {
+    display: block;
+}
+.wd-credits-container.hide-thumbs {
+    background-color: transparent;
+}
