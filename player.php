@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Wiredrive Wordpress Video Player
-Plugin URI: https://github.com/wiredrive/wiredrive-wordpress-video-player
+Plugin Name: Wiredrive Player
+Plugin URI: https://github.com/wiredrive/wiredrive-player
 Description: Import a Wiredrive mRSS feed and display it as either a HTML5 or Flash based video player.
 Author: Wiredrive, Drew Baker, Daniel Bondurant
 Version: 1.0
