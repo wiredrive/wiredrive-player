@@ -179,11 +179,15 @@ class Wiredrive_Plugin
         /*
          * Render out the video player
          */
+/*
         if ($this->useFlash()) {
             $this->renderFlash();
         } else {
             $this->renderHtml5($width, $height);
         }
+*/
+
+        $this->renderImage($width, $height);
 
         /*
          * Loop through all the items and show the thumbnails
@@ -218,7 +222,8 @@ class Wiredrive_Plugin
     public function useFlash()
     {
         return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
-            || strpos($_SERVER['HTTP_USER_AGENT'], "IE");
+            || strpos($_SERVER['HTTP_USER_AGENT'], "IE")
+            || strpos($_SERVER['HTTP_USER_AGENT'], "Chrome");
     }
 
     /**
@@ -399,6 +404,22 @@ class Wiredrive_Plugin
             
     }
 
+    /**
+     * Render the image
+     */
+    private function renderImage($width, $height)
+    {
+        $this->template->setTpl('image.php')
+                 ->set('link', $this->getMedia()->get_link() )
+                 ->set('thumbnail', $this->getMedia()->get_thumbnail(0))
+                 ->set('attributeId', $this->getAttributeId())
+                 ->set('pluginUrl', $this->getPluginUrl())
+                 ->set('width', $width)
+                 ->set('height', $height)
+                 ->render();
+            
+    }
+    
     /**
      * Render any error
      */
