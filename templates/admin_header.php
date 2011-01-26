@@ -6,7 +6,7 @@
 
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
-        var title = '<img src="<?php echo plugins_url('wiredrive-wordpress-video-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
+        var title = '<img src="<?php echo plugins_url('wiredrive-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
         jQuery("#wdp-dialog").dialog({ autoOpen: false, width: 750, minWidth: 750, height: 500, minHeight: 500, maxHeight: 500, title: title, buttons: buttons, resizable: true });
         jQuery("#wdp-dialog").dialog("open");
 

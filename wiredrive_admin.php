@@ -42,7 +42,7 @@ class Wiredrive_Plugin_Admin
     public function wiredrive_admin_enqueue_scripts()
     {
         if ( function_exists('plugins_url') ) {
-            $plugin_url = plugins_url('wiredrive-wordpress-video-player');
+            $plugin_url = plugins_url('wiredrive-player');
             
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui-core');
@@ -59,7 +59,7 @@ class Wiredrive_Plugin_Admin
     public function wiredrive_admin_header()
     {        
         $this->template->setTpl('admin_header.php')
-                 ->set('pluginUrl', plugins_url('wiredrive-wordpress-video-player') )
+                 ->set('pluginUrl', plugins_url('wiredrive-player') )
                  ->render();
                  
         echo $this->getOutput();

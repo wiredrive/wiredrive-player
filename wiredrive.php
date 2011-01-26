@@ -64,7 +64,7 @@ class Wiredrive_Plugin
     function __construct()
     {
         if ( function_exists('plugins_url') ) {
-            $this->pluginUrl = plugins_url('wiredrive-wordpress-video-player');
+            $this->pluginUrl = plugins_url('wiredrive-player');
         }
         
         $this->template = new Wiredrive_Plugin_Template();
@@ -77,7 +77,7 @@ class Wiredrive_Plugin
     function wiredrive_player_enqueue_scripts()
     {
         if ( function_exists('plugins_url') ) {
-            $plugin_url = plugins_url('wiredrive-wordpress-video-player');
+            $plugin_url = plugins_url('wiredrive-player');
         }
 
         wp_enqueue_script('jquery');
@@ -88,6 +88,11 @@ class Wiredrive_Plugin
             ($plugin_url  . '/js/jquery.scrollTo-1.4.2-min.js'), 'jquery', '1.4.2');
 
         wp_enqueue_script('jquery.scrollTo');
+        
+        wp_register_script('slideshow',
+            ($plugin_url  . '/js/slideshow.js'), 'jquery', '1.0');
+
+        wp_enqueue_script('slideshow');
 
         wp_register_script('jquery.externalinterface',
             ($plugin_url  . '/js/jquery.externalinterface.js'), 'jquery', '1.0');
@@ -100,7 +105,7 @@ class Wiredrive_Plugin
         wp_enqueue_script('videojs');
         
         wp_register_script('player',
-            ($plugin_url  . '/js/player.js'), 'jquery', '1');
+            ($plugin_url  . '/js/player.js'), 'jquery', '1.0');
             
        wp_enqueue_script('player');
 
@@ -327,7 +332,11 @@ class Wiredrive_Plugin
                 $this->setMedia($row);
                 $item['title'] = $row->get_title();
                 $item['link'] = (string) $this->getMedia()->get_link();
+                $item['height'] = (string) $this->getMedia()->get_height();
+                $item['width'] = (string) $this->getMedia()->get_width();
                 $item['thumbnail'] = (string) $this->getMedia()->get_thumbnail(1);
+                $item['description'] = (string) $row->get_description();
+                $item['credits'] = $this->getMedia()->get_credits();
 
                 $credit = $this->getMedia()->get_credit();
                 if (!is_null($credit)) {
@@ -405,7 +414,7 @@ class Wiredrive_Plugin
     }
 
     /**
-     * Render the image
+     * Render the image tag
      */
     private function renderImage($width, $height)
     {

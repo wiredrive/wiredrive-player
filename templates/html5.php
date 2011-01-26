@@ -4,7 +4,6 @@
                             width="<?php echo $this->get('width') ?>" 
                             height="<?php echo $this->get('height') ?>"
                             preload="none"
-                            rel="0"
                             >;
     </video>
 </div>
