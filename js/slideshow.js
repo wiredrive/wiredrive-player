@@ -3,91 +3,58 @@ jQuery(document).ready(function($) {
     $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
     {
         var newImageHref = $(this).attr('href')
-        var currentImageHref = $(this).parents('.wd-player').find('.wd-stage').children().eq(0).attr('src')
-                
+        var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').css('height')
+        var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').css('width')
+        var newImageHeight = $(this).attr('data-wd-height')
+        var newImageWidth = $(this).attr('data-wd-width')
+        var currentImageHref = $(this).parents('.wd-player').find('.wd-slideshow-image').eq(0).attr('src')
+                        
         //Test to see if clicked thumb is current image
         if ( newImageHref == currentImageHref ) {
             return;
+        } else if ($('.wd-slideshow-image').is(':animated')) {
+            return;
         } else {
-            $(this).parents('.wd-player').find('.wd-stage').children().eq(0).clone().attr('src', newImageHref).attr('rel',$(this).attr('rel')).ImageResize({ height: 300, width: 300}).appendTo('.wd-stage');
-            $(this).parents('.wd-player').find('.wd-stage').children().eq(0).fadeOut('slow', function() 
+            
+            // Get the new image sizes
+            fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+            
+
+            // Get first image and duplicate it
+            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
+                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
+                        .hide()
+                        .attr('src', newImageHref)
+                        .attr('data-wd-item',$(this).attr('data-wd-item'))
+                        .appendTo('.wd-stage');
+            
+            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
             {
-                $(this).parents('.wd-player').find('.wd-stage').children().eq(1).siblings().remove()
+                $(this).remove();
             });
-            $(this).parents('.wd-player').find('.wd-stage').children().eq(1).fadeIn('slow');       
+            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');            
         }
     
         e.preventDefault();    
     });
-
+    
+    function fit_within_box(box_width, box_height, width, height)
+    {
+        var new_width = width
+        var new_height = height
+        var aspect_ratio = parseInt(width) / parseInt(height)
+    
+        if (new_width > box_width)
+        {
+            new_width = box_width
+            new_height = int(new_width / aspect_ratio)
+        }
+        
+        if (new_height > box_height)
+        {
+            new_height = box_height
+            new_width = int(new_height * aspect_ratio)
+        }
+        return (new_width, new_height)
+    }
 });
-
-(function( $ ) {
-
-  $.fn.ImageResize = function( params ) {
-
-    var aspectRatio = 0
-      // Nasty I know but it's done only once, so not too bad I guess
-      // Alternate suggestions welcome :)
-      ,	isIE6 = $.browser.msie && (6 == ~~ $.browser.version)
-      ;
-
-    // We cannot do much unless we have one of these
-    if ( !params.height && !params.width ) {
-      return this;
-    }
-
-    // Calculate aspect ratio now, if possible
-    if ( params.height && params.width ) {
-      aspectRatio = params.width / params.height;
-    }
-
-    // Attach handler to load
-    // Handler is executed just once per element
-    // Load event required for Webkit browsers
-    return this.one( "load", function() {
-
-      // Remove all attributes and CSS rules
-      this.removeAttribute( "height" );
-      this.removeAttribute( "width" );
-      this.style.height = this.style.width = "";
-
-      var imgHeight = this.height
-        ,	imgWidth = this.width
-        ,	imgAspectRatio = imgWidth / imgHeight
-        ,	bxHeight = params.height
-        ,	bxWidth = params.width
-        ,	bxAspectRatio = aspectRatio;
-				
-      // Work the magic!
-      // If one parameter is missing, we just force calculate it
-      if ( !bxAspectRatio ) {
-        if ( bxHeight ) {
-          bxAspectRatio = imgAspectRatio + 1;
-        } else {
-          bxAspectRatio = imgAspectRatio - 1;
-        }
-      }
-
-      // Only resize the images that need resizing
-      if ( (bxHeight && imgHeight > bxHeight) || (bxWidth && imgWidth > bxWidth) ) {
-
-        if ( imgAspectRatio > bxAspectRatio ) {
-          bxHeight = ~~ ( imgHeight / imgWidth * bxWidth );
-        } else {
-          bxWidth = ~~ ( imgWidth / imgHeight * bxHeight );
-        }
-
-        this.height = bxHeight;
-        this.width = bxWidth;
-      }
-    })
-    .each(function() {
-
-      // Trigger load event (for Gecko and MSIE)
-      if ( this.complete || isIE6 ) {
-        $( this ).trigger( "load" );
-      }
-    });
-  };
-})( jQuery );

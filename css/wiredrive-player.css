@@ -219,11 +219,11 @@ ul.wd-thumb-list li a {
 }
 
 /* Slideshow Specfic Styles */
-.wd-player.slideshow .wd-stage {
-    display: table-cell;
-    vertical-align: middle;
-    text-align: center;
+.wd-player.slideshow .wd-slideshow-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .wd-slideshow-image {
-    position: inline;
+    position: absolute;
 }
