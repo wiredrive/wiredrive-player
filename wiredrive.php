@@ -56,6 +56,8 @@ class Wiredrive_Plugin
     protected $rss = NULL;
     protected $media = NULL;
     protected $template = NULL;
+    protected $items = NULL;
+    protected $isImageReel = FALSE;
 
     /**
      * Contruct
@@ -174,30 +176,28 @@ class Wiredrive_Plugin
             $this->showError('No Media section in feed');
             return;
         }
+        
+        /*
+         * Loop through all the RSS items and build an 
+         * array for use in the templates
+         */
+        $this->itemLoop();
 
         /*
          * Begin Player Construction
          * This is calling player_start.php
          */
-        $this->renderPlayerStart($height, $width, $hidethumbs);
+        $this->renderPlayerStart($width, $height, $hidethumbs);
 
         /*
-         * Render out the video player
+         * Render out the video player or image slideshow
          */
-/*
-        if ($this->useFlash()) {
-            $this->renderFlash();
-        } else {
-            $this->renderHtml5($width, $height);
-        }
-*/
-
-        $this->renderImage($width, $height);
+        $this->renderMediaPlayer($width, $height);
 
         /*
          * Loop through all the items and show the thumbnails
          */
-        $this->itemLoop();
+        $this->renderThumbnails();
 
         /*
          * Close off the player
@@ -310,6 +310,58 @@ class Wiredrive_Plugin
     {
         return $this->media;
     }
+    
+    /**
+     * Items from the RSS formated as an array
+     * for the template top display
+     */ 
+    private function setItems($items)
+    {
+        $this->items = $items;
+    }
+    
+    /**
+     * @return array
+     */
+    private function getItems()
+    {
+        return $this->items;
+    } 
+    
+    /**
+     * RSS feed consists entirely of images
+     */ 
+    private function setIsImageReel($isImageReel)
+    {
+        $this->isImageReel = $isImageReel;
+    }
+    
+    /**
+     * @return bool
+     */
+    private function getIsImageReel()
+    {
+        return $this->isImageReel;
+    } 
+    
+    /**
+     * Render the media player.
+     * If RSS feed is entirely image then use image.php
+     * otherwise use Flash or HTML5 depending on the browser 
+     */
+    private function renderMediaPlayer($width, $height)
+    {
+        
+    
+        if ($this->getIsImageReel()) {
+            $this->renderImage($width, $height);
+        } else if ($this->useFlash()) {
+            $this->renderFlash();
+        } else {
+            $this->renderHtml5($width, $height);
+        }
+        
+    }
 
     /**
      * Item Loop
@@ -319,16 +371,29 @@ class Wiredrive_Plugin
     private function itemLoop()
     {
 
-        //Item Loop Start
+        $isImage = 0;
+        
         if (  $this->getRss()->get_item_quantity() > 0 ) {
 
             $items = array();
-            $this->template->setTpl('thumb_loop.php');
 
             foreach ( $this->getRssItems() as $row ) {
 
                 $item = array();
-
+                
+                /*
+                 * parse the first part of the mime type to check
+                 * if the item is an image.
+                 */
+                $mime_type = (string) $this->getMedia()->get_type();
+                $mime_type_parts = explode('/',$mime_type);
+        
+                if ($mime_type_parts[0] == 'image') {
+                    $isImage = 1;
+                } else {
+                    $isImage = 0;
+                }
+            
                 $this->setMedia($row);
                 $item['title'] = $row->get_title();
                 $item['link'] = (string) $this->getMedia()->get_link();
@@ -346,10 +411,14 @@ class Wiredrive_Plugin
                 $items[] = $item;
 
             }
-
-            $this->template->set('items', $items)
-                            ->render();
-
+            
+            $this->setItems($items);
+            
+            /*
+             * This will be set to 1 if ll mime types for the feed are images
+             */            
+            $this->setIsImageReel($isImage);
+            
         }
 
     }
@@ -360,7 +429,7 @@ class Wiredrive_Plugin
      * @var height int
      * @var widght int
      */
-    private function renderPlayerStart($height, $width, $hidethumbs)
+    private function renderPlayerStart($width, $height, $hidethumbs)
     {
    
         $this->template->setTpl('player_start.php')
@@ -368,6 +437,7 @@ class Wiredrive_Plugin
                  ->set('width', $width)
                  ->set('hidethumbs', $hidethumbs)
                  ->set('mobile', $this->isMobile())
+                 ->set('slideshow', ($this->getIsImageReel()))
                  ->render();
     }
 
@@ -427,6 +497,17 @@ class Wiredrive_Plugin
                  ->set('height', $height)
                  ->render();
             
+    }
+    
+    /**
+     * Render thumbnail bar
+     */
+    private function renderThumbnails()
+    {
+        $this->template->setTpl('thumb_loop.php');
+        $this->template->set('items', $this->getItems())
+                        ->render();
+                            
     }
     
     /**
