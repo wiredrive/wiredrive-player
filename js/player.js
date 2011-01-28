@@ -8,7 +8,7 @@
     jQuery(document).ready(function($) {
         
         // Set the first thumb as active
-        $('ul.wd-thumb-list li:first-child a').addClass('wd-active');
+        $('.wd-thumb-list li:first-child a').addClass('wd-active');
                         
         
         // Handles the mouseover credit feature
@@ -61,7 +61,7 @@
         $('.wd-player .wd-thumb-list a').click(function(e)
         {
             
-            // Get the href from the thumb link and feed it into the video player. This line is for HTML5 player only
+            // Get the href from the thumb link and feed it into the video player. This line is for HTML5 player only.
             var currentEl = $(this).closest('.wd-player').find('.video-js').attr('id');
             var newSrc = $(this).attr('href');
             
@@ -253,7 +253,7 @@
     
     // Run this after the browser window has loaded (meaning: all images have loaded). For some reason, the $ shortcut doesn't work in this function. It's a Wordpress glitch I think.
     jQuery(window).load(function() {
-    //Calculate thumblist width by adding up all list item widths
+        //Calculate thumblist width by adding up all list item widths
         jQuery('ul.wd-thumb-list').each(function() {
             var width = 0;
             jQuery(this).children('li').each(function() {
@@ -261,5 +261,5 @@
                 width += jQuery(this).outerWidth( true ) + 1;
             });
             jQuery(this).css('width', width);
-        });
+        });        
     });

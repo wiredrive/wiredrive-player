@@ -226,4 +226,8 @@ ul.wd-thumb-list li a {
 }
 .wd-slideshow-image {
     position: absolute;
+    left: 50%;
+    top: 50%;
+    /* Starts hidden, is resized in jQuery and then displayed */
+    display: none;
 }
