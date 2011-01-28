@@ -30,7 +30,7 @@
                 data-wd-thumb = "<?php echo $item['thumbnail'] ?>"
                 data-wd-height = "<?php echo $item['height'] ?>"
                 data-wd-width = "<?php echo $item['width'] ?>"
-                data-wd-credits = "<?php //echo json_encode($item['credits'] )?>"    
+                data-wd-credits = <?php echo json_encode($item['credits'] )?>   
             >
             <img class='wd-thumb' src="<?php echo $item['thumbnail'] ?>">
             </a>

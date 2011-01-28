@@ -395,19 +395,23 @@ class Wiredrive_Plugin
                 }
             
                 $this->setMedia($row);
+                $media = $this->getMedia();
+                
                 $item['title'] = $row->get_title();
-                $item['link'] = (string) $this->getMedia()->get_link();
-                $item['height'] = (string) $this->getMedia()->get_height();
-                $item['width'] = (string) $this->getMedia()->get_width();
-                $item['thumbnail'] = (string) $this->getMedia()->get_thumbnail(1);
-                $item['description'] = (string) $row->get_description();
-                $item['credits'] = $this->getMedia()->get_credits();
+                $item['link'] = $media->get_link();
+                $item['height'] = $media->get_height();
+                $item['width'] = $media->get_width();
+                $item['thumbnail'] = $media->get_thumbnail(1);
+                $item['description'] = $row->get_description();
 
-                $credit = $this->getMedia()->get_credit();
-                if (!is_null($credit)) {
-                    $item['credit'] = $credit->get_name(0);
-                    
+                $credits = $media->get_credits();
+                
+                if (!is_null($credits)) {
+                    foreach($media->get_credits() as $credit) {                        
+                        $item['credits'][$credit->get_role()] = $credit->get_name();
+                    }
                 }
+                  
                 $items[] = $item;
 
             }
@@ -415,7 +419,7 @@ class Wiredrive_Plugin
             $this->setItems($items);
             
             /*
-             * This will be set to 1 if ll mime types for the feed are images
+             * This will be set to 1 if all mime types for the feed are images
              */            
             $this->setIsImageReel($isImage);
             
@@ -457,12 +461,20 @@ class Wiredrive_Plugin
     private function renderFlash()
     {
         
+        /*
+         * Get the first item from the item list
+         */
+        $items = $this->getItems();
+        $first = $items[0];
+        
         $this->template->setTpl('flash.php')
-            ->set('link', $this->getMedia()->get_link() )
-            ->set('thumbnail', $this->getMedia()->get_thumbnail(0))
-            ->set('attributeId', $this->getAttributeId())
-            ->set('pluginUrl', $this->getPluginUrl())
-            ->render();
+                 ->set('link', $first['link'])
+                 ->set('thumbnail', $first['thumbnail'])
+                 ->set('attributeId', $this->getAttributeId())
+                 ->set('pluginUrl', $this->getPluginUrl())
+                 ->set('width', $first['width'])
+                 ->set('height', $first['height'])
+                 ->render();
                  
 
     }
@@ -472,13 +484,20 @@ class Wiredrive_Plugin
      */
     private function renderHtml5($width, $height)
     {
+    
+        /*
+         * Get the first item from the item list
+         */
+        $items = $this->getItems();
+        $first = $items[0];
+        
         $this->template->setTpl('html5.php')
-                 ->set('link', $this->getMedia()->get_link() )
-                 ->set('thumbnail', $this->getMedia()->get_thumbnail(0))
+                 ->set('link', $first['link'])
+                 ->set('thumbnail', $first['thumbnail'])
                  ->set('attributeId', $this->getAttributeId())
                  ->set('pluginUrl', $this->getPluginUrl())
-                 ->set('width', $width)
-                 ->set('height', $height)
+                 ->set('width', $first['width'])
+                 ->set('height', $first['height'])
                  ->render();
             
     }
@@ -488,13 +507,20 @@ class Wiredrive_Plugin
      */
     private function renderImage($width, $height)
     {
+    
+        /*
+         * Get the first item from the item list
+         */
+        $items = $this->getItems();
+        $first = $items[0];
+        
         $this->template->setTpl('image.php')
-                 ->set('link', $this->getMedia()->get_link() )
-                 ->set('thumbnail', $this->getMedia()->get_thumbnail(0))
+                 ->set('link', $first['link'])
+                 ->set('thumbnail', $first['thumbnail'])
                  ->set('attributeId', $this->getAttributeId())
                  ->set('pluginUrl', $this->getPluginUrl())
-                 ->set('width', $width)
-                 ->set('height', $height)
+                 ->set('width', $first['width'])
+                 ->set('height', $first['height'])
                  ->render();
             
     }
