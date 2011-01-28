@@ -24,8 +24,6 @@ jQuery(document).ready(function($) {
         var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
         var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
 
-        console.log(slideshowHeight, slideshowWidth, newImageHeight, newImageWidth)
-
         var first_size = fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
                 
         $(this).width(first_size.width)
