@@ -16,7 +16,8 @@ function fit_within_box(box_width, box_height, new_width, new_height)
 };
 
 jQuery(document).ready(function($) {
-
+    
+    //This resizes the first slideshow image.
     $('.wd-player.slideshow .wd-slideshow-image').each(function() {
         
         var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();

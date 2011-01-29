@@ -9,22 +9,42 @@
         
         // Set the first thumb as active
         $('.wd-thumb-list li:first-child a').addClass('wd-active');
+        
+        // Show the first credit & title
+        $('.wd-player .wd-credits-container').each(function() {
+            $(this).find('.wd-title')
+                    .append(
+                        $(this).closest('.wd-player').find('.wd-thumb-list .wd-active').attr('data-wd-title')
+                    );
+            
+            $(this).find('.wd-credit')
+                    .append(
+                        $(this).closest('.wd-player').find('.wd-thumb-list .wd-active').attr('data-wd-credit')
+                    );
+            
+        });
                         
         
-        // Handles the mouseover credit feature
         // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
 
         function showCredit()
         {
             // On mouse enter
             // Title credit
-            $(this).closest('.wd-player').find('.wd-credits-container .wd-title').empty().append(
-                $(this).attr('data-wd-title')
-            );
+            $(this).closest('.wd-player')
+                .find('.wd-credits-container .wd-title')
+                .empty()
+                .append(
+                    $(this).attr('data-wd-title')
+                );
+        
             // First credit
-            $(this).closest('.wd-player').find('.wd-credits-container .wd-credit').empty().append(
-                $(this).attr('data-wd-credit')
-            );
+            $(this).closest('.wd-player')
+                .find('.wd-credits-container .wd-credit')
+                .empty()
+                .append(
+                    $(this).attr('data-wd-credit')
+                );
         };
         function hideCredit()
         {
@@ -32,29 +52,47 @@
             var wdItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item')
             
             // Add playing item's title back to credit container
-            $(this).closest('.wd-player').find('.wd-credits-container .wd-title').empty().append(
-                $(this).closest('.wd-player').find('.wd-thumb-list li').eq(wdItem).children('a').attr('data-wd-title')
-            );
+            $(this).closest('.wd-player')
+                .find('.wd-credits-container .wd-title')
+                .empty()
+                .append(
+                    $(this).closest('.wd-player')
+                            .find('.wd-thumb-list li')
+                            .eq(wdItem).children('a')
+                            .attr('data-wd-title')
+                );
             
             // Add playing item's first credit back to credit container
-            $(this).closest('.wd-player').find('.wd-credits-container .wd-credit').empty().append(
-                $(this).closest('.wd-player').find('.wd-thumb-list li').eq(wdItem).children('a').attr('data-wd-credit')
-            );
+            $(this).closest('.wd-player')
+                .find('.wd-credits-container .wd-credit')
+                .empty()
+                .append(
+                    $(this).closest('.wd-player')
+                        .find('.wd-thumb-list li')
+                        .eq(wdItem).children('a')
+                        .attr('data-wd-credit')
+                );
             
         };
+
+        // Handles the mouseover credit feature
         $('.not-mobile .wd-thumb-list a').hover(showCredit,hideCredit);
     
         // Handles the set credit feature
         function setClickedCredit()
         {   
             // Remove active class
-            $(this).closest('.wd-thumb-list').find('.wd-active').removeClass('wd-active');
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list .wd-active')
+                    .removeClass('wd-active');
             
             // Add new active credit
             $(this).addClass('wd-active');
             
             // Set the stage to the new item number.
-            $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', $(this).attr('data-wd-item'));
+            $(this).closest('.wd-player')
+                .find('.wd-stage')
+                .attr('data-wd-item', $(this).attr('data-wd-item'));
         };
 
         // On thumb click do...
@@ -74,33 +112,47 @@
             }
         
             // For Flash: Send the href of the thumb to the Flash player
-            $(this).closest('.wd-player').find('.wd-stage .wd-video-player').externalInterface({method:'setNewSource', args:$(this).attr('href')});
-			$(this).closest('.wd-player').find('.wd-stage .wd-video-player').externalInterface({method:'removePlayButton'});			
+            $(this).closest('.wd-player')
+                    .find('.wd-stage .wd-video-player')
+                    .externalInterface({method:'setNewSource', args:$(this).attr('href')});
+			
+			$(this).closest('.wd-player')
+                    .find('.wd-stage .wd-video-player')
+                    .externalInterface({method:'removePlayButton'});			
             
             // When a thumb is clicked remove the poster attribute from the video tag
-            $(this).closest('.wd-player').find('.video-js').attr('poster',null);
+            $(this).closest('.wd-player')
+                    .find('.video-js')
+                    .attr('poster',null);
     
-            //Set the playing video's rel tag to to that of the clicked thumb. This is so the playlist function knows which video to play next.
-            $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', $(this).attr('data-wd-item'));
+            //Set the stage to the current plaing item number. This is so the playlist function knows which video to play next.
+            $(this).closest('.wd-player')
+                    .find('.wd-stage')
+                    .attr('data-wd-item', $(this).attr('data-wd-item'));
             
             //Set the current credit and/or title.
             setClickedCredit.call(this);
             
             e.preventDefault();
-
+ 
         });
 
         // Scroll list to the left/right when button clicked
 		var itemPos = 2
         $('.wd-player .wd-nav-next').click(function()
         {
-            $(this).closest('.wd-player').find('.wd-thumb-list-container').scrollTo( '+=250px', '800', { axis:'x'});
-			var itemPos =+ 2
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list-container')
+                    .scrollTo( '+=250px', '800', { axis:'x'});
+            
+            var itemPos =+ 2
         });
 		
         $('.wd-nav-prev').click(function()
         {
-            $(this).closest('.wd-player').find('.wd-thumb-list-container').scrollTo( '-=250px', '800', { axis:'x'});
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list-container')
+                    .scrollTo( '-=250px', '800', { axis:'x'});
         });
 
         // Send next source to the player
@@ -110,7 +162,9 @@
             var nextVideo = document.getElementById(currentID);
 
             // Hide play button between videos
-            $(this).closest('.wd-player').find('.wd-stage .vjs-big-play-button').css('visibility','hidden');
+            $(this).closest('.wd-player')
+                    .find('.wd-stage .vjs-big-play-button')
+                    .css('visibility','hidden');
             
             // Send next source to the HTML5 player
             var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item') + 1;            
@@ -120,11 +174,21 @@
             nextVideo.play();
             
             // Set active class on the new item
-            $(this).closest('.wd-player').find('.wd-thumb-list .wd-active').removeClass('wd-active');
-            $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').addClass('wd-active')
+            // Remove active class
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list .wd-active')
+                    .removeClass('wd-active');
+
+            // Add active class        
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list li')
+                    .eq(nextItem).children('a')
+                    .addClass('wd-active');
             
             // Set the new item number on the stage
-            $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', nextItem);
+            $(this).closest('.wd-player')
+                    .find('.wd-stage')
+                    .attr('data-wd-item', nextItem);
         }
         
         // Send previous source to the player
@@ -143,8 +207,27 @@
             nextVideo.load();
             nextVideo.play();
             
+            // Set active class on the new item
+            // Remove active class
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list .wd-active')
+                    .removeClass('wd-active');
+
+            // Add active class        
+            $(this).closest('.wd-player')
+                    .find('.wd-thumb-list li')
+                    .eq(prevItem).children('a')
+                    .addClass('wd-active');
+            
             // Set the new item number on the stage
-            $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', currentItem-1);
+            $(this).closest('.wd-player')
+                    .find('.wd-stage')
+                    .attr('data-wd-item', nextItem);
+            
+            // Set the new item number on the stage
+            $(this).closest('.wd-player')
+                    .find('.wd-stage')
+                    .attr('data-wd-item', currentItem-1);
         }
 
         
@@ -152,13 +235,15 @@
         $('video').bind('ended', function() 
         {   
             //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
-            var listLength = $(this).parents('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+            var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
             
             var currentID = $(this).attr('id');
             var nextVideo = document.getElementById(currentID);
         
-            var n = $(this).attr('data-wd-item');
-            n = parseInt(n);
+            var n = $(this).closest('.wd-stage').attr('data-wd-item');
+                n = parseInt(n);
+                
+                console.log(n, listLength, currentID, nextVideo)
             
             //This if statments makes the player stop after the last item is played.
             if (n < listLength) {
@@ -170,7 +255,7 @@
             } else {
                 nextVideo.pause();
                 nextVideo.currentTime = 0;
-                $(this).parents('.wd-stage').find('.vjs-big-play-button').css('visibility','visible');
+                $(this).closest('.wd-stage').find('.vjs-big-play-button').css('visibility','visible');
             }
         
         });
@@ -180,7 +265,7 @@
         $('.wd-thumb-dropdown').click(function()
         {
             // These varibles are written like this to ensure that the Thumb Tray height is correct, even if the credits container is or isn't inside the thumb tray.
-            var thumbListHeight = $(this).parents('.wd-player').find('.wd-thumb-tray').find('.wd-thumb-list').outerHeight();
+            var thumbListHeight = $(this).closest('.wd-player').find('.wd-thumb-tray').find('.wd-thumb-list').outerHeight();
             if (thumbListHeight == null) {
                 thumbListHeight = 0
             }
@@ -192,19 +277,32 @@
             
             var thumbTrayHeight = thumbListHeight + creditsContainerHeight
             
-            var currentTrayHeight = $(this).parents('.wd-player').find('.wd-thumb-tray').outerHeight()
+            var currentTrayHeight = $(this).closest('.wd-player').find('.wd-thumb-tray').outerHeight()
         	if ( currentTrayHeight == 0) {
         	   //Make tray go down
-        		$(this).closest('.wd-player').find('.wd-thumb-tray').dequeue().stop().animate({ height: thumbTrayHeight });
+        		$(this).closest('.wd-player')
+        		          .find('.wd-thumb-tray')
+        		          .dequeue()
+        		          .stop()
+        		          .animate({ height: thumbTrayHeight });
+
         		$(this).addClass('wd-up-arrow');
-        		$(this).closest('.wd-player').find('.wd-credits-container').addClass('wd-active');
+        		
+        		$(this).closest('.wd-player')
+        		          .find('.wd-credits-container')
+        		          .addClass('wd-active');
         		
         	} else {
         	   //Make tray go up
-                $(this).closest('.wd-player').find('.wd-thumb-tray').animate({ height: '0' }, 'normal', 'linear');
+                $(this).closest('.wd-player')
+                        .find('.wd-thumb-tray')
+                        .animate({ height: '0' }, 'normal', 'linear');
+                        
                 $(this).removeClass('wd-up-arrow');
-                $(this).closest('.wd-player').find('.wd-credits-container').removeClass('wd-active');
-
+                
+                $(this).closest('.wd-player')
+                        .find('.wd-credits-container')
+                        .removeClass('wd-active');
             }
         }); 
                         
@@ -239,11 +337,21 @@
             var nextSrc = jQuery(playerID).closest('.wd-player').find('ul.wd-thumb-list').children('li').children('a').eq(n).attr('href');
                                     
             jQuery(playerID).externalInterface({method:'setNewSource', args:nextSrc});
-            jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item', n);
+            
+            jQuery(playerID).closest('.wd-player')
+                                .find('.wd-stage')
+                                .attr('data-wd-item', n);
             
             // Set border around currently playing
-            jQuery(playerID).closest('.wd-player').find('.wd-thumb-list .wd-active').removeClass('wd-active');
-            jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li').eq(n).children('a').addClass('wd-active');
+            jQuery(playerID).closest('.wd-player')
+                                .find('.wd-thumb-list .wd-active')
+                                .removeClass('wd-active');
+                                
+            jQuery(playerID).closest('.wd-player')
+                                .find('.wd-thumb-list li')
+                                .eq(n)
+                                .children('a')
+                                .addClass('wd-active');
             
         } else {
             return;
@@ -256,10 +364,13 @@
         //Calculate thumblist width by adding up all list item widths
         jQuery('ul.wd-thumb-list').each(function() {
             var width = 0;
-            jQuery(this).children('li').each(function() {
+            jQuery(this).children('li')
+                            .each(function() {
+
                 //We add +1 here because sometimes jQuery will round down and cause the list to wrap.
                 width += jQuery(this).outerWidth( true ) + 1;
             });
+
             jQuery(this).css('width', width);
         });        
     });
