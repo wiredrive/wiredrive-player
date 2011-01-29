@@ -231,3 +231,9 @@ ul.wd-thumb-list li a {
     /* Starts hidden, is resized in jQuery and then displayed */
     display: none;
 }
+.wd-play-next {
+
+}
+.wd-play-prev {
+
+}

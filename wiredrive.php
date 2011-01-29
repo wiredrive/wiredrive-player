@@ -496,8 +496,8 @@ class Wiredrive_Plugin
                  ->set('thumbnail', $first['thumbnail'])
                  ->set('attributeId', $this->getAttributeId())
                  ->set('pluginUrl', $this->getPluginUrl())
-                 ->set('width', $first['width'])
-                 ->set('height', $first['height'])
+                 ->set('width', $width)
+                 ->set('height', $height)
                  ->render();
             
     }

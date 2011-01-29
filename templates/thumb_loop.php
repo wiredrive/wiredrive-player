@@ -1,5 +1,8 @@
 </div><!-- End Stage Div-->
 
+<div class="wd-play-next"></div>
+<div class="wd-play-prev"></div>
+
 <div class='wd-credits-container
 <?php if ( count($this->get('items')) == 1 || ($this->get('hidethumbs') == 'on') ) : ?>
  hide-thumbs
@@ -24,13 +27,13 @@
                 href="<?php echo $item['link'] ?>"
                 data-wd-item="<?php echo $key ?>"
                 data-wd-title="<?php echo $item['title'] ?>"
-                data-wd-credit="<?php echo $item['credit'] ?>"
+                data-wd-credit="<?php echo current($item['credits']) ?>"
                 data-wd-description="<?php echo $item['description'] ?>"
                 data-wd-source = "<?php echo $item['link'] ?>"
                 data-wd-thumb = "<?php echo $item['thumbnail'] ?>"
                 data-wd-height = "<?php echo $item['height'] ?>"
                 data-wd-width = "<?php echo $item['width'] ?>"
-                data-wd-credits = <?php echo json_encode($item['credits'] )?>   
+                data-wd-credits = <?php echo json_encode($item['credits'])?>   
             >
             <img class='wd-thumb' src="<?php echo $item['thumbnail'] ?>">
             </a>
