@@ -232,8 +232,17 @@ ul.wd-thumb-list li a {
     display: none;
 }
 .wd-play-next {
-
+    height: 20px;
+    width: 50px;
+    background: red;
+    cursor: pointer;
+    line-height: 1;
 }
 .wd-play-prev {
-
+    height: 20px;
+    width: 50px;
+    line-height: 1;
+    background: blue;
+    opacity: 0.5;
+    cursor: default;
 }
