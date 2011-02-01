@@ -1,7 +1,7 @@
 </div><!-- End Stage Div-->
 
-<div class="wd-play-next"></div>
-<div class="wd-play-prev"></div>
+<div class="wd-play-next"><span>Next</span></div>
+<div class="wd-play-prev"><span>Prev</span></div>
 
 <div class='wd-credits-container
 <?php if ( count($this->get('items')) == 1 || ($this->get('hidethumbs') == 'on') ) : ?>

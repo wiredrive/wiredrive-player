@@ -100,15 +100,15 @@
         {
             
             // Get the href from the thumb link and feed it into the video player. This line is for HTML5 player only.
-            var currentEl = $(this).closest('.wd-player').find('.video-js').attr('id');
+            var currentID = $(this).closest('.wd-player').find('.video-js').attr('id');
             var newSrc = $(this).attr('href');
             
             //This is testing to see if the newSrc has been set before starting. I do this so when Flash is used JavaScript doesn't throw an error.             
-            if ( typeof currentEl != "undefined" ) {
-                var newVideo = document.getElementById(currentEl);
-                newVideo.src = newSrc;
-                newVideo.load();
-                newVideo.play();
+            if ( typeof currentID != "undefined" ) {
+                var videoContainer = document.getElementById(currentID);
+                videoContainer.src = newSrc;
+                videoContainer.load();
+                videoContainer.play();
             }
         
             // For Flash: Send the href of the thumb to the Flash player
@@ -157,77 +157,111 @@
 
         // Send next source to the player
         function setNextSource()
-        {        
-            var currentID = $(this).attr('id');
-            var nextVideo = document.getElementById(currentID);
+        {   
+            //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+            var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+            var currentID = $(this).closest('.wd-player').find('.video-js').attr('id');
+            var videoContainer = document.getElementById(currentID);
+            var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
 
-            // Hide play button between videos
-            $(this).closest('.wd-player')
-                    .find('.wd-stage .vjs-big-play-button')
-                    .css('visibility','hidden');
-            
-            // Send next source to the HTML5 player
-            var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item') + 1;            
-            var nextSrc = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').attr('href'); 
-            nextVideo.src = nextSrc;
-            nextVideo.load();
-            nextVideo.play();
-            
-            // Set active class on the new item
-            // Remove active class
-            $(this).closest('.wd-player')
-                    .find('.wd-thumb-list .wd-active')
-                    .removeClass('wd-active');
+            if (nextItem < listLength) {      
+    
+                // Hide play button between videos
+                $(this).closest('.wd-player')
+                        .find('.wd-stage .vjs-big-play-button')
+                        .css('visibility','hidden');
+                
+                // Send next source to the HTML5 player
+                    nextItem++;
+                var nextSrc = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').attr('href'); 
+                
+                videoContainer.src = nextSrc;
+                videoContainer.load();
+                videoContainer.play();
+                
+                // Set active class on the new item
+                // Remove active class
+                $(this).closest('.wd-player')
+                        .find('.wd-thumb-list .wd-active')
+                        .removeClass('wd-active');
+    
+                // Add active class        
+                $(this).closest('.wd-player')
+                        .find('.wd-thumb-list li')
+                        .eq(nextItem).children('a')
+                        .addClass('wd-active');
+                
+                // Set the new item number on the stage
+                $(this).closest('.wd-player')
+                        .find('.wd-stage')
+                        .attr('data-wd-item', nextItem);
+            }
 
-            // Add active class        
-            $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li')
-                    .eq(nextItem).children('a')
-                    .addClass('wd-active');
-            
-            // Set the new item number on the stage
-            $(this).closest('.wd-player')
-                    .find('.wd-stage')
-                    .attr('data-wd-item', nextItem);
+            // If at the end of the list, disable the next button
+            if (nextItem == listLength ) {
+                $(this).closest('.wd-player')
+                        .find('.wd-play-next')
+                        .fadeTo('slow', 0.5)
+                        .css('cursor','default');
+            }
         }
         
         // Send previous source to the player
         function setPrevSource()
         {
-            var currentID = $(this).attr('id');
-            var nextVideo = document.getElementById(currentID);
-            
-            // Hide play button between videos
-            $(this).closest('.wd-player').find('.wd-stage .vjs-big-play-button').css('visibility','hidden');
-            
-            // Send next source to the HTML5 player
-            var prevItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item') - 1;            
-            var prevSrc = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').eq(currentItem-1).children('a').attr('href');             
-            nextVideo.src = nextSrc;
-            nextVideo.load();
-            nextVideo.play();
-            
-            // Set active class on the new item
-            // Remove active class
-            $(this).closest('.wd-player')
-                    .find('.wd-thumb-list .wd-active')
-                    .removeClass('wd-active');
+            //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+            var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+            var currentID = $(this).closest('.wd-player').find('.video-js').attr('id');
+            var videoContainer = document.getElementById(currentID);
+            var prevItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
 
-            // Add active class        
-            $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li')
-                    .eq(prevItem).children('a')
-                    .addClass('wd-active');
+            if (prevItem > 0) { 
+                // Hide play button between videos
+                $(this).closest('.wd-player')
+                        .find('.wd-stage .vjs-big-play-button')
+                        .css('visibility','hidden');
+                
+                // Send next source to the HTML5 player
+                
+                    prevItem--;        
+                var prevSrc = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').eq(prevItem).children('a').attr('href');             
+    
+                videoContainer.src = prevSrc;
+                videoContainer.load();
+                videoContainer.play();
+                
+                // Set active class on the new item
+                // Remove active class
+                $(this).closest('.wd-player')
+                        .find('.wd-thumb-list .wd-active')
+                        .removeClass('wd-active');
+    
+                // Add active class        
+                $(this).closest('.wd-player')
+                        .find('.wd-thumb-list li')
+                        .eq(prevItem).children('a')
+                        .addClass('wd-active');
+                
+                // Set the new item number on the stage
+                $(this).closest('.wd-player')
+                        .find('.wd-stage')
+                        .attr('data-wd-item', prevItem);
+                
+                // Set the new item number on the stage
+                $(this).closest('.wd-player')
+                        .find('.wd-stage')
+                        .attr('data-wd-item', prevItem);
             
-            // Set the new item number on the stage
-            $(this).closest('.wd-player')
-                    .find('.wd-stage')
-                    .attr('data-wd-item', nextItem);
+            }
             
-            // Set the new item number on the stage
-            $(this).closest('.wd-player')
-                    .find('.wd-stage')
-                    .attr('data-wd-item', currentItem-1);
+            // If at the start of the list, disable the next button
+            if (prevItem == listLength ) {
+                $(this).closest('.wd-player')
+                        .find('.wd-play-prev')
+                        .fadeTo('slow', 0.5)
+                        .css('cursor','default');
+            }
+            
         }
 
         
@@ -238,13 +272,11 @@
             var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
             
             var currentID = $(this).attr('id');
-            var nextVideo = document.getElementById(currentID);
+            var videoContainer = document.getElementById(currentID);
         
             var n = $(this).closest('.wd-stage').attr('data-wd-item');
                 n = parseInt(n);
-                
-                console.log(n, listLength, currentID, nextVideo)
-            
+                            
             //This if statments makes the player stop after the last item is played.
             if (n < listLength) {
                 n++;
@@ -253,9 +285,9 @@
                 setNextSource.call(this);
                 
             } else {
-                nextVideo.pause();
-                nextVideo.currentTime = 0;
-                $(this).closest('.wd-stage').find('.vjs-big-play-button').css('visibility','visible');
+                videoContainer.pause();
+                videoContainer.currentTime = 0;
+                $(this).closest('.wd-player').find('.vjs-big-play-button').css('visibility','visible');
             }
         
         });
@@ -311,7 +343,84 @@
         $('.not-mobile .wd-thumb-dropdown').hover(
             function () {
                 $(this).closest('.wd-player').find('.wd-credits-container').toggleClass('hide-thumbs');
-            });
+        });
+        
+        /*
+         * Below is code relating to te image slideshow feature.
+         *
+         ***************************************************************************
+         */
+        
+        //This resizes the first slideshow image.
+        $('.wd-player.slideshow .wd-slideshow-image').each(function() {
+            
+            var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();
+            var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width();
+            var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
+            var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
+    
+            var first_size = fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+                    
+            $(this).width(first_size.width)
+                .height(first_size.height)
+                .css('margin-top', 0-(first_size.height/2)+'px')
+                .css('margin-left', 0-(first_size.width/2)+'px')
+                .show();
+        });
+        
+        $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
+        {
+            var newImageHref = $(this).attr('href')
+            var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height()
+            var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width()
+            var newImageHeight = $(this).attr('data-wd-height')
+            var newImageWidth = $(this).attr('data-wd-width')
+            var currentImageHref = $(this).parents('.wd-player').find('.wd-slideshow-image').eq(0).attr('src')
+                                    
+            //Test to see if clicked thumb is current image
+            if ( newImageHref == currentImageHref ) {
+                return;
+            } else if ($('.wd-slideshow-image').is(':animated')) {
+                return;
+            } else {
+                
+                // Get the new image sizes
+                var new_size = fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+    
+                // Get first image and duplicate it
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
+                    // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
+                            .hide()
+                            .attr('src', newImageHref)
+                            .attr('data-wd-item',$(this).attr('data-wd-item'))
+                            .width(new_size.width)
+                            .height(new_size.height)
+                            .css('margin-top', 0-(new_size.height/2)+'px')
+                            .css('margin-left', 0-(new_size.width/2)+'px')
+                            .appendTo('.wd-stage');
+                
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
+                {
+                    $(this).remove();
+                });
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');            
+            }
+        
+            e.preventDefault();    
+        });
+        
+        // This will play the next item in the playlist
+        $('.wd-player .wd-play-next').click(function()
+        {
+            setNextSource.call(this);
+        });
+
+        
+        // This will play the previous item in the playlist
+        $('.wd-player .wd-play-prev').click(function()
+        {
+            setPrevSource.call(this);
+        });
 
     });
     
