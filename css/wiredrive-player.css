@@ -1,5 +1,5 @@
 /*
- * Please feel free to edit this style sheet to fit your needs. Keep in mid that 
+ * Please feel free to edit this style sheet to fit your needs. Keep in mind that 
  * when you upgrade the plugin this will be reset to the new settings. To combat this
  * simply add the changes to your theme's stylesheet sheet instead. 
 */
@@ -8,7 +8,6 @@
 .wd-player {
 	margin-top: 0;
 	margin-bottom: 1em;
-	/*An em is one text character high, you use an em when you want the gap to change depending on the font size of the text around the player.*/
 }
 
 /*The background color for the player*/
@@ -23,7 +22,11 @@
 
 /*The background color of the thumbs scroller*/
 .wd-thumb-list-container {
-	background-color: #eaeaea;
+    background-color: #373636;
+    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
+    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
+    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
 }
 
 /*The height of the thumbnails */
@@ -33,11 +36,26 @@
 
 /*The height and width of the and next/prev buttons. In most cases you'd want this the same as the thumbnail height*/
 .wd-nav-prev, .wd-nav-next {
-	height: 60px;
+	height: 64px;
 	width: 30px;
-	padding: 2px 0;
+	line-height: 75px;
+	background-color: #373636;
+}
+/*The background color to be used by the previous button on the thumb scroller*/
+.wd-nav-prev {
+    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
+    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
+    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
 }
 
+/*The background color to be used by the next button on the thumb scroller*/
+.wd-nav-next {
+    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
+    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
+    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
+}
 /*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
 	padding-left: 32px;
@@ -46,7 +64,7 @@ ul.wd-thumb-list {
 
 /*The border that the selected thumbnail gets*/
 ul.wd-thumb-list .wd-active  {
-	background-color: black;
+	border: 1px solid white;
 }
 
 /*The button that slides the thumb tray down */
@@ -59,32 +77,26 @@ ul.wd-thumb-list .wd-active  {
 .wd-thumb-dropdown.wd-up-arrow {
     background-image: url(../images/player_icon_up.png);
 }
-
-/*The image and background color to be used by the previous button on the thumb scroller*/
-.wd-nav-prev {
-    background-color: #eaeaea;
-	background-image: url(../images/player_icon_prev.png);
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-/*The image and background color to be used by the next button on the thumb scroller*/
-.wd-nav-next {
-    background-color: #eaeaea;
-	background-image: url(../images/player_icon_next.png);
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
 /*The gap between the thumb list and the credit block*/
 .wd-credits-container {
 	margin-top: 0;
 	text-align: left;
+	height: 45px;
+	border-top: 1px solid #2c2c2c;
+	-moz-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+	background-color: #373636;
+    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/	
+	background: -moz-linear-gradient( top, rgba(20,20,20,1), rgba(55,54,54,1) );
+	background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(20,20,20,1) ), color-stop( 1, rgba(55,54,54,1) ) );
+	-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF141414,EndColorStr=#FF373636)";
 }
 
 /*The color of the credit block when the tray is down*/
 .wd-credits-container, .wd-player .wd-credits-container.wd-active {
     background-color: #eaeaea;
+    text-align: center;
+    line-height: 40px;
 }
 
 /*The title of the video you are watching. Leaving this empty will use the default styls of your theme.*/
@@ -92,7 +104,7 @@ ul.wd-thumb-list .wd-active  {
 	text-transform: none;
 	padding: 0 0 0 6px;
 	margin: 0;
-	color: black;
+	color: white;
 	font-size: 12px;
 }
 
@@ -101,7 +113,8 @@ ul.wd-thumb-list .wd-active  {
 	text-transform: none;
 	padding: 0;
 	margin: 0;
-	font-size: 10px;
+	font-size: 12px;
+	color: #999999;
 }
 /*This is the error message that gets shown if the feed is invalid for whatever reason.*/
 .wd-error {
@@ -113,11 +126,19 @@ ul.wd-thumb-list .wd-active  {
 	color: #aa0000;
 }
 
-/*You don't need to edit anything below this, unless you know what you are doing.*/
-/*---------------------------------------------------------*/
+
+/*You don't should not edit anything below this, unless you know what you are doing.
+ *---------------------------------------------------------
+ */
+
+
 .wd-player {
 	overflow: hidden;
 	line-height: 0;
+}
+
+.wd-player a {
+    outline: none;
 }
 
 .wd-stage img, .wd-thumb-list img, img.wd-thumb {
@@ -154,7 +175,6 @@ ul.wd-thumb-list {
 }
 ul.wd-thumb-list li {
     float: left;
-	margin-bottom: 3px;
 	padding: 2px;
 }
 ul.wd-thumb-list li a {
@@ -162,35 +182,48 @@ ul.wd-thumb-list li a {
 }
 
 /* Buttons */
-.wd-nav-prev {
+.wd-nav-prev, .wd-nav-next {
 	position: absolute;
-	left: 0;
-	cursor: pointer;
-    top: 0;
-    z-index: 100;
-}
-.wd-nav-next {
-	padding: 2px 0;
-	position: absolute;
-	right: 0;
 	cursor: pointer;
 	top: 0;
-	z-index: 100;
+    z-index: 10;
+    text-align: center;
+}
+.wd-nav-prev {
+	left: 0;
+}
+.wd-nav-next {
+	right: 0;
 }
 .wd-thumb-dropdown {
     position: absolute;
     right: 6px;
-    top: 6px;
+    top: 16px;
     display: none; /*This is hidden by default*/
 }
 .wd-thumb-dropdown:hover {
     cursor: pointer;
 }
+.wd-right-arrow, .wd-left-arrow {
+    border-style:solid;
+    border-width:10px;
+    width:0;
+    height:0;
+    display: inline-block;
+}
+.wd-left-arrow {
+    border-color: transparent #EAEAEA transparent transparent;
+    margin-left: -10px;
+}
+.wd-right-arrow {
+    border-color: transparent transparent transparent #EAEAEA;
+    margin-right: -10px;
+}
 
 /* Credits */
 .wd-credits-container {
 	position: relative;
-	line-height: 1;
+	z-index: 20;
 }
 
 /* Flash Fallback */
@@ -210,12 +243,10 @@ ul.wd-thumb-list li a {
 /* Special stuff to deal with hiding the thumb tray */
 .hide-thumbs .wd-thumb-tray {
     height: 0;
+    visibility: hidden;
 }
 .wd-player.hide-thumbs .wd-thumb-dropdown {
     display: block;
-}
-.wd-credits-container.hide-thumbs {
-    background-color: transparent;
 }
 
 /* Slideshow Specfic Styles */
@@ -231,18 +262,27 @@ ul.wd-thumb-list li a {
     /* Starts hidden, is resized in jQuery and then displayed */
     display: none;
 }
-.wd-play-next {
-    height: 20px;
-    width: 50px;
-    background: red;
+.not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
+    display: none;
+}
+.wd-play-next, .wd-play-prev {
+    position: relative;
+    height: 100%;
+    width: 40%;
+    z-index: 30;
     cursor: pointer;
-    line-height: 1;
+}
+.mobile .wd-play-next, .mobile .wd-play-prev {
+    display: none;
+}
+.wd-play-next {
+    float: right;
 }
 .wd-play-prev {
-    height: 20px;
-    width: 50px;
-    line-height: 1;
-    background: blue;
-    opacity: 0.5;
-    cursor: default;
+    float: left;
+
+}
+.wd-play-next.wd-active, .wd-play-prev.wd-active {
+    opacity: 1;
+    cursor: pointer;
 }

@@ -23,10 +23,10 @@ swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.
 <div id='no-flash-content'>
     <p>You require either a HTML5 capable browser or Adobe Flash to view this video content. Please click an icon to install.</p>
 	<br />
-    <a class='wdp-chrome' href='http://www.google.com/chrome/' alt='Install Google Chrome' target='_blank'>
-        <img src='<?php echo $this->get('pluginUrl') ?>/images/chrome_icon.png'>
+    <a class='wdp-safari' href='http://www.apple.com/safari/download/' target='_blank'>
+        <img src='<?php echo $this->get('pluginUrl') ?>/images/safari_icon.png'>
     </a>
-    <a class='wdp-flash' href='http://get.adobe.com/flashplayer' alt='Install Flash Player' target='_blank'>
+    <a class='wdp-flash' href='http://get.adobe.com/flashplayer' target='_blank'>
         <img src='<?php echo $this->get('pluginUrl') ?>/images/flash_icon.png' >
     </a>
 
