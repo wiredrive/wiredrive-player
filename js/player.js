@@ -3,8 +3,6 @@
  * Once WordPress 3.1 ships and is widely adopted, this will be re-written to use jQuery 1.4.4 and the .data() method.
  */
     
-VideoJS.setupAllWhenReady();
-
 // The resizing function for slideshow images. Needs to be ready before (document).ready    
 function fit_within_box(box_width, box_height, new_width, new_height)
 {
@@ -634,3 +632,49 @@ jQuery(window).load(function() {
         jQuery(this).css('width', width);
     });        
 });
+/*
+ * jQuery Plugin: externalInterface
+ * Version 1.0
+ *
+ * Copyright (c) 2010 David Comeau (http://www.davecomeau.net)
+ * Licensed jointly under the GPL and MIT licenses.
+ *
+ */
+
+(function(jQuery)
+{
+	jQuery.fn.externalInterface = function(args)
+	{
+		this.each(function()
+		{
+			if(typeof(args.method) != 'undefined')
+			{
+				try
+				{
+					if(typeof(args.args) != 'undefined')
+					{
+						var data = this[args.method](args.args);
+					}
+					else
+					{
+						var data = this[args.method]();
+					}
+					
+					if(typeof(args.success) != 'undefined')
+					{
+						args.success(data);
+					}
+				}
+				catch(error)
+				{
+					if(typeof(args.error) != 'undefined')
+					{
+						args.error(error);
+					}
+				}
+			}
+		});
+	
+		return this;
+	};
+})(jQuery);

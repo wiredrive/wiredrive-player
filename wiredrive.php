@@ -91,28 +91,10 @@ class Wiredrive_Plugin
 
         wp_enqueue_script('jquery.scrollTo');
         
-        wp_register_script('slideshow',
-            ($plugin_url  . '/js/slideshow.js'), 'jquery', '1.0');
-
-        wp_enqueue_script('slideshow');
-
-        wp_register_script('jquery.externalinterface',
-            ($plugin_url  . '/js/jquery.externalinterface.js'), 'jquery', '1.0');
-
-        wp_enqueue_script('jquery.externalinterface');
-
-        wp_register_script('videojs',
-            ($plugin_url  . '/js/video.js'), false, '1.1.5-wdp');
-
-        wp_enqueue_script('videojs');
-        
         wp_register_script('player',
             ($plugin_url  . '/js/player.js'), 'jquery', '1.0');
             
-       wp_enqueue_script('player');
-
-        wp_enqueue_style('videojs_css',
-            ($plugin_url  . '/css/video-js.css'));
+        wp_enqueue_script('player');
 
         wp_enqueue_style('wirdrive_player_css',
             ($plugin_url  . '/css/wiredrive-player.css'));
