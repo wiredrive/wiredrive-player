@@ -41,7 +41,47 @@ jQuery(document).ready(function($) {
     });
                     
     
-    // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
+    function setNextCredit() {
+        nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        nextItem++;
+                
+        // Title credit
+        $(this).closest('.wd-player')
+            .find('.wd-credits-container .wd-title')
+            .empty()
+            .append(
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-title')
+            );
+    
+        // First credit
+        $(this).closest('.wd-player')
+            .find('.wd-credits-container .wd-credit')
+            .empty()
+            .append(
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-credit')
+            );   
+    };
+    
+    function setPrevCredit() {
+        prevItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        prevItem--;
+                
+        // Title credit
+        $(this).closest('.wd-player')
+            .find('.wd-credits-container .wd-title')
+            .empty()
+            .append(
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-title')
+        );
+    
+        // First credit
+        $(this).closest('.wd-player')
+            .find('.wd-credits-container .wd-credit')
+            .empty()
+            .append(
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-credit')
+        );   
+    };
 
     function showCredit()
     {
@@ -73,8 +113,8 @@ jQuery(document).ready(function($) {
             .empty()
             .append(
                 $(this).closest('.wd-player')
-                        .find('.wd-thumb-list li')
-                        .eq(wdItem).children('a')
+                        .find('.wd-thumb-list li a')
+                        .eq(wdItem)
                         .attr('data-wd-title')
             );
         
@@ -84,13 +124,14 @@ jQuery(document).ready(function($) {
             .empty()
             .append(
                 $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li')
-                    .eq(wdItem).children('a')
+                    .find('.wd-thumb-list li a')
+                    .eq(wdItem)
                     .attr('data-wd-credit')
             );
         
     };
 
+    // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
     // Handles the mouseover credit feature
     $('.not-mobile .wd-thumb-list a').hover(showCredit,hideCredit);
 
@@ -211,19 +252,25 @@ jQuery(document).ready(function($) {
             
             // Get the new SRC URL.
                 nextItem++;
-            var nextSrc = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').attr('href'); 
+            var nextSrc = $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('href'); 
             
             if (videoContainer == null) {
                 //This means it's an image
+                
+                //Check to see if the current image is still fading (prevents turbo clicking problems).
+                if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
+                    return;
+                }
+                
                 var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height()
                 var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width()
-                var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').attr('data-wd-height')
-                var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(nextItem).children('a').attr('data-wd-width')
+                var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-height')
+                var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-width')
                 var currentImageHref = $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src')
                         
                 // Get the new image sizes
                 var new_size = fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-    
+                
                 // Get first image and duplicate it
                 $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
                     // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
@@ -261,9 +308,11 @@ jQuery(document).ready(function($) {
 
             // Add active class        
             $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li')
-                    .eq(nextItem).children('a')
+                    .find('.wd-thumb-list li a')
+                    .eq(nextItem)
                     .addClass('wd-active');
+            
+            setNextCredit.call(this);
             
             // Set the new item number on the stage
             $(this).closest('.wd-player')
@@ -299,15 +348,21 @@ jQuery(document).ready(function($) {
 
             if (videoContainer == null) {
                 //This means it's an image
+                
+                //Check to see if the current image is still fading (prevents turbo clicking problems).
+                if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
+                    return;
+                }
+                
                 var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height()
                 var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width()
-                var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(prevItem).children('a').attr('data-wd-height')
-                var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list li').eq(prevItem).children('a').attr('data-wd-width')
+                var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-height')
+                var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-width')
                 var currentImageHref = $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src')
                         
                 // Get the new image sizes
                 var new_size = fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-    
+                
                 // Get first image and duplicate it
                 $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
                     // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
@@ -346,9 +401,11 @@ jQuery(document).ready(function($) {
 
             // Add active class        
             $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li')
-                    .eq(prevItem).children('a')
+                    .find('.wd-thumb-list li a')
+                    .eq(prevItem)
                     .addClass('wd-active');
+            
+            setPrevCredit.call(this);
             
             // Set the new item number on the stage
             $(this).closest('.wd-player')
@@ -491,7 +548,7 @@ jQuery(document).ready(function($) {
         //Test to see if clicked thumb is current image
         if ( newImageHref == currentImageHref ) {
             return;
-        } else if ($('.wd-slideshow-image').is(':animated')) {
+        } else if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
             return;
         } else {
             
@@ -573,6 +630,35 @@ jQuery(document).ready(function($) {
        
     });
 
+    // Start the autoslide show
+    $(document).ready(function autoSlideshow() {
+
+        $('.wd-player.slideshow .wd-stage').animate(
+            {
+                opacity: 1
+            }, 5000, function() 
+            {
+                listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+                currentItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item')
+                
+                if (currentItem < listLength) {
+                    setNextSource.call(this);
+                    autoSlideshow();
+                } else if (currentItem == listLength) {
+                    $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', -1)
+                    setNextSource.call(this);
+                    autoSlideshow();
+                }
+                
+            });
+    });
+    
+    $('.wd-player.slideshow').click(function() {
+        $('.wd-player.slideshow .wd-stage').animate();
+    });
+    
+
+
 });
 
 /*
@@ -588,20 +674,20 @@ function stoppedPlaying(flashPlayerID)
     //jQuery .length() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
     var listLength = jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li').size() - 1;   
                     
-    var n = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
-        n = parseInt(n);
+    var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        nextItem = parseInt(nextItem);
     
     //This if statment makes the player stop after the last item is played.
-    if (n < listLength) {
-        n++;
+    if (nextItem < listLength) {
+        nextItem++;
         // Send next source to the Flash player
-        var nextSrc = jQuery(playerID).closest('.wd-player').find('ul.wd-thumb-list').children('li').children('a').eq(n).attr('href');
+        var nextSrc = jQuery(playerID).closest('.wd-player').find('ul.wd-thumb-list').children('li').children('a').eq(nextItem).attr('href');
                                 
         jQuery(playerID).externalInterface({method:'setNewSource', args:nextSrc});
         
         jQuery(playerID).closest('.wd-player')
                             .find('.wd-stage')
-                            .attr('data-wd-item', n);
+                            .attr('data-wd-item', nextItem);
         
         // Set border around currently playing
         jQuery(playerID).closest('.wd-player')
@@ -609,11 +695,9 @@ function stoppedPlaying(flashPlayerID)
                             .removeClass('wd-active');
                             
         jQuery(playerID).closest('.wd-player')
-                            .find('.wd-thumb-list li')
-                            .eq(n)
-                            .children('a')
+                            .find('.wd-thumb-list li a')
+                            .eq(nextItem)
                             .addClass('wd-active');
-        
     } 
 };
 
