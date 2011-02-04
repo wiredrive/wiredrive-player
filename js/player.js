@@ -599,6 +599,7 @@ jQuery(document).ready(function($) {
         setPrevSource.call(this);
     });
     
+    // This enables touch gestures for next/prev image on a slideshow
     var touch = {};
     $('.wd-player.slideshow .wd-stage').live('touchstart touchmove touchend', function(event) {    
 
@@ -631,33 +632,46 @@ jQuery(document).ready(function($) {
     });
 
     // Start the autoslide show
-    $(document).ready(function autoSlideshow() {
-
-        $('.wd-player.slideshow .wd-stage').animate(
+    var playSlideshow = {};
+    $(document).ready(function autoSlideshow()
+    {
+        
+        $('.wd-player.autoslideshow .wd-stage').animate(
             {
                 opacity: 1
             }, 5000, function() 
             {
                 listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
                 currentItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item')
-                
+                                
                 if (currentItem < listLength) {
-                    setNextSource.call(this);
-                    autoSlideshow();
+                    if (playSlideshow) {
+                        setNextSource.call(this);
+                        autoSlideshow();
+                    }
+                    
                 } else if (currentItem == listLength) {
                     $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', -1)
-                    setNextSource.call(this);
-                    autoSlideshow();
+                    if (playSlideshow) {
+                        setNextSource.call(this);
+                        autoSlideshow();
+                    }
                 }
                 
             });
     });
     
-    $('.wd-player.slideshow').click(function() {
-        $('.wd-player.slideshow .wd-stage').animate();
+    // Kill the auto slideshow if something is clicked
+    $('.wd-player.slideshow, .slideshow wd-play-prev, .slideshow wd-play-next').click(function() {
+        playSlideshow = false;
     });
     
-
+    // Preload the images
+    $('.wd-player.autoslideshow .wd-thumb-list li').each(function(index) {
+        var imageSource = $(this).children('a').attr('data-wd-source')
+        var imageID = 'preload'+index;
+        var imageID = $('<img />').attr('src', imageSource);
+    });
 
 });
 
@@ -714,7 +728,8 @@ jQuery(window).load(function() {
         });
 
         jQuery(this).css('width', width);
-    });        
+    });
+            
 });
 /*
  * jQuery Plugin: externalInterface

@@ -1,5 +1,5 @@
 <script type="text/javascript">
-
+    
     function WDPButtonClick() {
 
         WDPDialogClose();
@@ -19,12 +19,17 @@
             var feed = jQuery("#wdp-dialog-feed").val();
             var width = jQuery("#wdp-dialog-width").val();
             var height = jQuery("#wdp-dialog-height").val();
-            var hidethumbs = jQuery("#wdp-hide-thumbs").val();
             
             if(jQuery("#wdp-hide-thumbs").is(":checked")){
                 hidethumbs = 'on';
             } else {
                 hidethumbs = 'off';
+            }
+            
+            if(jQuery("#wdp-auto-slideshow").is(":checked")){
+                autoslideshow = 'on';
+            } else {
+                autoslideshow = 'off';
             }
                                     
             if ( !feed ) return WDPDialogClose();
@@ -42,6 +47,10 @@
 			if (hidethumbs) {
 			     var text = text + ' hidethumbs="' + hidethumbs +'"';
 			}
+			
+			if (autoslideshow == 'on') {
+                var text = text + ' autoslideshow="' + autoslideshow +'"';
+			}
 						
 			var text = text + ']' + feed + '[/wiredrive]';
 						
@@ -53,7 +62,9 @@
                 ed.execCommand('mceInsertContent', false, text);
             } else
                 edInsertContent(edCanvas, text);
-
+            
+            console.log(autoslideshow)
+            
             WDPDialogClose();
         }
 

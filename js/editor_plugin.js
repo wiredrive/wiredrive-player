@@ -19,7 +19,7 @@
         getInfo : function(){
             return {
                 longname: 'Wiredrive Video Player Button',
-                author: 'Wiredrive, Drew Baker, Daniel Bondu',
+                author: 'Wiredrive, Drew Baker, Daniel Bondurant',
                 authorurl: 'http://wiredrive.com',
                 infourl: 'http://wiredrive.com',
                 version: "1.0"

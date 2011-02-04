@@ -38,8 +38,7 @@
  *
  * mRSS is parsed by SimplePie built into Wordpress
  * 
- * HTML5 Video playback in controlled by a customized version of Video.js
- * http://videojs.com/
+ * HTML5 Video playback in controlled by a the native browser player.
  *
  * Flash playback is controlled by a customized version of OVP
  * http://openvideoplayer.sourceforge.net/
@@ -117,6 +116,7 @@ class Wiredrive_Plugin
                     'height'            => '480px',
                     'width'             => '100%',
                     'hidethumbs'        => 'off',
+                    'autoslideshow'     => 'off'
                 ), $atts));
 
         /*
@@ -169,7 +169,7 @@ class Wiredrive_Plugin
          * Begin Player Construction
          * This is calling player_start.php
          */
-        $this->renderPlayerStart($width, $height, $hidethumbs);
+        $this->renderPlayerStart($width, $height, $hidethumbs, $autoslideshow);
 
         /*
          * Render out the video player or image slideshow
@@ -415,13 +415,14 @@ class Wiredrive_Plugin
      * @var height int
      * @var widght int
      */
-    private function renderPlayerStart($width, $height, $hidethumbs)
+    private function renderPlayerStart($width, $height, $hidethumbs, $autoslideshow)
     {
    
         $this->template->setTpl('player_start.php')
                  ->set('height', $height)
                  ->set('width', $width)
                  ->set('hidethumbs', $hidethumbs)
+                 ->set('autoslideshow', $autoslideshow)
                  ->set('mobile', $this->isMobile())
                  ->set('slideshow', ($this->getIsImageReel()))
                  ->render();
