@@ -262,7 +262,7 @@ ul.wd-thumb-list li a {
     /* Starts hidden, is resized in jQuery and then displayed */
     display: none;
 }
-.not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
+.mobile .wd-play-next, .mobile .wd-play-prev, .not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
     display: none;
 }
 .wd-play-next, .wd-play-prev {
@@ -272,9 +272,6 @@ ul.wd-thumb-list li a {
     z-index: 30;
     cursor: pointer;
 }
-.mobile .wd-play-next, .mobile .wd-play-prev {
-    display: none;
-}
 .wd-play-next {
     float: right;
 }
@@ -283,6 +280,60 @@ ul.wd-thumb-list li a {
 
 }
 .wd-play-next.wd-active, .wd-play-prev.wd-active {
-    opacity: 1;
     cursor: pointer;
+}
+
+/* Theme Option 2 (Light Theme)
+ *---------------------------------------------------------
+ */
+.theme2 .wd-nav-prev, .theme2 .wd-nav-next, .theme2 .wd-thumb-list-container {
+    background-color: #dfdfdf;
+    background: -moz-linear-gradient( top, rgba(245,245,245,1), rgba(223,223,223,1) );
+    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(245,245,245,1) ), color-stop( 1, rgba(223,223,223,1) ) );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFF5F5F5,EndColorStr=#FFDFDFDF)";    
+} 
+.theme2 .wd-credits-container, .theme2 .wd-credits-container.wd-active {
+    border-color: #efefef;
+    background-color: #e4e4e4;
+    background: -moz-linear-gradient( top, rgba(228,228,228,1), rgba(234,234,234,1) );
+    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(228,228,228,1) ), color-stop( 1, rgba(234,234,234,1) ) );
+    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFE4E4E4,EndColorStr=#FFEAEAEA)";
+}
+.theme2 .wd-left-arrow {
+    border-color: transparent #5a5a5a transparent transparent;
+} 
+.theme2 .wd-right-arrow {
+    border-color: transparent transparent transparent #5a5a5a;
+
+}
+.theme2 .wd-title {
+    color: #333333;
+}
+.theme2 .wd-credit {
+    color: black;
+}
+
+/* Theme Option 3 (White Theme)
+ *---------------------------------------------------------
+ */
+.theme3 .wd-nav-prev, .theme3 .wd-nav-next, .theme3 .wd-thumb-list-container {
+    background: white;
+} 
+.theme3 .wd-credits-container, .theme3 .wd-credits-container.wd-active {
+    background: white;
+    border: none;
+    text-align: left;
+}
+.theme3 .wd-left-arrow {
+    border-color: transparent #5a5a5a transparent transparent;
+} 
+.theme3 .wd-right-arrow {
+    border-color: transparent transparent transparent #5a5a5a;
+
+}
+.theme3 .wd-title {
+    color: #333333;
+}
+.theme3 .wd-credit {
+    color: black;
 }

@@ -7,7 +7,7 @@
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
         var title = '<img src="<?php echo plugins_url('wiredrive-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
-        jQuery("#wdp-dialog").dialog({ autoOpen: false, width: 750, minWidth: 750, height: 500, minHeight: 500, maxHeight: 500, title: title, buttons: buttons, resizable: true });
+        jQuery("#wdp-dialog").dialog({ autoOpen: false, width: 750, minWidth: 750, maxWidth: 750, height: 550, minHeight: 520, maxHeight: 600, title: title, buttons: buttons, resizable: true });
         jQuery("#wdp-dialog").dialog("open");
 
         // Reset the dialog box incase it's been used before
@@ -19,9 +19,12 @@
             var feed = jQuery("#wdp-dialog-feed").val();
             var width = jQuery("#wdp-dialog-width").val();
             var height = jQuery("#wdp-dialog-height").val();
-            
+            var hidethumbs = {};
+            var autoslideshow ={};
+            var theme = jQuery(".wdp-dialog-content").find("input:radio[name=theme]:checked").val();
+                        
             if(jQuery("#wdp-hide-thumbs").is(":checked")){
-                hidethumbs = 'on';
+                var hidethumbs = 'on';
             } else {
                 hidethumbs = 'off';
             }
@@ -51,6 +54,10 @@
 			if (autoslideshow == 'on') {
                 var text = text + ' autoslideshow="' + autoslideshow +'"';
 			}
+			
+			if (theme) {
+                var text = text + ' theme="' + theme +'"';
+			}
 						
 			var text = text + ']' + feed + '[/wiredrive]';
 						
@@ -62,9 +69,7 @@
                 ed.execCommand('mceInsertContent', false, text);
             } else
                 edInsertContent(edCanvas, text);
-            
-            console.log(autoslideshow)
-            
+                        
             WDPDialogClose();
         }
 

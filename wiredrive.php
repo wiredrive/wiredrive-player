@@ -116,7 +116,8 @@ class Wiredrive_Plugin
                     'height'            => '480px',
                     'width'             => '100%',
                     'hidethumbs'        => 'off',
-                    'autoslideshow'     => 'off'
+                    'autoslideshow'     => 'off',
+                    'theme'             => 'default'
                 ), $atts));
 
         /*
@@ -169,7 +170,7 @@ class Wiredrive_Plugin
          * Begin Player Construction
          * This is calling player_start.php
          */
-        $this->renderPlayerStart($width, $height, $hidethumbs, $autoslideshow);
+        $this->renderPlayerStart($width, $height, $hidethumbs, $autoslideshow, $theme);
 
         /*
          * Render out the video player or image slideshow
@@ -415,7 +416,7 @@ class Wiredrive_Plugin
      * @var height int
      * @var widght int
      */
-    private function renderPlayerStart($width, $height, $hidethumbs, $autoslideshow)
+    private function renderPlayerStart($width, $height, $hidethumbs, $autoslideshow, $theme)
     {
    
         $this->template->setTpl('player_start.php')
@@ -423,6 +424,7 @@ class Wiredrive_Plugin
                  ->set('width', $width)
                  ->set('hidethumbs', $hidethumbs)
                  ->set('autoslideshow', $autoslideshow)
+                 ->set('theme', $theme)
                  ->set('mobile', $this->isMobile())
                  ->set('slideshow', ($this->getIsImageReel()))
                  ->render();

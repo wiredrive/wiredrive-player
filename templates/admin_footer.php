@@ -14,6 +14,11 @@
             <p><strong>Options:</strong></p>
             <p><input type="checkbox" id="wdp-hide-thumbs"/> The thumbnail tray will start closed and can toggle open.</p>
             <p><input type="checkbox" id="wdp-auto-slideshow"/> Every 5 seconds, advance to the next image in the slideshow automatically.</p>
+            <p>
+                <input type="radio" id="wdp-theme-default" name="theme" value="default" checked/> Default (Dark)<br />
+                <input type="radio" id="wdp-theme-2" name="theme" value="theme2" /> Light<br />
+                <input type="radio" id="wdp-theme-3" name="theme" value="theme3" /> White<br />
+            </p>
         </div>
     </div>
 </div>
