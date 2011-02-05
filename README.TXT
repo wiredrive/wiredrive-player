@@ -3,7 +3,7 @@ Contributors: Wiredrive, Drew Baker and Daniel Bondurant
 Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
-Tested up to: 3.0.3
+Tested up to: 3.0.4
 Stable tag: trunk
 
 Displays a Wiredrive mRSS feed as a HTML5 or Flash powered video player.
@@ -30,10 +30,10 @@ Feature List:
 
 Known Issues:
 
-*   A one pixel border around the Flash player is hardcoded into the Flash Playe. Attempts to remove it have been unsuccessful. We are working to fix this issue.
+*   A one pixel border around the Flash player is hardcoded into the Flash Player. Attempts to remove it have been unsuccessful. We are working to fix this issue.
 *   The poster frame will stretch rather than box resize in Flash. This is an issue with the Flash Player and we are working to fix this issue.
 *   The volume controls operation differs slightly in Flash from the HTML5 controls. Click to change in Flash, as opposed to the more user-friendly click and drag in HTML5.
-*   Safari and Chrome use the HTML5 player built on WebKit, and fullscreen is currently only partially implemented. Fullscreen is possible, but the video improperly scales.
+*   Safari uses the HTML5 player built on WebKit, and fullscreen is currently only partially implemented. Fullscreen is possible, but the video improperly scales if the player is set to a different aspect ration than the video file.
 
 Untested:
 
