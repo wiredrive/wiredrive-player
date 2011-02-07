@@ -20,12 +20,12 @@
                 <?php if (isset($item['credits'])) : ?>data-wd-credit="<?php echo current($item['credits']); ?>"
                 <?php endif; ?>data-wd-description="<?php echo $item['description'] ?>"
                 data-wd-source = "<?php echo $item['link'] ?>"
-                data-wd-thumb = "<?php echo $item['thumbnail'] ?>"
+                data-wd-thumb = "<?php echo $item['thumbnail_lg'] ?>"
                 data-wd-height = "<?php echo $item['height'] ?>"
                 data-wd-width = "<?php echo $item['width'] ?>"
                 data-wd-credits = '<?php echo json_encode($item['credits'])?>'
             >
-            <img class='wd-thumb' src="<?php echo $item['thumbnail'] ?>">
+            <img class='wd-thumb' src="<?php echo $item['thumbnail_lg'] ?>">
             </a>
             </li>
             
