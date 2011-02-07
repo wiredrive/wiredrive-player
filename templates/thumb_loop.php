@@ -25,7 +25,7 @@
                 data-wd-width = "<?php echo $item['width'] ?>"
                 data-wd-credits = '<?php echo json_encode($item['credits'])?>'
             >
-            <img class='wd-thumb' src="<?php echo $item['thumbnail_lg'] ?>">
+            <img class='wd-thumb' src="<?php echo $item['thumbnail_sm'] ?>">
             </a>
             </li>
             

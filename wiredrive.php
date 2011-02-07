@@ -384,8 +384,8 @@ class Wiredrive_Plugin
                 $item['link'] = $media->get_link();
                 $item['height'] = $media->get_height();
                 $item['width'] = $media->get_width();
-                $item['thumbnail_sm'] = $media->get_thumbnail(0);
-                $item['thumbnail_lg'] = $media->get_thumbnail(1);
+                $item['thumbnail_sm'] = $media->get_thumbnail(1);
+                $item['thumbnail_lg'] = $media->get_thumbnail(0);
                 $item['description'] = $row->get_description();
 
                 $credits = $media->get_credits();
@@ -455,7 +455,7 @@ class Wiredrive_Plugin
         
         $this->template->setTpl('flash.php')
                  ->set('link', $first['link'])
-                 ->set('thumbnail', $first['thumbnail_sm'])
+                 ->set('thumbnail', $first['thumbnail_lg'])
                  ->set('attributeId', $this->getAttributeId())
                  ->set('pluginUrl', $this->getPluginUrl())
                  ->set('width', $first['width'])
