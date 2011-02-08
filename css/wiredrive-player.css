@@ -317,9 +317,11 @@ ul.wd-thumb-list li a {
  *---------------------------------------------------------
  */
 .theme3 .wd-nav-prev, .theme3 .wd-nav-next, .theme3 .wd-thumb-list-container {
+    filter: -;
     background: white;
 } 
 .theme3 .wd-credits-container, .theme3 .wd-credits-container.wd-active {
+    filter: -;
     background: white;
     border: none;
     text-align: left;

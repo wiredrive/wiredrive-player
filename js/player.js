@@ -47,7 +47,7 @@ jQuery(document).ready(function($) {
                 
         // Title credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-title')
+            .find('.wd-title')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-title')
@@ -55,7 +55,7 @@ jQuery(document).ready(function($) {
     
         // First credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-credit')
+            .find('.wd-credit')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-credit')
@@ -68,7 +68,7 @@ jQuery(document).ready(function($) {
                 
         // Title credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-title')
+            .find('.wd-title')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-title')
@@ -76,7 +76,7 @@ jQuery(document).ready(function($) {
     
         // First credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-credit')
+            .find('.wd-credit')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-credit')
@@ -88,7 +88,7 @@ jQuery(document).ready(function($) {
         // On mouse enter
         // Title credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-title')
+            .find('.wd-title')
             .empty()
             .append(
                 $(this).attr('data-wd-title')
@@ -96,7 +96,7 @@ jQuery(document).ready(function($) {
     
         // First credit
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-credit')
+            .find('.wd-credit')
             .empty()
             .append(
                 $(this).attr('data-wd-credit')
@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
         
         // Add playing item's title back to credit container
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-title')
+            .find('.wd-title')
             .empty()
             .append(
                 $(this).closest('.wd-player')
@@ -120,7 +120,7 @@ jQuery(document).ready(function($) {
         
         // Add playing item's first credit back to credit container
         $(this).closest('.wd-player')
-            .find('.wd-credits-container .wd-credit')
+            .find('.wd-credit')
             .empty()
             .append(
                 $(this).closest('.wd-player')
@@ -243,12 +243,7 @@ jQuery(document).ready(function($) {
         var videoContainer = document.getElementById(currentID);
         var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
         
-        if (nextItem < listLength) {      
-
-            // Hide play button between videos
-            $(this).closest('.wd-player')
-                    .find('.wd-stage .vjs-big-play-button')
-                    .css('visibility','hidden');
+        if (nextItem < listLength) {
             
             // Get the new SRC URL.
                 nextItem++;
