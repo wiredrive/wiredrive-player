@@ -65,8 +65,7 @@
                 ed.focus();
                 if (tinymce.isIE)
                     ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
-
-                ed.execCommand('mceInsertContent', false, text);
+                    ed.execCommand('mceInsertContent', false, text);
             } else
                 edInsertContent(edCanvas, text);
                         
