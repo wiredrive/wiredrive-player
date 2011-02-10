@@ -60,9 +60,18 @@ Untested:
 
 == Changelog ==
 
+= 1.1 =
+* Fixed issues when showing multiple slideshows on the one page.
+* Fixed issue where Flash player would set all the stages to have a transparent background.
+* Cleaned up code.
+* Updated readme.txt and embed dialog box. 
+
 = 1.0 =
 * First stable release.
 
 == Upgrade Notice ==
+
+= 1.1 =
+* This version fixes issues with using multiple players on a single page.
 
 = No upgrades are currently available. =
