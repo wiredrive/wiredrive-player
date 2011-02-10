@@ -91,7 +91,7 @@ class Wiredrive_Plugin
         wp_enqueue_script('jquery.scrollTo');
         
         wp_register_script('player',
-            ($plugin_url  . '/js/player.js'), 'jquery', '1.0');
+            ($plugin_url  . '/js/player.js'), 'jquery', '1.1');
             
         wp_enqueue_script('player');
 
