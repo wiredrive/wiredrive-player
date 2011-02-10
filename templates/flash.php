@@ -29,9 +29,4 @@ swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.
     <a class='wdp-flash' href='http://get.adobe.com/flashplayer' target='_blank'>
         <img src='<?php echo $this->get('pluginUrl') ?>/images/flash_icon.png' >
     </a>
-
-    <script type='text/javascript'>
-        jQuery('.wd-stage').css('background', 'none');
-    </script>
-
 </div>

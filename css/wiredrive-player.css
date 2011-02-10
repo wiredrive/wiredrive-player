@@ -20,8 +20,8 @@
 	margin-top: 0;
 }
 
-/*The background color of the thumbs scroller*/
-.wd-thumb-list-container {
+/*The background color of the thumb tray*/
+.wd-thumb-tray {
     background-color: #373636;
     /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
     background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
@@ -283,10 +283,22 @@ ul.wd-thumb-list li a {
     cursor: pointer;
 }
 
+/* This overrides some of the theme styles that the defualt 
+ * WordPress theme ships with.  
+ *---------------------------------------------------------
+ */
+#content img.wd-thumb {
+    height: 60px;
+}
+
+#content ul.wd-thumb-list {
+    margin-bottom: 0; 
+}
+
 /* Theme Option 2 (Light Theme)
  *---------------------------------------------------------
  */
-.theme2 .wd-nav-prev, .theme2 .wd-nav-next, .theme2 .wd-thumb-list-container {
+.theme2 .wd-nav-prev, .theme2 .wd-nav-next, .theme2 .wd-thumb-tray {
     background-color: #dfdfdf;
     background: -moz-linear-gradient( top, rgba(245,245,245,1), rgba(223,223,223,1) );
     background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(245,245,245,1) ), color-stop( 1, rgba(223,223,223,1) ) );
@@ -316,7 +328,7 @@ ul.wd-thumb-list li a {
 /* Theme Option 3 (White Theme)
  *---------------------------------------------------------
  */
-.theme3 .wd-nav-prev, .theme3 .wd-nav-next, .theme3 .wd-thumb-list-container {
+.theme3 .wd-nav-prev, .theme3 .wd-nav-next, .theme3 .wd-thumb-tray {
     filter: -;
     background: white;
 } 

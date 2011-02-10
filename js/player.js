@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
     function setNextCredit() {
         nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
         nextItem++;
-                
+                        
         // Title credit
         $(this).closest('.wd-player')
             .find('.wd-title')
@@ -236,13 +236,13 @@ jQuery(document).ready(function($) {
 
     // Send next source to the player
     function setNextSource()
-    {   
+    {       
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
         var currentID = $(this).closest('.wd-player').find('.wd-video-player').attr('id');
         var videoContainer = document.getElementById(currentID);
         var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
-        
+                
         if (nextItem < listLength) {
             
             // Get the new SRC URL.
@@ -276,13 +276,14 @@ jQuery(document).ready(function($) {
                             .height(new_size.height)
                             .css('margin-top', 0-(new_size.height/2)+'px')
                             .css('margin-left', 0-(new_size.width/2)+'px')
-                            .appendTo('.wd-stage');
+                            .appendTo($(this).closest('.wd-player').find('.wd-stage'));
                 
                 $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
                 {
                     $(this).remove();
                 });
-                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');   
+
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
                 
             } else if ( typeof videoContainer.load == 'function' ) {
                 // This send it to the HTML player
@@ -368,7 +369,7 @@ jQuery(document).ready(function($) {
                             .height(new_size.height)
                             .css('margin-top', 0-(new_size.height/2)+'px')
                             .css('margin-left', 0-(new_size.width/2)+'px')
-                            .appendTo('.wd-stage');
+                            .appendTo($(this).closest('.wd-player').find('.wd-stage'));
                 
                 $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
                 {
@@ -457,7 +458,7 @@ jQuery(document).ready(function($) {
         if (thumbListHeight == null) {
             thumbListHeight = 0
         }
-        
+                
         var creditsContainerHeight = $(this).find('.wd-thumb-tray').find('.wd-credits-container').outerHeight();
         if (creditsContainerHeight == null) {
             creditsContainerHeight = 0
@@ -560,7 +561,7 @@ jQuery(document).ready(function($) {
                         .height(new_size.height)
                         .css('margin-top', 0-(new_size.height/2)+'px')
                         .css('margin-left', 0-(new_size.width/2)+'px')
-                        .appendTo('.wd-stage');
+                        .appendTo($(this).closest('.wd-player').find('.wd-stage'));
             
             $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
             {
