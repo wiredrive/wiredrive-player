@@ -4,7 +4,7 @@
                             width="<?php echo $this->get('width') ?>" 
                             height="<?php echo $this->get('height') ?>"
                             preload="none"
-                           x-webkit-airplay=”allow”
+                            x-webkit-airplay=”allow”
                             >;
     </video>
 </div>
