@@ -172,6 +172,7 @@ ul.wd-thumb-list {
 	width: 9999%;
 	padding-top: 0;
 	padding-bottom: 0;
+	line-height: 0;
 }
 ul.wd-thumb-list li {
     float: left;

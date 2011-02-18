@@ -26,8 +26,10 @@ jQuery(document).ready(function($) {
     // Set the first thumb as active
     $('.wd-thumb-list li:first-child a').addClass('wd-active');
     
+    
     // Show the first credit & title
-    $('.wd-player .wd-credits-container').each(function() {
+    $('.wd-credits-container').each(function() {
+
         $(this).find('.wd-title')
                 .append(
                     $(this).closest('.wd-player').find('.wd-thumb-list .wd-active').attr('data-wd-title')
@@ -499,13 +501,6 @@ jQuery(document).ready(function($) {
         }
     }); 
                     
-    // When hover on drop down button, change the color of the credit container
-    // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
-    $('.not-mobile .wd-thumb-dropdown').hover(
-        function () {
-            $(this).closest('.wd-player').find('.wd-credits-container').toggleClass('hide-thumbs');
-    });
-    
     /*
      * Below is code relating to the image slideshow feature.
      *
