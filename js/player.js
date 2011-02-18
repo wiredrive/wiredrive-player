@@ -171,7 +171,6 @@ jQuery(document).ready(function($) {
     // On thumb click do...
     $('.wd-player.not-slideshow .wd-thumb-list a').click(function(e)
     {
-        e.preventDefault();
         
         // Get the href from the thumb link and feed it into the video player. This line is for HTML5 player only.
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
