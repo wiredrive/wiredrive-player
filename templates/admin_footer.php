@@ -8,7 +8,7 @@
             </div>
             <p><input type="text" id="wdp-dialog-feed" style="width:98%" /></p>
             <p><strong>Set dimensions for your player:</strong></p>
-            <p>If left blank, the player defaults to the maximum width of your page by 480 pixels high.</p>
+            <p>If left blank, the player defaults to those set on the settings page.</p>
             <p><input type="text" id="wdp-dialog-width" class="wdp-dialog-dim" style="width:50px" /> &#215; 
                <input type="text" id="wdp-dialog-height" class="wdp-dialog-dim" style="width:50px" /> pixels</p>
             <p>[width] &#215; [height]</p>
