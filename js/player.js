@@ -44,65 +44,64 @@ jQuery(document).ready(function($) {
                     
     
     function setNextCredit() {
-        nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        var nextItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
         nextItem++;
-                        
-        // Title credit
+                    
+        // New credits
         $(this).closest('.wd-player')
-            .find('.wd-title')
+            .find('.wd-credits .wd-title')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-title')
             );
-    
-        // First credit
+        
         $(this).closest('.wd-player')
-            .find('.wd-credit')
+            .find('.wd-credits .wd-credit')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-credit')
-            );   
+            );
     };
     
     function setPrevCredit() {
-        prevItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        var prevItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
         prevItem--;
                 
-        // Title credit
+        // New credits
         $(this).closest('.wd-player')
-            .find('.wd-title')
+            .find('.wd-credits .wd-title')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-title')
-        );
-    
-        // First credit
+            );
+        
         $(this).closest('.wd-player')
-            .find('.wd-credit')
+            .find('.wd-credits .wd-credit')
             .empty()
             .append(
                 $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-credit')
-        );   
+            );
+            
     };
 
     function showCredit()
     {
-        // On mouse enter
         // Title credit
         $(this).closest('.wd-player')
-            .find('.wd-title')
+            .find('.wd-credits .wd-title')
             .empty()
             .append(
                 $(this).attr('data-wd-title')
             );
-    
+            
         // First credit
         $(this).closest('.wd-player')
-            .find('.wd-credit')
+            .find('.wd-credits .wd-credit')
             .empty()
             .append(
                 $(this).attr('data-wd-credit')
             );
+    
     };
     function hideCredit()
     {
@@ -111,26 +110,19 @@ jQuery(document).ready(function($) {
         
         // Add playing item's title back to credit container
         $(this).closest('.wd-player')
-            .find('.wd-title')
+            .find('.wd-credits .wd-title')
             .empty()
             .append(
-                $(this).closest('.wd-player')
-                        .find('.wd-thumb-list li a')
-                        .eq(wdItem)
-                        .attr('data-wd-title')
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(wdItem).attr('data-wd-title')
             );
         
-        // Add playing item's first credit back to credit container
+        // Add playing item's credit back to the credit container
         $(this).closest('.wd-player')
-            .find('.wd-credit')
+            .find('.wd-credits .wd-credit')
             .empty()
             .append(
-                $(this).closest('.wd-player')
-                    .find('.wd-thumb-list li a')
-                    .eq(wdItem)
-                    .attr('data-wd-credit')
+                $(this).closest('.wd-player').find('.wd-thumb-list li a').eq(wdItem).attr('data-wd-credit')
             );
-        
     };
 
     // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
@@ -153,7 +145,8 @@ jQuery(document).ready(function($) {
             .find('.wd-stage')
             .attr('data-wd-item', $(this).attr('data-wd-item'));
     };
-
+    
+    // Used for the slidehsow feature to make sure the next/prev button is displayed when it needs to be.
     function setNavButton(listLength) {
         // Hide/show the correct next/prev button.
         var currentItem = $(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');

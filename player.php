@@ -31,6 +31,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '>')) {
     include_once 'wiredrive.php';
     include_once 'button.php';
     include_once 'template.php';
+    include_once 'settings.php';
     include_once ABSPATH . WPINC . '/feed.php';
     
     $wiredrivePlugin = new Wiredrive_Plugin();
@@ -43,6 +44,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '>')) {
         load_plugin_textdomain(array($wiredrivePlugin, 'render'),
             NULL, dirname(plugin_basename(__FILE__)));
         add_action('init', array($wiredrivePlugin, 'wiredrive_player_enqueue_scripts'));
+        add_action('wp_head', array($wiredrivePlugin, 'wiredrive_player_header'));
     }
     
     /**
@@ -60,6 +62,8 @@ if (version_compare(PHP_VERSION, '5.0.0', '>')) {
     add_shortcode('wiredrive', array($wiredrivePlugin, 'render'));
     add_action('init', array($wiredriveButton, 'init'));
     add_filter('wp_feed_cache_transient_lifetime', create_function( '$a', 'return 5;' ) );
+    
+    
 
 } else {
     

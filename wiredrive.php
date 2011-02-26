@@ -78,9 +78,7 @@ class Wiredrive_Plugin
 	
     function wiredrive_player_enqueue_scripts()
     {
-        if ( function_exists('plugins_url') ) {
-            $plugin_url = plugins_url('wiredrive-player');
-        }
+        $plugin_url = plugins_url('wiredrive-player');
 
         wp_enqueue_script('jquery');
 
@@ -95,11 +93,21 @@ class Wiredrive_Plugin
             ($plugin_url  . '/js/player.js'), 'jquery', '1.1');
             
         wp_enqueue_script('player');
-
+        
         wp_enqueue_style('wirdrive_player_css',
-            ($plugin_url  . '/css/wiredrive-player.css'));
+            ($plugin_url . '/css/wiredrive-player.css'));
     }
+	
+	/**
+	 * Load the custom CSS.
+	 */
 
+    function wiredrive_player_header() 
+    {
+        $plugin_basename = plugin_basename('wiredrive-player');
+        $options = get_option('wdp_options');
+        include_once WP_PLUGIN_DIR . '/' . $plugin_basename . '/css/wiredrive-player-custom-css.php';
+    }
 
     /**
      * Render the player
@@ -113,9 +121,10 @@ class Wiredrive_Plugin
         /*
          * Get the height and width from the URL
          */
+        $options = get_option('wdp_options');
         extract(shortcode_atts(array(
-                    'height'            => '480px',
-                    'width'             => '100%',
+                    'height'            => $options['wdp_player_height'],
+                    'width'             => $options['wdp_player_width'],
                     'hidethumbs'        => 'off',
                     'autoslideshow'     => 'off',
                     'theme'             => 'default'
