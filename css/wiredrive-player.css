@@ -11,7 +11,7 @@
 }
 
 /*The background color for the player*/
-.wd-stage, .wd-player object {
+.wd-stage {
 	background-color: #000000;
 	/*Go here: http://html-color-codes.info/ to see what all the color codes are.*/
 }
@@ -93,8 +93,7 @@ ul.wd-thumb-list .wd-active  {
 }
 
 /*The color of the credit block when the tray is down*/
-.wd-credits-container, .wd-player .wd-credits-container.wd-active {
-    background-color: #eaeaea;
+.wd-credits-container, .wd-player {
     text-align: center;
     line-height: 40px;
 }
@@ -127,7 +126,7 @@ ul.wd-thumb-list .wd-active  {
 }
 
 
-/*You don't should not edit anything below this, unless you know what you are doing.
+/*You should not edit anything below this, unless you know what you are doing.
  *---------------------------------------------------------
  */
 
@@ -226,7 +225,6 @@ ul.wd-thumb-list li a {
 	position: relative;
 	z-index: 20;
 }
-
 /* Flash Fallback */
 .wd-player #no-flash-content {
 	line-height: 1;
