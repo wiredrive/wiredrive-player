@@ -760,3 +760,103 @@ jQuery(window).load(function() {
 		return this;
 	};
 })(jQuery);
+
+
+/*
+ * Below is the code relating to the Popup player.
+ ***************************************************************************
+ */    
+jQuery(document).ready(function($)
+{
+    //Remove the inline style width from the player DIV
+    //$('.popup.wd-stage').removeAttr('style');
+     
+    
+    //Re-enable the HREF's of thumb links.
+    $('.popup .mobile .wd-thumb-list a').click(function() {
+        window.location = $(this).attr('href');
+    });
+
+/*    
+    $('.popup .wd-thumb-list a').each(function(index) {
+        $(this).append('<div class="wdp-play-button"></div>');
+    });
+*/
+    
+    //When you click on a thumb do this
+    $('.popup .wd-thumb-list a').click(function() {
+    
+        var popWidth = $(this).closest('.wd-player').find('.wd-stage').width()
+        var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits')
+                    
+        //Fade in the Popup and add close button
+
+        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
+
+        $(this).closest('.wd-player').find('.wd-stage').animate({
+            opacity: 1,
+        }, 'fast').css({ 'width': popWidth}).append('<a href="#close" class="close">&#215;</a>').append(popTitle);
+        
+        //Define margin for center alignment (vertical and horizontal)
+        var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
+        var popMargLeft = ($(this).closest('.wd-player').find('.wd-stage').width() + 0) / 2;
+    
+        //Apply Margin to Popup
+        $(this).closest('.wd-player').find('.wd-stage').css({
+            'margin-top' : -popMargTop,
+            'margin-left' : -popMargLeft
+        });
+         
+        //Add the fade layer to bottom of the body tag.
+        $('body').append('<div id="fade"></div>');
+        
+        //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) is used to fix the IE Bug on fading transparencies
+        $('#fade').fadeIn();
+                
+        return false;
+    });
+    
+    /*
+     * Close Popups and Fade Layer
+     */
+    $('a.close, #fade').live('click', function() 
+    { //When clicking on the close or fade layer...
+        $('#fade, .popup .wd-stage').animate({
+            opacity: 0,
+        }, 'fast', function() 
+        {
+            $('#fade, a.close, .popup-credits, .wd-arrows').remove();
+            
+            //Stop HTML5 video
+            var currentID = $(this).closest('.wd-player').find('video').attr('id');
+            var videoContainer = document.getElementById(currentID);           
+            
+            if (typeof currentID != 'undefined') {
+                    videoContainer.pause();
+                    videoContainer.currentTime = 0;
+            } else {            
+                //Stop the Flash video
+                $(this).closest('.wd-player').find('.wd-video-player').externalInterface({method:'pausevideo'});
+            }
+            
+            //Move stage offscreen
+            $('.popup .wd-stage').css({'top' : '999%', 'left' : '999%'});
+        });
+        
+        return false;
+    });
+    
+    /*
+     * On thumb hover show the credits
+     */
+    $('.wd-thumb-list a').hover(
+        function () {
+            $(this).closest('.popup.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
+        }, 
+        function () {
+            $(this).find('.hover-credits').remove();
+        }
+    );
+
+    
+});

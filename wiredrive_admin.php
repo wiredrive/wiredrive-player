@@ -47,7 +47,7 @@ class Wiredrive_Plugin_Admin
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui-core');
             wp_enqueue_script('jquery-ui-dialog');
-            wp_enqueue_style( 'wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.0-wdp');
+            wp_enqueue_style( 'wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
         }
     }
 

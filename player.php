@@ -25,8 +25,13 @@ Author URI: http://www.wiredrive.com/
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 ********************************************************************************/
- 
-if (version_compare(PHP_VERSION, '5.0.0', '>')) {
+
+    
+/*
+    if (version_compare(PHP_VERSION, '6.0.0', '>')) {
+        add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
+    }
+*/
 
     include_once 'wiredrive.php';
     include_once 'button.php';
@@ -63,8 +68,3 @@ if (version_compare(PHP_VERSION, '5.0.0', '>')) {
     add_action('init', array($wiredriveButton, 'init'));
     add_filter('wp_feed_cache_transient_lifetime', create_function( '$a', 'return 5;' ) );
     
-    
-
-} else {
-    
-}

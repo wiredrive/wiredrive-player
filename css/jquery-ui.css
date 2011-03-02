@@ -133,7 +133,7 @@ body .ui-resizable-autohide .ui-resizable-handle { display: none; } /* use 'body
 	text-align: center;
 	border-top: 1px solid #DFDFDF;
 	background: #ffffff;
-	padding: 10px;
+	padding: 10px 0;
 }
 .ui-dialog-buttonpane button {
 	margin-right: 5px;

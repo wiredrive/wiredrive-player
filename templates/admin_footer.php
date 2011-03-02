@@ -15,10 +15,9 @@
             <p><strong>Options:</strong></p>
             <p><input type="checkbox" id="wdp-hide-thumbs"/> Hide thumbnail tray<br />
                <input type="checkbox" id="wdp-auto-slideshow"/> Slideshow mode (gallery feeds only)</p>
-            <p><strong>Thumbnail tray background color:</strong></p>
-                <input type="radio" id="wdp-theme-default" name="theme" value="default" checked/> Dark<br />
-                <input type="radio" id="wdp-theme-2" name="theme" value="theme2" /> Gray<br />
-                <input type="radio" id="wdp-theme-3" name="theme" value="theme3" /> White<br />
+            <p><strong>Display the player as a:</strong></p>
+                <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/> Inline Player<br />
+                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup" /> Popup<br />
             </p>
         </div>
     </div>

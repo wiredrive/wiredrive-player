@@ -290,63 +290,149 @@ ul.wd-thumb-list li a {
     height: 60px;
 }
 
+#content .popup img.wd-thumb {
+    height: auto;
+}
+
+
 #content ul.wd-thumb-list {
     margin-bottom: 0; 
 }
 
-/* Theme Option 2 (Light Theme)
- *---------------------------------------------------------
+/* 
+ * For the Popup Player Overides.
  */
-.theme2 .wd-nav-prev, .theme2 .wd-nav-next, .theme2 .wd-thumb-tray {
-    background-color: #dfdfdf;
-    background: -moz-linear-gradient( top, rgba(245,245,245,1), rgba(223,223,223,1) );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(245,245,245,1) ), color-stop( 1, rgba(223,223,223,1) ) );
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFF5F5F5,EndColorStr=#FFDFDFDF)";    
-} 
-.theme2 .wd-credits-container, .theme2 .wd-credits-container.wd-active {
-    border-color: #efefef;
-    background-color: #e4e4e4;
-    background: -moz-linear-gradient( top, rgba(228,228,228,1), rgba(234,234,234,1) );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(228,228,228,1) ), color-stop( 1, rgba(234,234,234,1) ) );
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FFE4E4E4,EndColorStr=#FFEAEAEA)";
-}
-.theme2 .wd-left-arrow {
-    border-color: transparent #5a5a5a transparent transparent;
-} 
-.theme2 .wd-right-arrow {
-    border-color: transparent transparent transparent #5a5a5a;
 
-}
-.theme2 .wd-title {
-    color: #333333;
-}
-.theme2 .wd-credit {
-    color: black;
-}
+/* Wiredrive Popup Styles */
+    /* Hiding things */    
+        .wd-player.popup {
+            width: auto;
+        }
+        .wd-player.popup .wd-nav-prev, .wd-player.popup .wd-nav-next {
+            display: none;
+        }
+        .wd-player.popup .hide-thumbs .wd-thumb-tray {
+            height: auto;
+            visibility: visible;
+        }
+        .wd-player.popup .wd-thumb-tray {
+            background: none;
+        }
+        .wd-player.popup .wd-credits-container {
+            display: none;
+        }
+    
+    /* Correcting Widths and Postioning */
+        .wd-player.popup .wd-video-player {
+            margin-bottom: 10px;
+        }
+        .wd-player.popup ul.wd-thumb-list {
+            padding: 0;
+            text-align: left;
+            width: auto !important;
+        }
+        .wd-player.popup ul.wd-thumb-list li {
+            margin: 0 0 3px 0;
+            display: inline-block;
+            float: none;
+            position: relative;
+            line-height: 0;
+            text-align: left;
+            /* Hack for IE6/7 to make inline-blocks work */
+            zoom: 1;
+            *display: inline;
+        }    
+        .wd-player.popup img.wd-thumb {
+            height: auto;
+            width: 180px;
+        }
+        .wd-player.popup .wd-stage {
+            height: 0;
+            width: 0;
+            position: absolute;
+            opacity: 0;
+            top: -999%;
+            left: -999%;
+        }
+    
+    /* Credit Overlay and Popup Credits */            
+        .wd-player.popup .wd-title, .wd-player.popup .wd-credit {
+            padding: 0;
+            clear: left;
+            float: left;
+            color: white;
+            padding: 5px;
+            font-weight: bold;
+            line-height: 1;
+        }    
+        .wd-thumb-list a {
+            position: relative;
+            text-decoration: none;
+            overflow: hidden;
+        }
+        .wd-thumb-list a .wd-credits {
+            position: absolute;
+            background: black;
+            opacity: 0.85;
+            bottom: 0;
+            width: 100%;
+        }
 
-/* Theme Option 3 (White Theme)
- *---------------------------------------------------------
- */
-.theme3 .wd-nav-prev, .theme3 .wd-nav-next, .theme3 .wd-thumb-tray {
-    filter: -;
-    background: white;
-} 
-.theme3 .wd-credits-container, .theme3 .wd-credits-container.wd-active {
-    filter: -;
-    background: white;
-    border: none;
-    text-align: left;
-}
-.theme3 .wd-left-arrow {
-    border-color: transparent #5a5a5a transparent transparent;
-} 
-.theme3 .wd-right-arrow {
-    border-color: transparent transparent transparent #5a5a5a;
-
-}
-.theme3 .wd-title {
-    color: #333333;
-}
-.theme3 .wd-credit {
-    color: black;
-}
+/* Popup Overlay Styles */
+    #fade { /*--Transparent background layer--*/
+    	display: none; /*--hidden by default--*/
+    	background: #000;
+    	position: fixed; left: 0; top: 0;
+    	width: 100%; height: 100%;
+    	opacity: .75;
+    	z-index: 9999;
+    }
+    .wd-player.popup .wd-stage{
+    	float: left;
+    	position: fixed;
+    	z-index: 99999;
+    }
+    a.close {
+    	float: right;
+    	height: 30px;
+    	width: 30px;
+    	display: inline-block;
+    	line-height: 30px;
+    	font-size: 30px;
+    	color: white;
+    	text-align: right;
+    	margin-top: -4px;
+    }
+    a.close:hover {
+        text-decoration: none;
+    }
+    ul.pop-up-credits {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        line-height: 1;
+        height: 30px;
+    }
+    ul.pop-up-credits .wd-title {
+        color: white;
+    }
+    ul.pop-up-credits .wd-credit {
+        color: white;
+    }
+    .wd-player.popup .wd-play-prev, .wd-player.popup .wd-play-next {
+        height: 61px;
+        width: 41px;
+        position: absolute;
+        top: 50%;
+        margin-top: -30px;
+        cursor: pointer;
+        display: block !important;
+    }
+    .wd-player.popup .wd-play-prev {
+        left: -150px;
+        background: url(../images/prev.png);
+    }
+    .wd-player.popup .wd-play-next {
+        right: -150px;
+        background: url(../images/next.png);
+    }

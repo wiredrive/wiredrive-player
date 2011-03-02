@@ -127,7 +127,7 @@ class Wiredrive_Plugin
                     'width'             => $options['wdp_player_width'],
                     'hidethumbs'        => 'off',
                     'autoslideshow'     => 'off',
-                    'theme'             => 'default'
+                    'theme'             => 'player'
                 ), $atts));
 
         /*

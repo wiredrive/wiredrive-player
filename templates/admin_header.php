@@ -21,7 +21,7 @@
             var height = jQuery("#wdp-dialog-height").val();
             var hidethumbs = {};
             var autoslideshow ={};
-            var theme = jQuery(".wdp-dialog-content").find("input:radio[name=theme]:checked").val();
+            var theme = jQuery(".wdp-dialog-content").find("input:radio[name=wdp-theme]:checked").val();
                         
             if(jQuery("#wdp-hide-thumbs").is(":checked")){
                 var hidethumbs = 'on';
