@@ -27,11 +27,10 @@ Author URI: http://www.wiredrive.com/
 ********************************************************************************/
 
     
-/*
-    if (version_compare(PHP_VERSION, '6.0.0', '>')) {
-        add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
-    }
-*/
+if (version_compare(PHP_VERSION, '5.0.0', '<')) {
+    add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
+}
+
 
 include_once 'wiredrive.php';
 include_once 'button.php';
