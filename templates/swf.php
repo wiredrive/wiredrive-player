@@ -9,7 +9,7 @@ params.play = 'true';
 var attributes = {};
 attributes.id = '<?php echo $this->get('attributeId') ?>';
 attributes.styleclass = 'wd-video-player';
-swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/<?php echo $this->get('asset_dir') ?>/<?php echo $this->get('title') ?>', 'no-flash-content', '100%', '100%', '10.0.0', 'expressInstall.swf', flashvars, params,attributes);
+swfobject.embedSWF('<?php echo $this->get('base_url') ?>/<?php echo $this->get('asset_dir') ?>/<?php echo $this->get('postId') ?>/<?php echo $this->get('title') ?>', 'no-flash-content', '100%', '100%', '10.0.0', 'expressInstall.swf', flashvars, params,attributes);
 </script>
 
 <div id='no-flash-content'>
