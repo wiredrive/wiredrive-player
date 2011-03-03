@@ -23,7 +23,7 @@
 .wd-right-arrow { 
     border-color: transparent transparent transparent <?php echo $options['wdp_arrow_color'] ?>;
 }
-ul.wd-thumb-list .wd-active {
+.wd-thumb-list .wd-active {
     border: 1px solid <?php echo $options['wdp_active_item_color'] ?>;
 }
 .wd-title {

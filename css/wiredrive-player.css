@@ -26,7 +26,6 @@
     /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
     background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
     background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
 }
 
 /*The height of the thumbnails */
@@ -46,7 +45,6 @@
     /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
     background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
     background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
 }
 
 /*The background color to be used by the next button on the thumb scroller*/
@@ -54,7 +52,6 @@
     /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
     background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
     background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
-    -ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF313131,EndColorStr=#FF141414)";
 }
 /*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
@@ -89,7 +86,6 @@ ul.wd-thumb-list .wd-active  {
     /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/	
 	background: -moz-linear-gradient( top, rgba(20,20,20,1), rgba(55,54,54,1) );
 	background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(20,20,20,1) ), color-stop( 1, rgba(55,54,54,1) ) );
-	-ms-filter: "progid:DXImageTransform.Microsoft.Gradient(GradientType=0,StartColorStr=#FF141414,EndColorStr=#FF373636)";
 }
 
 /*The color of the credit block when the tray is down*/
@@ -328,24 +324,24 @@ ul.wd-thumb-list li a {
         }
         .wd-player.popup ul.wd-thumb-list {
             padding: 0;
-            text-align: left;
-            width: auto !important;
+            width: 110% !important;
         }
         .wd-player.popup ul.wd-thumb-list li {
-            margin: 0 0 3px 0;
-            display: inline-block;
-            float: none;
+            margin: 0 5px 5px 0;
+            padding: 0;
+            float: left;
             position: relative;
             line-height: 0;
-            text-align: left;
-            /* Hack for IE6/7 to make inline-blocks work */
-            zoom: 1;
-            *display: inline;
-        }    
-        .wd-player.popup img.wd-thumb {
-            height: auto;
+            text-align: center;
             width: 180px;
         }
+        .wd-player.popup .wd-thumb {
+            height: auto;
+        }
+        .wd-player.popup .wd-thumb-list .wd-active {
+            border: none;
+        
+        }   
         .wd-player.popup .wd-stage {
             position: absolute;
             opacity: 0;
