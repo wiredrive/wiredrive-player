@@ -17,7 +17,7 @@ params.play = 'true';
 var attributes = {};
 attributes.id = '<?php echo $this->get('attributeId') ?>';
 attributes.styleclass = 'wd-video-player';
-swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.swf', 'no-flash-content', '100%', '100%', '10.0.0', 'expressInstall.swf', flashvars, params,attributes);
+swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.swf', 'no-flash-content', '100%', '100%', '10.1.0', '<?php echo $this->get('pluginUrl') ?>/flash/expressInstall.swf', flashvars, params,attributes);
 </script>
 
 <div id='no-flash-content'>

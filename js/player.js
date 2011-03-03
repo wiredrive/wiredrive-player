@@ -769,11 +769,11 @@ jQuery(window).load(function() {
 jQuery(document).ready(function($)
 {
     //Remove the inline style width from the player DIV
-    //$('.popup.wd-stage').removeAttr('style');
+    $('.popup.wd-player, .popup .wd-stage').removeAttr('style');
      
     
     //Re-enable the HREF's of thumb links.
-    $('.popup .mobile .wd-thumb-list a').click(function() {
+    $('.popup.mobile .wd-thumb-list a').click(function() {
         window.location = $(this).attr('href');
     });
 
@@ -788,9 +788,8 @@ jQuery(document).ready(function($)
     
         var popWidth = $(this).closest('.wd-player').find('.wd-stage').width()
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits')
-                    
+                            
         //Fade in the Popup and add close button
-
         $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
 
         $(this).closest('.wd-player').find('.wd-stage').animate({

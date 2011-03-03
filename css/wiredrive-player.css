@@ -300,7 +300,7 @@ ul.wd-thumb-list li a {
 }
 
 /* 
- * For the Popup Player Overides.
+ * Popup Player Overides.
  */
 
 /* Wiredrive Popup Styles */
@@ -347,8 +347,6 @@ ul.wd-thumb-list li a {
             width: 180px;
         }
         .wd-player.popup .wd-stage {
-            height: 0;
-            width: 0;
             position: absolute;
             opacity: 0;
             top: -999%;
@@ -402,6 +400,7 @@ ul.wd-thumb-list li a {
     	color: white;
     	text-align: right;
     	margin-top: -4px;
+    	text-decoration: none;
     }
     a.close:hover {
         text-decoration: none;
