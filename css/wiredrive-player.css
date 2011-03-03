@@ -429,9 +429,9 @@ ul.wd-thumb-list li a {
     }
     .wd-player.popup .wd-play-prev {
         left: -150px;
-        background: url(../images/prev.png);
+        background: url(../images/player_icon_prev.png);
     }
     .wd-player.popup .wd-play-next {
         right: -150px;
-        background: url(../images/next.png);
+        background: url(../images/player_icon_next.png);
     }
