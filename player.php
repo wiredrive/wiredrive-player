@@ -27,44 +27,43 @@ Author URI: http://www.wiredrive.com/
 ********************************************************************************/
 
     
-/*
-    if (version_compare(PHP_VERSION, '6.0.0', '>')) {
-        add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
-    }
-*/
+if (version_compare(PHP_VERSION, '5.0.0', '<')) {
+    add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
+}
 
-    include_once 'wiredrive.php';
-    include_once 'button.php';
-    include_once 'template.php';
-    include_once 'settings.php';
-    include_once ABSPATH . WPINC . '/feed.php';
-    
-    $wiredrivePlugin = new Wiredrive_Plugin();
-    $wiredriveButton = new Wiredrive_Button();
-    
-    /**
-     * Register public actions
-     */
-    if (!is_admin()) {
-        load_plugin_textdomain(array($wiredrivePlugin, 'render'),
-            NULL, dirname(plugin_basename(__FILE__)));
-        add_action('init', array($wiredrivePlugin, 'wiredrive_player_enqueue_scripts'));
-        add_action('wp_head', array($wiredrivePlugin, 'wiredrive_player_header'));
-    }
-    
-    /**
-     * Load admin class and register actions
-     */
-    if (is_admin()) {
-        include_once 'wiredrive_admin.php';
-        $wiredriveAdmin = new Wiredrive_Plugin_Admin();
-    
-        add_action('init', array($wiredriveAdmin, 'wiredrive_admin_enqueue_scripts'));
-        add_action('admin_head', array($wiredriveAdmin, 'wiredrive_admin_header' ));
-        add_action('admin_footer', array($wiredriveAdmin, 'wiredrive_admin_footer'));
-    }
-    
-    add_shortcode('wiredrive', array($wiredrivePlugin, 'render'));
-    add_action('init', array($wiredriveButton, 'init'));
-    add_filter('wp_feed_cache_transient_lifetime', create_function( '$a', 'return 5;' ) );
-    
+
+include_once 'wiredrive.php';
+include_once 'button.php';
+include_once 'template.php';
+include_once 'settings.php';
+include_once ABSPATH . WPINC . '/feed.php';
+
+$wiredrivePlugin = new Wiredrive_Plugin();
+$wiredriveButton = new Wiredrive_Button();
+
+/**
+ * Register public actions
+ */
+if (!is_admin()) {
+    load_plugin_textdomain(array($wiredrivePlugin, 'render'),
+        NULL, dirname(plugin_basename(__FILE__)));
+    add_action('init', array($wiredrivePlugin, 'wiredrive_player_enqueue_scripts'));
+    add_action('wp_head', array($wiredrivePlugin, 'wiredrive_player_header'));
+}
+
+/**
+ * Load admin class and register actions
+ */
+if (is_admin()) {
+    include_once 'wiredrive_admin.php';
+    $wiredriveAdmin = new Wiredrive_Plugin_Admin();
+
+    add_action('init', array($wiredriveAdmin, 'wiredrive_admin_enqueue_scripts'));
+    add_action('admin_head', array($wiredriveAdmin, 'wiredrive_admin_header' ));
+    add_action('admin_footer', array($wiredriveAdmin, 'wiredrive_admin_footer'));
+}
+
+add_shortcode('wiredrive', array($wiredrivePlugin, 'render'));
+add_action('init', array($wiredriveButton, 'init'));
+add_filter('wp_feed_cache_transient_lifetime', create_function( '$a', 'return 5;' ) );
+add_filter('rewrite_rules_array',array($wiredrivePlugin, 'setRewrite'));

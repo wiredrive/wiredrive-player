@@ -58,6 +58,8 @@ class Wiredrive_Plugin
     protected $items = NULL;
     protected $isImageReel = FALSE;
     protected $isSwfReel = FALSE;
+    protected $rewriteBase = 'wdp-assets';
+    protected $postId = NULL;
 
     /**
      * Contruct
@@ -70,6 +72,11 @@ class Wiredrive_Plugin
         }
         
         $this->template = new Wiredrive_Plugin_Template();
+        
+        /*
+         * Get the post id from wordpress
+         */
+        $this->postId = the_Id();
     }
 	
 	/**
@@ -261,6 +268,19 @@ class Wiredrive_Plugin
     }
     
     /**
+     * Add rewrite rules to wordpress wp_rewrite object
+     * so the plugin can create permalinks for assets 
+     * in the RSS feeds
+     */
+    function setRewrite($rules)
+    {
+    	$newrules = array();
+        $rule = $this->rewriteBase .'/(\d*)/(.*)$';
+    	$newrules[$rule] = 'index.php?'. $this->rewriteBase. '=$matches[2]&p=$matches[1]';
+    	return $newrules + $rules;
+    }
+    
+    /**
      * Make sure source of the feed is Wiredrive
      */
     private function checkOrigin($url) 
@@ -277,7 +297,7 @@ class Wiredrive_Plugin
     /**
      * @return SimplePie
      */
-    public function getRss()
+    private function getRss()
     {
         return $this->rss;
     }
@@ -285,7 +305,7 @@ class Wiredrive_Plugin
     /**
      * @return SimplePie 
      */
-    public function getRssItems()
+    private function getRssItems()
     {
         return $this->getRss()->get_items();
     }
@@ -565,12 +585,14 @@ class Wiredrive_Plugin
         $first = $items[0];
         
         $this->template->setTpl('swf.php')
-                 ->set('asset_dir', 'assets')
+                 ->set('base_url', get_bloginfo('url'))
+                 ->set('asset_dir', $this->rewriteBase)
                  ->set('title', $first['title'])
                  ->set('attributeId', $this->getAttributeId())
                  ->set('pluginUrl', $this->getPluginUrl())
                  ->set('width', $first['width'])
                  ->set('height', $first['height'])
+                 ->set('postId',$this->getPostId())
                  ->render();
             
     }
@@ -602,10 +624,19 @@ class Wiredrive_Plugin
      * Get Outout
      * @return string
      */
-     private function getOutput() {
+    private function getOutput() {
      
         return $this->template->getOutput();
      
-     }
+    }
+    
+    /**
+     * Get Post id
+     */
+    private function getPostId() {
+    
+        return $this->postId;
+        
+    }
 
 }
