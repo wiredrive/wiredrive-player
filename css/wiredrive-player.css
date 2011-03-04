@@ -303,6 +303,7 @@ ul.wd-thumb-list li a {
     /* Hiding things */    
         .wd-player.popup {
             width: auto;
+            height: auto;
         }
         .wd-player.popup .wd-nav-prev, .wd-player.popup .wd-nav-next {
             display: none;
@@ -376,8 +377,11 @@ ul.wd-thumb-list li a {
     #fade { /*--Transparent background layer--*/
     	display: none; /*--hidden by default--*/
     	background: #000;
-    	position: fixed; left: 0; top: 0;
-    	width: 100%; height: 100%;
+    	position: fixed; 
+    	left: 0; 
+    	top: 0;
+    	width: 100%; 
+    	height: 100%;
     	opacity: .75;
     	z-index: 9999;
     }
@@ -387,31 +391,29 @@ ul.wd-thumb-list li a {
     	z-index: 99999;
     }
     a.close {
-    	float: right;
+        position: absolute;
     	height: 30px;
     	width: 30px;
-    	display: inline-block;
+    	display: block;
     	line-height: 30px;
     	font-size: 30px;
     	color: white;
     	text-align: right;
-    	margin-top: -4px;
     	text-decoration: none;
+        bottom: -40px;
+        right: 0;
     }
-    a.close:hover {
-        text-decoration: none;
-    }
-    ul.pop-up-credits {
-        margin: 0;
-        padding: 0;
-        list-style: none;
+    .popup-credits {
+        position: absolute;
         line-height: 1;
         height: 30px;
+        bottom: -40px;
+        left: 0;
     }
-    ul.pop-up-credits .wd-title {
+    .popup-credits .wd-title {
         color: white;
     }
-    ul.pop-up-credits .wd-credit {
+    .popup-credits .wd-credit {
         color: white;
     }
     .wd-player.popup .wd-play-prev, .wd-player.popup .wd-play-next {

@@ -211,6 +211,17 @@ class Wiredrive_Plugin
     }
 
     /**
+     * Determine is user is on an iPad
+     *
+     * @return bool
+     */
+    public function isIpad()
+    {
+        return (strpos($_SERVER['HTTP_USER_AGENT'], "iPad"));
+            
+    }
+
+    /**
      * Determine is user is on a mobile device
      *
      * @return bool
@@ -219,6 +230,7 @@ class Wiredrive_Plugin
     {
         return (strpos($_SERVER['HTTP_USER_AGENT'], "iPhone")
             || strpos($_SERVER['HTTP_USER_AGENT'], "Android"));
+            
     }
 
     /**
@@ -489,6 +501,7 @@ class Wiredrive_Plugin
                  ->set('autoslideshow', $autoslideshow)
                  ->set('theme', $theme)
                  ->set('mobile', $this->isMobile())
+                 ->set('ipad', $this->isIpad())
                  ->set('slideshow', ($this->getIsImageReel()))
                  ->render();
     }

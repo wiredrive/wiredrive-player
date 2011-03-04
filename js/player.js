@@ -771,20 +771,8 @@ jQuery(document).ready(function($)
     //Remove the inline style width from the player DIV
     $('.popup.wd-player, .popup .wd-stage').removeAttr('style');
      
-    
-    //Re-enable the HREF's of thumb links.
-    $('.popup.mobile .wd-thumb-list a').click(function() {
-        window.location = $(this).attr('href');
-    });
-
-/*    
-    $('.popup .wd-thumb-list a').each(function(index) {
-        $(this).append('<div class="wdp-play-button"></div>');
-    });
-*/
-    
     //When you click on a thumb do this
-    $('.popup .wd-thumb-list a').click(function() {
+    $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function() {
     
         var popWidth = $(this).closest('.wd-player').find('.wd-stage').width()
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits')
@@ -814,6 +802,24 @@ jQuery(document).ready(function($)
                 
         return false;
     });
+    
+    //Re-enable the HREF's of thumb links.
+    $('.popup.mobile .wd-thumb-list a').click(function() {
+        window.location = $(this).attr('href');
+    });
+    
+    //Go full screen on iPad.
+    $('.popup.ipad .wd-thumb-list a').click(function() {
+            $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
+            var currentID = $(this).closest('.wd-player').find('video').attr('id');
+            var videoContainer = document.getElementById(currentID);
+            var newSrc = $(this).attr('href');
+            
+            videoContainer.src = newSrc;
+            videoContainer.webkitEnterFullscreen();
+            videoContainer.play(); 
+    });    
+    
     
     /*
      * Close Popups and Fade Layer
