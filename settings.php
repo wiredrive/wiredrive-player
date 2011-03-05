@@ -77,7 +77,11 @@ function wdp_height_fn() {
 // TEXTBOX - Name: wdp_options[wdp_stage_color]
 function wdp_stage_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_stage_color' name='wdp_options[wdp_stage_color]' size='10' type='text' value='{$options['wdp_stage_color']}' />";
+	echo "<div class='wdp-color-input-wrap'>";
+	echo "<input id='wdp_stage_color' class='wdp-colorpicker' name='wdp_options[wdp_stage_color]' size='10' type='text' value='{$options['wdp_stage_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 
 // TEXTBOX - Name: wdp_options[wdp_credit_container_border]
@@ -89,7 +93,11 @@ function wdp_credit_container_border_fn() {
 // TEXTBOX - Name: wdp_options[wdp_credit_container_color]
 function wdp_credit_container_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_credit_container_color' name='wdp_options[wdp_credit_container_color]' size='10' type='text' value='{$options['wdp_credit_container_color']}' />";
+    echo "<div class='wdp-color-input-wrap'>";	
+	echo "<input id='wdp_credit_container_color' class='wdp-colorpicker' name='wdp_options[wdp_credit_container_color]' size='10' type='text' value='{$options['wdp_credit_container_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 
 // RADIO - Name: wdp_options[wdp_credit_container_alignment]
@@ -105,36 +113,52 @@ function wdp_credit_container_alignment_fn() {
 // TEXTBOX - Name: wdp_options[wdp_thumb_bg_color]
 function wdp_thumb_bg_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_thumb_bg_color' name='wdp_options[wdp_thumb_bg_color]' size='10' type='text' value='{$options['wdp_thumb_bg_color']}' />";
+    echo "<div class='wdp-color-input-wrap'>";	
+	echo "<input id='wdp_thumb_bg_color' class='wdp-colorpicker' name='wdp_options[wdp_thumb_bg_color]' size='10' type='text' value='{$options['wdp_thumb_bg_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";	
 }
 // TEXTBOX - Name: wdp_options[wdp_arrow_color]
 function wdp_arrow_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_arrow_color' name='wdp_options[wdp_arrow_color]' size='10' type='text' value='{$options['wdp_arrow_color']}' />";
+	echo "<div class='wdp-color-input-wrap'>";
+	echo "<input id='wdp_arrow_color' class='wdp-colorpicker' name='wdp_options[wdp_arrow_color]' size='10' type='text' value='{$options['wdp_arrow_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 // TEXTBOX - Name: wdp_options[wdp_active_item_color]
 function wdp_active_item_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_active_item_color' name='wdp_options[wdp_active_item_color]' size='10' type='text' value='{$options['wdp_active_item_color']}' />";
+	echo "<div class='wdp-color-input-wrap'>";
+	echo "<input id='wdp_active_item_color' class='wdp-colorpicker' name='wdp_options[wdp_active_item_color]' size='10' type='text' value='{$options['wdp_active_item_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 // TEXTBOX - Name: wdp_options[wdp_title_color]
 function wdp_title_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_title_color' name='wdp_options[wdp_title_color]' size='10' type='text' value='{$options['wdp_title_color']}' />";
+	echo "<div class='wdp-color-input-wrap'>";
+	echo "<input id='wdp_title_color' class='wdp-colorpicker' name='wdp_options[wdp_title_color]' size='10' type='text' value='{$options['wdp_title_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 // TEXTBOX - Name: wdp_options[wdp_credit_color]
 function wdp_credit_color_fn() {
 	$options = get_option('wdp_options');
-	echo "<input id='wdp_credit_color' name='wdp_options[wdp_credit_color]' size='10' type='text' value='{$options['wdp_credit_color']}' />";
+	echo "<div class='wdp-color-input-wrap'>";
+	echo "<input id='wdp_credit_color' class='wdp-colorpicker' name='wdp_options[wdp_credit_color]' size='10' type='text' value='{$options['wdp_credit_color']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";
 }
 
 
 
-
-
-
-
-
+/*
 // DROP-DOWN-BOX - Name: wdp_options[dropdown1]
 function  setting_dropdown_fn() {
 	$options = get_option('wdp_options');
@@ -182,11 +206,12 @@ function setting_radio_fn() {
 		echo "<label><input ".$checked." value='$item' name='wdp_options[option_set1]' type='radio' /> $item</label><br />";
 	}
 }
+*/
 
 // Display the admin options page
 function options_page_fn() {
 ?>
-	<div class="wrap">
+	<div class="wdp-settings wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Wiredrive Player Settings</h2>
 		You can config the Wiredrive Player's appearance below.

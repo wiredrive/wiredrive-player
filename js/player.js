@@ -442,7 +442,6 @@ jQuery(document).ready(function($) {
         }
     
     });
-    
             
     // When click on drop down button, slide down the thumb tray
     $('.wd-thumb-dropdown').click(function()
@@ -817,9 +816,8 @@ jQuery(document).ready(function($)
             
             videoContainer.src = newSrc;
             videoContainer.webkitEnterFullscreen();
-            videoContainer.play(); 
+            //videoContainer.play(); 
     });    
-    
     
     /*
      * Close Popups and Fade Layer

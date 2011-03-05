@@ -45,9 +45,18 @@ class Wiredrive_Plugin_Admin
             $plugin_url = plugins_url('wiredrive-player');
             
             wp_enqueue_script('jquery');
+            wp_enqueue_script('farbtastic');
             wp_enqueue_script('jquery-ui-core');
             wp_enqueue_script('jquery-ui-dialog');
-            wp_enqueue_style( 'wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
+            wp_register_script('wdp-admin-script',
+            ($plugin_url  . '/js/wdp-admin.js'), 'jquery', '1.0');
+
+            wp_enqueue_script('wdp-admin-script');
+            
+            wp_enqueue_style('farbtastic');
+            wp_enqueue_style('wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
+            wp_enqueue_style('wdp-admin-style', ($plugin_url  . '/css/wdp-admin.css'), false, '1.2');
+            
         }
     }
 
