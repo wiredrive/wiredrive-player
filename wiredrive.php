@@ -426,6 +426,7 @@ class Wiredrive_Plugin
                 /* 
                  * Get all the roles and credits from the media object
                  */
+                $item['credits'] = array();
 				if (!is_null($credits)) {
 					foreach ($media->get_credits() as $credit) {
 						$item['credits'][$credit->get_role()] = $credit->get_name();
