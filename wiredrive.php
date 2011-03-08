@@ -57,7 +57,6 @@ class Wiredrive_Plugin
     protected $template = NULL;
     protected $items = NULL;
     protected $isImageReel = FALSE;
-    protected $isSwfReel = FALSE;
     protected $rewriteBase = 'wdp-assets';
     protected $postId = NULL;
 
@@ -88,7 +87,7 @@ class Wiredrive_Plugin
         $plugin_url = plugins_url('wiredrive-player');
 
         wp_enqueue_script('jquery');
-
+        
         wp_enqueue_script('swfobject');
 
         wp_register_script('jquery.scrollTo',
@@ -197,9 +196,7 @@ class Wiredrive_Plugin
         /*
          * Loop through all the items and show the thumbnails
          */
-        if ($this->getIsSwfReel() == 0) {
-            $this->renderThumbnails();
-        }
+        $this->renderThumbnails();
 
         /*
          * Close off the player
@@ -372,34 +369,15 @@ class Wiredrive_Plugin
     } 
     
     /**
-     * RSS feed consists entirely of swf or flv
-     */ 
-    private function setIsSwfReel($isSwfReel)
-    {
-        $this->isSwfReel = $isSwfReel;
-    }
-    
-    /**
-     * @return bool
-     */
-    private function getIsSwfReel()
-    {
-        return $this->isSwfReel;
-    } 
-    
-    /**
      * Render the media player.
      * If RSS feed is entirely image then use image.php
      * otherwise use Flash or HTML5 depending on the browser 
      */
     private function renderMediaPlayer($width, $height)
     {
-        
     
         if ($this->getIsImageReel()) {
             $this->renderImage($width, $height);
-        } elseif ($this->getIsSwfReel()) {
-            $this->renderSwf($width, $height);
         } else if ($this->useFlash()) {
             $this->renderFlash();
         } else {
@@ -417,7 +395,6 @@ class Wiredrive_Plugin
     {
 
         $isImage = 0;
-        $isSwf = 0;
         
         if (  $this->getRss()->get_item_quantity() > 0 ) {
 
@@ -438,17 +415,7 @@ class Wiredrive_Plugin
                     $isImage = 1;
                 } else {
                     $isImage = 0;
-                }
-                
-                /*
-                 * parse the second part of the mime type to check
-                 * if the item is an swf or flv.
-                 */ 
-                if ($mime_type_parts[1] == 'x-shockwave-flash' || $mime_type_parts[1] == 'x-flv') {
-                    $isSwf = 1;
-                } else {
-                    $isSwf = 0;
-                }   
+                }  
             
                 $this->setMedia($row);
                 $media = $this->getMedia();
@@ -479,7 +446,6 @@ class Wiredrive_Plugin
              * This will be set to 1 if all mime types for the feed are images
              */          
             $this->setIsImageReel($isImage);
-            $this->setIsSwfReel($isSwf);
             
         }
 
@@ -582,30 +548,6 @@ class Wiredrive_Plugin
                  ->set('pluginUrl', $this->getPluginUrl())
                  ->set('width', $first['width'])
                  ->set('height', $first['height'])
-                 ->render();
-            
-    }
-    
-    /**
-     * Render the image tag
-     */
-    private function renderSwf($width, $height)
-    {
-        /*
-         * Get the first item from the item list
-         */
-        $items = $this->getItems();
-        $first = $items[0];
-        
-        $this->template->setTpl('swf.php')
-                 ->set('base_url', get_bloginfo('url'))
-                 ->set('asset_dir', $this->rewriteBase)
-                 ->set('title', $first['title'])
-                 ->set('attributeId', $this->getAttributeId())
-                 ->set('pluginUrl', $this->getPluginUrl())
-                 ->set('width', $first['width'])
-                 ->set('height', $first['height'])
-                 ->set('postId',$this->getPostId())
                  ->render();
             
     }
