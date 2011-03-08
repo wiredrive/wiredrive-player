@@ -24,81 +24,87 @@
  * Build the plugin admin panel.  Allows the users to add the Wiredrive player
  * shortcode within the MCE panel.
  */
- 
+
 class Wiredrive_Plugin_Admin
 {
-    
-    protected $template = NULL;
-        
-    /**
-     * Construct
-     * Start the template class
-     */
-    public function __construct()
-    {
-        $this->template = new Wiredrive_Plugin_Template();
-    }
 
-    public function wiredrive_admin_enqueue_scripts()
-    {
-        if ( function_exists('plugins_url') ) {
-            $plugin_url = plugins_url('wiredrive-player');
-            
-            wp_enqueue_script('jquery');
-            wp_enqueue_script('farbtastic');
-            wp_enqueue_script('jquery-ui-core');
-            wp_enqueue_script('jquery-ui-dialog');
-            wp_register_script('wdp-admin-script',
-            ($plugin_url  . '/js/wdp-admin.js'), 'jquery', '1.0');
+	protected $template = NULL;
 
-            wp_enqueue_script('wdp-admin-script');
-            
-            wp_enqueue_style('farbtastic');
-            wp_enqueue_style('wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
-            wp_enqueue_style('wdp-admin-style', ($plugin_url  . '/css/wdp-admin.css'), false, '1.2');
-            
-        }
-    }
+	/**
+	 * Construct
+	 * Start the template class
+	 */
+	public function __construct()
+	{
+		$this->template = new Wiredrive_Plugin_Template();
+	}
+	
+	/**
+	 * Init
+	 * Load the various scripts and css that are required by the plugin.
+	 */
+	public function init()
+	{
+		if ( function_exists('plugins_url') ) {
+			$plugin_url = plugins_url('wiredrive-player');
 
-    /**
-     * Admin header
-     *
-     * @return string
-     */
-    public function wiredrive_admin_header()
-    {        
-        $this->template->setTpl('admin_header.php')
-                 ->set('pluginUrl', plugins_url('wiredrive-player') )
-                 ->render();
-                 
-        echo $this->getOutput();
-                 
-    }
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('farbtastic');
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-dialog');
+			wp_register_script('wdp-admin-script',
+				($plugin_url  . '/js/wdp-admin.js'), 'jquery', '1.0');
 
-    /**
-     * Admin footer
-     * This is the dialog box that opens when the TinyMCE button is clicked
-     *
-     * @return string
-     */
-    public function wiredrive_admin_footer()
-    {
-    
-        $this->template->setTpl('admin_footer.php')
-                 ->render();
-           
-        echo $this->getOutput();
+			wp_enqueue_script('wdp-admin-script');
 
-    }
-    
-    /**
-     * Get Outout
-     * @return string
-     */
-     private function getOutput() {
-     
-        return $this->template->getOutput();
-    
-     }
-     
+			wp_enqueue_style('farbtastic');
+			wp_enqueue_style('wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
+			wp_enqueue_style('wdp-admin-style', ($plugin_url  . '/css/wdp-admin.css'), false, '1.2');
+
+		}
+	}
+
+	/**
+	 * Header
+	 *
+	 * @return string
+	 */
+	public function header()
+	{
+		$this->template->setTpl('admin_header.php')
+		->set('pluginUrl', plugins_url('wiredrive-player') )
+		->render();
+
+		echo $this->getOutput();
+
+	}
+
+	/**
+	 * Footer
+	 * This is the dialog box that opens when the TinyMCE button is clicked
+	 *
+	 * @return string
+	 */
+	public function footer()
+	{
+
+		$this->template->setTpl('admin_footer.php')
+		->render();
+
+		echo $this->getOutput();
+
+	}
+
+	/**
+	 * Get Outout
+	 *
+	 * @return string
+	 */
+	private function getOutput()
+	{
+
+		return $this->template->getOutput();
+
+	}
+
 }
