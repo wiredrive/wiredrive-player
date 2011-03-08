@@ -6,6 +6,6 @@
         if ($this->get('slideshow') == 1) : ?>slideshow <?php else : ?>not-slideshow <?php endif;  
         if ($this->get('autoslideshow') == 'on') : ?>autoslideshow <?php else : ?>not-autoslideshow <?php endif; 
         echo $this->get('theme') 
-        ?>' style='width:<?php echo $this->get('width') ?>' >
+        ?>' style='width:<?php echo $this->get('width') ?>;' >
 <div class='wd-stage' data-wd-item='0' style='height:<?php 
-        echo $this->get('height') ?>;width:<?php echo $this->get('width') ?>;'>
+        echo $this->get('height') ?>; width:<?php echo $this->get('width') ?>;'>
