@@ -809,15 +809,10 @@ jQuery(document).ready(function($)
     
     //Go full screen on iPad.
     $('.popup.ipad .wd-thumb-list a').click(function() {
-            $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
-            var currentID = $(this).closest('.wd-player').find('video').attr('id');
-            var videoContainer = document.getElementById(currentID);
-            var newSrc = $(this).attr('href');
-            
-            videoContainer.src = newSrc;
-            videoContainer.webkitEnterFullscreen();
-            //videoContainer.play(); 
-    });    
+        window.location = $(this).attr('href');
+    });
+    
+
     
     /*
      * Close Popups and Fade Layer

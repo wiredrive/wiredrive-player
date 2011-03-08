@@ -12,8 +12,6 @@
 
 /*The background color for the player*/
 .wd-stage {
-	background-color: #000000;
-	/*Go here: http://html-color-codes.info/ to see what all the color codes are.*/
 }
 /*The gap between the video player and the list of thumbnails*/
 .wd-thumb-tray {
@@ -23,9 +21,6 @@
 /*The background color of the thumb tray*/
 .wd-thumb-tray {
     background-color: #373636;
-    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
-    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
 }
 
 /*The height of the thumbnails */
@@ -40,19 +35,15 @@
 	line-height: 75px;
 	background-color: #373636;
 }
+
 /*The background color to be used by the previous button on the thumb scroller*/
 .wd-nav-prev {
-    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
-    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
 }
 
 /*The background color to be used by the next button on the thumb scroller*/
 .wd-nav-next {
-    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/
-    background: -moz-linear-gradient( top, rgba(49,49,49,1), rgba(20,20,20,1) );
-    background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(49,49,49,1) ), color-stop( 1, rgba(20,20,20,1) ) );
 }
+
 /*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
 	padding-left: 32px;
@@ -79,13 +70,8 @@ ul.wd-thumb-list .wd-active  {
 	margin-top: 0;
 	text-align: left;
 	height: 45px;
-	border-top: 1px solid #2c2c2c;
 	-moz-border-radius: 0 0 3px 3px;
     border-radius: 0 0 3px 3px;
-	background-color: #373636;
-    /*Gradient generated from: http://projects.korrelboom.com/gradient-generator/*/	
-	background: -moz-linear-gradient( top, rgba(20,20,20,1), rgba(55,54,54,1) );
-	background: -webkit-gradient( linear, left top, left bottom, color-stop( 0, rgba(20,20,20,1) ), color-stop( 1, rgba(55,54,54,1) ) );
 }
 
 /*The color of the credit block when the tray is down*/
@@ -348,6 +334,9 @@ ul.wd-thumb-list li a {
             opacity: 0;
             top: -999%;
             left: -999%;
+        }
+        .wd-player.popup.ipad .wd-stage {
+            display: none;
         }
     
     /* Credit Overlay and Popup Credits */            

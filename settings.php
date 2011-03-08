@@ -40,12 +40,6 @@ function sampleoptions_init_fn(){
 	add_settings_field('wdp_title_color', 'Title Text Color', 'wdp_title_color_fn', __FILE__, 'main_section');
 	add_settings_field('wdp_credit_color', 'Credit Text Color', 'wdp_credit_color_fn', __FILE__, 'main_section');
 	
-	//add_settings_field('plugin_text_pass', 'Password Text Input', 'setting_pass_fn', __FILE__, 'main_section');
-	//add_settings_field('plugin_textarea_string', 'Large Textbox!', 'setting_textarea_fn', __FILE__, 'main_section');
-	//add_settings_field('plugin_chk2', 'A Checkbox', 'setting_chk2_fn', __FILE__, 'main_section');
-	//add_settings_field('radio_buttons', 'Select Shape', 'setting_radio_fn', __FILE__, 'main_section');
-	//add_settings_field('drop_down1', 'Select Color', 'setting_dropdown_fn', __FILE__, 'main_section');
-	//add_settings_field('plugin_chk1', 'Restore Defaults Upon Reactivation?', 'setting_chk1_fn', __FILE__, 'main_section');
 }
 
 // Add sub page to the Settings Menu
@@ -87,7 +81,11 @@ function wdp_stage_color_fn() {
 // TEXTBOX - Name: wdp_options[wdp_credit_container_border]
 function wdp_credit_container_border_fn() {
 	$options = get_option('wdp_options');
+	echo "<div class='wdp-color-input-wrap'>";
 	echo "<input id='wdp_credit_container_border' name='wdp_options[wdp_credit_container_border]' size='10' type='text' value='{$options['wdp_credit_container_border']}' />";
+	echo "<span class='wdp-color-button'></span>";
+	echo "<div class='wdp-color-picker-wrap'></div>";
+	echo "</div>";	
 }
 
 // TEXTBOX - Name: wdp_options[wdp_credit_container_color]
@@ -155,58 +153,6 @@ function wdp_credit_color_fn() {
 	echo "<div class='wdp-color-picker-wrap'></div>";
 	echo "</div>";
 }
-
-
-
-/*
-// DROP-DOWN-BOX - Name: wdp_options[dropdown1]
-function  setting_dropdown_fn() {
-	$options = get_option('wdp_options');
-	$items = array("Red", "Green", "Blue", "Orange", "White", "Violet", "Yellow");
-	echo "<select id='drop_down1' name='wdp_options[dropdown1]'>";
-	foreach($items as $item) {
-		$selected = ($options['dropdown1']==$item) ? 'selected="selected"' : '';
-		echo "<option value='$item' $selected>$item</option>";
-	}
-	echo "</select>";
-}
-
-// TEXTAREA - Name: wdp_options[text_area]
-function setting_textarea_fn() {
-	$options = get_option('wdp_options');
-	echo "<textarea id='plugin_textarea_string' name='wdp_options[text_area]' rows='7' cols='50' type='textarea'>{$options['text_area']}</textarea>";
-}
-
-// PASSWORD-TEXTBOX - Name: wdp_options[pass_string]
-function setting_pass_fn() {
-	$options = get_option('wdp_options');
-	echo "<input id='plugin_text_pass' name='wdp_options[pass_string]' size='40' type='password' value='{$options['pass_string']}' />";
-}
-
-// CHECKBOX - Name: wdp_options[chkbox1]
-function setting_chk1_fn() {
-	$options = get_option('wdp_options');
-	if($options['chkbox1']) { $checked = ' checked="checked" '; }
-	echo "<input ".$checked." id='plugin_chk1' name='wdp_options[chkbox1]' type='checkbox' />";
-}
-
-// CHECKBOX - Name: wdp_options[chkbox2]
-function setting_chk2_fn() {
-	$options = get_option('wdp_options');
-	if($options['chkbox2']) { $checked = ' checked="checked" '; }
-	echo "<input ".$checked." id='plugin_chk2' name='wdp_options[chkbox2]' type='checkbox' />";
-}
-
-// RADIO-BUTTON - Name: wdp_options[option_set1]
-function setting_radio_fn() {
-	$options = get_option('wdp_options');
-	$items = array("Square", "Triangle", "Circle");
-	foreach($items as $item) {
-		$checked = ($options['option_set1']==$item) ? ' checked="checked" ' : '';
-		echo "<label><input ".$checked." value='$item' name='wdp_options[option_set1]' type='radio' /> $item</label><br />";
-	}
-}
-*/
 
 // Display the admin options page
 function options_page_fn() {
