@@ -32,7 +32,6 @@
 .wd-nav-prev, .wd-nav-next {
 	height: 64px;
 	width: 30px;
-	line-height: 75px;
 	background-color: #373636;
 }
 
@@ -43,6 +42,7 @@
 /*The background color to be used by the next button on the thumb scroller*/
 .wd-nav-next {
 }
+
 
 /*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
@@ -192,6 +192,8 @@ ul.wd-thumb-list li a {
     width:0;
     height:0;
     display: inline-block;
+    position: relative;
+    top: 25px;
 }
 .wd-left-arrow {
     border-color: transparent #EAEAEA transparent transparent;
