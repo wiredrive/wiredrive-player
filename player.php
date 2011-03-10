@@ -26,15 +26,32 @@ Author URI: http://www.wiredrive.com/
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 ********************************************************************************/
 
-
+    include_once 'settings.php';
 if (version_compare(PHP_VERSION, '5.0.0', '<')) {
-	add_action('admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
+            
+    /**
+     * Don't allow the plugin to activate if the server is running PHP below version 5.
+     */
+     
+	$current = get_option('active_plugins');
+	$plugin = 'wiredrive-player/player.php';
+    
+    if (in_array($plugin, $current)) {
+		array_splice( $current, array_search( $plugin, $current ), 1 ); // Fixed Array-fu!
+	}
+	
+	update_option('active_plugins', $current);
+
+	add_action( 'admin_notices', create_function('', 'echo "<div class=\"error\">Your version of PHP does not support this plugin. Please contact your host. Plugin deactivated. </div>";'));
+
+	return;
+        
 } else {
 
     include_once 'wiredrive.php';
     include_once 'button.php';
     include_once 'template.php';
-    include_once 'settings.php';
+
     include_once ABSPATH . WPINC . '/feed.php';
     
     $wiredrivePlugin = new Wiredrive_Plugin();

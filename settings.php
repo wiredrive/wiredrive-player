@@ -1,13 +1,9 @@
 <?php
 // Specify Hooks/Filters
-register_activation_hook(__FILE__, 'add_defaults_fn');
 add_action('admin_init', 'sampleoptions_init_fn' );
 add_action('admin_menu', 'sampleoptions_add_page_fn');
 
-// Define default option settings
-function add_defaults_fn() {
-	$tmp = get_option('wdp_options');
-    if( !is_array($tmp) ) {
+        /*
 		$arr = array("wdp_width" => "100%", 
 		             "wdp_height" => "480px", 
 		             "wdp_stage_color" => '#000000', 
@@ -20,9 +16,7 @@ function add_defaults_fn() {
 		             'wdp_credit_color' => '#999999',
 		             'wdp_credit_container_alignment' => 'center'             
 		             );
-		update_option('wdp_options', $arr);
-	}
-}
+		*/
 
 // Register our settings. Add the settings section, and settings fields
 function sampleoptions_init_fn(){
