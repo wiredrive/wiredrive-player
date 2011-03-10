@@ -38,7 +38,7 @@ class Wiredrive_Plugin_Admin
 	{
 		$this->template = new Wiredrive_Plugin_Template();
 	}
-	
+
 	/**
 	 * Init
 	 * Load the various scripts and css that are required by the plugin.
@@ -71,9 +71,10 @@ class Wiredrive_Plugin_Admin
 	 */
 	public function header()
 	{
-		$this->template->setTpl('admin_header.php')
-		->set('pluginUrl', plugins_url('wiredrive-player') )
-		->render();
+		$this->template
+		      ->setTpl('admin_header.php')
+		      ->set('pluginUrl', plugins_url('wiredrive-player') )
+		      ->render();
 
 		echo $this->getOutput();
 
@@ -88,8 +89,9 @@ class Wiredrive_Plugin_Admin
 	public function footer()
 	{
 
-		$this->template->setTpl('admin_footer.php')
-		->render();
+		$this->template
+		      ->setTpl('admin_footer.php')
+		      ->render();
 
 		echo $this->getOutput();
 
