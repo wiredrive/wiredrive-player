@@ -25,8 +25,7 @@ Author URI: http://www.wiredrive.com/
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 ********************************************************************************/
-
-    include_once 'settings.php';
+        
 if (version_compare(PHP_VERSION, '5.0.0', '<')) {
             
     /**
@@ -70,10 +69,15 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     /**
      * Load admin class and register actions
      */
-    if (is_admin()) {
+    if (is_admin()) {    	
+    
+        include_once 'settings.php';     
+        $wiredriveSettings = new Wiredrive_Plugin_Settings();	   
+        add_action('admin_init', array($wiredriveSettings,'sampleoptions_init' ));
+        add_action('admin_menu', array($wiredriveSettings,'sampleoptions_add_page'));
+
     	include_once 'wiredrive_admin.php';
     	$wiredriveAdmin = new Wiredrive_Plugin_Admin();
-    
     	add_action('init', array($wiredriveAdmin, 'init'));
     	add_action('admin_head', array($wiredriveAdmin, 'header' ));
     	add_action('admin_footer', array($wiredriveAdmin, 'footer'));
