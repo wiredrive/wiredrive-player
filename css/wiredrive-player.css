@@ -296,7 +296,7 @@ ul.wd-thumb-list li a {
         .wd-player.popup .wd-nav-prev, .wd-player.popup .wd-nav-next {
             display: none;
         }
-        .wd-player.popup .hide-thumbs .wd-thumb-tray {
+        .wd-player.popup.hide-thumbs .wd-thumb-tray {
             height: auto;
             visibility: visible;
         }
@@ -306,6 +306,7 @@ ul.wd-thumb-list li a {
         .wd-player.popup .wd-credits-container {
             display: none;
         }
+        
     
     /* Correcting Widths and Postioning */
         .wd-player.popup .wd-video-player {
@@ -400,6 +401,9 @@ ul.wd-thumb-list li a {
         height: 30px;
         bottom: -40px;
         left: 0;
+    }
+    .wd-player.popup.slideshow .wd-stage {
+        background: transparent;
     }
     .popup-credits .wd-title {
         color: white;

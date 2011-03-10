@@ -717,7 +717,7 @@ jQuery(document).ready(function($) {
      */    
 
     //Remove the inline style width from the player DIV
-    $('.popup.wd-player, .popup .wd-stage').removeAttr('style');
+    $('.popup.wd-player').removeAttr('style');
      
     //When you click on a thumb do this
     $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function() {
