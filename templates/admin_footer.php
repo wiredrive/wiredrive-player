@@ -12,12 +12,14 @@
             <p><input type="text" id="wdp-dialog-width" class="wdp-dialog-dim" style="width:50px" /> &#215; 
                <input type="text" id="wdp-dialog-height" class="wdp-dialog-dim" style="width:50px" /> pixels</p>
             <p>[width] &#215; [height]</p>
-            <p><strong>Options:</strong></p>
+            <p><strong>Thumbnail Options:</strong></p>
             <p><input type="checkbox" id="wdp-hide-thumbs"/> Hide thumbnail tray<br />
+               <input type="checkbox" id="wdp-disable-thumbs"/> Disable thumbnails & credits<br />
                <input type="checkbox" id="wdp-auto-slideshow"/> Slideshow mode (gallery feeds only)</p>
             <p><strong>Display the player as a:</strong></p>
                 <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/> Inline Player<br />
-                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup" /> Popup<br />
+                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup" /> Grid<br />
+                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup box-thumbs" /> Grid with 1:1 thumbnails<br />                
             </p>
         </div>
     </div>

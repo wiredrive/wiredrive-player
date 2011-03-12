@@ -19,8 +19,13 @@
             var feed = jQuery("#wdp-dialog-feed").val();
             var width = jQuery("#wdp-dialog-width").val();
             var height = jQuery("#wdp-dialog-height").val();
+            
+            // Options checkbox
             var hidethumbs = {};
+            var disablethumbs = {};
             var autoslideshow ={};
+            
+            //Theme Radio 
             var theme = jQuery(".wdp-dialog-content").find("input:radio[name=wdp-theme]:checked").val();
                         
             if(jQuery("#wdp-hide-thumbs").is(":checked")){
@@ -34,6 +39,12 @@
             } else {
                 autoslideshow = 'off';
             }
+            
+            if(jQuery("#wdp-disable-thumbs").is(":checked")){
+                disablethumbs = 'on';
+            } else {
+                disablethumbs = 'off';
+            }            
                                     
             if ( !feed ) return WDPDialogClose();
 
@@ -47,9 +58,9 @@
 			     var text = text + ' height="' + height +'px"';
 			}
 			
-			if (hidethumbs) {
-			     var text = text + ' hidethumbs="' + hidethumbs +'"';
-			}
+			if (disablethumbs) {
+			     var text = text + ' disablethumbs="' + disablethumbs +'"';
+			}		
 			
 			if (autoslideshow == 'on') {
                 var text = text + ' autoslideshow="' + autoslideshow +'"';

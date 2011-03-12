@@ -107,7 +107,8 @@ class Wiredrive_Plugin
 	{
 		$plugin_basename = plugin_basename('wiredrive-player');
 		$options = get_option('wdp_options');
-		include_once WP_PLUGIN_DIR . '/' . $plugin_basename . '/css/wiredrive-player-custom-css.php';
+		
+		echo $this->renderHead();
 	}
 
 	/**
@@ -128,6 +129,7 @@ class Wiredrive_Plugin
 					'width'             => $options['wdp_width'],
 					'hidethumbs'        => 'off',
 					'autoslideshow'     => 'off',
+					'disablethumbs'     => 'off',
 					'theme'             => 'player'
 				), $atts));
 
@@ -181,7 +183,7 @@ class Wiredrive_Plugin
          * Begin Player Construction
          * This is calling player_start.php
          */
-		$this->renderPlayerStart($width, $height, $hidethumbs, $autoslideshow, $theme);
+		$this->renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme);
 
 		/*
          * Render out the video player or image slideshow
@@ -454,7 +456,7 @@ class Wiredrive_Plugin
 	 * @var height int
 	 * @var widght int
 	 */
-	private function renderPlayerStart($width, $height, $hidethumbs, $autoslideshow, $theme)
+	private function renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme)
 	{
 
 		$this->template->setTpl('player_start.php')
@@ -462,6 +464,7 @@ class Wiredrive_Plugin
 		->set('width', $width)
 		->set('hidethumbs', $hidethumbs)
 		->set('autoslideshow', $autoslideshow)
+		->set('disablethumbs', $disablethumbs)
 		->set('theme', $theme)
 		->set('mobile', $this->isMobile())
 		->set('ipad', $this->isIpad())
@@ -572,6 +575,23 @@ class Wiredrive_Plugin
 
 	}
 
+
+	/**
+	 * Render any error
+	 */
+	private function renderHead()
+	{
+	
+	   $wiredriveSettings = new Wiredrive_Plugin_Settings();
+		   	
+        $this->template->setTpl('head.php')
+            ->set('options', $wiredriveSettings->getOptions())
+		    ->render();
+		  
+        return $this->template->getOutput();
+
+	}
+	
 	/**
 	 * Get outout
 	 *

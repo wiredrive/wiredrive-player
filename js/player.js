@@ -2,13 +2,12 @@
  * This file was written to work with jQuery 1.4.2 (the version that comes with WordPress 3.0), hence the use of the .attr() method instead of the better .data() method.
  * Once WordPress 3.1 ships and is widely adopted, this will be re-written to use jQuery 1.4.4 and the .data() method.
  */
-    
-
-
 
 var wdp = {
 
-    playSlideshow: null,
+    playSlideshow: true,
+    fullscreenImage: false,
+    touchx: 0,
     
     init: function() {
         // Set the first thumb as active
@@ -29,49 +28,28 @@ var wdp = {
                     );
             
         });
-                    
-        jQuery('.wd-player.autoslideshow .wd-stage').animate(
-        {
-            opacity: 1
-        }, 5000, function() 
-        {
-            listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
-            currentItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item')
-                            
-            if (currentItem < listLength) {
-                if (wdp.playSlideshow) {
-                    wdp.setNextSource.call(this);
-                    autoSlideshow();
-                }
-                
-            } else if (currentItem == listLength) {
-                jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', -1)
-                if (wdp.playSlideshow) {
-                    wdp.setNextSource.call(this);
-                    autoSlideshow();
-                }
-            }
-            
-        });
         
         // Preload any auto slideshow images
-        jQuery('.wd-player.autoslideshow .wd-thumb-list li').each(function(index) {
-            var imageSource = jQuery(this).children('a').attr('data-wd-source')
+        jQuery('.wd-player.autoslideshow .wd-thumb-list li a').each(function(index) {
+            var imageSource = jQuery(this).attr('data-wd-source')
             var imageID = 'preload'+index;
             var imageID = jQuery('<img />').attr('src', imageSource);
         });
+        
+        // Run any auto slideshows
+        wdp.autoSlideshow();
 
     },
-
+    
     // The resizing function for slideshow images. Needs to be ready before (document).ready    
     fit_within_box: function(box_width, box_height, new_width, new_height) 
     {
         var aspect_ratio=new_width/new_height;
-        if(new_width>box_width){
+        if(new_width>=box_width){
             new_width=box_width;
             new_height=Math.round(new_width/aspect_ratio);
         }
-        if(new_height>box_height){
+        if(new_height>=box_height){
             new_height=box_height;
             new_width=Math.round(new_height*aspect_ratio);
         }    
@@ -82,11 +60,46 @@ var wdp = {
     
     },
     
+    autoSlideshow: function() {
+        
+        function delay() {
+
+            jQuery('.wd-player.autoslideshow .wd-stage').not('.popup .wd-stage').each(function() {
+                listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+                currentItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item')
+                                
+                if (currentItem < listLength) {
+                    if (wdp.playSlideshow) {
+                        wdp.setNextSource.call(this);
+                        wdp.autoSlideshow();
+                    }
+                    
+                } else if (currentItem == listLength) {
+                    jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item', -1)
+                    if (wdp.playSlideshow) {
+                        wdp.setNextSource.call(this);
+                        wdp.autoSlideshow();
+                    }
+                }
+                
+            });
+
+        }
+        
+        setTimeout(delay, 5000)
+
+    },
+    
     setNextCredit: function(playerID) 
     {
-        if (playerID == undefined) {
+        if (playerID === undefined) {
             // Is HTML5 Player
-            playerID = jQuery(this).attr('data-wd-item').attr('id');
+            playerID = jQuery(this).attr('id');
+            
+            if (playerID === undefined) {
+                playerID = jQuery('.wd-stage.wd-active').attr('id');
+            }
+            
             var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
         } else {
             // Is Flash
@@ -211,7 +224,7 @@ var wdp = {
     setNextSource: function()
     {      
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
-        var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
+        var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list li').size() - 1;
         var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
         var videoContainer = document.getElementById(currentID);
         var nextItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
@@ -287,12 +300,8 @@ var wdp = {
                     .attr('data-wd-item', nextItem);
         
             wdp.setNextCredit.call(this);
-                
-            jQuery(this).closest('.wd-player').find('.wd-play-prev').addClass('wd-active');
-                        
-            if (nextItem == listLength) {
-                jQuery(this).closest('.wd-player').find('.wd-play-next').removeClass('wd-active');
-            }    
+                                        
+            wdp.setNavButton.call(this, listLength);   
         }
     },
     
@@ -383,14 +392,10 @@ var wdp = {
             jQuery(this).closest('.wd-player')
                     .find('.wd-stage')
                     .attr('data-wd-item', prevItem);
-        
-            jQuery(this).closest('.wd-player').find('.wd-play-next').addClass('wd-active');
-            
+                    
             wdp.setPrevCredit.call(this);
             
-            if (prevItem == 0) {
-                jQuery(this).closest('.wd-player').find('.wd-play-prev').removeClass('wd-active');
-            }
+            wdp.setNavButton.call(this, listLength);
         }
     },
     
@@ -610,15 +615,31 @@ jQuery(document).ready(function($) {
     
     // When clicking on a slideshow thumb, do this
     $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
-    {   
-        e.preventDefault();   
+    {
+        e.preventDefault();
+        
         var newImageHref = $(this).attr('href')
         var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height()
         var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width()
         var newImageHeight = $(this).attr('data-wd-height')
         var newImageWidth = $(this).attr('data-wd-width')
         var currentImageHref = $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src')
-                                
+        
+        // If the image will be in a popup, then use a differnt size calculation        
+        if ($(this).closest('.wd-player').hasClass('popup')) {
+            
+            // Allow the image to expand to 80% of the browser window
+            var slideshowHeight = $(window).height() - ($(window).height()/100)*20
+            var slideshowWidth = $(window).width() - ($(window).width()/100)*20
+    
+            // Set the stage to the size of the browser window
+            $(this).closest('.wd-player').find('.wd-stage').css({
+                        height: slideshowHeight,
+                        width: slideshowWidth
+            })        
+        
+        }
+        
         //Test to see if clicked thumb is current image
         if ( newImageHref == currentImageHref ) {
             return;
@@ -631,7 +652,7 @@ jQuery(document).ready(function($) {
 
             // Get first image and duplicate it
             $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
-                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
+                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
                         .hide()
                         .attr('src', newImageHref)
                         .attr('data-wd-item',$(this).attr('data-wd-item'))
@@ -641,11 +662,11 @@ jQuery(document).ready(function($) {
                         .css('margin-left', 0-(new_size.width/2)+'px')
                         .appendTo($(this).closest('.wd-player').find('.wd-stage'));
             
-            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
+            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
             {
                 $(this).remove();
             });
-            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');            
+            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
             
             // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
             $(this).closest('.wd-player')
@@ -657,9 +678,8 @@ jQuery(document).ready(function($) {
             wdp.setNavButton.call(this);
         }
     
-        e.preventDefault();    
     });
-
+    
     // This will play the next item in the playlist
     $('.wd-player .wd-play-next').click(function()
     {
@@ -672,11 +692,12 @@ jQuery(document).ready(function($) {
     {
         wdp.setPrevSource.call(this);
     });
-    
+   
     // This enables touch gestures for next/prev image on a slideshow
-    var touch = {};
     $('.wd-player.slideshow .wd-stage').live('touchstart touchmove touchend', function(event) {    
-
+                
+        
+        
         var e = event.originalEvent;    
         
         if (event.type == 'touchend') {
@@ -685,21 +706,22 @@ jQuery(document).ready(function($) {
 
         if (event.type == 'touchstart') { 
             var t = e.touches[0];
-    		touch.x = t.clientX;         
+    		wdp.touchx = t.clientX;         
         }
         
          if (event.type == 'touchmove') {
             // only deal with one finger
     		if (e.touches.length == 1) {
     			var t = e.touches[0],
-    				deltaX = touch.x - t.clientX
+    				deltaX = wdp.touchx - t.clientX
                                 
     			if (deltaX < 0 && !$(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
-                    setNextSource.call(this);
+                    wdp.setPrevSource.call(this);
     			} else if (deltaX > 0 && !$(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
-                    setPrevSource.call(this);
+                    wdp.setNextSource.call(this);
+                    
     			} 				
-    			e.preventDefault();
+    			event.preventDefault();
     		}
         }
        
@@ -709,14 +731,14 @@ jQuery(document).ready(function($) {
     $('.wd-player.slideshow, .slideshow wd-play-prev, .slideshow wd-play-next').click(function() {
         wdp.playSlideshow = false;
     });
-
-
+    
+   
     /*
      * Below is the code relating to the Popup player.
      ***************************************************************************
      */    
 
-    //Remove the inline style width from the player DIV
+    //Remove the inline style width from the player DIV.
     $('.popup.wd-player').removeAttr('style');
      
     //When you click on a thumb do this
@@ -724,13 +746,24 @@ jQuery(document).ready(function($) {
     
         var popWidth = $(this).closest('.wd-player').find('.wd-stage').width()
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits')
-                            
-        //Fade in the Popup and add close button
-        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
 
-        $(this).closest('.wd-player').find('.wd-stage').animate({
-            opacity: 1,
-        }, 'fast').css({ 'width': popWidth}).append('<a href="#close" class="close">&#215;</a>').append(popTitle);
+        // Disable the scroll bar ont he browser
+        $('body').css('overflow','hidden');
+                                    
+        //Fade in the Popup
+        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
+        
+        // Add active class to stage
+        $(this).closest('.wd-player').find('.wd-stage').addClass('wd-active');
+        
+        // Add close button and set width
+        $(this).closest('.wd-player').find('.wd-stage')
+                            .animate({
+                                opacity: 1,
+                            }, 'fast')
+                            .css({ 'width': popWidth})
+                            .append('<a href="#close" class="close">&#215;</a>')
+                            .append(popTitle);
         
         //Define margin for center alignment (vertical and horizontal)
         var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
@@ -761,11 +794,46 @@ jQuery(document).ready(function($) {
         window.location = $(this).attr('href');
     });
     
+    // Set the click tracker on a slideshow image
+    $('.popup.slideshow .wd-thumb-list a').click(function() {
+        wdp.fullscreenImage = true;
+    });
+    
+     // Resize the slideshow popup when the browser window is resized
+    $(window).resize(function() {
+                
+        if (wdp.fullscreenImage) {
+                        
+            var currentItem = $('.wd-stage.wd-active').attr('data-wd-item')
+            var slideshowHeight = Math.round($(window).height() - ($(window).height()/100)*20)
+            var slideshowWidth = Math.round($(window).width() - ($(window).width()/100)*20)
+            var newImageHeight = $('.wd-stage.wd-active').closest('.wd-player').find('.wd-thumb-list li a').eq(currentItem).attr('data-wd-height')
+            var newImageWidth = $('.wd-stage.wd-active').closest('.wd-player').find('.wd-thumb-list li a').eq(currentItem).attr('data-wd-width')
+    
+            // Get the new sizes
+            var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+            
+            // Resize the image
+            $('.wd-stage.wd-active').find('.wd-slideshow-image')
+                        .width(new_size.width)
+                        .height(new_size.height)
+                        .css('margin-top', 0-(new_size.height/2)+'px')
+                        .css('margin-left', 0-(new_size.width/2)+'px');
+
+            // Set the stage to the size of the window
+            $('.wd-stage.wd-active')
+                        .css('height', slideshowHeight)
+                        .css('width', slideshowWidth)
+                        .css('margin-top', 0-(slideshowHeight/2)+'px')
+                        .css('margin-left', 0-(slideshowWidth/2)+'px');
+        }
+
+    });
     
     /*
      * Close Popups and Fade Layer
      */
-    $('a.close, #fade').live('click', function() 
+    $('a.close, #fade').live('click', function(e) 
     { //When clicking on the close or fade layer...
         $('#fade, .popup .wd-stage').animate({
             opacity: 0,
@@ -789,7 +857,16 @@ jQuery(document).ready(function($) {
             $('.popup .wd-stage').css({'top' : '999%', 'left' : '999%'});
         });
         
-        return false;
+        // Enable browser scroll bars
+        $('body').css('overflow','visible');
+        
+        // Remove active class from stage
+        $(this).closest('.wd-player').find('.wd-stage').removeClass('wd-active');
+        
+        // Reset the click tracker
+        wdp.fullscreenImage = false;
+        
+        e.preventDefault();
     });
     
     /*

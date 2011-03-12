@@ -50,12 +50,12 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     include_once 'wiredrive.php';
     include_once 'button.php';
     include_once 'template.php';
-
+    include_once 'settings.php';  
     include_once ABSPATH . WPINC . '/feed.php';
     
     $wiredrivePlugin = new Wiredrive_Plugin();
     $wiredriveButton = new Wiredrive_Button();
-    
+            
     /**
      * Register public actions
      */
@@ -69,9 +69,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     /**
      * Load admin class and register actions
      */
-    if (is_admin()) {    	
-    
-        include_once 'settings.php';     
+    if (is_admin()) {    	  
         $wiredriveSettings = new Wiredrive_Plugin_Settings();	   
         add_action('admin_init', array($wiredriveSettings,'sampleoptions_init' ));
         add_action('admin_menu', array($wiredriveSettings,'sampleoptions_add_page'));

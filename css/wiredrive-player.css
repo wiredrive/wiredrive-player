@@ -83,19 +83,16 @@ ul.wd-thumb-list .wd-active  {
 /*The title of the video you are watching. Leaving this empty will use the default styls of your theme.*/
 .wd-title {
 	text-transform: none;
-	padding: 0 0 0 6px;
+	padding: 0;
 	margin: 0;
 	color: white;
-	font-size: 12px;
 }
 
 /*The credit of the video you are watching. Leaving this empty will use the default styls of your theme.*/
 .wd-credit {
 	text-transform: none;
-	padding: 0;
+	padding: 0 0 0 6px;
 	margin: 0;
-	font-size: 12px;
-	color: #999999;
 }
 /*This is the error message that gets shown if the feed is invalid for whatever reason.*/
 .wd-error {
@@ -290,7 +287,7 @@ ul.wd-thumb-list li a {
 /* Wiredrive Popup Styles */
     /* Hiding things */    
         .wd-player.popup {
-            width: auto;
+            width: auto !important;
             height: auto;
         }
         .wd-player.popup .wd-nav-prev, .wd-player.popup .wd-nav-next {
@@ -344,14 +341,25 @@ ul.wd-thumb-list li a {
     
     /* Credit Overlay and Popup Credits */            
         .wd-player.popup .wd-title, .wd-player.popup .wd-credit {
-            padding: 0;
             clear: left;
             float: left;
             color: white;
-            padding: 5px;
             font-weight: bold;
             line-height: 1;
-        }    
+            color: white;
+        }
+        .popup .wd-title {
+            padding: 5px;
+        }
+        .popup .wd-credit {
+            padding: 0 5px 5px 5px;
+        }
+        .popup-credits {
+            position: absolute;
+            line-height: 1;
+            bottom: -45px;
+            left: 0;
+        }
         .wd-thumb-list a {
             position: relative;
             text-decoration: none;
@@ -395,21 +403,8 @@ ul.wd-thumb-list li a {
         bottom: -40px;
         right: 0;
     }
-    .popup-credits {
-        position: absolute;
-        line-height: 1;
-        height: 30px;
-        bottom: -40px;
-        left: 0;
-    }
     .wd-player.popup.slideshow .wd-stage {
         background: transparent;
-    }
-    .popup-credits .wd-title {
-        color: white;
-    }
-    .popup-credits .wd-credit {
-        color: white;
     }
     .wd-player.popup .wd-play-prev, .wd-player.popup .wd-play-next {
         height: 61px;
@@ -417,14 +412,45 @@ ul.wd-thumb-list li a {
         position: absolute;
         top: 50%;
         margin-top: -30px;
-        cursor: pointer;
         display: block !important;
+        opacity: 0.2;
+    }
+    .wd-player.popup .wd-play-prev.wd-active, .wd-player.popup .wd-play-next.wd-active {
+        opacity: 1;
+        cursor: pointer;        
     }
     .wd-player.popup .wd-play-prev {
         left: -150px;
         background: url(../images/player_icon_prev.png);
+
     }
     .wd-player.popup .wd-play-next {
         right: -150px;
-        background: url(../images/player_icon_next.png);
+        background: url(../images/player_icon_next.png);        
     }
+    .wd-player.popup.slideshow .wd-play-prev {
+        left: -10%;
+    }
+    .wd-player.popup.slideshow .wd-play-next {
+        right: -10%;
+    }
+    
+/* Box Thumb Option */
+.box-thumbs .wd-thumb-list li a {
+    width: 180px;
+    height: 180px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* Disable Thumbnail & Credits Options */
+.wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.popup .hover-credits {
+    display: none;
+}
+.wd-player.box-thumbs.popup .wd-thumb-tray {
+    display: block;
+}
+.wd-player.disablethumbs.popup .wd-thumb-tray {
+    display: block;
+}

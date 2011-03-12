@@ -28,8 +28,13 @@
 }
 .wd-title {
     color: <?php echo $options['wdp_title_color'] ?>;
+    font-size: <?php echo $options['wdp_title_font_size'] ?>;
 }
 .wd-credit {
     color: <?php echo $options['wdp_credit_color'] ?>;
+    font-size: <?php echo $options['wdp_credit_font_size'] ?>;
+}
+.box-thumbs .wd-thumb-list li a {
+    background: rgba(0, 0, 0, <?php echo $options['wdp_thumb_box_opacity'] ?>);
 }
 </style>

@@ -44,7 +44,10 @@ class Wiredrive_Plugin_Settings
 			'wdp_active_item_color'          => '#FFFFFF',
 			'wdp_title_color'                => '#FFFFFF',
 			'wdp_credit_color'               => '#999999',
-			'wdp_credit_container_alignment' => 'center',
+			'wdp_credit_container_alignment' => 'Center',
+			'wdp_title_font_size'            => '12px',
+			'wdp_credit_font_size'           => '12px',
+			'wdp_thumb_box_opacity'          => '0.3'
 		);
 
 		/*
@@ -52,6 +55,16 @@ class Wiredrive_Plugin_Settings
 		 */
 		$this->options = get_option('wdp_options');
 
+	}
+	
+	public function getOptions() {
+	   
+	   $options = array();
+	   foreach($this->defaults as $option=>$value) {
+	       $options[$option] = $this->getValue($option);
+	   }
+	   
+	   return $options;
 	}
 
 	/**
@@ -149,6 +162,27 @@ class Wiredrive_Plugin_Settings
 			'main_section'
 		);
 
+		add_settings_field('wdp_title_font_size',
+			'Title Font Size',
+			array($this, 'title_font_size'),
+			__FILE__,
+			'main_section'
+		);	
+
+		add_settings_field('wdp_credit_font_size',
+			'Credit Font Size',
+			array($this, 'credit_font_size'),
+			__FILE__,
+			'main_section'
+		);		
+
+		add_settings_field('wdp_thumb_box_opacity',
+			'Thumb Box Opacity',
+			array($this, 'thumb_box_opacity'),
+			__FILE__,
+			'main_section'
+		);				
+		
 	}
 
 	/**
@@ -255,8 +289,8 @@ class Wiredrive_Plugin_Settings
 	 */
 	public function credit_container_alignment()
 	{
-		$wdp_credit_container_border = $this->getValue('wdp_credit_container_border');
-
+		$wdp_credit_container_border = $this->getValue('wdp_credit_container_alignment');
+                
 		$items = array("Left", "Center", "Right");
 		foreach ($items as $item) {
 			$checked = '';
@@ -336,7 +370,7 @@ class Wiredrive_Plugin_Settings
 		echo "</div>";
 	}
 	/**
-	 * Create Color
+	 * Credit Color
 	 * input type      : textbox
 	 * name            : wdp_options[wdp_credit_color]
 	 */
@@ -352,6 +386,40 @@ class Wiredrive_Plugin_Settings
 		echo "</div>";
 	}
 
+	/**
+	 * Title Font Size
+	 * input type      : textbox
+	 * name            : wdp_options[wdp_title_font_size]
+	 */
+	public function title_font_size()
+	{
+		$wdp_title_font_size = $this->getValue('wdp_title_font_size');
+
+		echo "<input id='wdp_title_font_size' name='wdp_options[wdp_title_font_size]' size='10' type='text' value='" .
+			$wdp_title_font_size ."' />";
+	}
+	
+	/**
+	 * Credit Font Size
+	 * input type      : textbox
+	 * name            : wdp_options[wdp_credit_font_size]
+	 */
+	public function credit_font_size()
+	{
+		$wdp_credit_font_size = $this->getValue('wdp_credit_font_size');
+
+		echo "<input id='wdp_credit_font_size' name='wdp_options[wdp_credit_font_size]' size='10' type='text' value='" .
+			$wdp_credit_font_size ."' />";
+	}
+	
+	public function thumb_box_opacity()
+	{
+		$wdp_thumb_box_opacity = $this->getValue('wdp_thumb_box_opacity');
+
+		echo "<input id='wdp_thumb_box_opacity' name='wdp_options[wdp_thumb_box_opacity]' size='10' type='text' value='" .
+			$wdp_thumb_box_opacity ."' />";
+	}
+		
 	/**
 	 * Options Validate
 	 * Validate user data for some/all of your input fields
@@ -371,6 +439,9 @@ class Wiredrive_Plugin_Settings
 		$input['wdp_active_item_color'] = wp_filter_nohtml_kses($input['wdp_active_item_color']);
 		$input['wdp_title_color']       = wp_filter_nohtml_kses($input['wdp_title_color']);
 		$input['wdp_credit_color']      = wp_filter_nohtml_kses($input['wdp_credit_color']);
+		$input['wdp_title_font_size']      = wp_filter_nohtml_kses($input['wdp_title_font_size']);
+		$input['wdp_credit_font_size']      = wp_filter_nohtml_kses($input['wdp_credit_font_size']);
+		$input['wdp_wdp_thumb_box_opacity']      = wp_filter_nohtml_kses($input['wdp_thumb_box_opacity']);		
 
 		return $input;
 	}
