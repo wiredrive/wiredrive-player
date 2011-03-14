@@ -37,10 +37,17 @@ var wdp = {
         
         // Run any auto slideshows
         wdp.autoSlideshow();
+        
+        //Remove the inline style width from the player DIV.
+        $('.popup.wd-player').removeAttr('style');
 
     },
     
-    // The resizing function for slideshow images. Needs to be ready before (document).ready    
+    
+    
+    /*
+     *  The resizing function for slideshow images. Needs to be ready before (document).ready    
+     */
     fit_within_box: function(box_width, box_height, new_width, new_height) 
     {
         var aspect_ratio=new_width/new_height;
@@ -184,7 +191,11 @@ var wdp = {
             );
     },
     
-    // Handles the set credit feature
+    
+    
+    /*
+     * Handles the set credit feature
+     */
     setClickedCredit: function()
     {   
         // Remove active class
@@ -201,7 +212,10 @@ var wdp = {
             .attr('data-wd-item', jQuery(this).attr('data-wd-item'));
     },
     
-    // Used for the slidehsow feature to make sure the next/prev button is displayed when it needs to be.
+    
+    /*
+     * Used for the slidehsow feature to make sure the next/prev button is displayed when it needs to be.
+     */
     setNavButton: function(listLength) 
     {
         // Hide/show the correct next/prev button.
@@ -219,7 +233,11 @@ var wdp = {
 
     },
     
-     // Send next source to the player
+    
+    
+    /*
+     * Send next source to the player
+     */
     setNextSource: function()
     {      
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
@@ -304,7 +322,11 @@ var wdp = {
         }
     },
     
-    // Send previous source to the player
+    
+    
+    /*
+     * Send previous source to the player
+     */
     setPrevSource: function()
     {
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
@@ -398,7 +420,11 @@ var wdp = {
         }
     },
     
-    //For Flash: When video ends, play the next one.
+    
+    
+    /*
+     * For Flash: When video ends, play the next one.
+     */
     stoppedPlaying: function(flashPlayerID)
     {
         var playerID = '#' + flashPlayerID;
@@ -442,12 +468,16 @@ jQuery(document).ready(function($) {
 
     wdp.init();             
 
-    // The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
-    // Handles the mouseover credit feature
+    /*
+     * Handles the mouseover credit feature
+     * The not-mobile class can be used when you want to do things only when on a computer. There is also a mobile class to target just mobile devices.
+     */ 
     $('.not-mobile .wd-thumb-list a').hover(wdp.showCredit, wdp.hideCredit);
 
 
-    // On thumb click do...
+    /*
+     * On thumb click do...
+     */ 
     $('.wd-player.not-slideshow .wd-thumb-list a').click(function(e)
     {
         
@@ -494,7 +524,12 @@ jQuery(document).ready(function($) {
 
     });
 
-    // Scroll list to the left/right when button clicked
+
+
+
+    /*
+     * Scroll list to the left/right when button clicked
+     */ 
 	var itemPos = 2;
     $('.wd-player .wd-nav-next').click(function()
     {
@@ -512,7 +547,11 @@ jQuery(document).ready(function($) {
                 .scrollTo( '-=250px', '800', { axis:'x'});
     });
     
-    //This is the HTML5 playlist code. When a video finsihes playing, play the next one.
+    
+    
+    /*
+     * This is the HTML5 playlist code. When a video finsihes playing, play the next one.
+     */ 
     $('video').bind('ended', function() 
     {   
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
@@ -538,8 +577,13 @@ jQuery(document).ready(function($) {
         }
     
     });
+
+
+
             
-    // When click on drop down button, slide down the thumb tray
+    /*
+     *  When click on drop down button, slide down the thumb tray
+     */
     $('.wd-thumb-dropdown').click(function()
     {
         // These varibles are written like this to ensure that the Thumb Tray height is correct, even if the credits container is or isn't inside the thumb tray.
@@ -588,14 +632,18 @@ jQuery(document).ready(function($) {
                     .removeClass('wd-active');
         }
     }); 
+
+
                     
-    /*
-     * Below is code relating to the image slideshow feature.
-     *
-     ***************************************************************************
-     */
+/*
+ * Below is code relating to the image slideshow feature.
+ *
+ ***************************************************************************
+ */
     
-    //This resizes the first slideshow image.
+    /*
+     * This resizes the first slideshow image.
+     */
     $('.wd-player.slideshow .wd-slideshow-image').each(function() {
         
         var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();
@@ -612,7 +660,11 @@ jQuery(document).ready(function($) {
             .show();
     });
     
-    // When clicking on a slideshow thumb, do this
+    
+    
+    /*
+     *  When clicking on a slideshow thumb, do this
+     */
     $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
     {
         e.preventDefault();
@@ -639,7 +691,12 @@ jQuery(document).ready(function($) {
         
         }
         
-        //Test to see if clicked thumb is current image
+        
+        
+        
+        /*
+         * Test to see if clicked thumb is current image
+         */
         if ( newImageHref === currentImageHref ) {
             return;
         } else if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
@@ -679,20 +736,33 @@ jQuery(document).ready(function($) {
     
     });
     
-    // This will play the next item in the playlist
+    
+    
+    
+    /*
+     *  This will play the next item in the playlist
+     */
     $('.wd-player .wd-play-next').click(function()
     {
         wdp.setNextSource.call(this);
     });
 
     
-    // This will play the previous item in the playlist
+    
+    
+    /*
+     *  This will play the previous item in the playlist
+     */
     $('.wd-player .wd-play-prev').click(function()
     {
         wdp.setPrevSource.call(this);
     });
    
-    // This enables touch gestures for next/prev image on a slideshow
+   
+   
+    /*
+     *  This enables touch gestures for next/prev image on a slideshow
+     */
     $('.wd-player.slideshow .wd-stage').live('touchstart touchmove touchend', function(event) {    
                 
         
@@ -725,22 +795,25 @@ jQuery(document).ready(function($) {
         }
        
     });
+
+
         
-    // Kill the auto slideshow if something is clicked
+    /*
+     *  Kill the auto slideshow if something is clicked
+     */
     $('.wd-player.slideshow, .slideshow wd-play-prev, .slideshow wd-play-next').click(function() {
         wdp.playSlideshow = false;
     });
     
    
-    /*
-     * Below is the code relating to the Popup player.
-     ***************************************************************************
-     */    
-
-    //Remove the inline style width from the player DIV.
-    $('.popup.wd-player').removeAttr('style');
+/*
+ * Below is the code relating to the Popup player.
+ ***************************************************************************
+ */    
      
-    //When you click on a thumb do this
+    /*
+     * When you click on a thumb do this
+     */
     $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function() {
     
         var popWidth = $(this).closest('.wd-player').find('.wd-stage').width();
@@ -783,22 +856,38 @@ jQuery(document).ready(function($) {
         return false;
     });
     
-    //Re-enable the HREF's of thumb links.
+    
+    
+    /*
+     * Re-enable the HREF's of thumb links.
+     */
     $('.popup.mobile .wd-thumb-list a').click(function() {
         window.location = $(this).attr('href');
     });
     
-    //Go full screen on iPad.
+    
+    
+    /*
+     * Go full screen on iPad.
+     */
     $('.popup.ipad .wd-thumb-list a').click(function() {
         window.location = $(this).attr('href');
     });
     
-    // Set the click tracker on a slideshow image
+    
+    
+    /*
+     * Set the click tracker on a slideshow image
+     */
     $('.popup.slideshow .wd-thumb-list a').click(function() {
         wdp.fullscreenImage = true;
     });
     
-     // Resize the slideshow popup when the browser window is resized
+    
+    
+     /*
+      * Resize the slideshow popup when the browser window is resized
+      */
     $(window).resize(function() {
                 
         if (wdp.fullscreenImage) {
@@ -828,6 +917,8 @@ jQuery(document).ready(function($) {
         }
 
     });
+    
+    
     
     /*
      * Close Popups and Fade Layer
@@ -867,6 +958,8 @@ jQuery(document).ready(function($) {
         
         e.preventDefault();
     });
+    
+    
     
     /*
      * On thumb hover show the credits
