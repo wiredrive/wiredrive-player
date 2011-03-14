@@ -91,7 +91,7 @@ ul.wd-thumb-list .wd-active  {
 /*The credit of the video you are watching. Leaving this empty will use the default styls of your theme.*/
 .wd-credit {
 	text-transform: none;
-	padding: 0 0 0 6px;
+	padding: 0;
 	margin: 0;
 }
 /*This is the error message that gets shown if the feed is invalid for whatever reason.*/

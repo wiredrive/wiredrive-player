@@ -39,7 +39,7 @@ var wdp = {
         wdp.autoSlideshow();
         
         //Remove the inline style width from the player DIV.
-        $('.popup.wd-player').removeAttr('style');
+        jQuery('.popup.wd-player').removeAttr('style');
 
     },
     
@@ -98,19 +98,18 @@ var wdp = {
     
     setNextCredit: function(playerID) 
     {
+        
         if (playerID === undefined) {
-            // Is HTML5 Player
+            // Is HTML5 Player or Slideshow
             playerID = jQuery(this).attr('id');
             
             if (playerID === undefined) {
                 playerID = jQuery('.wd-stage.wd-active').attr('id');
             }
             
-        } else {
-            // Is Flash
-            nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');      
         }
         
+        var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
        
         // New credits
         jQuery(playerID).closest('.wd-player')
@@ -870,8 +869,24 @@ jQuery(document).ready(function($) {
     /*
      * Go full screen on iPad.
      */
-    $('.popup.ipad .wd-thumb-list a').click(function() {
-        window.location = $(this).attr('href');
+    $('.popup.ipad .wd-thumb-list a').click(function(e) {
+            window.location = $(this).attr('href');
+            
+/*
+            e.preventDefault();
+
+            $(this).closest('.wd-player').find('.wd-stage').show().css({'top' : '0', 'left' : '0', 'opacity' : '1'});
+            var currentID = $(this).closest('.wd-player').find('video').attr('id');
+            var videoContainer = document.getElementById(currentID);
+            
+            videoContainer.src = 'http://wpc.0155.edgecastcdn.net/800155/la-production.wiredrive.com//cdn/asset/view/client/iowa/package/library/id/393653/format/o/h/ba5c3d48d16ad6fdedf1601530199172/Wallaby_Boy.mov?7a6013aef28682d61703dff726d21b126928705a855f255f732b3a66a4890a66715b4d.mov';
+            videoContainer.load();
+            
+            videoContainer.addEventListener('loadeddata', function() {
+                videoContainer.webkitEnterFullscreen();
+                videoContainer.play();
+            });
+*/
     });
     
     
@@ -1046,4 +1061,3 @@ jQuery(window).load(function() {
 		return this;
 	};
 })(jQuery);
-
