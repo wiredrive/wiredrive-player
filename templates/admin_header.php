@@ -57,7 +57,11 @@
             if (height) {
 			     var text = text + ' height="' + height +'px"';
 			}
-			
+
+			if (hidethumbs) {
+			     var text = text + ' hidethumbs="' + hidethumbs +'"';
+			}			
+
 			if (disablethumbs) {
 			     var text = text + ' disablethumbs="' + disablethumbs +'"';
 			}		

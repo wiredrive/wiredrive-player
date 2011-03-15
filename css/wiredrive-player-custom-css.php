@@ -10,10 +10,12 @@
 .wd-credits-container {
     border-top: 1px solid <?php echo $options['wdp_credit_container_border'] ?>;
     text-align: <?php echo $options['wdp_credit_container_alignment'] ?>;
-    <?php if( $options['wdp_credit_container_alignment'] == 'Right') : ?>
-    padding-right: 35px;
-    <?php endif; ?>
 }
+<?php if( $options['wdp_credit_container_alignment'] == 'Right') : ?>
+.hide-thumbs .wd-credits-container {
+    padding-right: 35px;
+}
+<?php endif; ?>
 .wd-nav-prev, .wd-nav-next, .wd-thumb-tray {
     background: <?php echo $options['wdp_thumb_bg_color'] ?>;
 }
