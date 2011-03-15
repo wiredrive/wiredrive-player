@@ -205,6 +205,7 @@ ul.wd-thumb-list li a {
 .wd-credits-container {
 	position: relative;
 	z-index: 20;
+	padding: 0 5px;
 }
 /* Flash Fallback */
 .wd-player #no-flash-content {
