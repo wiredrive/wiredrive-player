@@ -7,7 +7,7 @@
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
         var title = '<img src="<?php echo plugins_url('wiredrive-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
-        jQuery("#wdp-dialog").dialog({ autoOpen: false, width: 750, minWidth: 750, maxWidth: 750, height: 550, minHeight: 520, maxHeight: 600, title: title, buttons: buttons, resizable: true });
+        jQuery("#wdp-dialog").dialog({ dialogClass: 'wdp-dialog', autoOpen: false, width: 750, minWidth: 750, maxWidth: 750, height: 550, minHeight: 520, maxHeight: 600, title: title, buttons: buttons, resizable: true });
         jQuery("#wdp-dialog").dialog("open");
 
         // Reset the dialog box incase it's been used before

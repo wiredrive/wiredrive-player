@@ -10,9 +10,7 @@
 	margin-bottom: 1em;
 }
 
-/*The background color for the player*/
-.wd-stage {
-}
+
 /*The gap between the video player and the list of thumbnails*/
 .wd-thumb-tray {
 	margin-top: 0;
@@ -34,15 +32,6 @@
 	width: 30px;
 	background-color: #373636;
 }
-
-/*The background color to be used by the previous button on the thumb scroller*/
-.wd-nav-prev {
-}
-
-/*The background color to be used by the next button on the thumb scroller*/
-.wd-nav-next {
-}
-
 
 /*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
@@ -68,7 +57,6 @@ ul.wd-thumb-list .wd-active  {
 /*The gap between the thumb list and the credit block*/
 .wd-credits-container {
 	margin-top: 0;
-	text-align: left;
 	height: 45px;
 	-moz-border-radius: 0 0 3px 3px;
     border-radius: 0 0 3px 3px;
@@ -76,7 +64,6 @@ ul.wd-thumb-list .wd-active  {
 
 /*The color of the credit block when the tray is down*/
 .wd-credits-container, .wd-player {
-    text-align: center;
     line-height: 40px;
 }
 
@@ -155,6 +142,7 @@ ul.wd-thumb-list {
 ul.wd-thumb-list li {
     float: left;
 	padding: 2px;
+	text-align: center;
 }
 ul.wd-thumb-list li a {
     display: block;
@@ -314,13 +302,12 @@ ul.wd-thumb-list li a {
             padding: 0;
             width: 110% !important;
         }
-        .wd-player.popup ul.wd-thumb-list li {
+        .wd-player.popup .wd-thumb-list li {
             margin: 0 5px 5px 0;
             padding: 0;
             float: left;
             position: relative;
             line-height: 0;
-            text-align: center;
             width: 180px;
         }
         .wd-player.popup .wd-thumb {
@@ -331,10 +318,11 @@ ul.wd-thumb-list li a {
         
         }   
         .wd-player.popup .wd-stage {
-            position: absolute;
-            opacity: 0;
+            position: fixed;
             top: -999%;
             left: -999%;
+            z-index: 100;
+            opacity: 1;
         }
         .wd-player.popup.ipad .wd-stage {
             display: none;
@@ -377,19 +365,14 @@ ul.wd-thumb-list li a {
 /* Popup Overlay Styles */
     #fade { /*--Transparent background layer--*/
     	display: none; /*--hidden by default--*/
-    	background: #000;
+    	background: black;
     	position: fixed; 
     	left: 0; 
     	top: 0;
     	width: 100%; 
     	height: 100%;
     	opacity: .75;
-    	z-index: 9999;
-    }
-    .wd-player.popup .wd-stage{
-    	float: left;
-    	position: fixed;
-    	z-index: 99999;
+    	z-index: 50;
     }
     a.close {
         position: absolute;
@@ -440,9 +423,9 @@ ul.wd-thumb-list li a {
 .box-thumbs .wd-thumb-list li a {
     width: 180px;
     height: 180px;
-    text-align: center;
     display: table-cell;
     vertical-align: middle;
+    text-align: center;
 }
 
 /* Disable Thumbnail & Credits Options */

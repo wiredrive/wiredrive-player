@@ -103,14 +103,16 @@ var wdp = {
             // Is HTML5 Player or Slideshow
             playerID = jQuery(this).attr('id');
             
-            if (playerID === undefined) {
-                playerID = jQuery('.wd-stage.wd-active').attr('id');
+            if (playerID === "") {
+                playerID = jQuery('.wd-stage.wd-active').find('.wd-video-player').attr('id');
             }
             
         }
         
+        playerID = '#'+playerID;
+        
         var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
-       
+               
         // New credits
         jQuery(playerID).closest('.wd-player')
             .find('.wd-credits .wd-title')
@@ -288,12 +290,12 @@ var wdp = {
                 jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
                 
             } else if ( typeof videoContainer.load === 'function' ) {
-                // This send it to the HTML player
+                // This sends it to the HTML player
                 videoContainer.src = nextSrc;
                 videoContainer.load();
                 videoContainer.play();                
             } else {
-                // This sends it to the Flash Player                     
+                // This sends it to the Flash Player                  
                 jQuery(videoContainer).externalInterface({method:'setNewSource', args:nextSrc});
                 jQuery(videoContainer).externalInterface({method:'removePlayButton'});
             }
@@ -479,6 +481,7 @@ jQuery(document).ready(function($) {
      */ 
     $('.wd-player.not-slideshow .wd-thumb-list a').click(function(e)
     {
+        e.preventDefault();
         
         // Get the href from the thumb link and feed it into the video player. This line is for HTML5 player only.
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
@@ -492,15 +495,11 @@ jQuery(document).ready(function($) {
             videoContainer.load();
             videoContainer.play();
         } else {
-    
             // For Flash: Send the href of the thumb to the Flash player
-            $(this).closest('.wd-player')
-                    .find('.wd-stage .wd-video-player')
-                    .externalInterface({method:'setNewSource', args:$(this).attr('href')});
-			
-			$(this).closest('.wd-player')
-                    .find('.wd-stage .wd-video-player')
-                    .externalInterface({method:'removePlayButton'});
+                jQuery(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
+                jQuery(videoContainer).externalInterface({method:'removePlayButton'});
+            //videoContainer.setNewSource(newSrc);
+            //videoContainer.removePlayButton();
         }
         
         // When a thumb is clicked remove the poster attribute from the video tag
@@ -687,15 +686,9 @@ jQuery(document).ready(function($) {
                         height: slideshowHeight,
                         width: slideshowWidth
             });
-        
         }
-        
-        
-        
-        
-        /*
-         * Test to see if clicked thumb is current image
-         */
+
+        // Test to see if clicked thumb is current image
         if ( newImageHref === currentImageHref ) {
             return;
         } else if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
@@ -717,11 +710,20 @@ jQuery(document).ready(function($) {
                         .css('margin-left', 0-(new_size.width/2)+'px')
                         .appendTo($(this).closest('.wd-player').find('.wd-stage'));
             
-            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
-            {
-                $(this).remove();
-            });
-            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
+            // If the image will be in a popup, then just show the image, don't fade it in.        
+            if ($(this).closest('.wd-player').hasClass('popup')) {
+            
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).remove();
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).show();
+                
+            } else {
+            
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
+                {
+                    $(this).remove();
+                });
+                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
+            }    
             
             // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
             $(this).closest('.wd-player')
@@ -813,30 +815,9 @@ jQuery(document).ready(function($) {
     /*
      * When you click on a thumb do this
      */
-    $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function() {
+    $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function(e) {
     
-        var popWidth = $(this).closest('.wd-player').find('.wd-stage').width();
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits');
-
-        // Disable the scroll bar ont he browser
-        $('body').css('overflow','hidden');
-                                    
-        //Fade in the Popup
-        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
-        
-        // Add active class to stage
-        $(this).closest('.wd-player').find('.wd-stage').addClass('wd-active');
-        
-        // Add close button and set width
-        $(this).closest('.wd-player').find('.wd-stage')
-                            .animate({
-                                opacity: 1
-                            }, 'fast')
-                            .css({ 'width': popWidth})
-                            .append('<a href="#close" class="close">&#215;</a>')
-                            .append(popTitle);
-        
-        //Define margin for center alignment (vertical and horizontal)
         var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
         var popMargLeft = ($(this).closest('.wd-player').find('.wd-stage').width() + 0) / 2;
     
@@ -845,6 +826,18 @@ jQuery(document).ready(function($) {
             'margin-top' : -popMargTop,
             'margin-left' : -popMargLeft
         });
+                                    
+        //Fade in the stage
+        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
+        
+        // Add active class to stage
+        $(this).closest('.wd-player').find('.wd-stage').addClass('wd-active');
+        
+        // Add close button and set width
+        $(this).closest('.wd-player').find('.wd-stage')
+                            .append('<a href="#close" class="close">&#215;</a>')
+                            .append(popTitle);
+        
          
         //Add the fade layer to bottom of the body tag.
         $('body').append('<div id="fade"></div>');
@@ -852,7 +845,7 @@ jQuery(document).ready(function($) {
         //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) is used to fix the IE Bug on fading transparencies
         $('#fade').fadeIn();
                 
-        return false;
+        e.preventDefault();
     });
     
     
@@ -869,24 +862,8 @@ jQuery(document).ready(function($) {
     /*
      * Go full screen on iPad.
      */
-    $('.popup.ipad .wd-thumb-list a').click(function(e) {
+    $('.popup.ipad .wd-thumb-list a').click(function() {
             window.location = $(this).attr('href');
-            
-/*
-            e.preventDefault();
-
-            $(this).closest('.wd-player').find('.wd-stage').show().css({'top' : '0', 'left' : '0', 'opacity' : '1'});
-            var currentID = $(this).closest('.wd-player').find('video').attr('id');
-            var videoContainer = document.getElementById(currentID);
-            
-            videoContainer.src = 'http://wpc.0155.edgecastcdn.net/800155/la-production.wiredrive.com//cdn/asset/view/client/iowa/package/library/id/393653/format/o/h/ba5c3d48d16ad6fdedf1601530199172/Wallaby_Boy.mov?7a6013aef28682d61703dff726d21b126928705a855f255f732b3a66a4890a66715b4d.mov';
-            videoContainer.load();
-            
-            videoContainer.addEventListener('loadeddata', function() {
-                videoContainer.webkitEnterFullscreen();
-                videoContainer.play();
-            });
-*/
     });
     
     
@@ -896,6 +873,7 @@ jQuery(document).ready(function($) {
      */
     $('.popup.slideshow .wd-thumb-list a').click(function() {
         wdp.fullscreenImage = true;
+        $(this).closest('.wd-player').find('.wd-slideshow-image').show();
     });
     
     
@@ -939,31 +917,31 @@ jQuery(document).ready(function($) {
      * Close Popups and Fade Layer
      */
     $('a.close, #fade').live('click', function(e) 
-    { //When clicking on the close or fade layer...
-        $('#fade, .popup .wd-stage').animate({
-            opacity: 0
-        }, 'fast', function() 
-        {
-            $('#fade, a.close, .popup-credits, .wd-arrows').remove();
-            
-            //Stop HTML5 video
-            var currentID = $(this).closest('.wd-player').find('video').attr('id');
-            var videoContainer = document.getElementById(currentID);           
-            
-            if (typeof currentID !== 'undefined') {
-                    videoContainer.pause();
-                    videoContainer.currentTime = 0;
-            } else {            
+    {
+        var currentID = $(this).closest('.wd-player').find('video').attr('id');
+        var videoContainer = document.getElementById(currentID);
+        var flashObject = $(this).closest('.wd-player').find('.wd-video-player');    
+
+        $('#fade').fadeOut('fast', function() 
+        {            
+                        
+            if (videoContainer === null) {
                 //Stop the Flash video
-                $(this).closest('.wd-player').find('.wd-video-player').externalInterface({method:'pausevideo'});
+                flashObject.externalInterface({method:'pausevideo'});
+
+            } else {
+                //Stop HTML5 video      
+                videoContainer.pause();
+                videoContainer.currentTime = 0;
+                
             }
-            
-            //Move stage offscreen
+
+            // Remove the fade layer and close button
+            $('#fade, a.close, .popup-credits, .wd-arrows').remove();
+
+            // Move stage offscreen
             $('.popup .wd-stage').css({'top' : '999%', 'left' : '999%'});
         });
-        
-        // Enable browser scroll bars
-        $('body').css('overflow','visible');
         
         // Remove active class from stage
         $(this).closest('.wd-player').find('.wd-stage').removeClass('wd-active');
@@ -1041,6 +1019,7 @@ jQuery(window).load(function() {
 					else
 					{
 						var data = this[args.method]();
+						
 					}
 					
 					if(typeof(args.success) !== 'undefined')
@@ -1056,6 +1035,7 @@ jQuery(window).load(function() {
 					}
 				}
 			}
+
 		});
 	
 		return this;
