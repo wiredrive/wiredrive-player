@@ -231,6 +231,12 @@ ul.wd-thumb-list li a {
     /* Starts hidden, is resized in jQuery and then displayed */
     display: none;
 }
+
+/* Start the first popup slideshow image hidden, turn it on in JavaScript when it's ready */
+.wd-player.popup .wd-slideshow-image {
+    visibility: hidden;
+}
+
 .mobile .wd-play-next, .mobile .wd-play-prev, .not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
     display: none;
 }
@@ -305,10 +311,11 @@ ul.wd-thumb-list li a {
         .wd-player.popup .wd-thumb-list li {
             margin: 0 5px 5px 0;
             padding: 0;
-            float: left;
             position: relative;
             line-height: 0;
             width: 180px;
+            display: inline-block;
+            float: none;
         }
         .wd-player.popup .wd-thumb {
             height: auto;
@@ -330,24 +337,28 @@ ul.wd-thumb-list li a {
     
     /* Credit Overlay and Popup Credits */            
         .wd-player.popup .wd-title, .wd-player.popup .wd-credit {
-            clear: left;
-            float: left;
             color: white;
             font-weight: bold;
-            line-height: 1;
-            color: white;
+            line-height: 1.2;
+            word-wrap: break-word;
         }
-        .popup .wd-title {
+        .popup .hover-credits {
             padding: 5px;
-        }
-        .popup .wd-credit {
-            padding: 0 5px 5px 5px;
+            text-align: left;
         }
         .popup-credits {
             position: absolute;
             line-height: 1;
             bottom: -45px;
             left: 0;
+        }
+        .popup-credits .wd-title, .popup-credits .wd-credit {
+            clear: left;
+            float: left; 
+            padding: 5px;
+        }
+        .popup-credits .wd-credit {
+            padding: 0 5px 5px 5px;
         }
         .wd-thumb-list a {
             position: relative;
@@ -390,7 +401,8 @@ ul.wd-thumb-list li a {
     .wd-player.popup.slideshow .wd-stage {
         background: transparent;
     }
-    .wd-player.popup .wd-play-prev, .wd-player.popup .wd-play-next {
+    .wd-player.popup .wd-play-prev, 
+    .wd-player.popup .wd-play-next {
         height: 61px;
         width: 41px;
         position: absolute;
@@ -398,8 +410,16 @@ ul.wd-thumb-list li a {
         margin-top: -30px;
         display: block !important;
         opacity: 0.2;
+        cursor: default;
     }
-    .wd-player.popup .wd-play-prev.wd-active, .wd-player.popup .wd-play-next.wd-active {
+    .wd-player.slideshow .wd-play-prev, 
+    .wd-player.slideshow .wd-play-next {
+        cursor: default;
+    }
+    .wd-player.popup .wd-play-prev.wd-active, 
+    .wd-player.popup .wd-play-next.wd-active, 
+    .wd-player.slideshow .wd-play-prev.wd-active, 
+    .wd-player.slideshow .wd-play-next.wd-active {
         opacity: 1;
         cursor: pointer;        
     }

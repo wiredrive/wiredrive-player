@@ -6,8 +6,7 @@
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
+* the Free Software Foundation, either version 3 of the License, or* (at your option) any later version.
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -234,8 +233,17 @@ class Wiredrive_Plugin
 	 */
 	public function useFlash()
 	{
-		return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
-			|| strpos($_SERVER['HTTP_USER_AGENT'], "IE")
+	   
+	   /*
+	    * Do not use falsh for ie9 because it supports h.264 natively with html5
+	    */
+	   
+	   if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
+           return false; 	   
+	   }
+	   
+       return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
+			|| strpos($_SERVER['HTTP_USER_AGENT'], "MSIE")
 			|| strpos($_SERVER['HTTP_USER_AGENT'], "Chrome");
 	}
 
@@ -422,13 +430,17 @@ class Wiredrive_Plugin
 				$item['thumbnail_sm'] = $media->get_thumbnail(1);
 				$item['thumbnail_lg'] = $media->get_thumbnail(0);
 				$item['description'] = $row->get_description();
+				
+				$keywords = $media->get_keywords();
+				if (sizeof($keywords) > 1 && $keywords[0] != '') {
+				    $item['keywords'] = $keywords;
+				}
 
 				$credits = $media->get_credits();
 
                 /* 
                  * Get all the roles and credits from the media object
                  */
-                $item['credits'] = array();
 				if (!is_null($credits)) {
 					foreach ($media->get_credits() as $credit) {
 						$item['credits'][$credit->get_role()] = $credit->get_name();
@@ -438,7 +450,7 @@ class Wiredrive_Plugin
 				$items[] = $item;
 
 			}
-
+			
 			$this->setItems($items);
 
 			/*

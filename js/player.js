@@ -96,37 +96,32 @@ var wdp = {
 
     },
     
-    setNextCredit: function(playerID) 
+    setNextCredit: function(playerID, isFlash) 
     {
         
-        if (playerID === undefined) {
-            // Is HTML5 Player or Slideshow
-            playerID = jQuery(this).attr('id');
-            
-            if (playerID === "") {
-                playerID = jQuery('.wd-stage.wd-active').find('.wd-video-player').attr('id');
-            }
-            
+        if(isFlash) {
+            // Is Flash
+            currentPlayer = jQuery(playerID).closest('.wd-player');
+        } else {
+            // Is slideshow or HTML5
+             currentPlayer = jQuery(this).closest('.wd-player');
         }
+                
+        var nextItem = currentPlayer.find('.wd-stage').attr('data-wd-item');
         
-        playerID = '#'+playerID;
-        
-        var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
                
         // New credits
-        jQuery(playerID).closest('.wd-player')
-            .find('.wd-credits .wd-title')
-            .empty()
-            .append(
-                jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-title')
-            );
+        currentPlayer.find('.wd-credits .wd-title')
+                    .empty()
+                    .append(
+                        currentPlayer.find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-title')
+                    );
         
-        jQuery(playerID).closest('.wd-player')
-            .find('.wd-credits .wd-credit')
-            .empty()
-            .append(
-                jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-credit')
-            );
+        currentPlayer.find('.wd-credits .wd-credit')
+                    .empty()
+                    .append(
+                        currentPlayer.find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-credit')
+                    );
     },
     
     setPrevCredit: function() 
@@ -217,19 +212,34 @@ var wdp = {
     /*
      * Used for the slidehsow feature to make sure the next/prev button is displayed when it needs to be.
      */
-    setNavButton: function(listLength) 
+    setNavButton: function(listLength, playerID, isFlash) 
     {
-        // Hide/show the correct next/prev button.
-        var currentItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
-        if (currentItem === listLength ) {
-            jQuery(this).closest('.wd-player').find('.wd-play-next').removeClass('wd-active');
-            jQuery(this).closest('.wd-player').find('.wd-play-prev').addClass('wd-active'); 
-        } else if (currentItem === 0) {
-            jQuery(this).closest('.wd-player').find('.wd-play-prev').removeClass('wd-active');
-            jQuery(this).closest('.wd-player').find('.wd-play-next').addClass('wd-active');    
+        
+        if(isFlash) {
+            // Is Flash
+            currentPlayer = jQuery(playerID).closest('.wd-player');
+        } else {
+            // Is slideshow or HTML5
+             currentPlayer = jQuery(this).closest('.wd-player');
+        }
+
+        var currentItem = currentPlayer.find('.wd-stage').attr('data-wd-item');
+           
+        if (listLength == 1 ) {
+            // 1 item in list...
+            currentPlayer.find('.wd-play-next, .wd-play-prev').removeClass('wd-active');    
+        } else if (currentItem == listLength ) {
+            // On last item...
+            currentPlayer.find('.wd-play-next').removeClass('wd-active');
+            currentPlayer.find('.wd-play-prev').addClass('wd-active'); 
+        } else if (currentItem == 0) {
+            // On first item...
+            currentPlayer.find('.wd-play-prev').removeClass('wd-active');
+            currentPlayer.find('.wd-play-next').addClass('wd-active');    
         } else if (currentItem > 0) {
-            jQuery(this).closest('.wd-player').find('.wd-play-next').addClass('wd-active');
-            jQuery(this).closest('.wd-player').find('.wd-play-prev').addClass('wd-active');
+            // One any item
+            currentPlayer.find('.wd-play-next').addClass('wd-active');
+            currentPlayer.find('.wd-play-prev').addClass('wd-active');
         }
 
     },
@@ -240,7 +250,13 @@ var wdp = {
      * Send next source to the player
      */
     setNextSource: function()
-    {      
+    {   
+       
+        //Check to see if the current image is still fading (prevents turbo clicking problems with slideshows).
+        if (jQuery(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
+            return;
+        }
+       
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
         var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list li').size() - 1;
         var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
@@ -254,13 +270,8 @@ var wdp = {
             var nextSrc = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('href'); 
             
             if (videoContainer === null) {
-                //This means it's an image
-                
-                //Check to see if the current image is still fading (prevents turbo clicking problems).
-                if (jQuery(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
-                    return;
-                }
-                
+                //This means it's an image                
+                var currentStage = jQuery(this).closest('.wd-player').find('.wd-stage');
                 var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
                 var slideshowWidth = jQuery(this).closest('.wd-player').find('.wd-stage').width();
                 var newImageHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-height');
@@ -269,37 +280,43 @@ var wdp = {
                         
                 // Get the new image sizes
                 var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-                
+                        
                 // Get first image and duplicate it
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
-                    // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
+                var firstImage = jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two').removeAttr('src');
+                
+                currentStage.append(firstImage);
+                            
+                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
+                currentStage.find('.wd-slideshow-image-two')
                             .hide()
+                            .removeAttr('id')
                             .attr('src', nextSrc)
-                            .attr('data-wd-item',nextItem)
+                            .attr('data-wd-item', nextItem)
                             .width(new_size.width)
                             .height(new_size.height)
                             .css('margin-top', 0-(new_size.height/2)+'px')
-                            .css('margin-left', 0-(new_size.width/2)+'px')
-                            .appendTo(jQuery(this).closest('.wd-player').find('.wd-stage'));
-                
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
+                            .css('margin-left', 0-(new_size.width/2)+'px');
+                            
+
+                // Fade out the first image, remove it, and then fade in the new image.
+                currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
                 {
                     jQuery(this).remove();
+                    currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
                 });
-
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
-                
+                           
             } else if ( typeof videoContainer.load === 'function' ) {
                 // This sends it to the HTML player
                 videoContainer.src = nextSrc;
                 videoContainer.load();
-                videoContainer.play();                
+                videoContainer.play();
+                                 
             } else {
+           
                 // This sends it to the Flash Player                  
                 jQuery(videoContainer).externalInterface({method:'setNewSource', args:nextSrc});
                 jQuery(videoContainer).externalInterface({method:'removePlayButton'});
             }
-                            
             // Set active class on the new item
             // Remove active class
             jQuery(this).closest('.wd-player')
@@ -316,10 +333,12 @@ var wdp = {
             jQuery(this).closest('.wd-player')
                     .find('.wd-stage')
                     .attr('data-wd-item', nextItem);
+
         
             wdp.setNextCredit.call(this);
-                                        
-            wdp.setNavButton.call(this, listLength);   
+
+            wdp.setNavButton.call(this, listLength);
+              
         }
     },
     
@@ -330,6 +349,12 @@ var wdp = {
      */
     setPrevSource: function()
     {
+       
+        //Check to see if the current image is still fading (prevents turbo clicking problems with slideshows).
+        if (jQuery(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
+            return;
+        }
+            
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
         var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;        
         var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
@@ -347,13 +372,8 @@ var wdp = {
             var prevSrc = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').eq(prevItem).children('a').attr('href');             
 
             if (videoContainer === null) {
-                //This means it's an image
-                
-                //Check to see if the current image is still fading (prevents turbo clicking problems).
-                if (jQuery(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
-                    return;
-                }
-                
+                //This means it's an image                
+                var currentStage = jQuery(this).closest('.wd-player').find('.wd-stage');
                 var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
                 var slideshowWidth = jQuery(this).closest('.wd-player').find('.wd-stage').width();
                 var newImageHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(prevItem).attr('data-wd-height');
@@ -362,24 +382,32 @@ var wdp = {
                         
                 // Get the new image sizes
                 var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-                
+                        
                 // Get first image and duplicate it
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
-                    // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion. 
+                var firstImage = jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two').removeAttr('src');
+                
+                currentStage.append(firstImage);
+                
+            
+                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
+                currentStage.find('.wd-slideshow-image-two')
                             .hide()
+                            .removeAttr('id')
                             .attr('src', prevSrc)
-                            .attr('data-wd-item',prevItem)
+                            .attr('data-wd-item', prevItem)
                             .width(new_size.width)
                             .height(new_size.height)
                             .css('margin-top', 0-(new_size.height/2)+'px')
-                            .css('margin-left', 0-(new_size.width/2)+'px')
-                            .appendTo(jQuery(this).closest('.wd-player').find('.wd-stage'));
-                
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function() 
+                            .css('margin-left', 0-(new_size.width/2)+'px');
+                            
+
+                // Fade out the first image, remove it, and then fade in the new image.
+
+                currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
                 {
                     jQuery(this).remove();
+                    currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
                 });
-                jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');   
                 
             } else if ( typeof videoContainer.load === 'function' ) {
                 // This send it to the HTML player
@@ -426,15 +454,16 @@ var wdp = {
     /*
      * For Flash: When video ends, play the next one.
      */
-    stoppedPlaying: function(flashPlayerID)
+    stoppedPlaying: function(playerID)
     {
-        var playerID = '#' + flashPlayerID;
-    
+        var playerID = '#' + playerID;
+        var isFlash = true;
+        
         //jQuery .length() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
         var listLength = jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li').size() - 1;   
                         
-        var nextItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
-            nextItem = parseInt(nextItem, 10);
+        var currentItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        var nextItem = parseInt(currentItem, 10);
         
         //This if statment makes the player stop after the last item is played.
         if (nextItem < listLength) {
@@ -458,8 +487,11 @@ var wdp = {
                                 .eq(nextItem)
                                 .addClass('wd-active');
                                 
-            wdp.setNextCredit(playerID);
-        } 
+            wdp.setNextCredit(playerID, isFlash);
+            
+        }
+        
+        wdp.setNavButton.call(this, listLength, playerID, isFlash); 
     } 
 
 };
@@ -498,8 +530,6 @@ jQuery(document).ready(function($) {
             // For Flash: Send the href of the thumb to the Flash player
                 jQuery(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
                 jQuery(videoContainer).externalInterface({method:'removePlayButton'});
-            //videoContainer.setNewSource(newSrc);
-            //videoContainer.removePlayButton();
         }
         
         // When a thumb is clicked remove the poster attribute from the video tag
@@ -648,6 +678,20 @@ jQuery(document).ready(function($) {
         var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width();
         var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
         var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
+        
+        // If the image will be in a popup, then use a differnt size calculation        
+        if ($(this).closest('.wd-player').hasClass('popup')) {
+ 
+            // Allow the image to expand to 80% of the browser window
+            slideshowHeight = $(window).height() - ($(window).height()/100)*20;
+            slideshowWidth = $(window).width() - ($(window).width()/100)*20;
+    
+            // Set the stage to the size of the browser window
+            $(this).closest('.wd-player').find('.wd-stage').css({
+                        height: slideshowHeight,
+                        width: slideshowWidth
+            });
+        }
 
         var first_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
                 
@@ -664,9 +708,9 @@ jQuery(document).ready(function($) {
      *  When clicking on a slideshow thumb, do this
      */
     $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
-    {
+    {   
         e.preventDefault();
-        
+        var currentStage = $(this).closest('.wd-player').find('.wd-stage');
         var newImageHref = $(this).attr('href');
         var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();
         var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width();
@@ -674,9 +718,13 @@ jQuery(document).ready(function($) {
         var newImageWidth = $(this).attr('data-wd-width');
         var currentImageHref = $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src');
         
+        if ( newImageHref !== currentImageHref ) {
+            currentStage.find('.wd-slideshow-image').removeAttr('src');
+        }
+        
         // If the image will be in a popup, then use a differnt size calculation        
         if ($(this).closest('.wd-player').hasClass('popup')) {
-            
+
             // Allow the image to expand to 80% of the browser window
             slideshowHeight = $(window).height() - ($(window).height()/100)*20;
             slideshowWidth = $(window).width() - ($(window).width()/100)*20;
@@ -690,50 +738,55 @@ jQuery(document).ready(function($) {
 
         // Test to see if clicked thumb is current image
         if ( newImageHref === currentImageHref ) {
+            currentStage.find('.wd-slideshow-image').css('visibility','visible')
             return;
-        } else if ($(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
+        } else if (currentStage.find('.wd-slideshow-image').is(':animated')) {
             return;
         } else {
-            
+                        
             // Get the new image sizes
             var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
 
             // Get first image and duplicate it
-            $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone()
-                // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
+            var firstImage = currentStage.find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two');
+            
+            currentStage.append(firstImage);
+            
+            // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
+            currentStage.find('.wd-slideshow-image-two')
                         .hide()
+                        .removeAttr('id')
                         .attr('src', newImageHref)
                         .attr('data-wd-item',$(this).attr('data-wd-item'))
                         .width(new_size.width)
                         .height(new_size.height)
                         .css('margin-top', 0-(new_size.height/2)+'px')
-                        .css('margin-left', 0-(new_size.width/2)+'px')
-                        .appendTo($(this).closest('.wd-player').find('.wd-stage'));
-            
-            // If the image will be in a popup, then just show the image, don't fade it in.        
-            if ($(this).closest('.wd-player').hasClass('popup')) {
-            
-                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).remove();
-                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).show();
-                
-            } else {
-            
-                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
-                {
-                    $(this).remove();
-                });
-                $(this).closest('.wd-player').find('.wd-slideshow-image').eq(1).fadeIn('slow');
-            }    
-            
-            // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
-            $(this).closest('.wd-player')
-                .find('.wd-stage')
-                .attr('data-wd-item', $(this).attr('data-wd-item'));
-            
-            wdp.setClickedCredit.call(this);
-            
-            wdp.setNavButton.call(this);
+                        .css('margin-left', 0-(new_size.width/2)+'px');
+                        
         }
+        
+        if ($(this).closest('.wd-player').hasClass('popup')) {
+           // If the image will be in a popup, then just show the image, don't fade it in.        
+            currentStage.find('.wd-slideshow-image').eq(0).remove();
+            currentStage.find('.wd-slideshow-image-two').css('visibility','visible');
+            
+        } else {
+            // Otherwise, fade out the first image, remove it, and then fade in the new image.
+            currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
+            {
+                $(this).remove();
+                currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
+            });
+        }    
+        
+        // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
+        currentStage.attr('data-wd-item', $(this).attr('data-wd-item'));
+        
+        wdp.setClickedCredit.call(this);
+        
+        wdp.setNavButton.call(this);
+
+        e.preventDefault();
     
     });
     
@@ -816,7 +869,8 @@ jQuery(document).ready(function($) {
      * When you click on a thumb do this
      */
     $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function(e) {
-    
+        
+        var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits');
         var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
         var popMargLeft = ($(this).closest('.wd-player').find('.wd-stage').width() + 0) / 2;
@@ -842,8 +896,11 @@ jQuery(document).ready(function($) {
         //Add the fade layer to bottom of the body tag.
         $('body').append('<div id="fade"></div>');
         
-        //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) is used to fix the IE Bug on fading transparencies
+        //Fade in the fade layer
         $('#fade').fadeIn();
+        
+        // Set the next/prev button active
+        wdp.setNavButton.call(this, listLength);
                 
         e.preventDefault();
     });
@@ -851,7 +908,7 @@ jQuery(document).ready(function($) {
     
     
     /*
-     * Re-enable the HREF's of thumb links.
+     * Go to source on mobile
      */
     $('.popup.mobile .wd-thumb-list a').click(function() {
         window.location = $(this).attr('href');
@@ -860,7 +917,7 @@ jQuery(document).ready(function($) {
     
     
     /*
-     * Go full screen on iPad.
+     * Go source on iPad.
      */
     $('.popup.ipad .wd-thumb-list a').click(function() {
             window.location = $(this).attr('href');
@@ -918,9 +975,9 @@ jQuery(document).ready(function($) {
      */
     $('a.close, #fade').live('click', function(e) 
     {
-        var currentID = $(this).closest('.wd-player').find('video').attr('id');
+        var currentID = $('.wd-stage.wd-active').find('video').attr('id');
         var videoContainer = document.getElementById(currentID);
-        var flashObject = $(this).closest('.wd-player').find('.wd-video-player');    
+        var flashObject = $('.wd-stage.wd-active').find('.wd-video-player');    
 
         $('#fade').fadeOut('fast', function() 
         {            
@@ -944,7 +1001,7 @@ jQuery(document).ready(function($) {
         });
         
         // Remove active class from stage
-        $(this).closest('.wd-player').find('.wd-stage').removeClass('wd-active');
+        $('.wd-stage.wd-active').removeClass('wd-active');
         
         // Reset the click tracker
         wdp.fullscreenImage = false;
@@ -957,9 +1014,10 @@ jQuery(document).ready(function($) {
     /*
      * On thumb hover show the credits
      */
-    $('.wd-thumb-list a').hover(
+    $('.popup .wd-thumb-list a').hover(
         function () {
             $(this).closest('.popup.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
+            $(this).closest('.popup.wd-player').find('.hover-credits .wd-title').append('<br />');
         }, 
         function () {
             $(this).find('.hover-credits').remove();

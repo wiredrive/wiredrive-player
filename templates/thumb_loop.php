@@ -22,8 +22,9 @@
                     data-wd-source = "<?php echo $item['link'] ?>"
                     data-wd-thumb = "<?php echo $item['thumbnail_lg'] ?>"
                     data-wd-height = "<?php echo $item['height'] ?>"
-                    data-wd-width = "<?php echo $item['width'] ?>"
-                    data-wd-credits = '<?php echo json_encode($item['credits'])?>'
+                    data-wd-width = "<?php echo $item['width'] ?>"                  
+                    data-wd-credits = '<?php echo json_encode($item['credits']) ?>'
+                    data-wd-keywords = '<?php echo json_encode($item['keywords']) ?>'
                 >
                     <img class='wd-thumb' src="<?php echo $item['thumbnail_sm'] ?>">
                 </a>
