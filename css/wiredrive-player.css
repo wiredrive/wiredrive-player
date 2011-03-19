@@ -270,7 +270,6 @@ ul.wd-thumb-list li a {
     height: auto;
 }
 
-
 #content ul.wd-thumb-list {
     margin-bottom: 0; 
 }
@@ -316,6 +315,10 @@ ul.wd-thumb-list li a {
             width: 180px;
             display: inline-block;
             float: none;
+            /* IE Inline Block Fix */
+            zoom: 1;
+            *float: inline;
+
         }
         .wd-player.popup .wd-thumb {
             height: auto;
@@ -365,11 +368,12 @@ ul.wd-thumb-list li a {
             text-decoration: none;
             overflow: hidden;
         }
-        .wd-thumb-list a .wd-credits {
+        .wd-thumb-list li .hover-credits {
             position: absolute;
             background: black;
             opacity: 0.85;
             bottom: 0;
+            left: 0;
             width: 100%;
         }
 
@@ -443,10 +447,16 @@ ul.wd-thumb-list li a {
 .box-thumbs .wd-thumb-list li a {
     width: 180px;
     height: 180px;
-    display: table-cell;
     vertical-align: middle;
     text-align: center;
+    display: table-cell;
+    /* <IE7 hack */
+    *float: left;
+    *display: block;
 }
+
+/* IE8 Hacks */
+.box-thumbs .wd-thumb-list li a { display/*\**/: block\9; }
 
 /* Disable Thumbnail & Credits Options */
 .wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.popup .hover-credits {

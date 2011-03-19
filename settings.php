@@ -68,10 +68,10 @@ class Wiredrive_Plugin_Settings
 	}
 
 	/**
-	 * Sample Options Init
+	 * Wiredrive Player Options Init
 	 * Register our settings. Add the settings section, and settings fields
 	 */
-	public function sampleoptions_init()
+	public function wdpoptions_init()
 	{
 
 		register_setting('wdp_options',
@@ -80,7 +80,7 @@ class Wiredrive_Plugin_Settings
 		);
 
 		add_settings_section('main_section',
-			'Main Settings',
+			'Default dimensions',
 			array($this, 'section_text'),
 			__FILE__
 		);
@@ -99,89 +99,105 @@ class Wiredrive_Plugin_Settings
 			'main_section'
 		);
 
+/*
+		add_settings_section('main_section',
+			'Element colors and properties',
+			array($this, 'section_text'),
+			__FILE__
+		);
+*/
+
 		add_settings_field('wdp_stage_color',
-			'The color of the stage',
+			'Stage (area behind the playing video)',
 			array($this, 'stage_color'),
 			__FILE__,
 			'main_section'
 		);
 
-		add_settings_field('wdp_credit_container_border',
-			"Credit Container's Top Border Color",
-			array($this, 'credit_container_border'),
-			__FILE__,
-			'main_section'
-		);
-
-		add_settings_field('wdp_credit_container_color',
-			'Credit Container Color',
-			array($this, 'credit_container_color'),
-			__FILE__,
-			'main_section'
-		);
-
-		add_settings_field('wdp_credit_container_alignment',
-			'Credit Text Alignment',
-			array($this, 'credit_container_alignment'),
-			__FILE__,
-			'main_section'
-		);
-
 		add_settings_field('wdp_thumb_bg_color',
-			'Thumb Tray Background Color',
+			'Thumb tray background color',
 			array($this, 'thumb_bg_color'),
 			__FILE__,
 			'main_section'
 		);
 
+		add_settings_field('wdp_credit_container_color',
+			'Credit background color',
+			array($this, 'credit_container_color'),
+			__FILE__,
+			'main_section'
+		);
+
+		add_settings_field('wdp_credit_container_border',
+			"Credits/thumbnail tray divider",
+			array($this, 'credit_container_border'),
+			__FILE__,
+			'main_section'
+		);
+		
 		add_settings_field('wdp_arrow_color',
-			'Next & Previous Arrow Colors',
+			'Next and previous arrow',
 			array($this, 'arrow_color'),
 			__FILE__,
 			'main_section'
 		);
 
 		add_settings_field('wdp_active_item_color',
-			'Active Item Color',
+			'Active file border (highlights file in thumbnail tray)',
 			array($this, 'active_item_color'),
 			__FILE__,
 			'main_section'
 		);
+		
+		add_settings_field('wdp_thumb_box_opacity',
+			'Pillarbox and letterbox opacity',
+			array($this, 'thumb_box_opacity'),
+			__FILE__,
+			'main_section'
+		);		
+
+/*
+		add_settings_section('main_section',
+			'Text colors and properties',
+			array($this, 'section_text'),
+			__FILE__
+		);
+*/
 
 		add_settings_field('wdp_title_color',
-			'Title Text Color',
+			'Title color',
 			array($this, 'title_color'),
 			__FILE__,
 			'main_section'
 		);
 
-		add_settings_field('wdp_credit_color',
-			'Credit Text Color',
-			array($this, 'credit_color'),
-			__FILE__,
-			'main_section'
-		);
-
 		add_settings_field('wdp_title_font_size',
-			'Title Font Size',
+			'Title size (include px)',
 			array($this, 'title_font_size'),
 			__FILE__,
 			'main_section'
 		);	
 
-		add_settings_field('wdp_credit_font_size',
-			'Credit Font Size',
-			array($this, 'credit_font_size'),
-			__FILE__,
-			'main_section'
-		);		
-
-		add_settings_field('wdp_thumb_box_opacity',
-			'Thumb Box Opacity',
-			array($this, 'thumb_box_opacity'),
+        add_settings_field('wdp_credit_color',
+			'Credit color',
+			array($this, 'credit_color'),
 			__FILE__,
 			'main_section'
 		);				
+		
+		add_settings_field('wdp_credit_font_size',
+			'Credit font (include px)',
+			array($this, 'credit_font_size'),
+			__FILE__,
+			'main_section'
+		);
+		
+		add_settings_field('wdp_credit_container_alignment',
+			'Credit text alignment',
+			array($this, 'credit_container_alignment'),
+			__FILE__,
+			'main_section'
+		);		
 		
 	}
 
@@ -192,10 +208,10 @@ class Wiredrive_Plugin_Settings
 	function section_text() { }
 
 	/**
-	 * Sample Options Add
+	 * Wiredrive Options Add
 	 * Add sub page to the Settings Menu
 	 */
-	public function sampleoptions_add_page()
+	public function wdpoptions_add_page()
 	{
 		add_options_page('Wiredrive Player Settings', '
 		                  Wiredrive Player', 

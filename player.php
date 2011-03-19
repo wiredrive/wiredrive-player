@@ -71,8 +71,8 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
      */
     if (is_admin()) {    	  
         $wiredriveSettings = new Wiredrive_Plugin_Settings();	   
-        add_action('admin_init', array($wiredriveSettings,'sampleoptions_init' ));
-        add_action('admin_menu', array($wiredriveSettings,'sampleoptions_add_page'));
+        add_action('admin_init', array($wiredriveSettings,'wdpoptions_init' ));
+        add_action('admin_menu', array($wiredriveSettings,'wdpoptions_add_page'));
 
     	include_once 'wiredrive_admin.php';
     	$wiredriveAdmin = new Wiredrive_Plugin_Admin();

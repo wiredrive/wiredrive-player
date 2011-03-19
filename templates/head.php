@@ -38,6 +38,7 @@ $options = $this->get('options');
     font-size: <?php echo $options['wdp_credit_font_size'] ?>;
 }
 .box-thumbs .wd-thumb-list li a {
-    background: rgba(0, 0, 0, <?php echo $options['wdp_thumb_box_opacity'] ?>);
+    background-color: #111111;
+    background: rgba(17, 17, 17, <?php echo $options['wdp_thumb_box_opacity'] ?>);
 }
 </style>
