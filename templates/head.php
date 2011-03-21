@@ -3,8 +3,8 @@ $options = $this->get('options');
 ?>
 <style type="text/css">
 .wd-stage {
-    width: <?php echo $options['wdp_width'] ?>;
-    height: <?php echo $options['wdp_height'] ?>;
+    width: <?php echo $options['wdp_width'] . 'px' ?>;
+    height: <?php echo $options['wdp_height'] . 'px'?>;
     background: <?php echo $options['wdp_stage_color'] ?>;
 }
 .wd-credits-container {
@@ -31,11 +31,11 @@ $options = $this->get('options');
 }
 .wd-title {
     color: <?php echo $options['wdp_title_color'] ?>;
-    font-size: <?php echo $options['wdp_title_font_size'] ?>;
+    font-size: <?php echo $options['wdp_title_font_size'] . 'px' ?>;
 }
 .wd-credit {
     color: <?php echo $options['wdp_credit_color'] ?>;
-    font-size: <?php echo $options['wdp_credit_font_size'] ?>;
+    font-size: <?php echo $options['wdp_credit_font_size'] . 'px' ?>;
 }
 .box-thumbs .wd-thumb-list li a {
     background-color: #111111;

@@ -34,8 +34,8 @@ class Wiredrive_Plugin_Settings
          * Set up default values for plugin
          */
 		$this->defaults = array(
-			'wdp_width'                      => '100%',
-			'wdp_height'                     => '480px',
+			'wdp_width'                      => '640',
+			'wdp_height'                     => '480',
 			'wdp_stage_color'                => '#000000',
 			'wdp_credit_container_border'    => '#2C2C2C',
 			'wdp_credit_container_color'     => '#373636',
@@ -45,8 +45,8 @@ class Wiredrive_Plugin_Settings
 			'wdp_title_color'                => '#FFFFFF',
 			'wdp_credit_color'               => '#999999',
 			'wdp_credit_container_alignment' => 'Center',
-			'wdp_title_font_size'            => '12px',
-			'wdp_credit_font_size'           => '12px',
+			'wdp_title_font_size'            => '12',
+			'wdp_credit_font_size'           => '12',
 			'wdp_thumb_box_opacity'          => '0.3'
 		);
 
@@ -99,104 +99,102 @@ class Wiredrive_Plugin_Settings
 			'main_section'
 		);
 
-/*
-		add_settings_section('main_section',
+
+		add_settings_section('element_colors_section',
 			'Element colors and properties',
 			array($this, 'section_text'),
 			__FILE__
 		);
-*/
+
 
 		add_settings_field('wdp_stage_color',
 			'Stage (area behind the playing video)',
 			array($this, 'stage_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('wdp_thumb_bg_color',
 			'Thumb tray background color',
 			array($this, 'thumb_bg_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('wdp_credit_container_color',
 			'Credit background color',
 			array($this, 'credit_container_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('wdp_credit_container_border',
 			"Credits/thumbnail tray divider",
 			array($this, 'credit_container_border'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 		
 		add_settings_field('wdp_arrow_color',
 			'Next and previous arrow',
 			array($this, 'arrow_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('wdp_active_item_color',
 			'Active file border (highlights file in thumbnail tray)',
 			array($this, 'active_item_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 		
 		add_settings_field('wdp_thumb_box_opacity',
 			'Pillarbox and letterbox opacity',
 			array($this, 'thumb_box_opacity'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);		
 
-/*
-		add_settings_section('main_section',
+		add_settings_section('text_colors_section',
 			'Text colors and properties',
 			array($this, 'section_text'),
 			__FILE__
 		);
-*/
 
 		add_settings_field('wdp_title_color',
 			'Title color',
 			array($this, 'title_color'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);
 
 		add_settings_field('wdp_title_font_size',
-			'Title size (include px)',
+			'Title size',
 			array($this, 'title_font_size'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);	
 
         add_settings_field('wdp_credit_color',
 			'Credit color',
 			array($this, 'credit_color'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);				
 		
 		add_settings_field('wdp_credit_font_size',
-			'Credit font (include px)',
+			'Credit size',
 			array($this, 'credit_font_size'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);
 		
 		add_settings_field('wdp_credit_container_alignment',
 			'Credit text alignment',
 			array($this, 'credit_container_alignment'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);		
 		
 	}
@@ -232,6 +230,7 @@ class Wiredrive_Plugin_Settings
 
 		echo "<input id='wdp_width' name='wdp_options[wdp_width]' size='10' type='text' value='" .
 			$width . "' />";
+        echo "<span>px</span>";			
 	}
 
 	/**
@@ -245,6 +244,7 @@ class Wiredrive_Plugin_Settings
 
 		echo "<input id='wdp_height' name='wdp_options[wdp_height]' size='10' type='text' value='" .
 			$height . "' />";
+        echo "<span>px</span>";
 	}
 
 	/**
@@ -413,6 +413,7 @@ class Wiredrive_Plugin_Settings
 
 		echo "<input id='wdp_title_font_size' name='wdp_options[wdp_title_font_size]' size='10' type='text' value='" .
 			$wdp_title_font_size ."' />";
+        echo "<span>px</span>";			
 	}
 	
 	/**
@@ -426,6 +427,7 @@ class Wiredrive_Plugin_Settings
 
 		echo "<input id='wdp_credit_font_size' name='wdp_options[wdp_credit_font_size]' size='10' type='text' value='" .
 			$wdp_credit_font_size ."' />";
+        echo "<span>px</span>";			
 	}
 	
 	public function thumb_box_opacity()
@@ -434,6 +436,7 @@ class Wiredrive_Plugin_Settings
 
 		echo "<input id='wdp_thumb_box_opacity' name='wdp_options[wdp_thumb_box_opacity]' size='10' type='text' value='" .
 			$wdp_thumb_box_opacity ."' />";
+        echo "<span> must be a decimal value from 0 to 1</span>";			
 	}
 		
 	/**
@@ -469,7 +472,7 @@ class Wiredrive_Plugin_Settings
 	public function options_page()
 	{
 ?>
-	<div class="wdp-settings wrap">
+	<div class="wdp-settings-wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Wiredrive Player Settings</h2>
 		You can config the Wiredrive Player's appearance below.

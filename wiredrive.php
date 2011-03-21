@@ -124,8 +124,8 @@ class Wiredrive_Plugin
          */
 		$options = get_option('wdp_options');
 		extract(shortcode_atts(array(
-					'height'            => $options['wdp_height'],
-					'width'             => $options['wdp_width'],
+					'height'            => $options['wdp_height'] . 'px',
+					'width'             => $options['wdp_width'] . 'px',
 					'hidethumbs'        => 'off',
 					'autoslideshow'     => 'off',
 					'disablethumbs'     => 'off',

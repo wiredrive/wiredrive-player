@@ -66,6 +66,41 @@ var wdp = {
     
     },
     
+    
+    
+    slideshowInit: function() {
+            
+        var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
+        var slideshowWidth = jQuery(this).closest('.wd-player').find('.wd-stage').width();
+        var newImageHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
+        var newImageWidth = jQuery(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
+        
+        // If the image will be in a popup, then use a differnt size calculation        
+        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
+ 
+            // Allow the image to expand to 80% of the browser window
+            slideshowHeight = jQuery(window).height() - (jQuery(window).height()/100)*20;
+            slideshowWidth = jQuery(window).width() - (jQuery(window).width()/100)*20;
+    
+            // Set the stage to the size of the browser window
+            jQuery(this).closest('.wd-player').find('.wd-stage').css({
+                        height: slideshowHeight,
+                        width: slideshowWidth
+            });
+        }
+
+        var first_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+                
+        jQuery(this).width(first_size.width)
+            .height(first_size.height)
+            .css('margin-top', 0-(first_size.height/2)+'px')
+            .css('margin-left', 0-(first_size.width/2)+'px')
+            .show();
+    
+    },
+
+
+    
     autoSlideshow: function() {
         
         function delay() {
@@ -94,6 +129,85 @@ var wdp = {
         
         setTimeout(delay, 5000);
 
+    },
+    
+    slideshowImageClick: function() {
+        
+        var currentStage = jQuery(this).closest('.wd-player').find('.wd-stage');
+        var newImageHref = jQuery(this).attr('href');
+        var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
+        var slideshowWidth = jQuery(this).closest('.wd-player').find('.wd-stage').width();
+        var newImageHeight = jQuery(this).attr('data-wd-height');
+        var newImageWidth = jQuery(this).attr('data-wd-width');
+        var currentImageHref = jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src');
+        
+        if ( newImageHref !== currentImageHref ) {
+            currentStage.find('.wd-slideshow-image').removeAttr('src');
+        }
+        
+        // If the image will be in a popup, then use a differnt size calculation        
+        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
+
+            // Allow the image to expand to 80% of the browser window
+            slideshowHeight = jQuery(window).height() - (jQuery(window).height()/100)*20;
+            slideshowWidth = jQuery(window).width() - (jQuery(window).width()/100)*20;
+    
+            // Set the stage to the size of the browser window
+            $(this).closest('.wd-player').find('.wd-stage').css({
+                        height: slideshowHeight,
+                        width: slideshowWidth
+            });
+        }
+
+        // Test to see if clicked thumb is current image
+        if ( newImageHref === currentImageHref ) {
+            currentStage.find('.wd-slideshow-image').css('visibility','visible');
+            return;
+        } else if (currentStage.find('.wd-slideshow-image').is(':animated')) {
+            return;
+        } else {
+                        
+            // Get the new image sizes
+            var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
+
+            // Get first image and duplicate it
+            var firstImage = currentStage.find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two');
+            
+            currentStage.append(firstImage);
+            
+            // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
+            currentStage.find('.wd-slideshow-image-two')
+                        .hide()
+                        .removeAttr('id')
+                        .attr('src', newImageHref)
+                        .attr('data-wd-item',$(this).attr('data-wd-item'))
+                        .width(new_size.width)
+                        .height(new_size.height)
+                        .css('margin-top', 0-(new_size.height/2)+'px')
+                        .css('margin-left', 0-(new_size.width/2)+'px');
+                        
+        }
+        
+        if ($(this).closest('.wd-player').hasClass('popup')) {
+           // If the image will be in a popup, then just show the image, don't fade it in.        
+            currentStage.find('.wd-slideshow-image').eq(0).remove();
+            currentStage.find('.wd-slideshow-image-two').css('visibility','visible');
+            
+        } else {
+            // Otherwise, fade out the first image, remove it, and then fade in the new image.
+            currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
+            {
+                $(this).remove();
+                currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
+            });
+        }    
+        
+        // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
+        currentStage.attr('data-wd-item', $(this).attr('data-wd-item'));
+        
+        wdp.setClickedCredit.call(this);
+        
+        wdp.setNavButton.call(this);
     },
     
     setNextCredit: function(playerID, isFlash) 
@@ -448,6 +562,61 @@ var wdp = {
             wdp.setNavButton.call(this, listLength);
         }
     },
+
+
+
+    /*
+     * Thumb tray drop down toggle
+     */
+    thumbTrayDropdown: function() {
+        
+        // These varibles are written like this to ensure that the Thumb Tray height is correct, even if the credits container is or isn't inside the thumb tray.
+        var thumbListHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-tray').find('.wd-thumb-list').outerHeight();
+        if (thumbListHeight === null) {
+            thumbListHeight = 0;
+        }
+                
+        var creditsContainerHeight = jQuery(this).find('.wd-thumb-tray').find('.wd-credits-container').outerHeight();
+        if (creditsContainerHeight === null) {
+            creditsContainerHeight = 0;
+        }
+        
+        var thumbTrayHeight = thumbListHeight + creditsContainerHeight;
+        
+        var currentTrayHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-tray').outerHeight();
+    	if ( currentTrayHeight === 0) {
+    	   //Make tray go down
+    		jQuery(this).closest('.wd-player')
+    		          .find('.wd-thumb-tray')
+    		          .dequeue()
+    		          .stop()
+    		          .css('visibility', 'visible')
+    		          .animate({ height: thumbTrayHeight });
+
+    		jQuery(this).addClass('wd-up-arrow');
+    		
+    		jQuery(this).closest('.wd-player')
+    		          .find('.wd-credits-container')
+    		          .addClass('wd-active');
+    		
+    	} else {
+    	   //Make tray go up
+            jQuery(this).closest('.wd-player')
+                    .find('.wd-thumb-tray')
+                    .animate({ height: '0' }, 'normal', 'linear', function() 
+                        {
+                            jQuery(this).css('visibility', 'hidden');
+                        }
+                    );
+                    
+            jQuery(this).removeClass('wd-up-arrow');
+            
+            jQuery(this).closest('.wd-player')
+                    .find('.wd-credits-container')
+                    .removeClass('wd-active');
+        }
+
+    },
     
     
     
@@ -548,8 +717,6 @@ jQuery(document).ready(function($) {
         // Set the next/prev button active
         wdp.setNavButton.call(this, listLength);
                 
-        e.preventDefault();
-
     });
 
 
@@ -612,53 +779,9 @@ jQuery(document).ready(function($) {
     /*
      *  When click on drop down button, slide down the thumb tray
      */
-    $('.wd-thumb-dropdown').click(function()
+    $('.wd-thumb-dropdown').click(function() 
     {
-        // These varibles are written like this to ensure that the Thumb Tray height is correct, even if the credits container is or isn't inside the thumb tray.
-        var thumbListHeight = $(this).closest('.wd-player').find('.wd-thumb-tray').find('.wd-thumb-list').outerHeight();
-        if (thumbListHeight === null) {
-            thumbListHeight = 0;
-        }
-                
-        var creditsContainerHeight = $(this).find('.wd-thumb-tray').find('.wd-credits-container').outerHeight();
-        if (creditsContainerHeight === null) {
-            creditsContainerHeight = 0;
-        }
-        
-        var thumbTrayHeight = thumbListHeight + creditsContainerHeight;
-        
-        var currentTrayHeight = $(this).closest('.wd-player').find('.wd-thumb-tray').outerHeight();
-    	if ( currentTrayHeight === 0) {
-    	   //Make tray go down
-    		$(this).closest('.wd-player')
-    		          .find('.wd-thumb-tray')
-    		          .dequeue()
-    		          .stop()
-    		          .css('visibility', 'visible')
-    		          .animate({ height: thumbTrayHeight });
-
-    		$(this).addClass('wd-up-arrow');
-    		
-    		$(this).closest('.wd-player')
-    		          .find('.wd-credits-container')
-    		          .addClass('wd-active');
-    		
-    	} else {
-    	   //Make tray go up
-            $(this).closest('.wd-player')
-                    .find('.wd-thumb-tray')
-                    .animate({ height: '0' }, 'normal', 'linear', function() 
-                        {
-                            $(this).css('visibility', 'hidden');
-                        }
-                    );
-                    
-            $(this).removeClass('wd-up-arrow');
-            
-            $(this).closest('.wd-player')
-                    .find('.wd-credits-container')
-                    .removeClass('wd-active');
-        }
+        wdp.thumbTrayDropdown.call(this);
     }); 
 
 
@@ -672,34 +795,11 @@ jQuery(document).ready(function($) {
     /*
      * This resizes the first slideshow image.
      */
-    $('.wd-player.slideshow .wd-slideshow-image').each(function() {
-        
-        var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();
-        var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width();
-        var newImageHeight = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
-        var newImageWidth = $(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
-        
-        // If the image will be in a popup, then use a differnt size calculation        
-        if ($(this).closest('.wd-player').hasClass('popup')) {
- 
-            // Allow the image to expand to 80% of the browser window
-            slideshowHeight = $(window).height() - ($(window).height()/100)*20;
-            slideshowWidth = $(window).width() - ($(window).width()/100)*20;
+    $('.wd-player.slideshow .wd-slideshow-image').each(function() 
+    {
     
-            // Set the stage to the size of the browser window
-            $(this).closest('.wd-player').find('.wd-stage').css({
-                        height: slideshowHeight,
-                        width: slideshowWidth
-            });
-        }
-
-        var first_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-                
-        $(this).width(first_size.width)
-            .height(first_size.height)
-            .css('margin-top', 0-(first_size.height/2)+'px')
-            .css('margin-left', 0-(first_size.width/2)+'px')
-            .show();
+        wdp.slideshowInit.call(this);
+    
     });
     
     
@@ -710,83 +810,7 @@ jQuery(document).ready(function($) {
     $('.wd-player.slideshow .wd-thumb-list a').click(function(e)
     {   
         e.preventDefault();
-        var currentStage = $(this).closest('.wd-player').find('.wd-stage');
-        var newImageHref = $(this).attr('href');
-        var slideshowHeight = $(this).closest('.wd-player').find('.wd-stage').height();
-        var slideshowWidth = $(this).closest('.wd-player').find('.wd-stage').width();
-        var newImageHeight = $(this).attr('data-wd-height');
-        var newImageWidth = $(this).attr('data-wd-width');
-        var currentImageHref = $(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src');
-        
-        if ( newImageHref !== currentImageHref ) {
-            currentStage.find('.wd-slideshow-image').removeAttr('src');
-        }
-        
-        // If the image will be in a popup, then use a differnt size calculation        
-        if ($(this).closest('.wd-player').hasClass('popup')) {
-
-            // Allow the image to expand to 80% of the browser window
-            slideshowHeight = $(window).height() - ($(window).height()/100)*20;
-            slideshowWidth = $(window).width() - ($(window).width()/100)*20;
-    
-            // Set the stage to the size of the browser window
-            $(this).closest('.wd-player').find('.wd-stage').css({
-                        height: slideshowHeight,
-                        width: slideshowWidth
-            });
-        }
-
-        // Test to see if clicked thumb is current image
-        if ( newImageHref === currentImageHref ) {
-            currentStage.find('.wd-slideshow-image').css('visibility','visible')
-            return;
-        } else if (currentStage.find('.wd-slideshow-image').is(':animated')) {
-            return;
-        } else {
-                        
-            // Get the new image sizes
-            var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
-
-            // Get first image and duplicate it
-            var firstImage = currentStage.find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two');
-            
-            currentStage.append(firstImage);
-            
-            // Now modify the duplicated image to be the new image. This is done so we only have to do one DOM insertion.
-            currentStage.find('.wd-slideshow-image-two')
-                        .hide()
-                        .removeAttr('id')
-                        .attr('src', newImageHref)
-                        .attr('data-wd-item',$(this).attr('data-wd-item'))
-                        .width(new_size.width)
-                        .height(new_size.height)
-                        .css('margin-top', 0-(new_size.height/2)+'px')
-                        .css('margin-left', 0-(new_size.width/2)+'px');
-                        
-        }
-        
-        if ($(this).closest('.wd-player').hasClass('popup')) {
-           // If the image will be in a popup, then just show the image, don't fade it in.        
-            currentStage.find('.wd-slideshow-image').eq(0).remove();
-            currentStage.find('.wd-slideshow-image-two').css('visibility','visible');
-            
-        } else {
-            // Otherwise, fade out the first image, remove it, and then fade in the new image.
-            currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
-            {
-                $(this).remove();
-                currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
-            });
-        }    
-        
-        // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
-        currentStage.attr('data-wd-item', $(this).attr('data-wd-item'));
-        
-        wdp.setClickedCredit.call(this);
-        
-        wdp.setNavButton.call(this);
-
-        e.preventDefault();
+        wdp.slideshowImageClick.call(this);
     
     });
     
@@ -908,18 +932,20 @@ jQuery(document).ready(function($) {
     
     
     /*
-     * Go to source on mobile
+     * Play video on mobile device
      */
-    $('.popup.mobile .wd-thumb-list a').click(function() {
+    $('.popup.mobile .wd-thumb-list a').click(function() 
+    {
         window.location = $(this).attr('href');
     });
     
     
     
     /*
-     * Go source on iPad.
+     * Go to source on iPad.
      */
-    $('.popup.ipad .wd-thumb-list a').click(function() {
+    $('.popup.ipad .wd-thumb-list a').click(function() 
+    {
             window.location = $(this).attr('href');
     });
     
@@ -928,7 +954,8 @@ jQuery(document).ready(function($) {
     /*
      * Set the click tracker on a slideshow image
      */
-    $('.popup.slideshow .wd-thumb-list a').click(function() {
+    $('.popup.slideshow .wd-thumb-list a').click(function() 
+    {
         wdp.fullscreenImage = true;
         $(this).closest('.wd-player').find('.wd-slideshow-image').show();
     });
