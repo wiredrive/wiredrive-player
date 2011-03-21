@@ -12,15 +12,19 @@
             <p><input type="text" id="wdp-dialog-width" class="wdp-dialog-dim" style="width:50px" /> &#215; 
                <input type="text" id="wdp-dialog-height" class="wdp-dialog-dim" style="width:50px" /> pixels</p>
             <p>[width] &#215; [height]</p>
-            <p class="wdp-display-options"><strong>Choose a player display:</strong></p>
-                <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/> Standard Inline<br />
-                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup" /> Overlay gallery; tiles thumbnails at 180px wide or tall<br />
-                <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup box-thumbs" /> Gallery with letterbox, pillarbox<br />                
-            </p>
-            <p class="wdp-thumbnail-options"><strong>Thumbnail Options:</strong></p>
-            <p><input type="checkbox" id="wdp-hide-thumbs"/> Expandable thumbnail tray<br />
-               <input type="checkbox" id="wdp-disable-thumbs"/> Disable thumbnails and credits<br />
-               <input type="checkbox" id="wdp-auto-slideshow"/> Slideshow mode (image feeds only)</p>
+            <div class="wdp-display-options">
+                <p><strong>Choose a player display:</strong></p>
+                    <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/> Standard Inline<br />
+                    <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup" /> Overlay gallery; tiles thumbnails at 180px wide or tall<br />
+                    <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="popup box-thumbs" /> Gallery with letterbox, pillarbox<br />                
+                </p>
+            </div>
+            <div class="wdp-thumbnail-options">
+                <p><strong>Thumbnail Options:</strong></p>
+                <p><input type="checkbox" id="wdp-hide-thumbs"/> Expandable thumbnail tray<br />
+                   <input type="checkbox" id="wdp-disable-thumbs"/> Disable thumbnails and credits<br />
+                   <input type="checkbox" id="wdp-auto-slideshow"/> Slideshow mode (image feeds only)</p>
+            </div>               
         </div>
     </div>
 </div>
