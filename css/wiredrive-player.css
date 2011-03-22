@@ -332,8 +332,14 @@ ul.wd-thumb-list li a {
             top: -999%;
             left: -999%;
             z-index: 100;
-            opacity: 1;
         }
+/*
+        html .zero {
+            height: 1px !important;
+            width: 1px !important;
+            opacity: 0;
+        }
+*/
         .wd-player.popup.ipad .wd-stage {
             display: none;
         }
@@ -346,9 +352,12 @@ ul.wd-thumb-list li a {
             word-wrap: break-word;
         }
         .popup .hover-credits {
-            padding: 5px;
+            padding: 5px 0;
             text-align: left;
         }
+        .popup .hover-credits span {
+            padding: 0 5px;
+        }        
         .popup-credits {
             position: absolute;
             line-height: 1;

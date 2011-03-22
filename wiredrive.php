@@ -238,12 +238,15 @@ class Wiredrive_Plugin
 	    * Do not use falsh for ie9 because it supports h.264 natively with html5
 	    */
 	   
-	   if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
-           return false; 	   
-	   }
+        /*
+         * Once we have IE9 playing H.264 .MOV files, this should work.
+    	   if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
+               return false; 	   
+    	   }
+        */
 	   
        return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
-			|| strpos($_SERVER['HTTP_USER_AGENT'], "MSIE")
+			|| strpos($_SERVER['HTTP_USER_AGENT'], "MSIE")			
 			|| strpos($_SERVER['HTTP_USER_AGENT'], "Chrome");
 	}
 

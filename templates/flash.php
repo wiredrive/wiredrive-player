@@ -8,16 +8,17 @@ flashvars.autostart = 'false';
 flashvars.loadImage = '<?php echo $this->get('thumbnail') ?>';
 var params = {};
 params.menu = 'false';
-params.wmode = 'transparent';
+params.wmode = 'direct';
+params.bgcolor = '<?php echo $options['wdp_stage_color'] ?>';
 params.devicefont = 'true';
 params.swliveconnect = 'true';
 params.allowscriptaccess = 'sameDomain';
 params.allowFullScreen = 'true';
-params.play = 'true';
+params.hasPriority = "true";
 var attributes = {};
 attributes.id = '<?php echo $this->get('attributeId') ?>';
 attributes.styleclass = 'wd-video-player';
-swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.swf', 'no-flash-content', '100%', '100%', '10.1.0', '<?php echo $this->get('pluginUrl') ?>/flash/expressInstall.swf', flashvars, params,attributes);
+swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.swf', 'no-flash-content', '100%', '100%', '10.1.0', '<?php echo $this->get('pluginUrl') ?>/flash/expressInstall.swf', flashvars, params, attributes);
 </script>
 
 <div id='no-flash-content'>

@@ -67,7 +67,6 @@ var wdp = {
     },
     
     
-    
     slideshowInit: function() {
             
         var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
@@ -132,7 +131,7 @@ var wdp = {
     },
     
     slideshowImageClick: function() {
-        
+
         var currentStage = jQuery(this).closest('.wd-player').find('.wd-stage');
         var newImageHref = jQuery(this).attr('href');
         var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
@@ -153,7 +152,7 @@ var wdp = {
             slideshowWidth = jQuery(window).width() - (jQuery(window).width()/100)*20;
     
             // Set the stage to the size of the browser window
-            $(this).closest('.wd-player').find('.wd-stage').css({
+            jQuery(this).closest('.wd-player').find('.wd-stage').css({
                         height: slideshowHeight,
                         width: slideshowWidth
             });
@@ -180,7 +179,7 @@ var wdp = {
                         .hide()
                         .removeAttr('id')
                         .attr('src', newImageHref)
-                        .attr('data-wd-item',$(this).attr('data-wd-item'))
+                        .attr('data-wd-item',jQuery(this).attr('data-wd-item'))
                         .width(new_size.width)
                         .height(new_size.height)
                         .css('margin-top', 0-(new_size.height/2)+'px')
@@ -188,7 +187,7 @@ var wdp = {
                         
         }
         
-        if ($(this).closest('.wd-player').hasClass('popup')) {
+        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
            // If the image will be in a popup, then just show the image, don't fade it in.        
             currentStage.find('.wd-slideshow-image').eq(0).remove();
             currentStage.find('.wd-slideshow-image-two').css('visibility','visible');
@@ -197,13 +196,13 @@ var wdp = {
             // Otherwise, fade out the first image, remove it, and then fade in the new image.
             currentStage.find('.wd-slideshow-image').eq(0).fadeOut('slow', function()
             {
-                $(this).remove();
+                jQuery(this).remove();
                 currentStage.find('.wd-slideshow-image-two').fadeIn().removeClass('.wd-slideshow-image-two');
             });
         }    
         
         // Set the stage to the current plaing item number. This is so the slideshow function knows which image to show next.
-        currentStage.attr('data-wd-item', $(this).attr('data-wd-item'));
+        currentStage.attr('data-wd-item', jQuery(this).attr('data-wd-item'));
         
         wdp.setClickedCredit.call(this);
         
@@ -339,11 +338,13 @@ var wdp = {
 
         var currentItem = currentPlayer.find('.wd-stage').attr('data-wd-item');
            
-        if (listLength == 1 ) {
+        // Remeber that listLength starts at 0. So, listLength=1 means there are 2 items.
+        if (listLength == 0 ) {
             // 1 item in list...
-            currentPlayer.find('.wd-play-next, .wd-play-prev').removeClass('wd-active');    
+            currentPlayer.find('.wd-play-next, .wd-play-prev').removeClass('wd-active').css('opacity','0');    
         } else if (currentItem == listLength ) {
             // On last item...
+            console.log('Last item')
             currentPlayer.find('.wd-play-next').removeClass('wd-active');
             currentPlayer.find('.wd-play-prev').addClass('wd-active'); 
         } else if (currentItem == 0) {
@@ -371,7 +372,7 @@ var wdp = {
             return;
         }
        
-        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list li').size() - 1;
         var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
         var videoContainer = document.getElementById(currentID);
@@ -469,7 +470,7 @@ var wdp = {
             return;
         }
             
-        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;        
         var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
         var videoContainer = document.getElementById(currentID);
@@ -628,7 +629,7 @@ var wdp = {
         var playerID = '#' + playerID;
         var isFlash = true;
         
-        //jQuery .length() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+        //jQuery .length() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li').size() - 1;   
                         
         var currentItem = jQuery(playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
@@ -695,10 +696,10 @@ jQuery(document).ready(function($) {
             videoContainer.src = newSrc;
             videoContainer.load();
             videoContainer.play();
-        } else {
+        } else {            
             // For Flash: Send the href of the thumb to the Flash player
-                jQuery(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
-                jQuery(videoContainer).externalInterface({method:'removePlayButton'});
+                $(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
+                $(videoContainer).externalInterface({method:'removePlayButton'});
         }
         
         // When a thumb is clicked remove the poster attribute from the video tag
@@ -749,7 +750,7 @@ jQuery(document).ready(function($) {
      */ 
     $('video').bind('ended', function() 
     {   
-        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eg() works.
+        //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
         
         var currentID = $(this).attr('id');
@@ -899,14 +900,17 @@ jQuery(document).ready(function($) {
         var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
         var popMargLeft = ($(this).closest('.wd-player').find('.wd-stage').width() + 0) / 2;
     
-        //Apply Margin to Popup
+        // Apply Margin to Popup
         $(this).closest('.wd-player').find('.wd-stage').css({
             'margin-top' : -popMargTop,
             'margin-left' : -popMargLeft
         });
                                     
-        //Fade in the stage
-        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'});
+        // Fade in the stage
+        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'}).removeClass('zero');
+        
+        // Remove the next/previous arrows if they arn't required
+        
         
         // Add active class to stage
         $(this).closest('.wd-player').find('.wd-stage').addClass('wd-active');
@@ -915,7 +919,6 @@ jQuery(document).ready(function($) {
         $(this).closest('.wd-player').find('.wd-stage')
                             .append('<a href="#close" class="close">&#215;</a>')
                             .append(popTitle);
-        
          
         //Add the fade layer to bottom of the body tag.
         $('body').append('<div id="fade"></div>');
