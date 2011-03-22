@@ -71,7 +71,7 @@ class Wiredrive_Plugin_Settings
 	 * Wiredrive Player Options Init
 	 * Register our settings. Add the settings section, and settings fields
 	 */
-	public function wdpoptions_init()
+	public function wdp_options_init()
 	{
 
 		register_setting('wdp_options',
@@ -209,7 +209,7 @@ class Wiredrive_Plugin_Settings
 	 * Wiredrive Options Add
 	 * Add sub page to the Settings Menu
 	 */
-	public function wdpoptions_add_page()
+	public function wdp_options_add_page()
 	{
 		add_options_page('Wiredrive Player Settings', '
 		                  Wiredrive Player', 
@@ -460,7 +460,7 @@ class Wiredrive_Plugin_Settings
 		$input['wdp_credit_color']      = wp_filter_nohtml_kses($input['wdp_credit_color']);
 		$input['wdp_title_font_size']      = wp_filter_nohtml_kses($input['wdp_title_font_size']);
 		$input['wdp_credit_font_size']      = wp_filter_nohtml_kses($input['wdp_credit_font_size']);
-		$input['wdp_wdp_thumb_box_opacity']      = wp_filter_nohtml_kses($input['wdp_thumb_box_opacity']);		
+		$input['wdp_thumb_box_opacity']      = wp_filter_nohtml_kses($input['wdp_thumb_box_opacity']);		
 
 		return $input;
 	}
