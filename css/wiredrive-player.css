@@ -352,12 +352,10 @@ ul.wd-thumb-list li a {
             word-wrap: break-word;
         }
         .popup .hover-credits {
-            padding: 5px 0;
+            padding: 5px;
             text-align: left;
+            width: 170px;
         }
-        .popup .hover-credits span {
-            padding: 0 5px;
-        }        
         .popup-credits {
             position: absolute;
             line-height: 1;
@@ -383,7 +381,6 @@ ul.wd-thumb-list li a {
             opacity: 0.85;
             bottom: 0;
             left: 0;
-            width: 100%;
         }
 
 /* Popup Overlay Styles */
