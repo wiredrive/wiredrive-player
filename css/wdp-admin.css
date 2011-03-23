@@ -26,3 +26,6 @@
     margin: 0 0 20px;
     
 }
+#wdp-dialog .ui-dialog-title {
+    padding-left: 25px;
+}
