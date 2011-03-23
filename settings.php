@@ -71,7 +71,7 @@ class Wiredrive_Plugin_Settings
 		);
 
 		add_settings_section('main_section',
-			'Main Settings',
+			'Default dimensions',
 			array($this, 'section_text'),
 			__FILE__
 		);
@@ -100,42 +100,42 @@ class Wiredrive_Plugin_Settings
 			'The color of the stage',
 			array($this, 'stage_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 		
         add_settings_field('thumb_bg_color',
 			'Thumb Tray Background Color',
 			array($this, 'thumb_bg_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('credit_container_color',
 			'Credit Container Color',
 			array($this, 'credit_container_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('credit_container_border',
 			"Credit Container's Top Border Color",
 			array($this, 'credit_container_border'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
 		add_settings_field('arrow_color',
 			'Next & Previous Arrow Colors',
 			array($this, 'arrow_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 		
 		add_settings_field('active_item_color',
 			'Active Item Color',
 			array($this, 'active_item_color'),
 			__FILE__,
-			'main_section'
+			'element_colors_section'
 		);
 
         add_settings_field('thumb_box_opacity',
@@ -155,7 +155,7 @@ class Wiredrive_Plugin_Settings
 			'Title Text Color',
 			array($this, 'title_color'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);
 		
 		add_settings_field('title_font_size',
@@ -169,7 +169,7 @@ class Wiredrive_Plugin_Settings
 			'Credit Text Color',
 			array($this, 'credit_color'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);
 		
 		add_settings_field('credit_font_size',
@@ -183,7 +183,7 @@ class Wiredrive_Plugin_Settings
 			'Credit Text Alignment',
 			array($this, 'credit_container_alignment'),
 			__FILE__,
-			'main_section'
+			'text_colors_section'
 		);
 
 	}
@@ -216,7 +216,7 @@ class Wiredrive_Plugin_Settings
 	public function width()
 	{
 		$width = $this->getValue('width');
-		echo $this->textboxInput($width,'width',false, true);
+		echo $this->textboxInput($width,'width',false, 'px');
 	}
 
 	/**
@@ -227,7 +227,7 @@ class Wiredrive_Plugin_Settings
 	public function height()
 	{
 		$height = $this->getValue('height');
-		echo $this->textboxInput($height,'height',false, true);
+		echo $this->textboxInput($height,'height',false, 'px');
 	}
 
 	/**
@@ -335,7 +335,7 @@ class Wiredrive_Plugin_Settings
 	public function credit_color()
 	{
 		$credit_color = $this->getValue('credit_color');
-		echo $this->textboxInput($credit_color,'credit_color',false);
+		echo $this->textboxInput($credit_color,'credit_color',true);
 	}
 	
 	/**
@@ -346,7 +346,7 @@ class Wiredrive_Plugin_Settings
      public function title_font_size()
 	 {
 		 $title_font_size = $this->getValue('title_font_size');
-		 echo $this->textboxInput($title_font_size,'title_font_size',false, true);
+		 echo $this->textboxInput($title_font_size,'title_font_size',false, 'px');
 	 }
 	 
 	 /**
@@ -357,7 +357,7 @@ class Wiredrive_Plugin_Settings
      public function credit_font_size()
 	 {
 		 $credit_font_size = $this->getValue('credit_font_size');
-		 echo $this->textboxInput($credit_font_size,'credit_font_size',false, true);
+		 echo $this->textboxInput($credit_font_size,'credit_font_size',false, 'px');
 	 }
 	
      /**
@@ -368,7 +368,7 @@ class Wiredrive_Plugin_Settings
      public function thumb_box_opacity()
 	 {
 		 $thumb_box_opacity = $this->getValue('thumb_box_opacity');
-		 echo $this->textboxInput($thumb_box_opacity,'thumb_box_opacity',false);
+		 echo $this->textboxInput($thumb_box_opacity,'thumb_box_opacity',false, ' must be a decimal value from 0 to 1');
 	 }
 	        
 	/**
@@ -455,32 +455,32 @@ class Wiredrive_Plugin_Settings
 	 * Format input box with options color wheel
 	 * @var $value string
 	 * @var $inputName string
-	 * @var $showColors bool
-	 * @var $showPx bool
+	 * @var $showColorPicker bool
+	 * @var $showComment bool
 	 *
 	 * @return string
 	 * 
 	 */
-	private function textboxInput($value,$inputName,$showColors = false, $showPx = false)
+	private function textboxInput($value,$inputName,$showColorPicker = false, $showComment = false)
     {
         
 		$str  =  "<div class='wdp-color-input-wrap'>";
 		$str .= "<input id='". $inputName . "'";
 		
-		if ($showColors == true) {
+		if ($showColorPicker == true) {
 		  $str .= "class='wdp-colorpicker' ";
 		}
 		
 		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
 		          $value . "' />";
 		          
-        if ($showColors == true) {
+        if ($showColorPicker == true) {
 			$str .= "<span class='wdp-color-button'></span>";
 		    $str .= "<div class='wdp-color-picker-wrap'></div>";
         }
         
-        if ($showPx == true) {
-		   $str .=  " <span>px</span>";	
+        if ($showComment !== false) {
+		   $str .=  "<span>". $showComment ."</span>";	
 		}
 		
 		$str .= "</div>";
