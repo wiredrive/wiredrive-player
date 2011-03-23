@@ -27,6 +27,7 @@ class Wiredrive_Plugin_Settings
 {
 	private $defaults = array();
 	private $options = array();
+	private $optionsNs = 'wdp_options';
 
 	public function __construct()
 	{
@@ -34,169 +35,157 @@ class Wiredrive_Plugin_Settings
          * Set up default values for plugin
          */
 		$this->defaults = array(
-			'wdp_width'                      => '640',
-			'wdp_height'                     => '480',
-			'wdp_stage_color'                => '#000000',
-			'wdp_credit_container_border'    => '#2C2C2C',
-			'wdp_credit_container_color'     => '#373636',
-			'wdp_thumb_bg_color'             => '#141414',
-			'wdp_arrow_color'                => '#EAEAEA',
-			'wdp_active_item_color'          => '#FFFFFF',
-			'wdp_title_color'                => '#FFFFFF',
-			'wdp_credit_color'               => '#999999',
-			'wdp_credit_container_alignment' => 'Center',
-			'wdp_title_font_size'            => '12',
-			'wdp_credit_font_size'           => '12',
-			'wdp_thumb_box_opacity'          => '0.3'
+			'width'                      => '640',
+			'height'                     => '480',
+			'stage_color'                => '#000000',
+			'credit_container_border'    => '#2C2C2C',
+			'credit_container_color'     => '#373636',
+			'thumb_bg_color'             => '#141414',
+			'arrow_color'                => '#EAEAEA',
+			'active_item_color'          => '#FFFFFF',
+			'title_color'                => '#FFFFFF',
+			'credit_color'               => '#999999',
+			'credit_container_alignment' => 'Center',
+			'title_font_size'            => '12',
+			'credit_font_size'           => '12',
+			'thumb_box_opacity'          => '0.3',
 		);
 
 		/*
 		 * Get options saved to the database
 		 */
-		$this->options = get_option('wdp_options');
+		$this->options = get_option($this->optionsNs);
 
-	}
-	
-	public function getOptions() {
-	   
-	   $options = array();
-	   foreach($this->defaults as $option=>$value) {
-	       $options[$option] = $this->getValue($option);
-	   }
-	   
-	   return $options;
 	}
 
 	/**
-	 * Wiredrive Player Options Init
+	 * Wdp Options Init
 	 * Register our settings. Add the settings section, and settings fields
 	 */
-	public function wdp_options_init()
+	public function options_init()
 	{
 
-		register_setting('wdp_options',
-			'wdp_options',
+		register_setting($this->optionsNs,
+			$this->optionsNs,
 			array($this, 'options_validate')
 		);
 
 		add_settings_section('main_section',
-			'Default dimensions',
+			'Main Settings',
 			array($this, 'section_text'),
 			__FILE__
 		);
 
-		add_settings_field('wdp_width',
+		add_settings_field('width',
 			'Default Width',
 			array($this, 'width'),
 			__FILE__,
 			'main_section'
 		);
 
-		add_settings_field('wdp_height',
+		add_settings_field('height',
 			'Default Height',
 			array($this, 'height'),
 			__FILE__,
 			'main_section'
 		);
-
-
+		
 		add_settings_section('element_colors_section',
-			'Element colors and properties',
-			array($this, 'section_text'),
-			__FILE__
-		);
+            'Element colors and properties',
+            array($this, 'section_text'),
+            __FILE__
+        );
 
-
-		add_settings_field('wdp_stage_color',
-			'Stage (area behind the playing video)',
+		add_settings_field('stage_color',
+			'The color of the stage',
 			array($this, 'stage_color'),
 			__FILE__,
-			'element_colors_section'
+			'main_section'
 		);
-
-		add_settings_field('wdp_thumb_bg_color',
-			'Thumb tray background color',
+		
+        add_settings_field('thumb_bg_color',
+			'Thumb Tray Background Color',
 			array($this, 'thumb_bg_color'),
 			__FILE__,
-			'element_colors_section'
+			'main_section'
 		);
 
-		add_settings_field('wdp_credit_container_color',
-			'Credit background color',
+		add_settings_field('credit_container_color',
+			'Credit Container Color',
 			array($this, 'credit_container_color'),
 			__FILE__,
-			'element_colors_section'
+			'main_section'
 		);
 
-		add_settings_field('wdp_credit_container_border',
-			"Credits/thumbnail tray divider",
+		add_settings_field('credit_container_border',
+			"Credit Container's Top Border Color",
 			array($this, 'credit_container_border'),
 			__FILE__,
-			'element_colors_section'
+			'main_section'
 		);
-		
-		add_settings_field('wdp_arrow_color',
-			'Next and previous arrow',
+
+		add_settings_field('arrow_color',
+			'Next & Previous Arrow Colors',
 			array($this, 'arrow_color'),
 			__FILE__,
-			'element_colors_section'
+			'main_section'
 		);
-
-		add_settings_field('wdp_active_item_color',
-			'Active file border (highlights file in thumbnail tray)',
+		
+		add_settings_field('active_item_color',
+			'Active Item Color',
 			array($this, 'active_item_color'),
 			__FILE__,
-			'element_colors_section'
-		);
-		
-		add_settings_field('wdp_thumb_box_opacity',
-			'Pillarbox and letterbox opacity',
-			array($this, 'thumb_box_opacity'),
-			__FILE__,
-			'element_colors_section'
-		);		
-
-		add_settings_section('text_colors_section',
-			'Text colors and properties',
-			array($this, 'section_text'),
-			__FILE__
+			'main_section'
 		);
 
-		add_settings_field('wdp_title_color',
-			'Title color',
+        add_settings_field('thumb_box_opacity',
+            'Pillarbox and letterbox opacity',
+            array($this, 'thumb_box_opacity'),
+            __FILE__,
+            'element_colors_section'
+        );
+        
+        add_settings_section('text_colors_section',
+            'Text colors and properties',
+            array($this, 'section_text'),
+            __FILE__
+        );
+ 
+		add_settings_field('title_color',
+			'Title Text Color',
 			array($this, 'title_color'),
 			__FILE__,
-			'text_colors_section'
+			'main_section'
 		);
+		
+		add_settings_field('title_font_size',
+            'Title size',
+            array($this, 'title_font_size'),
+            __FILE__,
+            'text_colors_section'
+        ); 
 
-		add_settings_field('wdp_title_font_size',
-			'Title size',
-			array($this, 'title_font_size'),
-			__FILE__,
-			'text_colors_section'
-		);	
-
-        add_settings_field('wdp_credit_color',
-			'Credit color',
+		add_settings_field('credit_color',
+			'Credit Text Color',
 			array($this, 'credit_color'),
 			__FILE__,
-			'text_colors_section'
-		);				
-		
-		add_settings_field('wdp_credit_font_size',
-			'Credit size',
-			array($this, 'credit_font_size'),
-			__FILE__,
-			'text_colors_section'
+			'main_section'
 		);
 		
-		add_settings_field('wdp_credit_container_alignment',
-			'Credit text alignment',
+		add_settings_field('credit_font_size',
+            'Credit size',
+            array($this, 'credit_font_size'),
+            __FILE__,
+            'text_colors_section'
+        );
+        
+        add_settings_field('credit_container_alignment',
+			'Credit Text Alignment',
 			array($this, 'credit_container_alignment'),
 			__FILE__,
-			'text_colors_section'
-		);		
-		
+			'main_section'
+		);
+
 	}
 
 	/**
@@ -209,7 +198,7 @@ class Wiredrive_Plugin_Settings
 	 * Wiredrive Options Add
 	 * Add sub page to the Settings Menu
 	 */
-	public function wdp_options_add_page()
+	public function options_add_page()
 	{
 		add_options_page('Wiredrive Player Settings', '
 		                  Wiredrive Player', 
@@ -222,101 +211,78 @@ class Wiredrive_Plugin_Settings
 	/**
 	 * Width
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_width]
+	 * name            : width
 	 */
 	public function width()
 	{
-		$width = $this->getValue('wdp_width');
-
-		echo "<input id='wdp_width' name='wdp_options[wdp_width]' size='10' type='text' value='" .
-			$width . "' />";
-        echo "<span>px</span>";			
+		$width = $this->getValue('width');
+		echo $this->textboxInput($width,'width',false, true);
 	}
 
 	/**
 	 * Height
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_height]
+	 * name            : height
 	 */
 	public function height()
 	{
-		$height = $this->getValue('wdp_height');
-
-		echo "<input id='wdp_height' name='wdp_options[wdp_height]' size='10' type='text' value='" .
-			$height . "' />";
-        echo "<span>px</span>";
+		$height = $this->getValue('height');
+		echo $this->textboxInput($height,'height',false, true);
 	}
 
 	/**
 	 * Stage Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_stage_color]
+	 * name            : stage_color
 	 */
 	public function stage_color()
 	{
-		$wdp_stage_color = $this->getValue('wdp_stage_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_stage_color' class='wdp-colorpicker' name='wdp_options[wdp_stage_color]' size='10' type='text' value='" .
-			$wdp_stage_color . "' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$stage_color = $this->getValue('stage_color');
+		echo $this->textboxInput($stage_color,'stage_color',true);
 	}
 
 	/**
 	 * Credit Container Border
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_credit_container_border]
+	 * name            : credit_container_border
 	 */
 	public function credit_container_border()
 	{
-		$wdp_credit_container_border = $this->getValue('wdp_credit_container_border');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_credit_container_border' name='wdp_options[wdp_credit_container_border]' size='10' type='text' value='" .
-			$wdp_credit_container_border . "' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$credit_container_border = $this->getValue('credit_container_border');
+		echo $this->textboxInput($credit_container_border,'credit_container_border',true);
 	}
 
 	/**
 	 * Credit Container Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_credit_container_color]
+	 * name            : credit_container_color
 	 */
 	public function credit_container_color()
 	{
-		$wdp_credit_container_border = $this->getValue('wdp_credit_container_border');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_credit_container_color' class='wdp-colorpicker' name='wdp_options[wdp_credit_container_color]' size='10' type='text' value='" .
-			$wdp_credit_container_border ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$credit_container_color = $this->getValue('credit_container_color');
+		echo $this->textboxInput($credit_container_color,'credit_container_color',true);
 	}
 
 	/**
 	 * Credit Container Alignment
 	 * input type      : radio
-	 * name            : wdp_options[wdp_credit_container_alignment]
+	 * name            : credit_container_alignment
 	 */
 	public function credit_container_alignment()
 	{
-		$wdp_credit_container_border = $this->getValue('wdp_credit_container_alignment');
-                
+		$credit_container_alignment = $this->getValue('credit_container_alignment');
+
 		$items = array("Left", "Center", "Right");
 		foreach ($items as $item) {
 			$checked = '';
-			if ($wdp_credit_container_border == $item) {
+			if ($credit_container_alignment == $item) {
 				$checked = 'checked="checked"';
 			}
 
 			echo "<label><input ".
 				$checked. " value='" .
-				$item . "' name='wdp_options[wdp_credit_container_alignment]' type='radio' /> " .
+				$item . "' name='". 
+				$this->optionsNs ."[credit_container_alignment]' type='radio' /> " .
 				$item . "</label><br />";
 		}
 	}
@@ -324,145 +290,124 @@ class Wiredrive_Plugin_Settings
 	/**
 	 * Thumb Background Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_thumb_bg_color]
+	 * name            : thumb_bg_color
 	 */
 	public function thumb_bg_color()
 	{
-		$wdp_thumb_bg_color = $this->getValue('wdp_thumb_bg_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_thumb_bg_color' class='wdp-colorpicker' name='wdp_options[wdp_thumb_bg_color]' size='10' type='text' value='" .
-			$wdp_thumb_bg_color ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$thumb_bg_color = $this->getValue('thumb_bg_color');
+		echo $this->textboxInput($thumb_bg_color,'thumb_bg_color',true);
 	}
 	/**
 	 * Arrow Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_arrow_color]
+	 * name            : arrow_color
 	 */
 	public function arrow_color()
 	{
-		$wdp_arrow_color = $this->getValue('wdp_arrow_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_arrow_color' class='wdp-colorpicker' name='wdp_options[wdp_arrow_color]' size='10' type='text' value='" .
-			$wdp_arrow_color ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$arrow_color = $this->getValue('arrow_color');
+		echo $this->textboxInput($arrow_color,'arrow_color',true);
 	}
 	/**
 	 * Active Item Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_active_item_color]
+	 * name            : active_item_color
 	 */
 	public function active_item_color()
 	{
-		$wdp_active_item_color = $this->getValue('wdp_active_item_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_active_item_color' class='wdp-colorpicker' name='wdp_options[wdp_active_item_color]' size='10' type='text' value='" .
-			$wdp_active_item_color ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$active_item_color = $this->getValue('active_item_color');
+		echo $this->textboxInput($active_item_color,'active_item_color',true);
 	}
 	/**
 	 * Title Color
 	 * input type      : textbox
-	 * Name            : wdp_options[wdp_title_color]
+	 * Name            : title_color
 	 */
 	public function title_color()
 	{
-		$wdp_title_color = $this->getValue('wdp_title_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_title_color' class='wdp-colorpicker' name='wdp_options[wdp_title_color]' size='10' type='text' value='" .
-			$wdp_title_color ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
+		$title_color = $this->getValue('title_color');
+		echo $this->textboxInput($title_color,'title_color',true);
 	}
 	/**
-	 * Credit Color
+	 * Create Color
 	 * input type      : textbox
-	 * name            : wdp_options[wdp_credit_color]
+	 * name            : credit_color
 	 */
 	public function credit_color()
 	{
-		$wdp_credit_color = $this->getValue('wdp_credit_color');
-
-		echo "<div class='wdp-color-input-wrap'>";
-		echo "<input id='wdp_credit_color' class='wdp-colorpicker' name='wdp_options[wdp_credit_color]' size='10' type='text' value='" .
-			$wdp_credit_color ."' />";
-		echo "<span class='wdp-color-button'></span>";
-		echo "<div class='wdp-color-picker-wrap'></div>";
-		echo "</div>";
-	}
-
-	/**
-	 * Title Font Size
-	 * input type      : textbox
-	 * name            : wdp_options[wdp_title_font_size]
-	 */
-	public function title_font_size()
-	{
-		$wdp_title_font_size = $this->getValue('wdp_title_font_size');
-
-		echo "<input id='wdp_title_font_size' name='wdp_options[wdp_title_font_size]' size='10' type='text' value='" .
-			$wdp_title_font_size ."' />";
-        echo "<span>px</span>";			
+		$credit_color = $this->getValue('credit_color');
+		echo $this->textboxInput($credit_color,'credit_color',false);
 	}
 	
 	/**
-	 * Credit Font Size
-	 * input type      : textbox
-	 * name            : wdp_options[wdp_credit_font_size]
-	 */
-	public function credit_font_size()
-	{
-		$wdp_credit_font_size = $this->getValue('wdp_credit_font_size');
-
-		echo "<input id='wdp_credit_font_size' name='wdp_options[wdp_credit_font_size]' size='10' type='text' value='" .
-			$wdp_credit_font_size ."' />";
-        echo "<span>px</span>";			
-	}
+     * Title Font Size
+     * input type       : textbox
+     * name             : title_font_size
+     */
+     public function title_font_size()
+	 {
+		 $title_font_size = $this->getValue('title_font_size');
+		 echo $this->textboxInput($title_font_size,'title_font_size',false, true);
+	 }
+	 
+	 /**
+      * Credit Font Size
+      * input type      : textbox
+      * name            : credit_font_size
+      */
+     public function credit_font_size()
+	 {
+		 $credit_font_size = $this->getValue('credit_font_size');
+		 echo $this->textboxInput($credit_font_size,'credit_font_size',false, true);
+	 }
 	
-	public function thumb_box_opacity()
-	{
-		$wdp_thumb_box_opacity = $this->getValue('wdp_thumb_box_opacity');
-
-		echo "<input id='wdp_thumb_box_opacity' name='wdp_options[wdp_thumb_box_opacity]' size='10' type='text' value='" .
-			$wdp_thumb_box_opacity ."' />";
-        echo "<span> must be a decimal value from 0 to 1</span>";			
-	}
-		
+     /**
+      * Thumb Box Opacity
+      * input type      : textbox
+      * name            : thumb_box_opacity
+      */
+     public function thumb_box_opacity()
+	 {
+		 $thumb_box_opacity = $this->getValue('thumb_box_opacity');
+		 echo $this->textboxInput($thumb_box_opacity,'thumb_box_opacity',false);
+	 }
+	        
 	/**
 	 * Options Validate
 	 * Validate user data for some/all of your input fields
+	 *
+	 * @var input array
+	 * @return array
 	 */
 	public function options_validate($input)
 	{
 		/*
 		 * Filter textbox option fields to prevent HTML tags
 		 */
-		$input['wdp_width']             = wp_filter_nohtml_kses($input['wdp_width']);
-		$input['wdp_height']            = wp_filter_nohtml_kses($input['wdp_height']);
-		$input['wdp_stage_color']       = wp_filter_nohtml_kses($input['wdp_stage_color']);
-		$input['wdp_credit_container_border'] = wp_filter_nohtml_kses($input['wdp_credit_container_border']);
-		$input['wdp_credit_container_border'] = wp_filter_nohtml_kses($input['wdp_credit_container_border']);
-		$input['wdp_thumb_bg_color']    = wp_filter_nohtml_kses($input['wdp_thumb_bg_color']);
-		$input['wdp_arrow_color']       = wp_filter_nohtml_kses($input['wdp_arrow_color']);
-		$input['wdp_active_item_color'] = wp_filter_nohtml_kses($input['wdp_active_item_color']);
-		$input['wdp_title_color']       = wp_filter_nohtml_kses($input['wdp_title_color']);
-		$input['wdp_credit_color']      = wp_filter_nohtml_kses($input['wdp_credit_color']);
-		$input['wdp_title_font_size']      = wp_filter_nohtml_kses($input['wdp_title_font_size']);
-		$input['wdp_credit_font_size']      = wp_filter_nohtml_kses($input['wdp_credit_font_size']);
-		$input['wdp_thumb_box_opacity']      = wp_filter_nohtml_kses($input['wdp_thumb_box_opacity']);		
+		$clean['width']          = wp_filter_nohtml_kses($input['width']);
+		$clean['height']         = wp_filter_nohtml_kses($input['height']);
+		$clean['stage_color']    = wp_filter_nohtml_kses($input['stage_color']);
+		$clean['thumb_bg_color'] = wp_filter_nohtml_kses($input['thumb_bg_color']);
+		$clean['arrow_color']    = wp_filter_nohtml_kses($input['arrow_color']);
+		$clean['title_color']    = wp_filter_nohtml_kses($input['title_color']);
+		$clean['credit_color']   = wp_filter_nohtml_kses($input['credit_color']);
+		
+        $clean['active_item_color'] 
+                   = wp_filter_nohtml_kses($input['active_item_color']);
+        $clean['credit_container_color']      
+		          = wp_filter_nohtml_kses($input['credit_container_color']);
+		$clean['credit_container_border']     
+		          = wp_filter_nohtml_kses($input['credit_container_border']);
+		$clean['credit_container_alignment']  
+		          = wp_filter_nohtml_kses($input['credit_container_alignment']);
 
-		return $input;
+        $clean['title_font_size']   
+                    = wp_filter_nohtml_kses($input['title_font_size']);
+        $clean['credit_font_size']  
+                    = wp_filter_nohtml_kses($input['credit_font_size']);
+        $clean['thumb_box_opacity'] 
+                    = wp_filter_nohtml_kses($input['thumb_box_opacity']);
+                    
+		return $clean;
 	}
 
 	/**
@@ -472,21 +417,30 @@ class Wiredrive_Plugin_Settings
 	public function options_page()
 	{
 ?>
-	<div class="wdp-settings-wrap">
+	<div class="wdp-settings wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Wiredrive Player Settings</h2>
 		You can config the Wiredrive Player's appearance below.
 		<form action="options.php" method="post">
-		<?php settings_fields('wdp_options'); ?>
+		<?php settings_fields($this->optionsNs); ?>
 		<?php do_settings_sections(__FILE__); ?>
 		<p class="submit">
-			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+			<input name="Submit" type="submit" class="button-primary" 
+			 value="<?php esc_attr_e('Save Changes'); ?>" />
 		</p>
 		</form>
 	</div>
 <?php
 	}
 
+    /**
+     * Get Values
+     * Get the values stored in the database
+     * fallback to defaults with they are not set
+     *
+	 * @var options array
+	 * @return array
+	 */
 	private function getValue($option)
 	{
 		if (isset($this->options[$option])) {
@@ -495,5 +449,44 @@ class Wiredrive_Plugin_Settings
 
 		return $this->defaults[$option];
 	}
+	
+	/**
+	 * Text Box Input
+	 * Format input box with options color wheel
+	 * @var $value string
+	 * @var $inputName string
+	 * @var $showColors bool
+	 * @var $showPx bool
+	 *
+	 * @return string
+	 * 
+	 */
+	private function textboxInput($value,$inputName,$showColors = false, $showPx = false)
+    {
+        
+		$str  =  "<div class='wdp-color-input-wrap'>";
+		$str .= "<input id='". $inputName . "'";
+		
+		if ($showColors == true) {
+		  $str .= "class='wdp-colorpicker' ";
+		}
+		
+		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
+		          $value . "' />";
+		          
+        if ($showColors == true) {
+			$str .= "<span class='wdp-color-button'></span>";
+		    $str .= "<div class='wdp-color-picker-wrap'></div>";
+        }
+        
+        if ($showPx == true) {
+		   $str .=  " <span>px</span>";	
+		}
+		
+		$str .= "</div>";
+		
+		
+		return $str;
+    }
 
 }
