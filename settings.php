@@ -233,7 +233,7 @@ class Wiredrive_Plugin_Settings
 	public function width()
 	{
 		$width = $this->getValue('width');
-		echo $this->textboxInput($width,'width',false, 'px');
+		echo $this->textboxInput($width,'width', 'px');
 	}
 
 	/**
@@ -244,7 +244,7 @@ class Wiredrive_Plugin_Settings
 	public function height()
 	{
 		$height = $this->getValue('height');
-		echo $this->textboxInput($height,'height',false, 'px');
+		echo $this->textboxInput($height,'height', 'px');
 	}
 
 	/**
@@ -255,7 +255,7 @@ class Wiredrive_Plugin_Settings
 	public function stage_color()
 	{
 		$stage_color = $this->getValue('stage_color');
-		echo $this->textboxInput($stage_color,'stage_color',true);
+		echo $this->textboxInputColorpicker($stage_color,'stage_color');
 	}
 
 	/**
@@ -266,7 +266,7 @@ class Wiredrive_Plugin_Settings
 	public function credit_container_border()
 	{
 		$credit_container_border = $this->getValue('credit_container_border');
-		echo $this->textboxInput($credit_container_border,'credit_container_border',true);
+		echo $this->textboxInputColorpicker($credit_container_border,'credit_container_border');
 	}
 
 	/**
@@ -277,7 +277,7 @@ class Wiredrive_Plugin_Settings
 	public function credit_container_color()
 	{
 		$credit_container_color = $this->getValue('credit_container_color');
-		echo $this->textboxInput($credit_container_color,'credit_container_color',true);
+		echo $this->textboxInputColorpicker($credit_container_color,'credit_container_color');
 	}
 
 	/**
@@ -312,7 +312,7 @@ class Wiredrive_Plugin_Settings
 	public function thumb_bg_color()
 	{
 		$thumb_bg_color = $this->getValue('thumb_bg_color');
-		echo $this->textboxInput($thumb_bg_color,'thumb_bg_color',true);
+		echo $this->textboxInputColorpicker($thumb_bg_color,'thumb_bg_color');
 	}
 	/**
 	 * Arrow Color
@@ -322,7 +322,7 @@ class Wiredrive_Plugin_Settings
 	public function arrow_color()
 	{
 		$arrow_color = $this->getValue('arrow_color');
-		echo $this->textboxInput($arrow_color,'arrow_color',true);
+		echo $this->textboxInputColorpicker($arrow_color,'arrow_color');
 	}
 	/**
 	 * Active Item Color
@@ -332,7 +332,7 @@ class Wiredrive_Plugin_Settings
 	public function active_item_color()
 	{
 		$active_item_color = $this->getValue('active_item_color');
-		echo $this->textboxInput($active_item_color,'active_item_color',true);
+		echo $this->textboxInputColorpicker($active_item_color,'active_item_color');
 	}
 	/**
 	 * Title Color
@@ -342,7 +342,7 @@ class Wiredrive_Plugin_Settings
 	public function title_color()
 	{
 		$title_color = $this->getValue('title_color');
-		echo $this->textboxInput($title_color,'title_color',true);
+		echo $this->textboxInputColorpicker($title_color,'title_color');
 	}
 	/**
 	 * Create Color
@@ -352,7 +352,7 @@ class Wiredrive_Plugin_Settings
 	public function credit_color()
 	{
 		$credit_color = $this->getValue('credit_color');
-		echo $this->textboxInput($credit_color,'credit_color',true);
+		echo $this->textboxInputColorpicker($credit_color,'credit_color');
 	}
 	
 	/**
@@ -363,7 +363,7 @@ class Wiredrive_Plugin_Settings
      public function title_font_size()
 	 {
 		 $title_font_size = $this->getValue('title_font_size');
-		 echo $this->textboxInput($title_font_size,'title_font_size',false, 'px');
+		 echo $this->textboxInput($title_font_size,'title_font_size', 'px');
 	 }
 	 
 	 /**
@@ -374,7 +374,7 @@ class Wiredrive_Plugin_Settings
      public function credit_font_size()
 	 {
 		 $credit_font_size = $this->getValue('credit_font_size');
-		 echo $this->textboxInput($credit_font_size,'credit_font_size',false, 'px');
+		 echo $this->textboxInput($credit_font_size,'credit_font_size', 'px');
 	 }
 	
      /**
@@ -385,7 +385,7 @@ class Wiredrive_Plugin_Settings
      public function thumb_box_opacity()
 	 {
 		 $thumb_box_opacity = $this->getValue('thumb_box_opacity');
-		 echo $this->textboxInput($thumb_box_opacity,'thumb_box_opacity',false, ' must be a decimal value from 0 to 1');
+		 echo $this->textboxInput($thumb_box_opacity,'thumb_box_opacity', ' must be a decimal value from 0 to 1');
 	 }
 	        
 	/**
@@ -478,24 +478,44 @@ class Wiredrive_Plugin_Settings
 	 * @return string
 	 * 
 	 */
-	private function textboxInput($value,$inputName,$showColorPicker = false, $showComment = false)
+	private function textboxInput($value,$inputName,$showComment = false)
     {
-        if ($showColorPicker == true) {
-    		$str  =  "<div class='wdp-color-input-wrap'>";
-		}
+
 	   	$str .= "<input id='". $inputName . "'";
-		
-		if ($showColorPicker == true) {
-		  $str .= "class='wdp-colorpicker' ";
-		}
-		
 		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
 		          $value . "' />";
 		          
-        if ($showColorPicker == true) {
-			$str .= "<span class='wdp-color-button'></span>";
-		    $str .= "<div class='wdp-color-picker-wrap'></div>";
-        }
+        if ($showComment !== false) {
+		   $str .=  "<span>". $showComment ."</span>";	
+		}
+
+		$str .= "</div>";
+		
+		
+		return $str;
+    }
+    
+    /**
+	 * Text Box Input
+	 * Format input box with options color wheel
+	 * @var $value string
+	 * @var $inputName string
+	 * @var $showColorPicker bool
+	 * @var $showComment bool
+	 *
+	 * @return string
+	 * 
+	 */
+	private function textboxInputColorpicker($value,$inputName,$showComment = false)
+    {
+
+        $str  =  "<div class='wdp-color-input-wrap'>";
+	   	$str .= "<input id='". $inputName . "'";
+        $str .= "class='wdp-colorpicker' ";
+		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
+		          $value . "' />";
+        $str .= "<span class='wdp-color-button'></span>";
+        $str .= "<div class='wdp-color-picker-wrap'></div>";
         
         if ($showComment !== false) {
 		   $str .=  "<span>". $showComment ."</span>";	
