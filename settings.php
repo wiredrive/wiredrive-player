@@ -57,6 +57,23 @@ class Wiredrive_Plugin_Settings
 		$this->options = get_option($this->optionsNs);
 
 	}
+	
+	/**
+	 * Get Options
+	 * Return all the options for the plugin that are stored in the 
+	 * database
+	 *
+	 * @return array
+	 */
+    public function getOptions() {
+
+        $options = array();
+        foreach($this->defaults as $option=>$value) {
+            $options[$option] = $this->getValue($option);
+        }
+
+        return $options;
+    }
 
 	/**
 	 * Wdp Options Init
