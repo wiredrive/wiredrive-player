@@ -480,9 +480,10 @@ class Wiredrive_Plugin_Settings
 	 */
 	private function textboxInput($value,$inputName,$showColorPicker = false, $showComment = false)
     {
-        
-		$str  =  "<div class='wdp-color-input-wrap'>";
-		$str .= "<input id='". $inputName . "'";
+        if ($showColorPicker == true) {
+    		$str  =  "<div class='wdp-color-input-wrap'>";
+		}
+	   	$str .= "<input id='". $inputName . "'";
 		
 		if ($showColorPicker == true) {
 		  $str .= "class='wdp-colorpicker' ";
