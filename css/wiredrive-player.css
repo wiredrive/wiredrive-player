@@ -199,6 +199,11 @@ ul.wd-thumb-list li a {
 .wd-player #no-flash-content {
 	line-height: 1;
 	text-align: center;
+	padding: 10px;
+	color: white;
+}
+.wd-player #no-flash-content a {
+    text-decoration: none;
 }
 .wd-player #no-flash-content p {
 	text-align: left;
@@ -301,7 +306,7 @@ ul.wd-thumb-list li a {
     
     /* Correcting Widths and Postioning */
         .wd-player.popup .wd-video-player {
-            margin-bottom: 10px;
+            margin-bottom: 0;
         }
         .wd-player.popup ul.wd-thumb-list {
             padding: 0;
@@ -359,8 +364,10 @@ ul.wd-thumb-list li a {
         .popup-credits {
             position: absolute;
             line-height: 1;
-            bottom: -45px;
             left: 0;
+            padding: 0 5px;
+            width: 90%;
+            bottom: auto;
         }
         .popup-credits .wd-title, .popup-credits .wd-credit {
             clear: left;
@@ -405,8 +412,8 @@ ul.wd-thumb-list li a {
     	color: white;
     	text-align: right;
     	text-decoration: none;
-        bottom: -40px;
         right: 0;
+        padding: 5px 0 0;
     }
     .wd-player.popup.slideshow .wd-stage {
         background: transparent;
@@ -453,16 +460,9 @@ ul.wd-thumb-list li a {
 .box-thumbs .wd-thumb-list li a {
     width: 180px;
     height: 180px;
-    vertical-align: middle;
     text-align: center;
-    display: table-cell;
-    /* <IE7 hack */
-    *float: left;
-    *display: block;
 }
 
-/* IE8 Hacks */
-.box-thumbs .wd-thumb-list li a { display/*\**/: block\9; }
 
 /* Disable Thumbnail & Credits Options */
 .wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.popup .hover-credits {

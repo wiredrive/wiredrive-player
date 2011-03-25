@@ -8,7 +8,7 @@ var wdp = {
     playSlideshow: true,
     fullscreenImage: false,
     touchx: 0,
-    
+        
     init: function() {
         // Set the first thumb as active
         jQuery('.wd-thumb-list li:first-child a').addClass('wd-active');
@@ -38,8 +38,8 @@ var wdp = {
         // Run any auto slideshows
         wdp.autoSlideshow();
         
-        //Remove the inline style width from the player DIV.
-        jQuery('.popup.wd-player').removeAttr('style');
+        //Remove the inline style width from the player DIV when a Popup player.
+        jQuery('.popup.wd-player').removeAttr('style');          
 
     },
     
@@ -344,7 +344,6 @@ var wdp = {
             currentPlayer.find('.wd-play-next, .wd-play-prev').removeClass('wd-active').css('opacity','0');    
         } else if (currentItem == listLength ) {
             // On last item...
-            console.log('Last item')
             currentPlayer.find('.wd-play-next').removeClass('wd-active');
             currentPlayer.find('.wd-play-prev').addClass('wd-active'); 
         } else if (currentItem == 0) {
@@ -907,10 +906,7 @@ jQuery(document).ready(function($) {
         });
                                     
         // Fade in the stage
-        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'}).removeClass('zero');
-        
-        // Remove the next/previous arrows if they arn't required
-        
+        $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'}).removeClass('zero');        
         
         // Add active class to stage
         $(this).closest('.wd-player').find('.wd-stage').addClass('wd-active');
@@ -1054,7 +1050,6 @@ jQuery(document).ready(function($) {
         }
     );
 
-
 });
 
 
@@ -1065,19 +1060,42 @@ jQuery(document).ready(function($) {
  */
  
 jQuery(window).load(function() {
-    //Calculate thumblist width by adding up all list item widths
-    jQuery('ul.wd-thumb-list').each(function() {
+    // Calculate thumblist width by adding up all list item widths
+    jQuery('.wd-thumb-list').each(function() {
         var width = 0;
+        var height = 0;
         jQuery(this).children('li')
                         .each(function() {
-
-            //We add +1 here because sometimes jQuery will round down and cause the list to wrap.
-            width += jQuery(this).outerWidth( true ) + 1;
+            
+            width += Math.round(jQuery(this).outerWidth(true))+1;
+            height += Math.round(jQuery(this).outerHeight(true))+1;
         });
 
-        jQuery(this).css('width', width);
+        jQuery(this).css('width', width).attr('data-wd-height', height);
     });
-            
+    
+    // Position the box thumbs in the center vertically and horizontally. 
+    jQuery('.box-thumbs .wd-thumb-list .wd-thumb').each(function() {
+
+        var boxHeight = jQuery(this).closest('.wd-thumb-list > li > a').height();
+        var boxWidth = jQuery(this).closest('.wd-thumb-list > li > a').width();
+        var thumbHeight = jQuery(this).height();
+        var thumbWidth = jQuery(this).width();
+                    
+        var new_size = wdp.fit_within_box(boxWidth, boxHeight, thumbWidth, thumbHeight);
+
+        jQuery(this)
+            .width(new_size.width)
+            .height(new_size.height)
+            .css({
+                'position': 'absolute',
+                'top': '50%',
+                'left': '50%',
+                'margin-top': 0-(new_size.height/2)+'px',
+                'margin-left': 0-(new_size.width/2)+'px'
+            });
+    });      
+    
 });
 
 
