@@ -896,8 +896,8 @@ jQuery(document).ready(function($) {
         
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
         var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits');
-        var popMargTop = ($(this).closest('.wd-player').find('.wd-stage').height() + 0) / 2;
-        var popMargLeft = ($(this).closest('.wd-player').find('.wd-stage').width() + 0) / 2;
+        var popMargTop = $(this).closest('.wd-player').find('.wd-stage').height() / 2;
+        var popMargLeft = $(this).closest('.wd-player').find('.wd-stage').width() / 2;
     
         // Apply Margin to Popup
         $(this).closest('.wd-player').find('.wd-stage').css({
@@ -914,8 +914,8 @@ jQuery(document).ready(function($) {
         // Add close button and set width
         $(this).closest('.wd-player').find('.wd-stage')
                             .append('<a href="#close" class="close">&#215;</a>')
-                            .append(popTitle);
-         
+                            .append(popTitle);      
+
         //Add the fade layer to bottom of the body tag.
         $('body').append('<div id="fade"></div>');
         

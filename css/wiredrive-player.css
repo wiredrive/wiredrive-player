@@ -368,6 +368,7 @@ ul.wd-thumb-list li a {
             padding: 0 5px;
             width: 90%;
             bottom: auto;
+            top: 100%;
         }
         .popup-credits .wd-title, .popup-credits .wd-credit {
             clear: left;
@@ -414,6 +415,7 @@ ul.wd-thumb-list li a {
     	text-decoration: none;
         right: 0;
         padding: 5px 0 0;
+        top: 100%;        
     }
     .wd-player.popup.slideshow .wd-stage {
         background: transparent;
