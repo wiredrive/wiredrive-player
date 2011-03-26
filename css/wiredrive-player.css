@@ -235,6 +235,7 @@ ul.wd-thumb-list li a {
     top: 50%;
     /* Starts hidden, is resized in jQuery and then displayed */
     display: none;
+    z-index: 20;
 }
 
 /* Start the first popup slideshow image hidden, turn it on in JavaScript when it's ready */

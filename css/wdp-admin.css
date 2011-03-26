@@ -29,3 +29,6 @@
 .wdp-dialog .ui-dialog-title {
     padding-left: 0;
 }
+.wdp-dialog .ui-dialog-title img {
+    position: static;
+}
