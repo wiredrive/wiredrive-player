@@ -92,6 +92,10 @@
     			}
 
                 jQuery.get('<?php echo plugins_url('wiredrive-player') ?>/proxy.php?url='+feed+'', function(html){
+                    if (html == '') {
+                        alert('Invalid URL');
+                        return false;
+                    } 
                     
                     html = html.replace( /<(\/?)(html|head|body)([^>]*)>/ig, function(a,b,c,d){
                         return '<' + b + 'div' + ( b ? '' : ' data-element="' + c + '"' ) + d + '>';

@@ -4,7 +4,7 @@
             <div id="wdp-dialog-message">
                 <p>Please enter the address of the mRSS feed you'd like to display. Video feeds may only contain video files. Image feeds may only contain image files (JPG, GIF or PNG).</p>
                 <p><strong>Example:</strong></p>
-                <p><code>http://merc.wiredrive.com/l/p/?presentation=e0da2c4c8488d56ab3cf09adfa21fa0a</code></p>
+                <p><code>http://www.wdcdn.net/rss/presentation/library/client/iowa/id/128b053b916ea1f7f20233e8a26bc45d</code></p>
             </div>
             <p><input type="text" id="wdp-dialog-feed" style="width:98%" /></p>
             <p><strong>Set dimensions for your player:</strong></p>
