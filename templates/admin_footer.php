@@ -16,7 +16,7 @@
             </div>
             <div class="wdp-display-options">
                 <p><strong>Choose a player display:</strong></p>
-                    <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/><label for="wdp-theme-player"> for Standard Inline</label><br />
+                    <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/><label for="wdp-theme-player"> Standard Inline</label><br />
                     <input type="radio" id="wdp-theme-grid" name="wdp-theme" value="grid" /><label for="wdp-theme-grid"> Overlay gallery; tiles thumbnails at 180px wide or tall</label><br />
                     <input type="radio" id="wdp-theme-grid-box" name="wdp-theme" value="grid box-thumbs" /><label for="wdp-theme-grid-box"> Gallery with letterbox, pillarbox</label><br />                
                 </p>
