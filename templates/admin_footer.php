@@ -7,11 +7,13 @@
                 <p><code>http://www.wdcdn.net/rss/presentation/library/client/iowa/id/128b053b916ea1f7f20233e8a26bc45d</code></p>
             </div>
             <p><input type="text" id="wdp-dialog-feed" style="width:98%" /></p>
+            <div class="wdp-dimensions-options">
             <p><strong>Set dimensions for your player:</strong></p>
             <p>Leave blank to use the default dimensions; select <strong>Wiredrive Player</strong> from the <strong>Settings menu</strong> in WordPress to set default dimensions.</p>
             <p><input type="text" id="wdp-dialog-width" class="wdp-dialog-dim" style="width:50px" /> &#215; 
                <input type="text" id="wdp-dialog-height" class="wdp-dialog-dim" style="width:50px" /> pixels</p>
             <p>[width] &#215; [height]</p>
+            </div>
             <div class="wdp-display-options">
                 <p><strong>Choose a player display:</strong></p>
                     <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/><label for="wdp-theme-player"> for Standard Inline</label><br />
