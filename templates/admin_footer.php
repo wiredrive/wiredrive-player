@@ -14,16 +14,16 @@
             <p>[width] &#215; [height]</p>
             <div class="wdp-display-options">
                 <p><strong>Choose a player display:</strong></p>
-                    <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/> Standard Inline<br />
-                    <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="grid" /> Overlay gallery; tiles thumbnails at 180px wide or tall<br />
-                    <input type="radio" id="wdp-theme-popup" name="wdp-theme" value="grid box-thumbs" /> Gallery with letterbox, pillarbox<br />                
+                    <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/><label for="wdp-theme-player"> for Standard Inline</label><br />
+                    <input type="radio" id="wdp-theme-grid" name="wdp-theme" value="grid" /><label for="wdp-theme-grid"> Overlay gallery; tiles thumbnails at 180px wide or tall</label><br />
+                    <input type="radio" id="wdp-theme-grid-box" name="wdp-theme" value="grid box-thumbs" /><label for="wdp-theme-grid-box"> Gallery with letterbox, pillarbox</label><br />                
                 </p>
             </div>
             <div class="wdp-thumbnail-options">
                 <p><strong>Thumbnail Options:</strong></p>
-                <p><input type="checkbox" id="wdp-hide-thumbs"/> Expandable thumbnail tray<br />
-                   <input type="checkbox" id="wdp-disable-thumbs"/> Disable thumbnails and credits<br />
-                   <input type="checkbox" id="wdp-auto-slideshow"/> Slideshow mode (image feeds only)</p>
+                <p><input type="checkbox" id="wdp-hide-thumbs"/><label for="wdp-hide-thumbs"> Expandable thumbnail tray</label><br />
+                   <input type="checkbox" id="wdp-disable-thumbs"/><label for="wdp-disable-thumbs"> Disable thumbnails and credits</label><br />
+                   <input type="checkbox" id="wdp-auto-slideshow"/><label for="wdp-auto-slideshow"> Slideshow mode (image feeds only)</label></p>
             </div>               
         </div>
     </div>
