@@ -119,12 +119,15 @@ class Wiredrive_Plugin
 	public function render($atts, $content = null )
 	{
 
-		/*
-         * Get the height and width from the URL
+        /*
+         * Get the settings for the plugin
          */
         $wiredriveSettings = new Wiredrive_Plugin_Settings();
         $options =  $wiredriveSettings->getOptions();
 
+		/*
+         * Get the height and width from the shortcode
+         */
 		extract(shortcode_atts(array(
 					'height'            => $options['wdp_height'] . 'px',
 					'width'             => $options['wdp_width'] . 'px',
@@ -241,10 +244,10 @@ class Wiredrive_Plugin
 	    */
 	   
         /*
-         * Once we have IE9 playing H.264 .MOV files, this should work.
-    	   if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
+         * @TODO:  Once we have IE9 playing H.264 .MOV files, this should work.
+           if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
                return false; 	   
-    	   }
+          }
         */
 	   
        return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
@@ -496,7 +499,7 @@ class Wiredrive_Plugin
 	{
 
 		$this->template->setTpl('player_finish.php')
-		->render();
+                ->render();
 	}
 
 	/**
@@ -505,8 +508,10 @@ class Wiredrive_Plugin
 	private function renderFlash()
 	{
 
-
-	   $wiredriveSettings = new Wiredrive_Plugin_Settings();
+        /*
+         * Get the settings for the plugin
+         */
+	    $wiredriveSettings = new Wiredrive_Plugin_Settings();
 		    
 		/*
          * Get the first item from the item list
@@ -515,14 +520,14 @@ class Wiredrive_Plugin
 		$first = $items[0];
 
 		$this->template->setTpl('flash.php')
-		->set('link', $first['link'])
-		->set('thumbnail', $first['thumbnail_lg'])
-		->set('attributeId', $this->getAttributeId())
-		->set('pluginUrl', $this->getPluginUrl())
-		->set('width', $first['width'])
-		->set('height', $first['height'])
-        ->set('options', $wiredriveSettings->getOptions())
-		->render();
+        		->set('link', $first['link'])
+        		->set('thumbnail', $first['thumbnail_lg'])
+        		->set('attributeId', $this->getAttributeId())
+        		->set('pluginUrl', $this->getPluginUrl())
+        		->set('width', $first['width'])
+        		->set('height', $first['height'])
+                ->set('options', $wiredriveSettings->getOptions())
+        		->render();
 
 
 	}
@@ -540,13 +545,13 @@ class Wiredrive_Plugin
 		$first = $items[0];
 
 		$this->template->setTpl('html5.php')
-		->set('link', $first['link'])
-		->set('thumbnail', $first['thumbnail_lg'])
-		->set('attributeId', $this->getAttributeId())
-		->set('pluginUrl', $this->getPluginUrl())
-		->set('width', $width)
-		->set('height', $height)
-		->render();
+                ->set('link', $first['link'])
+                ->set('thumbnail', $first['thumbnail_lg'])
+                ->set('attributeId', $this->getAttributeId())
+                ->set('pluginUrl', $this->getPluginUrl())
+                ->set('width', $width)
+                ->set('height', $height)
+                ->render();
 
 	}
 
@@ -563,13 +568,13 @@ class Wiredrive_Plugin
 		$first = $items[0];
 
 		$this->template->setTpl('image.php')
-		->set('link', $first['link'])
-		->set('thumbnail', $first['thumbnail_lg'])
-		->set('attributeId', $this->getAttributeId())
-		->set('pluginUrl', $this->getPluginUrl())
-		->set('width', $first['width'])
-		->set('height', $first['height'])
-		->render();
+                ->set('link', $first['link'])
+                ->set('thumbnail', $first['thumbnail_lg'])
+                ->set('attributeId', $this->getAttributeId())
+                ->set('pluginUrl', $this->getPluginUrl())
+                ->set('width', $first['width'])
+                ->set('height', $first['height'])
+                ->render();
 
 	}
 
@@ -579,8 +584,8 @@ class Wiredrive_Plugin
 	private function renderThumbnails()
 	{
 		$this->template->setTpl('thumb_loop.php');
-		$this->template->set('items', $this->getItems())
-		->render();
+        $this->template->set('items', $this->getItems())
+                ->render();
 
 	}
 
@@ -591,8 +596,8 @@ class Wiredrive_Plugin
 	{
 
 		$this->template->setTpl('error.php')
-		->set('message', $message)
-		->render();
+                ->set('message', $message)
+                ->render();
 
 	}
 
@@ -603,11 +608,14 @@ class Wiredrive_Plugin
 	private function renderHead()
 	{
 	
-	   $wiredriveSettings = new Wiredrive_Plugin_Settings();
+	    /*
+         * Get the settings for the plugin
+         */
+        $wiredriveSettings = new Wiredrive_Plugin_Settings();
 		   	
         $this->template->setTpl('head.php')
-            ->set('options', $wiredriveSettings->getOptions())
-		    ->render();
+                ->set('options', $wiredriveSettings->getOptions())
+                ->render();
 		  
         return $this->template->getOutput();
 
