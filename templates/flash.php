@@ -1,4 +1,4 @@
-<?
+<?php
 $options = $this->get('options'); 
 ?>
 <script>
