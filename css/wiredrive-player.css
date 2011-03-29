@@ -33,10 +33,9 @@
 	background-color: #373636;
 }
 
-/*Set this to the same width as the next/prev butons above, but add 2 the total. Eg. If you've set the .wd-nav-prev to 30px above, then set padding to 32px.*/
 ul.wd-thumb-list {
 	padding-left: 32px;
-	padding-right: 16px; /* This should be half of padding-left */
+	padding-right: 22px; 
 }
 
 /*The border that the selected thumbnail gets*/
