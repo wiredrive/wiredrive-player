@@ -122,7 +122,9 @@ class Wiredrive_Plugin
 		/*
          * Get the height and width from the URL
          */
-		$options = get_option('wdp_options');
+        $wiredriveSettings = new Wiredrive_Plugin_Settings();
+        $options =  $wiredriveSettings->getOptions();
+
 		extract(shortcode_atts(array(
 					'height'            => $options['wdp_height'] . 'px',
 					'width'             => $options['wdp_width'] . 'px',
@@ -503,6 +505,9 @@ class Wiredrive_Plugin
 	private function renderFlash()
 	{
 
+
+	   $wiredriveSettings = new Wiredrive_Plugin_Settings();
+		    
 		/*
          * Get the first item from the item list
          */
@@ -516,6 +521,7 @@ class Wiredrive_Plugin
 		->set('pluginUrl', $this->getPluginUrl())
 		->set('width', $first['width'])
 		->set('height', $first['height'])
+        ->set('options', $wiredriveSettings->getOptions())
 		->render();
 
 

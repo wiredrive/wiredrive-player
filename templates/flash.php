@@ -1,3 +1,6 @@
+<?
+$options = $this->get('options'); 
+?>
 <script>
 var flashvars = {};
 flashvars.src = '<?php echo $this->get('link') ?>';
