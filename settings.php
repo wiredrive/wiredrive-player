@@ -39,7 +39,7 @@ class Wiredrive_Plugin_Settings
 			'height'                     => '480',
 			'stage_color'                => '#000000',
 			'credit_container_border'    => '#2C2C2C',
-			'credit_container_color'     => '#373636',
+			'credit_container_color'     => '#141414',
 			'thumb_bg_color'             => '#141414',
 			'arrow_color'                => '#EAEAEA',
 			'active_item_color'          => '#FFFFFF',

@@ -96,6 +96,19 @@ class Wiredrive_Plugin_Admin
 		echo $this->getOutput();
 
 	}
+	
+
+	/**
+	* Add settings link on plugin page
+	*/ 
+    public function settings_link($links) 
+    { 
+        $settings_link = '<a href="options-general.php?page=wiredrive-player/settings.php">Settings</a>'; 
+        array_unshift($links, $settings_link); 
+        return $links; 
+    }	
+
+
 
 	/**
 	 * Get Outout

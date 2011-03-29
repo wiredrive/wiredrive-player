@@ -38,8 +38,8 @@ var wdp = {
         // Run any auto slideshows
         wdp.autoSlideshow();
         
-        //Remove the inline style width from the player DIV when a Popup player.
-        jQuery('.popup.wd-player').removeAttr('style');          
+        //Remove the inline style width from the player DIV when a grid player.
+        jQuery('.grid.wd-player').removeAttr('style');          
 
     },
     
@@ -74,8 +74,8 @@ var wdp = {
         var newImageHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-height');
         var newImageWidth = jQuery(this).closest('.wd-player').find('.wd-thumb-list a').eq(0).attr('data-wd-width');
         
-        // If the image will be in a popup, then use a differnt size calculation        
-        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
+        // If the image will be in a grid, then use a differnt size calculation        
+        if (jQuery(this).closest('.wd-player').hasClass('grid')) {
  
             // Allow the image to expand to 80% of the browser window
             slideshowHeight = jQuery(window).height() - (jQuery(window).height()/100)*20;
@@ -104,7 +104,7 @@ var wdp = {
         
         function delay() {
 
-            jQuery('.wd-player.autoslideshow .wd-stage').not('.popup .wd-stage').each(function() {
+            jQuery('.wd-player.autoslideshow .wd-stage').not('.grid .wd-stage').each(function() {
                 listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
                 currentItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
                                 
@@ -144,8 +144,8 @@ var wdp = {
             currentStage.find('.wd-slideshow-image').removeAttr('src');
         }
         
-        // If the image will be in a popup, then use a differnt size calculation        
-        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
+        // If the image will be in a grid, then use a differnt size calculation        
+        if (jQuery(this).closest('.wd-player').hasClass('grid')) {
 
             // Allow the image to expand to 80% of the browser window
             slideshowHeight = jQuery(window).height() - (jQuery(window).height()/100)*20;
@@ -187,8 +187,8 @@ var wdp = {
                         
         }
         
-        if (jQuery(this).closest('.wd-player').hasClass('popup')) {
-           // If the image will be in a popup, then just show the image, don't fade it in.        
+        if (jQuery(this).closest('.wd-player').hasClass('grid')) {
+           // If the image will be in a grid, then just show the image, don't fade it in.        
             currentStage.find('.wd-slideshow-image').eq(0).remove();
             currentStage.find('.wd-slideshow-image-two').css('visibility','visible');
             
@@ -885,21 +885,21 @@ jQuery(document).ready(function($) {
     
    
 /*
- * Below is the code relating to the Popup player.
+ * Below is the code relating to the grid player.
  ***************************************************************************
  */    
      
     /*
      * When you click on a thumb do this
      */
-    $('.popup.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function(e) {
+    $('.grid.not-mobile .wd-thumb-list a').not('.ipad .wd-thumb-list a').click(function(e) {
         
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
-        var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('popup-credits');
+        var popTitle = $(this).closest('.wd-player').find('.wd-credits').eq(0).clone().addClass('grid-credits');
         var popMargTop = $(this).closest('.wd-player').find('.wd-stage').height() / 2;
         var popMargLeft = $(this).closest('.wd-player').find('.wd-stage').width() / 2;
     
-        // Apply Margin to Popup
+        // Apply Margin to grid
         $(this).closest('.wd-player').find('.wd-stage').css({
             'margin-top' : -popMargTop,
             'margin-left' : -popMargLeft
@@ -933,7 +933,7 @@ jQuery(document).ready(function($) {
     /*
      * Play video on mobile device
      */
-    $('.popup.mobile .wd-thumb-list a').click(function() 
+    $('.grid.mobile .wd-thumb-list a').click(function() 
     {
         window.location = $(this).attr('href');
     });
@@ -943,7 +943,7 @@ jQuery(document).ready(function($) {
     /*
      * Go to source on iPad.
      */
-    $('.popup.ipad .wd-thumb-list a').click(function() 
+    $('.grid.ipad .wd-thumb-list a').click(function() 
     {
             window.location = $(this).attr('href');
     });
@@ -953,7 +953,7 @@ jQuery(document).ready(function($) {
     /*
      * Set the click tracker on a slideshow image
      */
-    $('.popup.slideshow .wd-thumb-list a').click(function() 
+    $('.grid.slideshow .wd-thumb-list a').click(function() 
     {
         wdp.fullscreenImage = true;
         $(this).closest('.wd-player').find('.wd-slideshow-image').show();
@@ -962,7 +962,7 @@ jQuery(document).ready(function($) {
     
     
      /*
-      * Resize the slideshow popup when the browser window is resized
+      * Resize the slideshow grid when the browser window is resized
       */
     $(window).resize(function() {
                 
@@ -997,7 +997,7 @@ jQuery(document).ready(function($) {
     
     
     /*
-     * Close Popups and Fade Layer
+     * Close grids and Fade Layer
      */
     $('a.close, #fade').live('click', function(e) 
     {
@@ -1020,10 +1020,10 @@ jQuery(document).ready(function($) {
             }
 
             // Remove the fade layer and close button
-            $('#fade, a.close, .popup-credits, .wd-arrows').remove();
+            $('#fade, a.close, .grid-credits, .wd-arrows').remove();
 
             // Move stage offscreen
-            $('.popup .wd-stage').css({'top' : '999%', 'left' : '999%'});
+            $('.grid .wd-stage').css({'top' : '999%', 'left' : '999%'});
         });
         
         // Remove active class from stage
@@ -1040,10 +1040,10 @@ jQuery(document).ready(function($) {
     /*
      * On thumb hover show the credits
      */
-    $('.popup .wd-thumb-list a').hover(
+    $('.grid .wd-thumb-list a').hover(
         function () {
-            $(this).closest('.popup.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
-            $(this).closest('.popup.wd-player').find('.hover-credits .wd-title').append('<br />');
+            $(this).closest('.grid.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
+            $(this).closest('.grid.wd-player').find('.hover-credits .wd-title').append('<br />');
         }, 
         function () {
             $(this).find('.hover-credits').remove();

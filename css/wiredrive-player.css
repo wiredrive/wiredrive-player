@@ -238,8 +238,8 @@ ul.wd-thumb-list li a {
     z-index: 20;
 }
 
-/* Start the first popup slideshow image hidden, turn it on in JavaScript when it's ready */
-.wd-player.popup .wd-slideshow-image {
+/* Start the first grid slideshow image hidden, turn it on in JavaScript when it's ready */
+.wd-player.grid .wd-slideshow-image {
     visibility: hidden;
 }
 
@@ -272,7 +272,7 @@ ul.wd-thumb-list li a {
     height: 60px;
 }
 
-#content .popup img.wd-thumb {
+#content .grid img.wd-thumb {
     height: auto;
 }
 
@@ -281,39 +281,39 @@ ul.wd-thumb-list li a {
 }
 
 /* 
- * Popup Player Overides.
+ * grid Player Overides.
  */
 
-/* Wiredrive Popup Styles */
+/* Wiredrive grid Styles */
     /* Hiding things */    
-        .wd-player.popup {
+        .wd-player.grid {
             width: auto !important;
             height: auto;
         }
-        .wd-player.popup .wd-nav-prev, .wd-player.popup .wd-nav-next {
+        .wd-player.grid .wd-nav-prev, .wd-player.grid .wd-nav-next {
             display: none;
         }
-        .wd-player.popup.hide-thumbs .wd-thumb-tray {
+        .wd-player.grid.hide-thumbs .wd-thumb-tray {
             height: auto;
             visibility: visible;
         }
-        .wd-player.popup .wd-thumb-tray {
+        .wd-player.grid .wd-thumb-tray {
             background: none;
         }
-        .wd-player.popup .wd-credits-container {
+        .wd-player.grid .wd-credits-container {
             display: none;
         }
         
     
     /* Correcting Widths and Postioning */
-        .wd-player.popup .wd-video-player {
+        .wd-player.grid .wd-video-player {
             margin-bottom: 0;
         }
-        .wd-player.popup ul.wd-thumb-list {
+        .wd-player.grid ul.wd-thumb-list {
             padding: 0;
             width: 110% !important;
         }
-        .wd-player.popup .wd-thumb-list li {
+        .wd-player.grid .wd-thumb-list li {
             margin: 0 5px 5px 0;
             padding: 0;
             position: relative;
@@ -326,14 +326,14 @@ ul.wd-thumb-list li a {
             *float: inline;
 
         }
-        .wd-player.popup .wd-thumb {
+        .wd-player.grid .wd-thumb {
             height: auto;
         }
-        .wd-player.popup .wd-thumb-list .wd-active {
+        .wd-player.grid .wd-thumb-list .wd-active {
             border: none;
         
         }   
-        .wd-player.popup .wd-stage {
+        .wd-player.grid .wd-stage {
             position: fixed;
             top: -999%;
             left: -999%;
@@ -346,23 +346,23 @@ ul.wd-thumb-list li a {
             opacity: 0;
         }
 */
-        .wd-player.popup.ipad .wd-stage {
+        .wd-player.grid.ipad .wd-stage {
             display: none;
         }
     
-    /* Credit Overlay and Popup Credits */            
-        .wd-player.popup .wd-title, .wd-player.popup .wd-credit {
+    /* Credit Overlay and grid Credits */            
+        .wd-player.grid .wd-title, .wd-player.grid .wd-credit {
             color: white;
             font-weight: bold;
             line-height: 1.2;
             word-wrap: break-word;
         }
-        .popup .hover-credits {
+        .grid .hover-credits {
             padding: 5px;
             text-align: left;
             width: 170px;
         }
-        .popup-credits {
+        .grid-credits {
             position: absolute;
             line-height: 1;
             left: 0;
@@ -371,12 +371,12 @@ ul.wd-thumb-list li a {
             bottom: auto;
             top: 100%;
         }
-        .popup-credits .wd-title, .popup-credits .wd-credit {
+        .grid-credits .wd-title, .grid-credits .wd-credit {
             clear: left;
             float: left; 
             padding: 5px;
         }
-        .popup-credits .wd-credit {
+        .grid-credits .wd-credit {
             padding: 0 5px 5px 5px;
         }
         .wd-thumb-list a {
@@ -392,7 +392,7 @@ ul.wd-thumb-list li a {
             left: 0;
         }
 
-/* Popup Overlay Styles */
+/* grid Overlay Styles */
     #fade { /*--Transparent background layer--*/
     	display: none; /*--hidden by default--*/
     	background: black;
@@ -418,11 +418,11 @@ ul.wd-thumb-list li a {
         padding: 5px 0 0;
         top: 100%;        
     }
-    .wd-player.popup.slideshow .wd-stage {
+    .wd-player.grid.slideshow .wd-stage {
         background: transparent;
     }
-    .wd-player.popup .wd-play-prev, 
-    .wd-player.popup .wd-play-next {
+    .wd-player.grid .wd-play-prev, 
+    .wd-player.grid .wd-play-next {
         height: 61px;
         width: 41px;
         position: absolute;
@@ -436,26 +436,26 @@ ul.wd-thumb-list li a {
     .wd-player.slideshow .wd-play-next {
         cursor: default;
     }
-    .wd-player.popup .wd-play-prev.wd-active, 
-    .wd-player.popup .wd-play-next.wd-active, 
+    .wd-player.grid .wd-play-prev.wd-active, 
+    .wd-player.grid .wd-play-next.wd-active, 
     .wd-player.slideshow .wd-play-prev.wd-active, 
     .wd-player.slideshow .wd-play-next.wd-active {
         opacity: 1;
         cursor: pointer;        
     }
-    .wd-player.popup .wd-play-prev {
+    .wd-player.grid .wd-play-prev {
         left: -150px;
         background: url(../images/player_icon_prev.png);
 
     }
-    .wd-player.popup .wd-play-next {
+    .wd-player.grid .wd-play-next {
         right: -150px;
         background: url(../images/player_icon_next.png);        
     }
-    .wd-player.popup.slideshow .wd-play-prev {
+    .wd-player.grid.slideshow .wd-play-prev {
         left: -10%;
     }
-    .wd-player.popup.slideshow .wd-play-next {
+    .wd-player.grid.slideshow .wd-play-next {
         right: -10%;
     }
     
@@ -468,12 +468,12 @@ ul.wd-thumb-list li a {
 
 
 /* Disable Thumbnail & Credits Options */
-.wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.popup .hover-credits {
+.wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.grid .hover-credits {
     display: none;
 }
-.wd-player.box-thumbs.popup .wd-thumb-tray {
+.wd-player.box-thumbs.grid .wd-thumb-tray {
     display: block;
 }
-.wd-player.disablethumbs.popup .wd-thumb-tray {
+.wd-player.disablethumbs.grid .wd-thumb-tray {
     display: block;
 }

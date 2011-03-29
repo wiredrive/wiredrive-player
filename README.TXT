@@ -14,7 +14,10 @@ Wiredrive WordPress Plug-in Features:
 
 * Customizable dimensions
 * Displays video or image, title and first credit of each asset
+* Multiple layout options
 * Show or hide thumbnail tray
+* Customizable color options
+* Works with AirPlay
 * Click through images or play them as a slideshow
 * Leverage assets already uploaded to Library
 * Download and install in a few clicks
@@ -24,26 +27,26 @@ Wiredrive WordPress Plug-in Features:
 Functionality Specs:
 
 * Displays video, title and first credit of each asset
-* The active video's thumbnail will have a black border
-* Videos play through Flash in Firefox and Internet Explorer. If Flash isn't installed, the user is prompted to install Chrome or Flash
-* In Safari and Chrome the videos will play through an HTML5-skinned player
+* The active video's thumbnail will have a border
+* Videos play through Flash in Firefox, Internet Explorer and Chrome. If Flash isn't installed, the user is prompted to install Safari or Flash
+* In Safari, videos play natively using the HTML5 player 
 * In Firefox, IE, Chrome and Safari (including iOS) the feed will play sequentially
-* The player controls look the same across all players
 * Displays the first item's poster frame
 * If the feed does not come from Wiredrive an error is returned
 * If the feed is empty an error is returned
 * If the feed does not exist an error is returned
+* Works with both MRSS feeds and presentation URLs.
 
 Known Issues:
 
 * A one pixel border around the Flash player is hardcoded into the Flash player. Attempts to remove it have been unsuccessful. We are working to fix this issue.
 * The poster frame will stretch to fill the player for browsers that use Flash if the file's aspect ratio differs from the dimensions you've set for the player. This is an issue with the Flash player. We are working to fix this issue.
-* Safari uses the HTML5 player built on WebKit, and fullscreen is currently only partially implemented. Fullscreen is possible, but the video improperly scales if the player is set to a different aspect ration than the video file.
+* When using the new grid mode on an iPad or iPhone, sequential playback does not work.
 
 Untested:
 
 * Video playback on Android. Android currently plays .mp4 and H.264 files. No plans to play .mov files have been announced.
-* Playback for formats that Safari and Chrome do not natively support (e.g., .avi or .divx).
+* Playback for formats that Safari and Flash do not natively support (e.g., .avi or .divx).
 
 == Installation ==
 
@@ -60,6 +63,11 @@ Untested:
 
 == Changelog ==
 
+= 2.0 =
+* Added AirPlay compatibility
+* New settings page that allows customization of the player
+* New letter- or pillar- box grid layout
+
 = 1.1 =
 * Fixed issues when showing multiple slideshows on the one page.
 * Fixed issue where Flash player would set all the stages to have a transparent background.
@@ -70,6 +78,9 @@ Untested:
 * First stable release.
 
 == Upgrade Notice ==
+
+= 2.0 =
+Be aware that this version will reset your players color theme. You can change the colors of the player using the new settings page.
 
 = 1.1 =
 * This version fixes issues with using multiple players on a single page.
