@@ -513,7 +513,7 @@ class Wiredrive_Plugin_Settings
 	   	$str .= "<input id='". $inputName . "'";
         $str .= "class='wdp-colorpicker' ";
 		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
-		          $value . "' />";
+		          $value . "' style='background-color:". $value .";' />";
         $str .= "<span class='wdp-color-button'></span>";
         $str .= "<div class='wdp-color-picker-wrap'></div>";
         
