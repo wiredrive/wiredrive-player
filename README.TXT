@@ -1,5 +1,5 @@
 === Wiredrive Player ===
-Contributors: Wiredrive, Drew Baker and Daniel Bondurant
+Contributors: Wiredrive, dbaker, Daniel Bondurant
 Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
