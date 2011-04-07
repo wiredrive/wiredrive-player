@@ -2,13 +2,10 @@ jQuery(document).ready(function($) {
 
     // Add Farbtastic to every color input
     $('.wdp-color-input-wrap').each( function() {
-        
-        var inputID = $(this).children('input');
-        var pickerWrap = $(this).children('.wdp-color-picker-wrap')
-        
-        $(pickerWrap).farbtastic(function callback(color) {
-            $(inputID).css('background-color', color).val(color);
-        });
+    
+        var inputID = $(this).children('input').attr('id');
+        jQuery('.' + inputID).farbtastic('#' + inputID);
+
 	});
 	
     //On click show the color picker
