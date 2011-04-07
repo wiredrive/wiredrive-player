@@ -2,7 +2,7 @@
 $options = $this->get('options');
 ?>
 <style type="text/css">
-.wp-player {
+.wd-player {
     width: <?php echo $options['width'] . 'px' ?>;
 }
 .wd-stage {

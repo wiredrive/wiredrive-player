@@ -24,6 +24,7 @@
 /*The height of the thumbnails */
 .wd-thumb {
 	height: 60px;
+	width: auto;
 }
 
 /*The height and width of the and next/prev buttons. In most cases you'd want this the same as the thumbnail height*/
