@@ -54,6 +54,7 @@ class Wiredrive_Plugin
 	protected $isImageReel = FALSE;
 	protected $rewriteBase = 'wdp-assets';
 	protected $postId = NULL;
+	protected $mediaGroup = array();
 
 	/**
 	 * Contruct
@@ -342,6 +343,29 @@ class Wiredrive_Plugin
 	{
 		return $this->media;
 	}
+	
+    /**
+	 * Set Media Group
+	 * Get the Media enclosure from the rss feed
+	 *
+	 * MediaGroup is an array of all the media:$group 
+	 * elements for the item in the rss feed
+	 */
+	private function setMediaGroup($item, $group = 'thumbnail')
+	{
+		$this->mediaGroup = $item->get_item_tags(SIMPLEPIE_NAMESPACE_MEDIARSS,$group);
+	}
+
+	/**
+	 * Get Media
+	 *
+	 * @return array
+	 */
+	private function getMediaGroup()
+	{
+		return $this->mediaGroup;
+	}
+	
 
 	/**
 	 * Items from the RSS formated as an array
@@ -430,13 +454,21 @@ class Wiredrive_Plugin
 
 				$this->setMedia($row);
 				$media = $this->getMedia();
+				
+                $this->setMediaGroup($row,'thumbnail');
+				$thumbnails = $this->getMediaGroup();
+				
+				$largeThumb = $thumbnails[0]['attribs'][''];   
+				$smallThumb = $thumbnails[1]['attribs'][''];
 
 				$item['title'] = $row->get_title();
 				$item['link'] = $media->get_link();
 				$item['height'] = $media->get_height();
 				$item['width'] = $media->get_width();
-				$item['thumbnail_sm'] = $media->get_thumbnail(1);
-				$item['thumbnail_lg'] = $media->get_thumbnail(0);
+				$item['thumbnail_sm'] = $smallThumb['url'];
+				$item['thumbnail_lg'] = $largeThumb['url'];
+				$item['thumbnail_sm_width'] = $smallThumb['width'];
+				$item['thumbnail_sm_height'] = $smallThumb['height'];
 				$item['description'] = $row->get_description();
 				
 				$keywords = $media->get_keywords();

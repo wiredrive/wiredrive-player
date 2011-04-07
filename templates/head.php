@@ -2,6 +2,9 @@
 $options = $this->get('options');
 ?>
 <style type="text/css">
+.wp-player {
+    width: <?php echo $options['width'] . 'px' ?>;
+}
 .wd-stage {
     width: <?php echo $options['width'] . 'px' ?>;
     height: <?php echo $options['height'] . 'px'?>;
@@ -39,6 +42,6 @@ $options = $this->get('options');
 }
 .box-thumbs .wd-thumb-list li a {
     background-color: #111111;
-    background: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity'] ?>);
+    background-color: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity'] ?>);
 }
 </style>

@@ -39,7 +39,27 @@ var wdp = {
         wdp.autoSlideshow();
         
         //Remove the inline style width from the player DIV when a grid player.
-        jQuery('.grid.wd-player').removeAttr('style');          
+        jQuery('.grid.wd-player').removeAttr('style');
+
+        // Position the box thumbs in the center vertically and horizontally. 
+        jQuery('.box-thumbs .wd-thumb-list .wd-thumb').each(function() {
+    
+            var boxHeight = jQuery(this).closest('.wd-thumb-list > li > a').height();
+            var boxWidth = jQuery(this).closest('.wd-thumb-list > li > a').width();
+            var thumbHeight = jQuery(this).height();
+            var thumbWidth = jQuery(this).width();
+                        
+            var new_size = wdp.fit_within_box(boxWidth, boxHeight, thumbWidth, thumbHeight);
+    
+            jQuery(this)
+                .width(new_size.width)
+                .height(new_size.height)
+                .css({
+                    'margin-top': 0-(new_size.height/2)+'px',
+                    'margin-left': 0-(new_size.width/2)+'px'
+                })
+                .show();
+        });
 
     },
     
@@ -94,7 +114,7 @@ var wdp = {
             .height(first_size.height)
             .css('margin-top', 0-(first_size.height/2)+'px')
             .css('margin-left', 0-(first_size.width/2)+'px')
-            .show();
+            .show();                
     
     },
 
@@ -1073,28 +1093,6 @@ jQuery(window).load(function() {
 
         jQuery(this).css('width', width).attr('data-wd-height', height);
     });
-    
-    // Position the box thumbs in the center vertically and horizontally. 
-    jQuery('.box-thumbs .wd-thumb-list .wd-thumb').each(function() {
-
-        var boxHeight = jQuery(this).closest('.wd-thumb-list > li > a').height();
-        var boxWidth = jQuery(this).closest('.wd-thumb-list > li > a').width();
-        var thumbHeight = jQuery(this).height();
-        var thumbWidth = jQuery(this).width();
-                    
-        var new_size = wdp.fit_within_box(boxWidth, boxHeight, thumbWidth, thumbHeight);
-
-        jQuery(this)
-            .width(new_size.width)
-            .height(new_size.height)
-            .css({
-                'position': 'absolute',
-                'top': '50%',
-                'left': '50%',
-                'margin-top': 0-(new_size.height/2)+'px',
-                'margin-left': 0-(new_size.width/2)+'px'
-            });
-    });      
     
 });
 

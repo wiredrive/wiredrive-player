@@ -11,7 +11,7 @@
     <?php if ($this->get('items')) : ?>
     <div class='wd-thumb-list-container'>
         <ul class='wd-thumb-list'>
-        <?php foreach ( $this->get('items') as $key=>$item ) : ?>           
+        <?php foreach ( $this->get('items') as $key=>$item ) : ?>
             <li>
                 <a
                     href="<?php echo $item['link'] ?>"
@@ -26,7 +26,7 @@
                     data-wd-credits = '<?php echo json_encode($item['credits']) ?>'
                     data-wd-keywords = '<?php echo json_encode($item['keywords']) ?>'
                 >
-                    <img class='wd-thumb' src="<?php echo $item['thumbnail_sm'] ?>">
+                    <img class='wd-thumb' src="<?php echo $item['thumbnail_sm'] ?>" height="<?php echo $item['thumbnail_sm_height'] ?>" width="<?php echo $item['thumbnail_sm_width'] ?>">
                 </a>
             </li>
             

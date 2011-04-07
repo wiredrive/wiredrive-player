@@ -269,6 +269,7 @@ ul.wd-thumb-list li a {
  */
 #content img.wd-thumb {
     height: 60px;
+    width: auto;
 }
 
 #content .grid img.wd-thumb {
@@ -280,7 +281,7 @@ ul.wd-thumb-list li a {
 }
 
 /* 
- * grid Player Overides.
+ * Grid Player Overides.
  */
 
 /* Wiredrive grid Styles */
@@ -310,14 +311,15 @@ ul.wd-thumb-list li a {
         }
         .wd-player.grid ul.wd-thumb-list {
             padding: 0;
-            width: 110% !important;
+            font-size: 0;
+            width: 101% !important;
         }
         .wd-player.grid .wd-thumb-list li {
-            margin: 0 5px 5px 0;
+            margin: 0 2px 2px 0;
             padding: 0;
             position: relative;
             line-height: 0;
-            width: 180px;
+            width: 179px;
             display: inline-block;
             float: none;
             /* IE Inline Block Fix */
@@ -338,18 +340,11 @@ ul.wd-thumb-list li a {
             left: -999%;
             z-index: 100;
         }
-/*
-        html .zero {
-            height: 1px !important;
-            width: 1px !important;
-            opacity: 0;
-        }
-*/
         .wd-player.grid.ipad .wd-stage {
             display: none;
         }
     
-    /* Credit Overlay and grid Credits */            
+    /* Credit Overlay and Grid Credits */            
         .wd-player.grid .wd-title, .wd-player.grid .wd-credit {
             color: white;
             font-weight: bold;
@@ -391,7 +386,7 @@ ul.wd-thumb-list li a {
             left: 0;
         }
 
-/* grid Overlay Styles */
+/* Grid Overlay Styles */
     #fade { /*--Transparent background layer--*/
     	display: none; /*--hidden by default--*/
     	background: black;
@@ -460,9 +455,14 @@ ul.wd-thumb-list li a {
     
 /* Box Thumb Option */
 .box-thumbs .wd-thumb-list li a {
-    width: 180px;
-    height: 180px;
+    width: 179px;
+    height: 179px;
     text-align: center;
+}
+.box-thumbs .wd-thumb {
+    top: 50%;
+    position: absolute;
+    display: none;
 }
 
 

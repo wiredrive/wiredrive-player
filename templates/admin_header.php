@@ -3,7 +3,9 @@
     function WDPButtonClick() {
 
         WDPDialogClose();
-
+        
+        console.log(<?php echo plugins_url('wiredrive-player') ?>);
+        
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
         var title = '<img src="<?php echo plugins_url('wiredrive-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
@@ -29,12 +31,16 @@
 
         // Callback function for the "Okay" button
         function WDPButtonOkay() {
-
-            var feed = jQuery("#wdp-dialog-feed").val();
             
+            jQuery("#wdp-dialog-feed").val(function(i, val) {
+                return val.replace('feed:', 'http:');
+            });
+            
+            var feed = jQuery('#wdp-dialog-feed').val();
+                        
             if ( !feed ) {
                 return WDPDialogClose();
-            } else {            
+            } else {         
                     
                 var width = jQuery("#wdp-dialog-width").val();
                 var height = jQuery("#wdp-dialog-height").val();
