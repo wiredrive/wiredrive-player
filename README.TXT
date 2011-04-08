@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
 Tested up to: 3.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 
 This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website. The plug-in displays media and credits from Wiredrive media RSS (mRSS) links in WordPress webpages and posts.
 
@@ -62,6 +62,10 @@ Untested:
 [Please see "Wiredrive Media RSS FAQ" on Wiredrive.com](http://www.wiredrive.com/archives/4853/)
 
 == Changelog ==
+
+= 2.0.1 =
+* Fixed a bug where entering an RSS that started with 'feed://' gave an error.
+* Fixed a bug where thumbnails in a grid layout didn't stack correctly.
 
 = 2.0 =
 * Added AirPlay compatibility
