@@ -3,9 +3,7 @@
     function WDPButtonClick() {
 
         WDPDialogClose();
-        
-        console.log(<?php echo plugins_url('wiredrive-player') ?>);
-        
+                
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
         var title = '<img src="<?php echo plugins_url('wiredrive-player') ?>/images/button.png" alt="Wiredrive Player" width="20" height="20" style="margin: 0 0 -3px;" />' + ["Wiredrive Player"];
