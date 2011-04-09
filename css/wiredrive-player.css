@@ -458,12 +458,13 @@ ul.wd-thumb-list li a {
 .box-thumbs .wd-thumb-list li a {
     width: 179px;
     height: 179px;
-    text-align: center;
+    text-align: left;
 }
 .box-thumbs .wd-thumb {
     top: 50%;
+    left: 50%;
     position: absolute;
-    display: none;
+    visibility: hidden;
 }
 
 

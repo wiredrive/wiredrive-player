@@ -46,19 +46,23 @@ var wdp = {
     
             var boxHeight = jQuery(this).closest('.wd-thumb-list > li > a').height();
             var boxWidth = jQuery(this).closest('.wd-thumb-list > li > a').width();
-            var thumbHeight = jQuery(this).height();
-            var thumbWidth = jQuery(this).width();
+            var thumbHeight = jQuery(this).attr('height');
+            var thumbWidth = jQuery(this).attr('width');
+            
+            console.log(boxWidth, boxHeight, thumbWidth, thumbHeight);
                         
             var new_size = wdp.fit_within_box(boxWidth, boxHeight, thumbWidth, thumbHeight);
+    
+            console.log(new_size);
     
             jQuery(this)
                 .width(new_size.width)
                 .height(new_size.height)
                 .css({
                     'margin-top': 0-(new_size.height/2)+'px',
-                    'margin-left': 0-(new_size.width/2)+'px'
+                    'margin-left': 0-(new_size.width/2)+'px',
+                    'visibility': 'visible'
                 })
-                .show();
         });
 
     },
@@ -70,6 +74,7 @@ var wdp = {
      */
     fit_within_box: function(box_width, box_height, new_width, new_height) 
     {
+        
         var aspect_ratio=new_width/new_height;
         if(new_width>=box_width){
             new_width=box_width;
@@ -83,7 +88,7 @@ var wdp = {
             width: new_width, 
             height: new_height
         };
-    
+        
     },
     
     
