@@ -106,7 +106,7 @@ ul.wd-thumb-list .wd-active  {
     outline: none;
 }
 
-.wd-stage img, .wd-thumb-list img, img.wd-thumb {
+.wd-stage img, .wd-thumb-list img, .wd-thumb {
 	border: 0;
 	padding: 0;
 	margin: 0;
@@ -268,12 +268,12 @@ ul.wd-thumb-list li a {
  * WordPress theme ships with.  
  *---------------------------------------------------------
  */
-#content img.wd-thumb {
+#content .wd-thumb {
     height: 60px;
     width: auto;
 }
 
-#content .grid img.wd-thumb {
+#content .grid .wd-thumb {
     height: auto;
 }
 

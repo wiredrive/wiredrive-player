@@ -46,15 +46,11 @@ var wdp = {
     
             var boxHeight = jQuery(this).closest('.wd-thumb-list > li > a').height();
             var boxWidth = jQuery(this).closest('.wd-thumb-list > li > a').width();
-            var thumbHeight = jQuery(this).attr('height');
-            var thumbWidth = jQuery(this).attr('width');
-            
-            console.log(boxWidth, boxHeight, thumbWidth, thumbHeight);
+            var thumbHeight = jQuery(this).attr('data-thumb-height');
+            var thumbWidth = jQuery(this).attr('data-thumb-width');
                         
             var new_size = wdp.fit_within_box(boxWidth, boxHeight, thumbWidth, thumbHeight);
-    
-            console.log(new_size);
-    
+              
             jQuery(this)
                 .width(new_size.width)
                 .height(new_size.height)
@@ -62,9 +58,8 @@ var wdp = {
                     'margin-top': 0-(new_size.height/2)+'px',
                     'margin-left': 0-(new_size.width/2)+'px',
                     'visibility': 'visible'
-                })
+                });
         });
-
     },
     
     
