@@ -83,8 +83,11 @@ Untested:
 
 == Upgrade Notice ==
 
+= 2.0.1 =
+* This is a bug fix release.
+
 = 2.0 =
-Be aware that this version will reset your players color theme. You can change the colors of the player using the new settings page.
+* Be aware that this version will reset your players color theme. You can change the colors of the player using the new settings page.
 
 = 1.1 =
 * This version fixes issues with using multiple players on a single page.
