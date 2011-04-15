@@ -97,5 +97,3 @@ Be aware that this version will reset your players color theme. You can change t
 
 = 1.1 =
 This version fixes issues with using multiple players on a single page.
-
-= No upgrades are currently available. =
