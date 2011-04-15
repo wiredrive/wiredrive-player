@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
 Tested up to: 3.1.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website. The plug-in displays media and credits from Wiredrive media RSS (mRSS) links in WordPress webpages and posts.
 
@@ -63,6 +63,9 @@ Untested:
 
 == Changelog ==
 
+= 2.0.2 =
+* Fixed a bug which caused all "Settings" links on the Plugins page to link to players settings page.
+
 = 2.0.1 =
 * Fixed a bug where entering an RSS that started with 'feed://' gave an error.
 * Fixed a bug where thumbnails in a grid layout didn't stack correctly.
@@ -83,13 +86,16 @@ Untested:
 
 == Upgrade Notice ==
 
+= 2.0.2 =
+Fixed a bug on the plugins settings page.
+
 = 2.0.1 =
-* This is a bug fix release.
+This is a bug fix release.
 
 = 2.0 =
-* Be aware that this version will reset your players color theme. You can change the colors of the player using the new settings page.
+Be aware that this version will reset your players color theme. You can change the colors of the player using the new settings page.
 
 = 1.1 =
-* This version fixes issues with using multiple players on a single page.
+This version fixes issues with using multiple players on a single page.
 
 = No upgrades are currently available. =

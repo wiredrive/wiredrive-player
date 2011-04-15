@@ -79,8 +79,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     	add_action('init', array($wiredriveAdmin, 'init'));
     	add_action('admin_head', array($wiredriveAdmin, 'header' ));
     	add_action('admin_footer', array($wiredriveAdmin, 'footer'));
-        add_filter("plugin_action_links", array($wiredriveAdmin, 'settings_link'));
-    	
+        add_filter('plugin_action_links', array($wiredriveAdmin, 'settings_link'), 10, 2);    	
     }
     
     add_shortcode('wiredrive', array($wiredrivePlugin, 'render'));
