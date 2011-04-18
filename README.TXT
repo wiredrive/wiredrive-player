@@ -6,7 +6,7 @@ Requires at least: 3.0.0
 Tested up to: 3.1.1
 Stable tag: 2.0.2
 
-This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website. The plug-in displays media and credits from Wiredrive media RSS (mRSS) links in WordPress webpages and posts.
+This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website.
 
 == Description ==
 
