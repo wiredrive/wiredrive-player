@@ -95,191 +95,173 @@ ul.wd-thumb-list .wd-active  {
 /*You should not edit anything below this, unless you know what you are doing.
  *---------------------------------------------------------
  */
-
-
-.wd-player {
-	overflow: hidden;
-	line-height: 0;
-}
-
-.wd-player a {
-    outline: none;
-}
-
-.wd-stage img, .wd-thumb-list img, .wd-thumb {
-	border: 0;
-	padding: 0;
-	margin: 0;
-}
-.wd-stage {
-	position: relative;
-}
-.wd-stage video {
-	margin: 0 auto;
-}
+    .wd-player {
+    	overflow: hidden;
+    	line-height: 0;
+    }
+    
+    .wd-player a {
+        outline: none;
+    }
+    
+    .wd-stage img, .wd-thumb-list img, .wd-thumb {
+    	border: 0;
+    	padding: 0;
+    	margin: 0;
+    }
+    .wd-stage {
+    	position: relative;
+    }
+    .wd-stage video {
+    	margin: 0 auto;
+    }
 
 /* Thumbnails */
-.wd-thumb-dropdown {
-    float: right;
-}
-.wd-thumb-tray {
-    position: relative;
-}
-.wd-thumb-list-container {
-	width: 100%;
-	overflow: hidden;
-	position: relative;
-}
-ul.wd-thumb-list {
-	list-style: none;
-	margin: 0;
-	overflow: hidden;
-	width: 9999%;
-	padding-top: 0;
-	padding-bottom: 0;
-	line-height: 0;
-}
-ul.wd-thumb-list li {
-    float: left;
-	padding: 2px;
-	text-align: center;
-}
-ul.wd-thumb-list li a {
-    display: block;
-}
+    .wd-thumb-dropdown {
+        float: right;
+    }
+    .wd-thumb-tray {
+        position: relative;
+    }
+    .wd-thumb-list-container {
+    	width: 100%;
+    	overflow: hidden;
+    	position: relative;
+    }
+    ul.wd-thumb-list {
+    	list-style: none;
+    	margin: 0;
+    	overflow: hidden;
+    	width: 9999%;
+    	padding-top: 0;
+    	padding-bottom: 0;
+    	line-height: 0;
+    }
+    ul.wd-thumb-list li {
+        float: left;
+    	padding: 2px;
+    	text-align: center;
+    }
+    ul.wd-thumb-list li a {
+        display: block;
+    }
 
 /* Buttons */
-.wd-nav-prev, .wd-nav-next {
-	position: absolute;
-	cursor: pointer;
-	top: 0;
-    z-index: 10;
-    text-align: center;
-}
-.wd-nav-prev {
-	left: 0;
-}
-.wd-nav-next {
-	right: 0;
-}
-.wd-thumb-dropdown {
-    position: absolute;
-    right: 6px;
-    top: 16px;
-    display: none; /*This is hidden by default*/
-}
-.wd-thumb-dropdown:hover {
-    cursor: pointer;
-}
-.wd-right-arrow, .wd-left-arrow {
-    border-style:solid;
-    border-width:10px;
-    width:0;
-    height:0;
-    display: inline-block;
-    position: relative;
-    top: 25px;
-}
-.wd-left-arrow {
-    border-color: transparent #EAEAEA transparent transparent;
-    margin-left: -10px;
-}
-.wd-right-arrow {
-    border-color: transparent transparent transparent #EAEAEA;
-    margin-right: -10px;
-}
+    .wd-nav-prev, .wd-nav-next {
+    	position: absolute;
+    	cursor: pointer;
+    	top: 0;
+        z-index: 10;
+        text-align: center;
+    }
+    .wd-nav-prev {
+    	left: 0;
+    }
+    .wd-nav-next {
+    	right: 0;
+    }
+    .wd-thumb-dropdown {
+        position: absolute;
+        right: 6px;
+        top: 16px;
+        display: none;
+    }
+    .wd-thumb-dropdown:hover {
+        cursor: pointer;
+    }
+    .wd-right-arrow, .wd-left-arrow {
+        border-style:solid;
+        border-width:10px;
+        width:0;
+        height:0;
+        display: inline-block;
+        position: relative;
+        top: 25px;
+    }
+    .wd-left-arrow {
+        border-color: transparent #EAEAEA transparent transparent;
+        margin-left: -10px;
+    }
+    .wd-right-arrow {
+        border-color: transparent transparent transparent #EAEAEA;
+        margin-right: -10px;
+    }
 
 /* Credits */
-.wd-credits-container {
-	position: relative;
-	z-index: 20;
-	padding: 0 5px;
-}
+    .wd-credits-container {
+    	position: relative;
+    	z-index: 20;
+    	padding: 0 5px;
+    }
 /* Flash Fallback */
-.wd-player #no-flash-content {
-	line-height: 1;
-	text-align: center;
-	padding: 10px;
-	color: white;
-}
-.wd-player #no-flash-content a {
-    text-decoration: none;
-}
-.wd-player #no-flash-content p {
-	text-align: left;
-}
-.wdp-chrome img, .wdp-flash img {
-	display: inline;
-	background: none;
-	margin: 0 20px;
-}
+    .wd-player #no-flash-content {
+    	line-height: 1;
+    	text-align: center;
+    	padding: 10px;
+    	color: white;
+    }
+    .wd-player #no-flash-content a {
+        text-decoration: none;
+    }
+    .wd-player #no-flash-content p {
+    	text-align: left;
+    }
+    .wdp-chrome img, .wdp-flash img {
+    	display: inline;
+    	background: none;
+    	margin: 0 20px;
+    }
 
 /* Special stuff to deal with hiding the thumb tray */
-.hide-thumbs .wd-thumb-tray {
-    height: 0;
-    visibility: hidden;
-}
-.wd-player.hide-thumbs .wd-thumb-dropdown {
-    display: block;
-}
+    .hide-thumbs .wd-thumb-tray {
+        height: 0;
+        visibility: hidden;
+    }
+    .wd-player.hide-thumbs .wd-thumb-dropdown {
+        display: block;
+    }
 
 /* Slideshow Specfic Styles */
-.wd-player.slideshow .wd-slideshow-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-.wd-slideshow-image {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    /* Starts hidden, is resized in jQuery and then displayed */
-    display: none;
-    z-index: 20;
-}
+    .wd-player.slideshow .wd-slideshow-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .wd-slideshow-image {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        /* Starts hidden, is resized in jQuery and then displayed */
+        display: none;
+        z-index: 20;
+    }
 
 /* Start the first grid slideshow image hidden, turn it on in JavaScript when it's ready */
-.wd-player.grid .wd-slideshow-image {
-    visibility: hidden;
-}
+    .wd-player.grid .wd-slideshow-image {
+        visibility: hidden;
+    }
+    
+    .mobile .wd-play-next, .mobile .wd-play-prev, .not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
+        display: none;
+    }
+    .wd-play-next, .wd-play-prev {
+        position: relative;
+        height: 100%;
+        width: 40%;
+        z-index: 30;
+        cursor: pointer;
+    }
+    .wd-play-next {
+        float: right;
+    }
+    .wd-play-prev {
+        float: left;
+    
+    }
+    .wd-play-next.wd-active, .wd-play-prev.wd-active {
+        cursor: pointer;
+    }
 
-.mobile .wd-play-next, .mobile .wd-play-prev, .not-slideshow .wd-play-next, .not-slideshow .wd-play-prev {
-    display: none;
-}
-.wd-play-next, .wd-play-prev {
-    position: relative;
-    height: 100%;
-    width: 40%;
-    z-index: 30;
-    cursor: pointer;
-}
-.wd-play-next {
-    float: right;
-}
-.wd-play-prev {
-    float: left;
-
-}
-.wd-play-next.wd-active, .wd-play-prev.wd-active {
-    cursor: pointer;
-}
-
-/* This overrides some of the theme styles that the defualt 
- * WordPress theme ships with.  
- *---------------------------------------------------------
- */
-#content .wd-thumb {
-    height: 60px;
-    width: auto;
-}
-
-#content .grid .wd-thumb {
-    height: auto;
-}
-
-#content ul.wd-thumb-list {
-    margin-bottom: 0; 
-}
 
 /* 
  * Grid Player Overides.
@@ -346,12 +328,14 @@ ul.wd-thumb-list li a {
         }
     
     /* Credit Overlay and Grid Credits */            
+        .wd-player.inline-grid .wd-title, .wd-player.inline-grid .wd-credit,
         .wd-player.grid .wd-title, .wd-player.grid .wd-credit {
             color: white;
             font-weight: bold;
             line-height: 1.2;
             word-wrap: break-word;
         }
+        .inline-grid .hover-credits,
         .grid .hover-credits {
             padding: 5px;
             text-align: left;
@@ -455,26 +439,48 @@ ul.wd-thumb-list li a {
     }
     
 /* Box Thumb Option */
-.box-thumbs .wd-thumb-list li a {
-    width: 179px;
-    height: 179px;
-    text-align: left;
-}
-.box-thumbs .wd-thumb {
-    top: 50%;
-    left: 50%;
-    position: absolute;
-    visibility: hidden;
-}
+    .box-thumbs .wd-thumb-list li a {
+        width: 179px;
+        height: 179px;
+        text-align: left;
+    }
+    .box-thumbs .wd-thumb {
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        visibility: hidden;
+    }
 
+/* Inline-grid theme */
+    .wd-player.inline-grid .wd-nav-prev, .wd-player.inline-grid .wd-nav-next {
+        display: none;
+    }
+    .wd-player.inline-grid .wd-thumb-list {
+        width: 100% !important;
+        padding: 0;
+    }
+    .wd-player.inline-grid .wd-active {
+        border: none;
+    }
+    .wd-player.inline-grid .wd-thumb {
+        width: auto;
+        height: auto;
+    }
+    .wd-player.inline-grid .wd-thumb-tray {
+        margin-top: 20px;
+        background-color: transparent;
+    }
+    .wd-player.inline-grid .wd-credits-container {
+        display: none;
+    }
 
 /* Disable Thumbnail & Credits Options */
-.wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.grid .hover-credits {
-    display: none;
-}
-.wd-player.box-thumbs.grid .wd-thumb-tray {
-    display: block;
-}
-.wd-player.disablethumbs.grid .wd-thumb-tray {
-    display: block;
-}
+    .wd-player.disablethumbs .wd-thumb-tray, .wd-player.disablethumbs .wd-credits-container, .wd-player.disablethumbs.grid .hover-credits {
+        display: none;
+    }
+    .wd-player.box-thumbs.grid .wd-thumb-tray {
+        display: block;
+    }
+    .wd-player.disablethumbs.grid .wd-thumb-tray {
+        display: block;
+    }

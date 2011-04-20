@@ -1060,10 +1060,10 @@ jQuery(document).ready(function($) {
     /*
      * On thumb hover show the credits
      */
-    $('.grid .wd-thumb-list a').hover(
+    $('.grid .wd-thumb-list a, .inline-grid .wd-thumb-list a').hover(
         function () {
-            $(this).closest('.grid.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
-            $(this).closest('.grid.wd-player').find('.hover-credits .wd-title').append('<br />');
+            $(this).closest('.grid.wd-player, .inline-grid.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
+            $(this).closest('.grid.wd-player, .inline-grid.wd-player').find('.hover-credits .wd-title').append('<br />');
         }, 
         function () {
             $(this).find('.hover-credits').remove();

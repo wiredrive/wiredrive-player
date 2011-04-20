@@ -18,7 +18,8 @@
                 <p><strong>Choose a player display:</strong></p>
                     <input type="radio" id="wdp-theme-player" name="wdp-theme" value="inline-player" checked/><label for="wdp-theme-player"> Standard Inline<br /></label>
                     <input type="radio" id="wdp-theme-grid" name="wdp-theme" value="grid" /><label for="wdp-theme-grid"> Overlay gallery; tiles thumbnails at 180px wide or tall<br /></label>
-                    <input type="radio" id="wdp-theme-grid-box" name="wdp-theme" value="grid box-thumbs" /><label for="wdp-theme-grid-box"> Gallery with letterbox, pillarbox<br /></label>                
+                    <input type="radio" id="wdp-theme-grid-box" name="wdp-theme" value="grid box-thumbs" /><label for="wdp-theme-grid-box"> Gallery with letterbox, pillarbox<br /></label>
+                    <input type="radio" id="wdp-theme-inline-grid" name="wdp-theme" value="inline-grid" /><label for="wdp-theme-inline-grid"> Inline video with thumbnails tiled below<br /></label>                                   
                 </p>
             </div>
             <div class="wdp-thumbnail-options">

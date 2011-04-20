@@ -43,12 +43,12 @@
                 var width = jQuery("#wdp-dialog-width").val();
                 var height = jQuery("#wdp-dialog-height").val();
                 
-                // Options checkbox
+                // Setup varibles
                 var hidethumbs = {};
                 var disablethumbs = {};
                 var autoslideshow ={};
                 
-                //Theme Radio 
+                // Get Theme Radio Button Values
                 var theme = jQuery(".wdp-dialog-content").find("input:radio[name=wdp-theme]:checked").val();
                             
                 if(jQuery("#wdp-hide-thumbs").is(":checked")){
