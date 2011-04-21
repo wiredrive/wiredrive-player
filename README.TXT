@@ -64,7 +64,8 @@ Untested:
 == Changelog ==
 
 = 2.1 =
-* Added new inline grid theme.
+* Added play button on HTML5 video.
+* Added play.wdp and ended.wdp events to player.
 
 = 2.0.3 =
 * Updated readme.txt file.
@@ -93,4 +94,4 @@ Untested:
 == Upgrade Notice ==
 
 = 2.1 =
-Added new inline grid theme.
+Added play button on HTML5 video.

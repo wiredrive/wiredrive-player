@@ -32,3 +32,8 @@
 .wdp-dialog .ui-dialog-title img {
     position: static;
 }
+
+/* Disable the inline-grid theme choice, it's not ready */
+#wdp-theme-inline-grid, label[for='wdp-theme-inline-grid'] {
+    display: none;
+}

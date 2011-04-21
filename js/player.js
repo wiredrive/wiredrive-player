@@ -1,6 +1,30 @@
 /* 
  * This file was written to work with jQuery 1.4.2 (the version that comes with WordPress 3.0), hence the use of the .attr() method instead of the better .data() method.
  * Once WordPress 3.1 ships and is widely adopted, this will be re-written to use jQuery 1.4.4 and the .data() method.
+ *
+ * CUSTOM EVENTS
+ *
+ * The plugin will raise it's own custom event when a video has ended. Keep in mind the same event get's fired for the Flash player as it does for the HTML5 player.
+ *
+ * Sample Event Listner:
+ *   
+ *   $('.wd-player').bind('ended.wdp', function(event, playerID) { 
+ *       alert(playerID); 
+ *   });
+ * 
+ * The player also is set to listern for a play event. This way you can trigger the player start playing the current video like so:
+ *
+ * Currently this will only play the first player present on the page.
+ *
+ * itemNumber = The item to start playing from. If not set, it will start playing from the current item. Must be an integer. The first item is 0, the second item is 1, and so on.
+ * playerID = The ID of the desired player. If not set, it will be the first player on the page. Can accept the # or not eg('#elementID' or 'elementID').
+ *  
+ *   $('a').click(function() {
+ *       var itemNumber = 2;
+ *       var playerID = $(this).closest('.post').find('.wd-video-player').attr('id');
+ *       jQuery(this).trigger('play.wdp', [itemNumber, playerID]);
+ *   });
+ *
  */
 
 var wdp = {
@@ -19,12 +43,16 @@ var wdp = {
     
             jQuery(this).find('.wd-title')
                     .append(
-                        jQuery(this).closest('.wd-player').find('.wd-thumb-list .wd-active').attr('data-wd-title')
+                        jQuery(this).closest('.wd-player')
+                                    .find('.wd-thumb-list .wd-active')
+                                    .attr('data-wd-title')
                     );
             
             jQuery(this).find('.wd-credit')
                     .append(
-                        jQuery(this).closest('.wd-player').find('.wd-thumb-list .wd-active').attr('data-wd-credit')
+                        jQuery(this).closest('.wd-player')
+                                    .find('.wd-thumb-list .wd-active')
+                                    .attr('data-wd-credit')
                     );
             
         });
@@ -38,9 +66,12 @@ var wdp = {
         // Run any auto slideshows
         wdp.autoSlideshow();
         
-        //Remove the inline style width from the player DIV when a grid player.
+        // Remove the inline style width from the player DIV when a grid player.
         jQuery('.grid.wd-player').removeAttr('style');
 
+        // Remove the large play button from any grid players.
+        jQuery('.grid.wd-player').find('.wd-play-big-button').remove();
+        
         // Position the box thumbs in the center vertically and horizontally. 
         jQuery('.box-thumbs .wd-thumb-list .wd-thumb').each(function() {
     
@@ -60,6 +91,7 @@ var wdp = {
                     'visibility': 'visible'
                 });
         });
+        
     },
     
     
@@ -644,9 +676,12 @@ var wdp = {
      * For Flash: When video ends, play the next one.
      */
     stoppedPlaying: function(playerID)
-    {
+    {      
         var playerID = '#' + playerID;
         var isFlash = true;
+        
+        // Fire a custom event (see the top of the this file for a discription).
+        jQuery('.wd-video-player').trigger('ended.wdp', [playerID]);
         
         //jQuery .length() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = jQuery(playerID).closest('.wd-player').find('.wd-thumb-list li').size() - 1;   
@@ -681,8 +716,37 @@ var wdp = {
         }
         
         wdp.setNavButton.call(this, listLength, playerID, isFlash); 
-    } 
+    },
 
+
+    /*
+     * Add a DIV that contains the title and credit.
+     */    
+    showHoverCredits: function()
+    {
+        jQuery(this).find('.hover-credits').show();
+    },
+    
+    hideHoverCredits: function() 
+    {    
+        jQuery(this).find('.hover-credits').hide();
+    },
+        
+    
+    /*
+     * Play the video
+     * Used for the big play button
+     */
+        
+    play: function() {
+        var playerID = jQuery(this).closest('.wd-player').find('video').attr('id');
+        var videoContainer = document.getElementById(playerID); 
+
+        jQuery(this).closest('.wd-player').find('video').attr('controls', 'true');       
+        jQuery(this).closest('.wd-player').find('.wd-play-big-button').remove();
+
+        videoContainer.play();
+    }
 };
 
             
@@ -713,12 +777,15 @@ jQuery(document).ready(function($) {
         // This is testing to see if the newSrc has been set before starting. I do this so when Flash is used JavaScript doesn't throw an error.             
         if ( typeof videoContainer.load === 'function' ) {
             videoContainer.src = newSrc;
+            
+            $(this).closest('.wd-player').find('.wd-video-player').attr('controls', 'true');       
+            $(this).closest('.wd-player').find('.wd-play-big-button').remove();            
             videoContainer.load();
             videoContainer.play();
         } else {            
             // For Flash: Send the href of the thumb to the Flash player
-                $(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
-                $(videoContainer).externalInterface({method:'removePlayButton'});
+            $(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
+            $(videoContainer).externalInterface({method:'removePlayButton'});
         }
         
         // When a thumb is clicked remove the poster attribute from the video tag
@@ -740,7 +807,12 @@ jQuery(document).ready(function($) {
     });
 
 
-
+    /*
+     * Play video when clicking large play icon
+     */
+    $('.wd-play-big-button').click(function(){
+        wdp.play.call(this);
+    });
 
     /*
      * Scroll list to the left/right when button clicked
@@ -769,11 +841,16 @@ jQuery(document).ready(function($) {
      */ 
     $('video').bind('ended', function() 
     {   
+        
+        var playerID = $(this).attr('id');
+        
+        // Fire a custom event (see the top of the this file for a discription).
+        jQuery('.wd-video-player').trigger('wdpEnded', [playerID]);
+    
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
         var listLength = $(this).closest('.wd-player').find('.wd-thumb-list').children('li').size() - 1;
         
-        var currentID = $(this).attr('id');
-        var videoContainer = document.getElementById(currentID);
+        var videoContainer = document.getElementById(playerID);
     
         var n = $(this).closest('.wd-stage').attr('data-wd-item');
             n = parseInt(n, 10);
@@ -861,9 +938,7 @@ jQuery(document).ready(function($) {
     /*
      *  This enables touch gestures for next/prev image on a slideshow
      */
-    $('.wd-player.slideshow .wd-stage').live('touchstart touchmove touchend', function(event) {    
-                
-        
+    $('.wd-player.slideshow .wd-stage').live('touchstart touchmove touchend', function(event) {            
         
         var e = event.originalEvent;    
         
@@ -924,7 +999,7 @@ jQuery(document).ready(function($) {
             'margin-top' : -popMargTop,
             'margin-left' : -popMargLeft
         });
-                                    
+                                            
         // Fade in the stage
         $(this).closest('.wd-player').find('.wd-stage').css({'top' : '50%', 'left' : '50%'}).removeClass('zero');        
         
@@ -1060,16 +1135,62 @@ jQuery(document).ready(function($) {
     /*
      * On thumb hover show the credits
      */
-    $('.grid .wd-thumb-list a, .inline-grid .wd-thumb-list a').hover(
-        function () {
-            $(this).closest('.grid.wd-player, .inline-grid.wd-player').find('.wd-credits').clone().appendTo($(this)).addClass('hover-credits');
-            $(this).closest('.grid.wd-player, .inline-grid.wd-player').find('.hover-credits .wd-title').append('<br />');
-        }, 
-        function () {
-            $(this).find('.hover-credits').remove();
-        }
-    );
+    $('.grid .wd-thumb-list a, .inline-grid .wd-thumb-list a').hover(function(){
+        wdp.showHoverCredits.call(this);
+    },
+    function() {
+        wdp.hideHoverCredits.call(this);
+    });
 
+
+
+    /*
+     * Bind custom events
+     */ 
+    $('body').bind('play.wdp', function(event, itemNumber, playerID) {       
+
+        if (playerID) {
+            // Strip hash from player ID
+            playerID.replace('#','');
+        } else {
+            var playerID = $('.wd-video-player').attr('id');
+        }
+
+        if (typeof(itemNumber) == "undefined") {
+            var newSrc = $('#'+playerID).closest('.wd-player').find('.wd-thumb-list a.wd-active').attr('href');
+        } else {
+            var newSrc = $('#'+playerID).closest('.wd-player').find('.wd-thumb-list a').eq(itemNumber).attr('href');
+            
+            // Set the correct link as active
+            $('#'+playerID).closest('.wd-player').find('.wd-thumb-list a.wd-active').removeClass('wd-active');
+            $('#'+playerID).closest('.wd-player').find('.wd-thumb-list a').eq(itemNumber).addClass('wd-active');
+            
+            // Set the stage counter to the correct number
+            $('#'+playerID).closest('.wd-player').find('.wd-stage').attr('data-wd-item', itemNumber);
+            
+        }
+                
+        var videoContainer = document.getElementById(playerID);
+
+        if ( typeof videoContainer.load === 'function' ) {
+            // This sends it to the HTML player
+            videoContainer.src = newSrc;
+            videoContainer.load();
+            videoContainer.play();                                 
+        } else {   
+            // This sends it to the Flash Player                  
+            $(videoContainer).externalInterface({method:'setNewSource', args:newSrc});
+            $(videoContainer).externalInterface({method:'removePlayButton'});
+        }
+                
+    });
+   
+   $('#test').click(function() {
+       //playerID = $('.wd-video-player').attr('id');
+       
+       jQuery(this).trigger('play.wdp', [0]);
+   });    
+    
 });
 
 

@@ -91,6 +91,22 @@ ul.wd-thumb-list .wd-active  {
 	color: #aa0000;
 }
 
+/* The image used on for the play icon on the HTML5 player */
+.wd-play-big-button {
+    background: url(../images/controls_big_play_button.png);
+    height: 72px;
+    width: 72px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -36px;
+    margin-left: -36px;
+    z-index: 10;
+}
+.wd-player.mobile .wd-play-big-button {
+    display: none;
+}
 
 /*You should not edit anything below this, unless you know what you are doing.
  *---------------------------------------------------------
@@ -192,6 +208,9 @@ ul.wd-thumb-list .wd-active  {
     	position: relative;
     	z-index: 20;
     	padding: 0 5px;
+    }
+    .wd-thumb-list .hover-credits {
+        display: none;
     }
 /* Flash Fallback */
     .wd-player #no-flash-content {
@@ -472,6 +491,9 @@ ul.wd-thumb-list .wd-active  {
     }
     .wd-player.inline-grid .wd-credits-container {
         display: none;
+    }
+    .wd-player.inline-grid .wd-active .hover-credits {
+        display: block !important;
     }
 
 /* Disable Thumbnail & Credits Options */
