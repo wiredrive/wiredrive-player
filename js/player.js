@@ -1174,6 +1174,10 @@ jQuery(document).ready(function($) {
 
         if ( typeof videoContainer.load === 'function' ) {
             // This sends it to the HTML player
+        
+            $('#'+playerID).closest('.wd-player').find('video').attr('controls', 'true');       
+            $('#'+playerID).closest('.wd-player').find('.wd-play-big-button').remove();
+        
             videoContainer.src = newSrc;
             videoContainer.load();
             videoContainer.play();                                 
