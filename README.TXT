@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
 Tested up to: 3.1.1
-Stable tag: 2.1
+Stable tag: 2.1.1
 
 This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website.
 
@@ -63,6 +63,9 @@ Untested:
 
 == Changelog ==
 
+= 2.1.1 =
+* Bug fix.
+
 = 2.1 =
 * Added play button on HTML5 video.
 * Added play.wdp and ended.wdp events to player.
@@ -93,5 +96,5 @@ Untested:
 
 == Upgrade Notice ==
 
-= 2.1 =
-Added play button on HTML5 video.
+= 2.1.1 =
+Bug fix.
