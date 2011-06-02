@@ -130,8 +130,8 @@ class Wiredrive_Plugin
          * Get the height and width from the shortcode
          */
 		extract(shortcode_atts(array(
-					'height'            => $options['wdp_height'] . 'px',
-					'width'             => $options['wdp_width'] . 'px',
+					'height'            => $options['height'] . 'px',
+					'width'             => $options['width'] . 'px',
 					'hidethumbs'        => 'off',
 					'autoslideshow'     => 'off',
 					'disablethumbs'     => 'off',
@@ -510,7 +510,6 @@ class Wiredrive_Plugin
 	 */
 	private function renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme)
 	{
-
 		$this->template->setTpl('player_start.php')
 		->set('height', $height)
 		->set('width', $width)
