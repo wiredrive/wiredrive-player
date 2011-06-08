@@ -33,13 +33,16 @@
                         data-thumb-height = "<?php echo $item['thumbnail_sm_height'] ?>"
                     >
                     
-                    <?php
-//                        var_dump(); die;
-                    ?>
-                    
                     <div class="hover-credits">
                         <span class="wd-title"><?php echo htmlentities($item['title']) ?></span><br />
-                        <span class="wd-credit"><?php echo array_shift($item['credits']) ?></span>
+                        <span class="wd-credit">
+                        	<?php 
+                        		if( !empty($item['credits']) ) {
+		                        	echo array_shift($item['credits']);
+                        		}
+                        	?>
+                        </span>
+
                     </div>
                 </a>
             </li>
