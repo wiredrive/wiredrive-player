@@ -63,6 +63,9 @@ Untested:
 
 == Changelog ==
 
+= 2.1.2 =
+* Fixed width/height bug.  Fixed credit list bug
+
 = 2.1.1 =
 * Bug fix.
 
@@ -95,6 +98,9 @@ Untested:
 * First stable release.
 
 == Upgrade Notice ==
+
+= 2.1.2=
+* Fixed width/height bug.  Fixed credit list bug
 
 = 2.1.1 =
 Bug fix.
