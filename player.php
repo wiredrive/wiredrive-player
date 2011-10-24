@@ -47,10 +47,10 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
         
 } else {
 
-    include_once 'wiredrive.php';
-    include_once 'button.php';
-    include_once 'template.php';
-    include_once 'settings.php';  
+    include_once 'wiredrive-plugin.php';
+    include_once 'wiredrive-button.php';
+    include_once 'wiredrive-template.php';
+    include_once 'wiredrive-settings.php';  
     include_once ABSPATH . WPINC . '/feed.php';
     
     $wiredrivePlugin = new Wiredrive_Plugin();
@@ -74,7 +74,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
         add_action('admin_init', array($wiredriveSettings,'options_init' ));
         add_action('admin_menu', array($wiredriveSettings,'options_add_page'));
 
-    	include_once 'wiredrive_admin.php';
+    	include_once 'wiredrive-admin.php';
     	$wiredriveAdmin = new Wiredrive_Plugin_Admin();
     	add_action('init', array($wiredriveAdmin, 'init'));
     	add_action('admin_head', array($wiredriveAdmin, 'header' ));
