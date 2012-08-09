@@ -788,11 +788,6 @@ jQuery(document).ready(function($) {
             $(videoContainer).externalInterface({method:'removePlayButton'});
         }
         
-        // When a thumb is clicked remove the poster attribute from the video tag
-        $(this).closest('.wd-player')
-                .find('.video-js')
-                .attr('poster',null);
-
         // Set the stage to the current plaing item number. This is so the playlist function knows which video to play next.
         $(this).closest('.wd-player')
                 .find('.wd-stage')
