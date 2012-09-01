@@ -16,9 +16,9 @@
                 <a
                     href="<?php echo $item['link'] ?>"
                     data-wd-item="<?php echo $key ?>"
-                    data-wd-title="<?php echo htmlentities($item['title']) ?>"
+                    data-wd-title="<?php echo html_entity_decode($item['title']) ?>"
                     <?php if (isset($item['credits'])) : ?>data-wd-credit="<?php echo current($item['credits']); ?>"
-                    <?php endif; ?>data-wd-description="<?php echo htmlentities($item['description']) ?>"
+                    <?php endif; ?>data-wd-description="<?php echo html_entity_decode($item['description']) ?>"
                     data-wd-source = "<?php echo $item['link'] ?>"
                     data-wd-thumb = "<?php echo $item['thumbnail_lg'] ?>"
                     data-wd-height = "<?php echo $item['height'] ?>"
@@ -34,7 +34,7 @@
                     >
                     
                     <div class="hover-credits">
-                        <span class="wd-title"><?php echo htmlentities($item['title']) ?></span><br />
+                        <span class="wd-title"><?php echo html_entity_decode($item['title']) ?></span><br />
                         <span class="wd-credit">
                         	<?php 
                         		if( !empty($item['credits']) ) {
