@@ -2,7 +2,6 @@
     
     function WDPButtonClick() {
 
-        WDPDialogClose();
                 
         // Open dialog
         var buttons = { "Okay": WDPButtonOkay, "Cancel": WDPDialogClose };
@@ -21,7 +20,8 @@
                                     title: title, 
                                     buttons: buttons, 
                                     resizable: true });
-                                    
+
+        WDPDialogClose();
         jQuery("#wdp-dialog").dialog("open");
 
         // Reset the dialog box incase it's been used before
