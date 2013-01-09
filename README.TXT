@@ -3,15 +3,14 @@ Contributors: Wiredrive, dbaker, Daniel Bondurant
 Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
-Tested up to: 3.2
-Stable tag: 2.1.2
+Tested up to: 3.5
+Stable tag: 2.2.0
 
 This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website.
 
 == Description ==
 
 Wiredrive WordPress Plug-in Features:
-
 * Customizable dimensions
 * Displays video or image, title and first credit of each asset
 * Multiple layout options
@@ -25,7 +24,6 @@ Wiredrive WordPress Plug-in Features:
 * Elegantly replaces YouTube, Vimeo and other media hosting sites 
 
 Functionality Specs:
-
 * Displays video, title and first credit of each asset
 * The active video's thumbnail will have a border
 * Videos play through Flash in Firefox, Internet Explorer and Chrome. If Flash isn't installed, the user is prompted to install Safari or Flash
@@ -38,13 +36,11 @@ Functionality Specs:
 * Works with both MRSS feeds and presentation URLs.
 
 Known Issues:
-
 * A one pixel border around the Flash player is hardcoded into the Flash player. Attempts to remove it have been unsuccessful. We are working to fix this issue.
 * The poster frame will stretch to fill the player for browsers that use Flash if the file's aspect ratio differs from the dimensions you've set for the player. This is an issue with the Flash player. We are working to fix this issue.
 * When using the new grid mode on an iPad or iPhone, sequential playback does not work.
 
 Untested:
-
 * Video playback on Android. Android currently plays .mp4 and H.264 files. No plans to play .mov files have been announced.
 * Playback for formats that Safari and Flash do not natively support (e.g., .avi or .divx).
 
@@ -62,6 +58,17 @@ Untested:
 [Please see "Wiredrive Media RSS FAQ" on Wiredrive.com](http://www.wiredrive.com/archives/4853/)
 
 == Changelog ==
+
+= 2.2.0 =
+* fixed bug where & characters were not being passed to flash correctly.
+* fixed a bug when hidethumbs was enabled. tag wasn't closed properly.
+* fix for html entities being displayed instead of applicable characters.
+* height/width resize fix
+* removing poster element which caused a thumbnail bug when a video was played
+* fix for html entities being displayed instead of applicable characters.
+* height/width resize courtesy Visual23 - Robb Bennett (rbennett@visual23.com)
+* removing poster element which caused a thumbnail bug when a video was played
+* renamed files so they will work better with other plugins.  settings.php was conflicting with other plugins settings files in php5.2
 
 = 2.1.2 =
 * Fixed width/height bug.  Fixed credit list bug
