@@ -56,10 +56,10 @@
 </div>
 <?php endif; ?>
 
-<div class='wd-credits-container
+<div class="wd-credits-container
 <?php if ( count($this->get('items')) == 1 || ($this->get('hidethumbs') == 'on') ) : ?>
  hide-thumbs
-<?php endif; ?>'>
+<?php endif; ?>">
     <div class="wd-credits">
         <span class="wd-title"></span>
         <span class="wd-credit"></span>

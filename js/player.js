@@ -483,6 +483,23 @@ var wdp = {
                 jQuery(videoContainer).externalInterface({method:'setNewSource', args:nextSrc});
                 jQuery(videoContainer).externalInterface({method:'removePlayButton'});
             }
+
+            // Get next child
+            var nextChild = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem);        
+                
+            // Get video width and height
+            var newImageHeight = nextChild.attr('data-wd-height');
+            var newImageWidth = nextChild.attr('data-wd-width');
+                
+            // Resize video container
+            jQuery(videoContainer).css({width: newImageWidth});
+            jQuery(videoContainer).css({height: newImageHeight});
+                
+            // Center stage
+            jQuery('.wd-stage')                 
+                        .css('margin-top', 0-(newImageHeight/2)+'px')
+                        .css('margin-left', 0-(newImageWidth/2)+'px');
+   
             // Set active class on the new item
             // Remove active class
             jQuery(this).closest('.wd-player')
