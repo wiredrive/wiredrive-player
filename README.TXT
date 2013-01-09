@@ -60,13 +60,12 @@ Untested:
 == Changelog ==
 
 = 2.2.0 =
-* fixed bug where & characters were not being passed to flash correctly.
+* fixed bug where & characters in asset URLs were not being passed to flash correctly.
 * fixed a bug when hidethumbs was enabled. tag wasn't closed properly.
 * fix for html entities being displayed instead of applicable characters.
-* height/width resize fix
 * removing poster element which caused a thumbnail bug when a video was played
 * fix for html entities being displayed instead of applicable characters.
-* height/width resize courtesy Visual23 - Robb Bennett (rbennett@visual23.com)
+* height/width resize fix. courtesy Visual23 - Robb Bennett (rbennett@visual23.com)
 * removing poster element which caused a thumbnail bug when a video was played
 * renamed files so they will work better with other plugins.  settings.php was conflicting with other plugins settings files in php5.2
 
