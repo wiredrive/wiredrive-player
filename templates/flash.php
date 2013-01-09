@@ -3,12 +3,12 @@ $options = $this->get('options');
 ?>
 <script>
 var flashvars = {};
-flashvars.src = '<?php echo $this->get('link') ?>';
+flashvars.src = '<?php echo urlencode(html_entity_decode($this->get('link'))) ?>';
 flashvars.scaleMode = 'fit';
 flashvars.mode = 'overlay';
 flashvars.playerID = '<?php echo $this->get('attributeId') ?>';
 flashvars.autostart = 'false';
-flashvars.loadImage = '<?php echo $this->get('thumbnail') ?>';
+flashvars.loadImage = '<?php echo urlencode(html_entity_decode($this->get('thumbnail'))) ?>';
 var params = {};
 params.menu = 'false';
 params.wmode = 'direct';
