@@ -1,5 +1,5 @@
 === Wiredrive Player ===
-Contributors: Wiredrive, dbaker, Daniel Bondurant
+Contributors: Wiredrive
 Donate link: http://www.wiredrive.com/rss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
@@ -35,15 +35,6 @@ Functionality Specs:
 * If the feed does not exist an error is returned
 * Works with MRSS feeds, short links and presentation URLs.
 
-Known Issues:
-* A one pixel border around the Flash player is hardcoded into the Flash player. Attempts to remove it have been unsuccessful. We are working to fix this issue.
-* The poster frame will stretch to fill the player for browsers that use Flash if the file's aspect ratio differs from the dimensions you've set for the player. This is an issue with the Flash player. We are working to fix this issue.
-* When using the new grid mode on an iPad or iPhone, sequential playback does not work.
-
-Untested:
-* Video playback on Android. Android currently plays .mp4 and H.264 files. No plans to play .mov files have been announced.
-* Playback for formats that Safari and Flash do not natively support (e.g., .avi or .divx).
-
 == Installation ==
 
 1.	Log into your WordPress administration page and select Add New from the Plugins menu
@@ -55,7 +46,7 @@ Untested:
 
 == Frequently Asked Questions ==
 
-[Please see "Wiredrive Media RSS FAQ" on Wiredrive.com](http://www.wiredrive.com/archives/4853/)
+[Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
 
@@ -63,7 +54,7 @@ Untested:
 * fixed bug where & characters in asset URLs were not being passed to flash correctly.
 * fixed a bug when hidethumbs was enabled. tag wasn't closed properly.
 * fix for html entities being displayed instead of applicable characters.
-* removing poster element which caused a thumbnail bug when a video was played
+* removing poster element which caused a thumbnail bug when a video was played.
 * fix for html entities being displayed instead of applicable characters.
 * height/width resize fix. courtesy Visual23 - Robb Bennett (rbennett@visual23.com)
 * removing poster element which caused a thumbnail bug when a video was played
@@ -105,7 +96,10 @@ Untested:
 
 == Upgrade Notice ==
 
-= 2.1.2=
+= 2.2.0 =
+* Fixed issue with & in asset URLs.  Fixed HTML encoding and layout issues.
+
+= 2.1.2 =
 * Fixed width/height bug.  Fixed credit list bug
 
 = 2.1.1 =
