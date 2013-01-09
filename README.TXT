@@ -33,7 +33,7 @@ Functionality Specs:
 * If the feed does not come from Wiredrive an error is returned
 * If the feed is empty an error is returned
 * If the feed does not exist an error is returned
-* Works with both MRSS feeds and presentation URLs.
+* Works with MRSS feeds, short links and presentation URLs.
 
 Known Issues:
 * A one pixel border around the Flash player is hardcoded into the Flash player. Attempts to remove it have been unsuccessful. We are working to fix this issue.
