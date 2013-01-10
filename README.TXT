@@ -11,6 +11,7 @@ This plug-in allows you to embed Wiredrive video reels and image galleries into 
 == Description ==
 
 Wiredrive WordPress Plug-in Features:
+
 * Customizable dimensions
 * Displays video or image, title and first credit of each asset
 * Multiple layout options
@@ -24,6 +25,7 @@ Wiredrive WordPress Plug-in Features:
 * Elegantly replaces YouTube, Vimeo and other media hosting sites 
 
 Functionality Specs:
+
 * Displays video, title and first credit of each asset
 * The active video's thumbnail will have a border
 * Videos play through Flash in Firefox, Internet Explorer and Chrome. If Flash isn't installed, the user is prompted to install Safari or Flash
