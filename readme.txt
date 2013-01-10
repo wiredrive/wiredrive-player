@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
 Tested up to: 3.5
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ Functionality Specs:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+
+= 2.2.3 =
+* Bumping version to make wordpress.org behave
 
 = 2.2.2 =
 * renamed README.txt to readme.txt for issue with wordpress.org
