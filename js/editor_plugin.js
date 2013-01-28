@@ -1,5 +1,4 @@
 (function(){
- 
     tinymce.create('tinymce.plugins.wdpButton', {
  
         init : function(ed, url){
@@ -19,10 +18,10 @@
         getInfo : function(){
             return {
                 longname: 'Wiredrive Video Player Button',
-                author: 'Wiredrive, Drew Baker, Daniel Bondurant',
+                author: 'Wiredrive',
                 authorurl: 'http://wiredrive.com',
                 infourl: 'http://wiredrive.com',
-                version: "1.0"
+                version: "2.2.3"
             };
         }
     });
