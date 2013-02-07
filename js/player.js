@@ -417,38 +417,42 @@ var wdp = {
      */
     setNextSource: function()
     {   
-       
         //Check to see if the current image is still fading (prevents turbo clicking problems with slideshows).
         if (jQuery(this).closest('.wd-player').find('.wd-slideshow-image').is(':animated')) {
             return;
         }
        
         //jQuery .size() starts counting at 1, so we need to subtract 1 to get the list to add up correctly with the way jQeury .eq() works.
-        var listLength = jQuery(this).closest('.wd-player').find('.wd-thumb-list li').size() - 1;
-        var currentID = jQuery(this).closest('.wd-player').find('.wd-video-player').attr('id');
+        var $player = jQuery(this).closest('.wd-player'),
+            $stage = $player.find('.wd-stage');
+            
+
+        var listLength = $player.find('.wd-thumb-list li').size() - 1;
+        var currentID = $player.find('.wd-video-player').attr('id');
+
         var videoContainer = document.getElementById(currentID);
-        var nextItem = jQuery(this).closest('.wd-player').find('.wd-stage').attr('data-wd-item');
+        var nextItem = $stage.attr('data-wd-item');
                 
         if (nextItem < listLength) {
             
             // Get the new SRC URL.
                 nextItem++;
-            var nextSrc = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('href'); 
+            var nextSrc = $player.find('.wd-thumb-list li a').eq(nextItem).attr('href'); 
             
             if (videoContainer === null) {
-                //This means it's an image                
-                var currentStage = jQuery(this).closest('.wd-player').find('.wd-stage');
-                var slideshowHeight = jQuery(this).closest('.wd-player').find('.wd-stage').height();
-                var slideshowWidth = jQuery(this).closest('.wd-player').find('.wd-stage').width();
-                var newImageHeight = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-height');
-                var newImageWidth = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-width');
-                var currentImageHref = jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).attr('src');
+                //This means it's an image
+                var currentStage = $stage;
+                var slideshowHeight = currentStage.height();
+                var slideshowWidth = currentStage.width();
+                var newImageHeight = $player.find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-height');
+                var newImageWidth = $player.find('.wd-thumb-list li a').eq(nextItem).attr('data-wd-width');
+                var currentImageHref = $player.find('.wd-slideshow-image').eq(0).attr('src');
                         
                 // Get the new image sizes
                 var new_size = wdp.fit_within_box(slideshowWidth, slideshowHeight, newImageWidth, newImageHeight);
                         
                 // Get first image and duplicate it
-                var firstImage = jQuery(this).closest('.wd-player').find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two').removeAttr('src');
+                var firstImage = $player.find('.wd-slideshow-image').eq(0).clone().addClass('wd-slideshow-image-two').removeAttr('src');
                 
                 currentStage.append(firstImage);
                             
@@ -476,16 +480,14 @@ var wdp = {
                 videoContainer.src = nextSrc;
                 videoContainer.load();
                 videoContainer.play();
-                                 
             } else {
-           
                 // This sends it to the Flash Player                  
                 jQuery(videoContainer).externalInterface({method:'setNewSource', args:nextSrc});
                 jQuery(videoContainer).externalInterface({method:'removePlayButton'});
             }
 
             // Get next child
-            var nextChild = jQuery(this).closest('.wd-player').find('.wd-thumb-list li a').eq(nextItem);        
+            var nextChild = $player.find('.wd-thumb-list li a').eq(nextItem);        
                 
             // Get video width and height
             var newImageHeight = nextChild.attr('data-wd-height');
@@ -496,26 +498,23 @@ var wdp = {
             jQuery(videoContainer).css({height: newImageHeight});
                 
             // Center stage
-            jQuery('.wd-stage')                 
-                        .css('margin-top', 0-(newImageHeight/2)+'px')
-                        .css('margin-left', 0-(newImageWidth/2)+'px');
+            if (videoContainer) {
+                $stage.css('margin-top', -(newImageHeight / 2) + 'px')
+                      .css('margin-left', -(newImageWidth / 2) + 'px');
+            }
    
             // Set active class on the new item
             // Remove active class
-            jQuery(this).closest('.wd-player')
-                    .find('.wd-thumb-list .wd-active')
-                    .removeClass('wd-active');
+            $player.find('.wd-thumb-list .wd-active')
+                   .removeClass('wd-active');
 
             // Add active class        
-            jQuery(this).closest('.wd-player')
-                    .find('.wd-thumb-list li a')
-                    .eq(nextItem)
-                    .addClass('wd-active');
+            $player.find('.wd-thumb-list li a')
+                   .eq(nextItem)
+                   .addClass('wd-active');
             
             // Set the new item number on the stage
-            jQuery(this).closest('.wd-player')
-                    .find('.wd-stage')
-                    .attr('data-wd-item', nextItem);
+            $stage.attr('data-wd-item', nextItem);
 
         
             wdp.setNextCredit.call(this);
