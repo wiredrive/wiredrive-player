@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5
 Requires at least: 3.0.0
 Tested up to: 3.5
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ Functionality Specs:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+
+= 2.2.5 =
+* Bugfix: Preventing slideshow instances from disappearing/reappearing and affecting other player instances in the same document
 
 = 2.2.4 =
 * Added poster image to html5 template
@@ -110,17 +113,3 @@ Functionality Specs:
 
 = 1.0 =
 * First stable release.
-
-== Upgrade Notice ==
-
-= 2.2.4 =
-* Added poster image to html5 template
-
-= 2.2.0 =
-* Fixed issue with & in asset URLs.  Fixed HTML encoding and layout issues.
-
-= 2.1.2 =
-* Fixed width/height bug.  Fixed credit list bug
-
-= 2.1.1 =
-Bug fix.
