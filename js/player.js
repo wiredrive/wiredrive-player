@@ -493,6 +493,7 @@ var wdp = {
             var newImageHeight = nextChild.attr('data-wd-height');
             var newImageWidth = nextChild.attr('data-wd-width');
                 
+            /*
             // Resize video container
             jQuery(videoContainer).css({width: newImageWidth});
             jQuery(videoContainer).css({height: newImageHeight});
@@ -502,6 +503,7 @@ var wdp = {
                 $stage.css('margin-top', -(newImageHeight / 2) + 'px')
                       .css('margin-left', -(newImageWidth / 2) + 'px');
             }
+            */
    
             // Set active class on the new item
             // Remove active class
