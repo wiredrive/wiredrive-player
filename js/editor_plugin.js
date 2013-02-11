@@ -21,7 +21,7 @@
                 author: 'Wiredrive',
                 authorurl: 'http://wiredrive.com',
                 infourl: 'http://wiredrive.com',
-                version: "2.2.5"
+                version: "2.2.6"
             };
         }
     });
