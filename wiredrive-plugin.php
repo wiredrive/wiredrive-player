@@ -82,21 +82,12 @@ class Wiredrive_Plugin
 		$plugin_url = plugins_url('wiredrive-player');
 
 		wp_enqueue_script('jquery');
-
 		wp_enqueue_script('swfobject');
 
-		wp_register_script('jquery.scrollTo',
-			($plugin_url  . '/js/jquery.scrollTo-1.4.2-min.js'), 'jquery', '1.4.2');
+		wp_register_script('wd-player', ($plugin_url  . '/js/wd-player.js'), 'jquery', '2.0');
+		wp_enqueue_script('wd-player');
 
-		wp_enqueue_script('jquery.scrollTo');
-
-		wp_register_script('player',
-			($plugin_url  . '/js/player.js'), 'jquery', '1.1');
-
-		wp_enqueue_script('player');
-
-		wp_enqueue_style('wirdrive_player_css',
-			($plugin_url . '/css/wiredrive-player.css'));
+		wp_enqueue_style('wd-player', ($plugin_url . '/css/wd-player.css'));
 	}
 
 	/**
@@ -183,27 +174,27 @@ class Wiredrive_Plugin
          * array for use in the templates
          */
 		$this->itemLoop();
-
+        $this->_render($width, $height, $options);
 		/*
          * Begin Player Construction
          * This is calling player_start.php
          */
-		$this->renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme);
+		//$this->renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme);
 
 		/*
          * Render out the video player or image slideshow
          */
-		$this->renderMediaPlayer($width, $height);
+		//$this->renderMediaPlayer($width, $height);
 
 		/*
          * Loop through all the items and show the thumbnails
          */
-		$this->renderThumbnails();
+		//$this->renderThumbnails();
 
 		/*
          * Close off the player
          */
-		$this->renderPlayerFinish();
+		//$this->renderPlayerFinish();
 
 		return $this->getOutput();
 
@@ -419,7 +410,6 @@ class Wiredrive_Plugin
         } else {
 			$this->renderHtml5($width, $height);
 		}
-
 	}
 
 	/**
@@ -502,6 +492,33 @@ class Wiredrive_Plugin
 
 	}
 
+    private function _render($width, $height, $options) {
+        $items = $this->getItems();
+        $pluginUrl = $this->getPluginUrl();
+        $type = 'video';
+        $attributeId = $this->getAttributeId();
+        $link = $items[0]['link'];
+        $thumbnail = $items[0]['thumbnail_lg'];
+
+        if ($this->getIsImageReel()) {
+            $type = 'image';
+        } else if ($this->useFlash()) {
+            $type = 'flash';
+        }
+
+        $this->template->setTpl('player.php')
+             ->set('options', $options)
+             ->set('link', $link)
+             ->set('thumbnail', $thumbnail)
+             ->set('attributeId', $attributeId)
+             ->set('type', $type)
+             ->set('height', $height)
+             ->set('width', $width)
+             ->set('pluginUrl', $pluginUrl)
+             ->set('options', $options)
+             ->render();
+    }
+
 	/**
 	 * Render player start
 	 *
@@ -554,7 +571,6 @@ class Wiredrive_Plugin
         		->set('link', $first['link'])
         		->set('thumbnail', $first['thumbnail_lg'])
         		->set('attributeId', $this->getAttributeId())
-        		->set('pluginUrl', $this->getPluginUrl())
         		->set('width', $first['width'])
         		->set('height', $first['height'])
                 ->set('options', $wiredriveSettings->getOptions())
@@ -579,7 +595,6 @@ class Wiredrive_Plugin
                 ->set('link', $first['link'])
                 ->set('thumbnail', $first['thumbnail_lg'])
                 ->set('attributeId', $this->getAttributeId())
-                ->set('pluginUrl', $this->getPluginUrl())
                 ->set('width', $width)
                 ->set('height', $height)
                 ->render();
@@ -602,7 +617,6 @@ class Wiredrive_Plugin
                 ->set('link', $first['link'])
                 ->set('thumbnail', $first['thumbnail_lg'])
                 ->set('attributeId', $this->getAttributeId())
-                ->set('pluginUrl', $this->getPluginUrl())
                 ->set('width', $first['width'])
                 ->set('height', $first['height'])
                 ->render();
@@ -646,6 +660,7 @@ class Wiredrive_Plugin
 		   	
         $this->template->setTpl('head.php')
                 ->set('options', $wiredriveSettings->getOptions())
+                ->set('pluginUrl', $this->getPluginUrl())
                 ->render();
 		  
         return $this->template->getOutput();

@@ -1,0 +1,10 @@
+.wd-player .wd-image-container {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.wd-player .wd-image {
+    max-width: 100%;
+    max-height: 100%;
+}

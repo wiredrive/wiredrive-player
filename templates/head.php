@@ -1,15 +1,22 @@
 <?php
-$options = $this->get('options');
+    $options = $this->get('options');
+    $pluginUrl = $this->get('pluginUrl');
 ?>
+
+<script type="text/javascript">
+(function () {
+    "use strict";
+
+    window.WDP.options = <?= json_encode($options); ?>;
+    window.WDP.options.pluginUrl = '<?= $pluginUrl; ?>';
+}());
+</script>
+
 <style type="text/css">
-.wd-player {
-    width: <?php echo $options['width'] . 'px' ?>;
+.wd-player .wd-stage {
+    background-color: <?= $options['stage_color']; ?>;
 }
-.wd-stage {
-    width: <?php echo $options['width'] . 'px' ?>;
-    height: <?php echo $options['height'] . 'px'?>;
-    background: <?php echo $options['stage_color'] ?>;
-}
+/*
 .wd-credits-container {
     background: <?php echo $options['credit_container_color'] ?>;
     border-top: 1px solid <?php echo $options['credit_container_border'] ?>;
@@ -44,4 +51,5 @@ $options = $this->get('options');
     background-color: #111111;
     background-color: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity'] ?>);
 }
+*/
 </style>

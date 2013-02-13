@@ -1,36 +1,45 @@
-<?php
-$options = $this->get('options'); 
+<?php // Included into and inherits scope of player.php
+    $containerId = uniqid('wd-flash-');
 ?>
-<script>
-var flashvars = {};
-flashvars.src = '<?php echo urlencode(html_entity_decode($this->get('link'))) ?>';
-flashvars.scaleMode = 'fit';
-flashvars.mode = 'overlay';
-flashvars.playerID = '<?php echo $this->get('attributeId') ?>';
-flashvars.autostart = 'false';
-flashvars.loadImage = '<?php echo urlencode(html_entity_decode($this->get('thumbnail'))) ?>';
-var params = {};
-params.menu = 'false';
-params.wmode = 'direct';
-params.bgcolor = '<?php echo $options['stage_color'] ?>';
-params.devicefont = 'true';
-params.swliveconnect = 'true';
-params.allowscriptaccess = 'sameDomain';
-params.allowFullScreen = 'true';
-params.hasPriority = "true";
-var attributes = {};
-attributes.id = '<?php echo $this->get('attributeId') ?>';
-attributes.styleclass = 'wd-video-player';
-swfobject.embedSWF('<?php echo $this->get('pluginUrl') ?>/flash/wiredrivePlayer.swf', 'no-flash-content', '100%', '100%', '10.1.0', '<?php echo $this->get('pluginUrl') ?>/flash/expressInstall.swf', flashvars, params, attributes);
-</script>
+<script type="text/javascript">
+(function () {
+    "use strict";
 
-<div id='no-flash-content'>
-    <p>You require either a HTML5 capable browser or Adobe Flash to view this video content. Please click an icon to install.</p>
-	<br />
-    <a class='wdp-safari' href='http://www.apple.com/safari/download/' target='_blank'>
-        <img src='<?php echo $this->get('pluginUrl') ?>/images/safari_icon.png'>
-    </a>
-    <a class='wdp-flash' href='http://get.adobe.com/flashplayer' target='_blank'>
-        <img src='<?php echo $this->get('pluginUrl') ?>/images/flash_icon.png' >
-    </a>
+    //TODO: see if there is a way to set src and poster after init.
+    //that information will no longer be available to us at load time.
+    //If there isn't a way to set them after swfobject, then move the swfobject code
+    //into the Player object and have it draw it
+    var flashvars = {
+            //src: '<?= urlencode(html_entity_decode($link)); ?>',
+            //poster: '<?= urlencode(html_entity_decode($thumbnail)); ?>',
+            backgroundColor: '<?= $options['stage_color']; ?>'
+        },
+        params = {
+            allowFullScreen: 'true',
+            allowscriptaccess: 'always'
+        },
+        attributes = {};
+
+    window.swfobject.embedSWF(
+        '<?= $pluginUrl; ?>/flash/StrobeMediaPlayback.swf',
+        '<?= $containerId; ?>',
+        '100%',
+        '100%',
+        '10.1.0',
+        '<?= $pluginUrl; ?>/flash/expressInstall.swf',
+        flashvars,
+        params,
+        attributes,
+        function (e) {
+            //remember: no assurance that jQuery has loaded yet.
+            var player = WDP.getPlayer('<?= $attributeId; ?>');
+            
+            player.attachPlayer(document.getElementById(e.id));
+            player.isDataLoaded() && player.setReady();
+        }
+    );
+}());
+</script>
+<div id="<?= $containerId; ?>">
+    You don't seem to have flash
 </div>
