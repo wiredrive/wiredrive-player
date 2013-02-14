@@ -19,6 +19,12 @@
             '<div class="wd-play-button"></div>'
         ].join(''),
 
+        IMAGE_TEMPLATE = [
+            '<div class="wd-image-container">',
+                '<img class="wd-image" />',
+            '</div>'
+        ].join(''),
+
         _uid = 1, //uid value. used for WDP.uniqueId()
         _players = {}, //"private" list of all player instances
 
@@ -103,12 +109,11 @@
                         first = instance.items[0],
                         
                         $player = $(FLASH_TEMPLATE),
-                        uid = WDP.uniqueId(),
-
-                        id = 'wd-flash' + uid,
+                        cbid = WDP.flashCallbackId(),
+                        id = 'wd-flash' + WDP.uniqueId(),
 
                         flashvars = {
-                            javascriptCallbackFunction: 'WDP._callbacks.flash' + uid,
+                            javascriptCallbackFunction: 'WDP._callbacks.' + cbid,
 
                             //for some reason these need to be URI encoded, but not
                             //when you're setting the source programmatically
@@ -121,7 +126,7 @@
                             allowscriptaccess: 'always'
                         };
 
-                    WDP._callbacks['flash' + uid] = function (id, eventName, updatedProperties) {
+                    WDP._callbacks[cbid] = function (id, eventName, updatedProperties) {
                         if (!instance.$player) {
                             instance.$player = instance.$container.find('object');
                         }
@@ -212,8 +217,8 @@
         },
 
         fetchData: function () {
-            WDP.addCallback(this.id);
-            $.getScript(this.jsonpUrl + "/callback/WDP._callbacks['" + this.id + "']")
+            var cbid = WDP.addCallback(this.id);
+            $.getScript(this.jsonpUrl + '/callback/' + cbid);
         },
 
         parse: function (data) {
@@ -251,6 +256,14 @@
     WDP = window.WDP = {
         _callbacks: {},
 
+        flashCallbackId: function () {
+            return 'flash' + WDP.uniqueId();
+        },
+
+        jsonpCallbackId: function () {
+            return 'jsonp' + WDP.uniqueId();
+        },
+
         uniqueId: function () {
             return _uid++;
         },
@@ -260,17 +273,20 @@
         },
 
         addCallback: function (playerId) {
-            var id = playerId;
+            var id = playerId,
+                cbid = WDP.jsonpCallbackId();
 
-            this._callbacks[id] = function (data) {
+            this._callbacks[cbid] = function (data) {
                 var player = _players[id],
                     $stage = $('#' + id + ' .wd-stage');
 
                 player.parse(data);
                 player.attachPlayer();
 
-                delete WDP._callbacks[id];
+                delete WDP._callbacks[cbid];
             };
+
+            return 'WDP._callbacks.' + cbid;
         },
 
         registerPlayer: function (config) {
