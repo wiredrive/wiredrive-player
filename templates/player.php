@@ -14,10 +14,6 @@
     $height = $this->get('height');
     $type = $this->get('type'); //which player template to use
     $attributeId = $this->get('attributeId'); //random wordpress id for something
-    //$link = $this->get('link'); //link to first asset source
-    //$thumbnail = $this->get('thumbnail'); //thumbnail for first asset
-    //$items = $this->get('items'); //all media assets for this instance
-    //$pluginUrl = $this->get('pluginUrl'); //baseUrl for the wiredrive-plugin install
 ?>
 <div id="<?= $attributeId; ?>" class="wd-player">
     <div class="wd-stage" style="width: <?= $width; ?>; height: <?= $height; ?>;"></div>

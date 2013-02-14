@@ -1,9 +1,13 @@
-//jquery is a dependency that is loaded syncronously.
+//jquery is the only dependency and it's loaded syncronously.
+//no need for a doc.ready function
 (function ($) {
     "use strict";
 
-    var console = window.console,
+    var console = window.console, //just in case we're in IE8
 
+        /*
+         * Player templates
+         */
         FLASH_TEMPLATE = [
             '<div>',
                 "You don't seem to have flash.",
@@ -15,43 +19,83 @@
             '<div class="wd-play-button"></div>'
         ].join(''),
 
-        _uid = 1,
-        _players = {},
+        _uid = 1, //uid value. used for WDP.uniqueId()
+        _players = {}, //"private" list of all player instances
 
+        /*
+         * Mixins for Player objects that connect it to the given media player
+         */
         mixins = {
             video: {
                 attachPlayer: function () {
-                    var first = this.items[0],
-                        $player,
+                    var instance = this,
+                        first = instance.items[0],
+                        $player, $playButton,
                         $tpl = $(VIDEO_TEMPLATE);
 
-                    this.$container.find('.wd-stage').append($tpl);
+                    instance.$container.find('.wd-stage').append($tpl);
 
-                    $player = this.$container.find('video');
+                    $playButton = instance.$container.find('.wd-play-button'),
+                    $player = instance.$container.find('video');
                     $player.attr('height', WDP.options.height);
                     $player.attr('width', WDP.options.width);
-                    $player.attr('poster', decodeURIComponent(first.poster));
-                    $player.attr('src', decodeURIComponent(first.url));
+                    $player.attr('poster', first.poster);
+                    $player.attr('src', first.url);
 
-                    this.$player = $player;
-                    this.setReady();
+                    instance.$player = $player;
+
+                    $playButton.one('click', function (e) {
+                        $(e.target).remove();
+                        $player.attr('controls', 'controls');
+                        $player.removeAttr('poster');
+                        instance.play();
+                    });
+
+                    $player.on('ended', function (e) {
+                        if (instance.setSource(++instance.current)) {
+                            instance.play();
+                        }
+                    });
+
+                    instance.setReady();
                 },
 
-                setSource: function () {
+                setSource: function (index) {
+                    if (index < 0 || index >= this.items.length) {
+                        return false;
+                    }
 
+                    var asset = this.items[index],
+                        $player = this.$player,
+                        player = $player.get(0);
+
+                    $player.attr('src', asset.url);
+                    player.load();
+
+                    return true;
                 },
 
                 play: function () {
-                    this.$player.eq(0).play();
+                    this.$player.get(0).play();
                 },
             },
             flash: {
                 setSource: function (index) {
+                    if (index < 0 || index >= this.items.length) {
+                        return false;
+                    }
 
+                    var asset = this.items[index],
+                        player = this.$player.get(0);
+
+                    player.setSrc(asset.url);
+                    player.load();
+
+                    return true;
                 },
 
                 play: function () {
-
+                    this.$player.get(0).play2();
                 },
 
                 attachPlayer: function () {
@@ -59,18 +103,35 @@
                         first = instance.items[0],
                         
                         $player = $(FLASH_TEMPLATE),
-                        id = 'wd-flash' + WDP.uniqueId(),
+                        uid = WDP.uniqueId(),
+
+                        id = 'wd-flash' + uid,
 
                         flashvars = {
-                            src: first.url,
-                            poster: first.poster,
+                            javascriptCallbackFunction: 'WDP._callbacks.flash' + uid,
+
+                            //for some reason these need to be URI encoded, but not
+                            //when you're setting the source programmatically
+                            src: encodeURIComponent(first.url),
+                            poster: encodeURIComponent(first.poster),
                             backgroundColor: WDP.options.stage_color
                         },
                         params = {
                             allowFullScreen: 'true',
                             allowscriptaccess: 'always'
-                        },
-                        attributes = {};
+                        };
+
+                    WDP._callbacks['flash' + uid] = function (id, eventName, updatedProperties) {
+                        if (!instance.$player) {
+                            instance.$player = instance.$container.find('object');
+                        }
+
+                        if (eventName === 'complete') {
+                            if (instance.setSource(++instance.current)) {
+                                instance.play();
+                            }
+                        }
+                    };
 
                     $player.attr('id', id);
                     instance.$container.find('.wd-stage').append($player);
@@ -83,16 +144,15 @@
                         '10.1.0',
                         WDP.options.pluginUrl + '/flash/expressInstall.swf',
                         flashvars,
-                        params,
-                        attributes,
-                        function (e) {
-                            instance.$player = instance.$container.find('object');
-                            instance.setReady();
-                        }
+                        params
                     );
                 }
             },
             image: {
+                bindPlayer: function () {
+
+                },
+
                 attachPlayer: function () {
 
                 },
@@ -111,7 +171,7 @@
 
         VALID_TYPES = ['flash', 'image', 'video'];
 
-
+    //just so that console logs in this scope don't cause errors in IE8
     if (!console) {
         console = {};
         console.log = console.warn = console.error = function () {};
@@ -139,50 +199,16 @@
     Player.prototype = {
         constructor: Player,
 
+        isReady: function () {
+            return this._READY;
+        },
+
         isDataLoaded: function () {
             return this._DATA_PARSED;
         },
 
-        setSource: function (index) {
-            if (index < 0 || index >= this.items.length) {
-                return;
-            }
-
-            var asset = this.items[index],
-                $player = this.$player,
-                player = $player.eq(0);
-
-            switch (this.type) {
-                case 'image':
-                    $player.attr('src', asset.url);
-                    break;
-                case 'video':
-                    $player.attr('poster', asset.poster);
-                    player.src = asset.url;
-                    break;
-                case 'flash':
-
-            }
-        },
-
-        play: function () {
-            var $player = this.$player,
-                player = this.player;
-
-            switch (this.type) {
-                case 'image': break;
-                case 'video':
-                    player.load();
-                    player.play();
-                    break;
-                case 'flash':
-            }
-        },
-
         setReady: function () {
             this._READY = true;
-            this.setSource(0);
-            this.$container.removeClass('loading');
         },
 
         fetchData: function () {
@@ -197,6 +223,7 @@
             // (`index`, `element`), but `$.map`'s order is reversed (`element`, `index`)?
             // jQuery's each doesn't conform to the native forEach signature, but map does.
             // I thought jQuery was supposed to be really good at being consistent :-/
+            // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
                 var primary = asset.file.primary,
                     largeThumb = asset.file.large,
@@ -206,9 +233,9 @@
                     title: asset.title,
                     height: primary.height,
                     width: primary.width,
-                    url: encodeURIComponent(primary.url),
-                    thumbnail: encodeURIComponent(smallThumb.url),
-                    poster: encodeURIComponent(largeThumb.url),
+                    url: primary.url,
+                    thumbnail: smallThumb.url,
+                    poster: largeThumb.url,
                     description: asset.description,
                     keywords: $.map(asset.keywords, function (item) { return item.label; }),
                     credits: $.map(asset.metadata, function (credit) {
@@ -240,21 +267,7 @@
                     $stage = $('#' + id + ' .wd-stage');
 
                 player.parse(data);
-
-                switch (player.type) {
-                    case 'image': 
-                        player.attachPlayer($stage.find('img'));
-                        player.setReady();
-                        break;
-                    case 'video':
-                        player.attachPlayer($stage.find('video'));
-                        player.setReady();
-                        break;
-                    case 'flash':
-                        player.attachPlayer();
-                        break;
-                    default:
-                }
+                player.attachPlayer();
 
                 delete WDP._callbacks[id];
             };
