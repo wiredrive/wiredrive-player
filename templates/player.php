@@ -9,6 +9,7 @@
     $isMobile = $this->get('isMobile');
     $isIPad = $this->get('isIPad');
 
+    $jsonpUrl = $this->get('jsonpUrl');
     $options = $this->get('options');
     $width = $this->get('width');
     $height = $this->get('height');
@@ -24,8 +25,7 @@
             window.WDP.registerPlayer({
                 id: '<?= $attributeId; ?>',
                 type: '<?= $type; ?>',
-                //jsonpUrl: 'https://zurad.wiredrive.com/present-reel.jsonp/token/7471c24e071822e61c939149d71dd9fb'
-                jsonpUrl: 'https://zurad.wiredrive.com/present-reel.jsonp/callback/foo/token/b67b3249e5318b42e8aaffdc228167a0'
+                jsonpUrl: '<?= $jsonpUrl; ?>'
             });
         }());
     </script>
