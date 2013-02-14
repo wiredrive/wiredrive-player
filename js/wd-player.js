@@ -21,7 +21,9 @@
 
         IMAGE_TEMPLATE = [
             '<div class="wd-image-container">',
+                '<div class="wd-paginate previous disabled"></div>',
                 '<img class="wd-image" />',
+                '<div class="wd-paginate next"></div>',
             '</div>'
         ].join(''),
 
@@ -154,16 +156,65 @@
                 }
             },
             image: {
-                bindPlayer: function () {
-
-                },
-
                 attachPlayer: function () {
+                    var instance = this,
+                        $tpl = $(IMAGE_TEMPLATE),
+                        $stage = this.$container.find('.wd-stage');
 
+                    $tpl.css({
+                        height: WDP.options.height + 'px',
+                        width: WDP.options.width + 'px'
+                    });
+
+                    if (instance.items.length < 2) {
+                        $tpl.find('.next').addClass('disabled');
+                    }
+
+                    $stage.append($tpl);
+                    instance.$player = $tpl.find('img');
+
+                    instance.setSource(0);
+
+                    $stage.delegate('.wd-paginate', 'click', function (e) {
+                        var $target = $(e.target),
+                            $reverse, direction, index;
+
+                        if ($target.hasClass('disabled')) {
+                            return;
+                        }
+
+                        if ($target.hasClass('next')) {
+                            direction = 1;
+                            $reverse = $stage.find('.previous');
+                        } else {
+                            direction = -1;
+                            $reverse = $stage.find('.next');
+                        }
+
+                        index = instance.current + direction;
+
+                        //if we're moving to the last one in a given direction, disable the button
+                        if (!instance.items[index + direction]) {
+                            $target.addClass('disabled');
+                        }
+
+                        $reverse.removeClass('disabled');
+                        instance.setSource(index);
+                    });
                 },
 
-                setSource: function () {
+                setSource: function (index) {
+                    if (index < 0 || index >= this.items.length) {
+                        return false;
+                    }
 
+                    var asset = this.items[index],
+                        $player = this.$player;
+
+                    $player.attr('src', asset.url);
+                    this.current = index;
+
+                    return true;
                 },
 
                 play: function () {
