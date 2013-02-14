@@ -55,6 +55,7 @@ class Wiredrive_Plugin
 	protected $rewriteBase = 'wdp-assets';
 	protected $postId = NULL;
 	protected $mediaGroup = array();
+    protected $jsonpUrl = '';
 
 	/**
 	 * Contruct
@@ -120,14 +121,8 @@ class Wiredrive_Plugin
 		/*
          * Get the height and width from the shortcode
          */
-		extract(shortcode_atts(array(
-					'height'            => $options['height'] . 'px',
-					'width'             => $options['width'] . 'px',
-					'hidethumbs'        => 'off',
-					'autoslideshow'     => 'off',
-					'disablethumbs'     => 'off',
-					'theme'             => 'player'
-				), $atts));
+        $height = $options['height'] . 'px';
+        $width  = $options['width'] . 'px';
 
 		/*
          * Import the RSS feed
@@ -136,12 +131,12 @@ class Wiredrive_Plugin
 			$this->showError('Not a valid Wiredrive mRSS feed');
 			return;
 		}
-		$this->setRss($content);
-
-		/*
+		
+        /*
          * check if the RSS feed is invalid
          */
-		if (is_null($this->getRss())) {
+		$result = $this->setRss($content);
+        if (! $result) {
 			$this->showError('Invalid Feed');
 			return;
 		}
@@ -156,45 +151,10 @@ class Wiredrive_Plugin
 		}
 
 		/*
-         * Get the media section for the first item of the rss feed
-         */
-		$first = current($this->getRssItems());
-		$this->setMedia($first);
-
-		/*
-         * Make sure media section exists
-         */
-		if (is_null($this->getMedia())) {
-			$this->showError('No Media section in feed');
-			return;
-		}
-
-		/*
          * Loop through all the RSS items and build an
          * array for use in the templates
          */
-		$this->itemLoop();
         $this->_render($width, $height, $options);
-		/*
-         * Begin Player Construction
-         * This is calling player_start.php
-         */
-		//$this->renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme);
-
-		/*
-         * Render out the video player or image slideshow
-         */
-		//$this->renderMediaPlayer($width, $height);
-
-		/*
-         * Loop through all the items and show the thumbnails
-         */
-		//$this->renderThumbnails();
-
-		/*
-         * Close off the player
-         */
-		//$this->renderPlayerFinish();
 
 		return $this->getOutput();
 
@@ -273,27 +233,37 @@ class Wiredrive_Plugin
 	 */
 	public function setRss($url)
 	{
-		$rss = fetch_feed( $url );
-		if (is_wp_error( $rss ) ) {
-			$this->rss = NULL;
-		} else {
-			$this->rss = $rss;
-			$rss->enable_order_by_date(false);
+		$rss = fetch_feed($url);
+        if (is_wp_error($rss)) {
+		    return false;
 		}
-	}
+        $this->rss = $rss;
+		$rss->enable_order_by_date(false);
+	    
+        $link = $rss->get_link();
+        $url  = parse_url($link);
+        if (! isset($url['path']) ||
+            ! isset($url['scheme']) ||
+            ! isset($url['host'])) {
+            
+            return false; 
+        }
+        $path = $url['path'];
+        $path = trim($path, '/');
+        $parts = explode('/', $path);
+        $parts[0] = $parts[0] . '.jsonp';
+        $this->jsonpUrl = $url['scheme'] . '://' . $url['host'] . '/' . 
+                          implode('/', $parts);
+        return true;
+    }
 
 	/**
 	 * Make sure source of the feed is Wiredrive
 	 */
 	private function checkOrigin($url)
 	{
-		$domain = parse_url($url, PHP_URL_HOST);
-
-		if ($domain != 'www.wdcdn.net') {
-			return FALSE;
-		}
-		return TRUE;
-
+        $domain = parse_url($url, PHP_URL_HOST);
+		return $domain == 'www.wdcdn.net';
 	}
 
 	/**
@@ -395,110 +365,11 @@ class Wiredrive_Plugin
 		return $this->isImageReel;
 	}
 
-	/**
-	 * Render the media player.
-	 * If RSS feed is entirely image then use image.php
-	 * otherwise use Flash or HTML5 depending on the browser
-	 */
-	private function renderMediaPlayer($width, $height)
-	{
-
-		if ($this->getIsImageReel()) {
-			$this->renderImage($width, $height);
-		} elseif ($this->useFlash()) {
-            $this->renderFlash();
-        } else {
-			$this->renderHtml5($width, $height);
-		}
-	}
-
-	/**
-	 * Item Loop
-	 * Loop through every item in the rss feed and show
-	 * the thumbnail and the credits
-	 */
-	private function itemLoop()
-	{
-
-		$isImage = 0;
-
-		if (  $this->getRss()->get_item_quantity() > 0 ) {
-
-			$items = array();
-
-			foreach ( $this->getRssItems() as $row ) {
-
-				$item = array();
-
-				/*
-                 * parse the first part of the mime type to check
-                 * if the item is an image.
-                 */
-				$mime_type = (string) $this->getMedia()->get_type();
-				$mime_type_parts = explode('/', $mime_type);
-            
-                $isImage = 0;
-				if ($mime_type_parts[0] == 'image') {
-					$isImage = 1;
-				}
-
-				$this->setMedia($row);
-				$media = $this->getMedia();
-				
-                $this->setMediaGroup($row,'thumbnail');
-				$thumbnails = $this->getMediaGroup();
-				
-				$largeThumb = $thumbnails[0]['attribs'][''];   
-				$smallThumb = $thumbnails[1]['attribs'][''];
-
-				$item['title'] = $row->get_title();
-				$item['link'] = $media->get_link();
-				$item['height'] = $media->get_height();
-				$item['width'] = $media->get_width();
-				$item['thumbnail_sm'] = $smallThumb['url'];
-				$item['thumbnail_lg'] = $largeThumb['url'];
-				$item['thumbnail_sm_width'] = $smallThumb['width'];
-				$item['thumbnail_sm_height'] = $smallThumb['height'];
-				$item['description'] = $row->get_description();
-				
-				$keywords = $media->get_keywords();
-				if (sizeof($keywords) > 1 && $keywords[0] != '') {
-				    $item['keywords'] = $keywords;
-				}
-
-				$credits = $media->get_credits();
-
-                /* 
-                 * Get all the roles and credits from the media object
-                 */
-				if (!is_null($credits)) {
-					foreach ($media->get_credits() as $credit) {
-						$item['credits'][$credit->get_role()] = $credit->get_name();
-					}
-				}
-
-				$items[] = $item;
-
-			}
-			
-			$this->setItems($items);
-
-			/*
-             * This will be set to 1 if all mime types for the feed are images
-             */
-			$this->setIsImageReel($isImage);
-
-		}
-
-	}
-
     private function _render($width, $height, $options) {
         $items = $this->getItems();
         $pluginUrl = $this->getPluginUrl();
         $type = 'video';
         $attributeId = $this->getAttributeId();
-        $link = $items[0]['link'];
-        $thumbnail = $items[0]['thumbnail_lg'];
 
         if ($this->getIsImageReel()) {
             $type = 'image';
@@ -508,144 +379,25 @@ class Wiredrive_Plugin
 
         $this->template->setTpl('player.php')
              ->set('options', $options)
-             ->set('link', $link)
-             ->set('thumbnail', $thumbnail)
              ->set('attributeId', $attributeId)
              ->set('type', $type)
              ->set('height', $height)
              ->set('width', $width)
              ->set('pluginUrl', $pluginUrl)
              ->set('options', $options)
+             ->set('jsonpUrl', $this->jsonpUrl)
              ->render();
     }
-
-	/**
-	 * Render player start
-	 *
-	 * @var height int
-	 * @var widght int
-	 */
-	private function renderPlayerStart($width, $height, $hidethumbs, $disablethumbs, $autoslideshow, $theme)
-	{
-		$this->template->setTpl('player_start.php')
-		->set('height', $height)
-		->set('width', $width)
-		->set('hidethumbs', $hidethumbs)
-		->set('autoslideshow', $autoslideshow)
-		->set('disablethumbs', $disablethumbs)
-		->set('theme', $theme)
-		->set('mobile', $this->isMobile())
-		->set('ipad', $this->isIpad())
-		->set('slideshow', ($this->getIsImageReel()))
-		->render();
-	}
-
-	/**
-	 * Render player finish
-	 */
-	private function renderPlayerFinish()
-	{
-
-		$this->template->setTpl('player_finish.php')
-                ->render();
-	}
-
-	/**
-	 * Render the Flash embed
-	 */
-	private function renderFlash()
-	{
-
-        /*
-         * Get the settings for the plugin
-         */
-	    $wiredriveSettings = new Wiredrive_Plugin_Settings();
-		    
-		/*
-         * Get the first item from the item list
-         */
-		$items = $this->getItems();
-		$first = $items[0];
-
-		$this->template->setTpl('flash.php')
-        		->set('link', $first['link'])
-        		->set('thumbnail', $first['thumbnail_lg'])
-        		->set('attributeId', $this->getAttributeId())
-        		->set('width', $first['width'])
-        		->set('height', $first['height'])
-                ->set('options', $wiredriveSettings->getOptions())
-        		->render();
-
-
-	}
-
-	/**
-	 * Render the HTML5 video tag
-	 */
-	private function renderHtml5($width, $height)
-	{
-
-		/*
-         * Get the first item from the item list
-         */
-		$items = $this->getItems();
-		$first = $items[0];
-
-		$this->template->setTpl('html5.php')
-                ->set('link', $first['link'])
-                ->set('thumbnail', $first['thumbnail_lg'])
-                ->set('attributeId', $this->getAttributeId())
-                ->set('width', $width)
-                ->set('height', $height)
-                ->render();
-
-	}
-
-	/**
-	 * Render the image tag
-	 */
-	private function renderImage($width, $height)
-	{
-
-		/*
-         * Get the first item from the item list
-         */
-		$items = $this->getItems();
-		$first = $items[0];
-
-		$this->template->setTpl('image.php')
-                ->set('link', $first['link'])
-                ->set('thumbnail', $first['thumbnail_lg'])
-                ->set('attributeId', $this->getAttributeId())
-                ->set('width', $first['width'])
-                ->set('height', $first['height'])
-                ->render();
-
-	}
-
-	/**
-	 * Render thumbnail bar
-	 */
-	private function renderThumbnails()
-	{
-		$this->template->setTpl('thumb_loop.php');
-        $this->template->set('items', $this->getItems())
-                ->render();
-
-	}
 
 	/**
 	 * Render any error
 	 */
 	private function showError($message)
 	{
-
 		$this->template->setTpl('error.php')
                 ->set('message', $message)
                 ->render();
-
 	}
-
 
 	/**
 	 * Render any error
@@ -674,9 +426,7 @@ class Wiredrive_Plugin
 	 */
 	private function getOutput()
 	{
-
 		return $this->template->getOutput();
-
 	}
 
 	/**
@@ -684,7 +434,6 @@ class Wiredrive_Plugin
 	 */
 	private function getPostId()
 	{
-
 		return $this->postId;
 
 	}
