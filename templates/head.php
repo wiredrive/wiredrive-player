@@ -16,6 +16,7 @@
 .wd-player .wd-stage {
     background-color: <?= $options['stage_color']; ?>;
     position: relative;
+    overflow: hidden;
 }
 /*
 .wd-credits-container {
