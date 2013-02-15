@@ -19,7 +19,7 @@
             return console;
         }()),
 
-        WDP,
+        WDP, // our global object that will manage all player instances on the page
 
         /*
          * Player templates
@@ -35,7 +35,7 @@
         FLASH_TEMPLATE = [
             '<div class="wd-flash-container">',
                 '<div class="wd-flash-replace">',
-                    "You don't seem to have flash.",
+                    "You don't seem to have flash.", //TODO: template
                 '</div>',
             '</div>'
         ].join(''),
@@ -87,9 +87,7 @@
                     instance.$player = $player;
 
                     $player.on('ended', function (e) {
-                        instance.setSource(instance.current + 1)
-                            && instance.getCurrentType() === 'video'
-                            && instance.play();
+                        instance.setSource(instance.current + 1) && instance.play();
                     });
 
                     instance.setReady();
@@ -104,7 +102,7 @@
                     player.load();
                 },
 
-                play: function () {
+                _playVideo: function () {
                     this.$player.get(0).play();
                 },
             },
@@ -117,7 +115,7 @@
                     player.load();
                 },
 
-                play: function () {
+                _playVideo: function () {
                     this.$player.get(0).play2();
                 },
 
@@ -167,9 +165,7 @@
                         }
 
                         if (eventName === 'complete') {
-                            instance.setSource(instance.current + 1)
-                                && instance.getCurrentType() === 'video'
-                                && instance.play();
+                            instance.setSource(instance.current + 1) && instance.play();
                         }
                     };
 
@@ -210,9 +206,14 @@
         this._HAS_IMAGE = false;
 
         this.$container = $('#' + config.id);
-        this.id = config.id;
         this.$player = null;
         this.$image = null;
+
+        this.slideshow = true; //TODO: hookup to config
+        this.autoplay = false; //TODO: hookup to config
+        this.loop = false; //TODO hookup to config
+
+        this.id = config.id;
         this.items = [];
         this.type = config.type;
         this.jsonpUrl = config.jsonpUrl;
@@ -227,38 +228,48 @@
         // through WDP.registerPlayer, but there's no harm in piggybacking off ES5 conventions
         constructor: Player,
 
+        // Returns the mimetype of the currently selected asset (`video` or `image`)
         getCurrentType: function () {
             return this.items[this.current].mimetype;
         },
 
-        toggleViewer: function (type) {
+        // Swaps between the video player and the image player based on the given
+        // `type` (`video` or `image`)
+        toggleViewer: function (mimetype) {
             //keep in mind there might only be one player (image or video)
             //there is no assurance this instance will have both
-            var $ic = this.$container.find('.wd-image-container'),
-                $vc = this.$player;
+            var $imageContainer = this.$container.find('.wd-image-container'),
+                $flashContainer = this.$container.find('.wd-flash-container'),
+                $video = this.$player;
 
-            //TODO: this is ugly. Make fix.
-            if (type === 'video') {
-                if (this.type === 'flash') {
-                    $vc && $vc.removeClass('wd-hidden-video');
-                    this.$container.find('.wd-flash-container').removeClass('wd-hidden-video');
-                } else {
-                    $vc && $vc.removeClass('wd-hidden');
-                }
+            //NOTE: Flash will lose its handle on the DOM `object` element if any CSS
+            //rules make the player invisible. To prevent the handle from being lost,
+            //the flash player is not hidden, but rather resized to be a 1x1 pixel box,
+            //which explains some of the wonky logic here. HTML5 video players don't seem
+            //to have this problem and can therefore simply be hidden via `display: none;`
+            //This may change if the Strobe poster image needs to change since that would
+            //require a complete reembed of the strobe player whenever the video src changes
+            if (mimetype === 'video') {
+                this.type === 'flash' ?
+                    $flashContainer.removeClass('wd-hidden-video') :
+                    $video.removeClass('wd-hidden');
 
-                $ic.addClass('wd-hidden');
+                $imageContainer.addClass('wd-hidden');
             } else {
-                if (this.type === 'flash') {
-                    $vc && $vc.addClass('wd-hidden-video');
-                    this.$container.find('.wd-flash-container').addClass('wd-hidden-video');
-                } else {
-                    $vc && $vc.addClass('wd-hidden');
-                }
+                this.type === 'flash' ?
+                    $flashContainer.addClass('wd-hidden-video') :
+                    $video && $video.addClass('wd-hidden'); //there might not actually be a video container
 
-                $ic.removeClass('wd-hidden');
+                $imageContainer.removeClass('wd-hidden');
             }
         },
 
+        // Sets the source of the player to be the asset at the given index and returns a boolean
+        // letting us know whether or not it was successful (really just whether or not the index
+        // supplied is valid)
+        //
+        // This function is responsible for figuring out the type of asset and setting
+        // the source correctly, as well as toggling between video and image players
         setSource: function (index) {
             if (index < 0 || index >= this.items.length) {
                 return false;
@@ -267,6 +278,9 @@
             var nextAsset = this.items[index],
                 currentAsset = this.items[this.current];
 
+            // this is executed on init, when the next and current asset index is 0.
+            // The second condition makes sure that an initialization pass will
+            // set the player correctly for the first asset
             if (nextAsset.mimetype !== currentAsset.mimetype || nextAsset === currentAsset) {
                 this.toggleViewer(nextAsset.mimetype);
             }
@@ -282,6 +296,30 @@
             return true;
         },
 
+        // Primary play function. Figures out what type of asset is currently loaded
+        // and tells the proper player to play the asset.
+        // To an image viewer, "playing" the image means slideshowing if it's enabled,
+        // otherwise, play does nothing for an image
+        play: function () {
+            var instance = this;
+
+            if (instance.getCurrentType() === 'image' && instance.slideshow) {
+                //if we're supposed to slideshow, then let us slideshow!
+                setTimeout(function () {
+                    //we're out of the flow, and the user may have interacted with the player
+                    //to turn slideshowing off, so make sure we're supposed to still be
+                    //slideshowing before we (ahem) slideshow.
+                    if (instance.slideshow && instance.setSource(instance.current + 1)) {
+                        instance.play();
+                    }
+                }, 5000); //TODO: make timeout length be configurable via admin settings
+            } else {
+                instance._playVideo();
+            }
+        },
+
+        // Render the image viewer template and bind it. The initialization procedure
+        // will only execute this function if images are found in the given presentation
         attachImageViewer: function () {
             var instance = this,
                 $imgContainer = $(IMAGE_TEMPLATE),
@@ -295,12 +333,15 @@
                 width: WDP.options.width + 'px'
             });
 
+            // template assumes there is another asset after the first one.
+            // double check just to make sure.
             if (instance.items.length < 2) {
                 $imgContainer.find('.next').addClass('disabled');
             }
 
             instance.$image = $imgContainer.find('img');
 
+            // bind a delegator for the left and right pagination arrows
             $stage.delegate('.wd-paginate', 'click', function (e) {
                 var $target = $(e.target),
                     direction, index;
@@ -312,14 +353,19 @@
                 direction = $target.hasClass('next') ? 1 : -1;
                 index = instance.current + direction;
 
+                instance.slideshow = false;
                 instance.setSource(index);
-                instance.getCurrentType() === 'video' && instance.play();
+                instance.play();
             });
 
             !instance.hasVideo() && instance.setReady();
         },
 
-
+        // function to set the image to the asset at the given index.
+        // This is one of those "private" helper functions that is called by
+        // `setSource`. Because of this, this function does not validate whether the
+        // index is valid or is even an image. It assumes that `setSource` already figured
+        // that out.
         _setImageSource: function (index) {
             var asset = this.items[index],
                 $image = this.$image,
@@ -332,20 +378,25 @@
             $image.attr('src', asset.url);
         },
 
+        // Returns a booleaning telling us if this player instance is fully initialized
+        // and all the players/plugins are loaded
         isReady: function () {
             return this._READY;
         },
 
+        // Returns a boolean telling us whether or not this presentation has any images in it
         hasImages: function () {
             return this._HAS_IMAGE;
         },
 
+        // Returns a boolean telling us whether or not this presentation has any videos in it
         hasVideo: function () {
             return this._HAS_VIDEO;
         },
 
         // Returns a bool letting us know whether or not this instance's data
         // has been parsed and loaded
+        // TODO: can this go away? It's not currently used, but might come in handy later?
         isDataLoaded: function () {
             return this._DATA_PARSED;
         },
@@ -468,6 +519,11 @@
                 // flash depends on a callback, so it might not be ready yet.
                 // video and image players will be ready by now, but flash will
                 player.isReady() && player.setSource(0);
+
+                if ((player.slideshow && player.getCurrentType() === 'image')
+                        || (player.autoplay && player.getCurrentType() === 'video')) {
+                    player.play();
+                }
 
                 // Callback is not needed anymore
                 delete WDP._callbacks[cbid];
