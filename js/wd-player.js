@@ -63,11 +63,13 @@
                         $tpl = $(VIDEO_TEMPLATE);
 
                     instance.$container.find('.wd-stage').prepend($tpl);
+                    this.loop = false; //TODO hookup to config
+
 
                     $playButton = instance.$container.find('.wd-play-button'),
                     $player = instance.$container.find('video');
-                    $player.attr('height', WDP.options.height);
-                    $player.attr('width', WDP.options.width);
+                    $player.attr('height', instance.height);
+                    $player.attr('width', instance.width);
 
                     if (isVideo) {
                         $player.attr('poster', first.poster);
@@ -136,13 +138,15 @@
                     flashvars = {
                         javascriptCallbackFunction: 'WDP._callbacks.' + cbid,
 
-                        //for some reason these need to be URI encoded, but not
-                        //when you're setting the source programmatically
+                        //these need to be uri encoded for flashvars because the
+                        //flashvars value is basically a querystring, therefore
+                        //if urls are not uri encoded, their querystrings will get
+                        //lost in the flashvars
                         src: encodeURIComponent(first.url),
-                        poster: encodeURIComponent(first.poster),
-                        backgroundColor: WDP.options.stage_color
+                        poster: encodeURIComponent(first.poster)
                     },
                     params = {
+                        wmode: 'transparent',
                         allowFullScreen: 'true',
                         allowscriptaccess: 'always'
                     };
@@ -209,7 +213,9 @@
         this.$player = null;
         this.$image = null;
 
-        this.slideshow = true; //TODO: hookup to config
+        this.height = config.height;
+        this.width = config.width;
+        this.slideshow = !!config.slideshow;
         this.autoplay = false; //TODO: hookup to config
         this.loop = false; //TODO hookup to config
 
@@ -301,9 +307,10 @@
         // To an image viewer, "playing" the image means slideshowing if it's enabled,
         // otherwise, play does nothing for an image
         play: function () {
-            var instance = this;
+            var instance = this,
+                mimetype = instance.getCurrentType();
 
-            if (instance.getCurrentType() === 'image' && instance.slideshow) {
+            if (mimetype === 'image' && instance.slideshow) {
                 //if we're supposed to slideshow, then let us slideshow!
                 setTimeout(function () {
                     //we're out of the flow, and the user may have interacted with the player
@@ -313,7 +320,7 @@
                         instance.play();
                     }
                 }, 5000); //TODO: make timeout length be configurable via admin settings
-            } else {
+            } else if (mimetype === 'video') {
                 instance._playVideo();
             }
         },
@@ -329,8 +336,8 @@
             $stage.append($imgContainer);
 
             $imgContainer.css({
-                height: WDP.options.height + 'px',
-                width: WDP.options.width + 'px'
+                height: instance.height,
+                width: instance.width
             });
 
             // template assumes there is another asset after the first one.

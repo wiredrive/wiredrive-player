@@ -121,8 +121,11 @@ class Wiredrive_Plugin
 		/*
          * Get the height and width from the shortcode
          */
-        $height = $options['height'] . 'px';
-        $width  = $options['width'] . 'px';
+        $shortcode = shortcode_atts(array(
+            'height' => $options['height'] . 'px',
+            'width' => $options['width'] . 'px',
+            'autoslideshow' => 'off',
+        ), $atts);
 
 		/*
          * Import the RSS feed
@@ -150,11 +153,25 @@ class Wiredrive_Plugin
 			return;
 		}
 
-		/*
-         * Loop through all the RSS items and build an
-         * array for use in the templates
-         */
-        $this->_render($width, $height, $options);
+        $pluginUrl = $this->getPluginUrl();
+        $type = 'video';
+        $attributeId = $this->getAttributeId();
+
+        if ($this->useFlash()) {
+            $type = 'flash';
+        }
+
+        $this->template->setTpl('player.php')
+             ->set('slideshow', $shortcode['autoslideshow'] === 'on')
+             ->set('options', $options)
+             ->set('attributeId', $attributeId)
+             ->set('type', $type)
+             ->set('height', $shortcode['height'])
+             ->set('width', $shortcode['width'])
+             ->set('pluginUrl', $pluginUrl)
+             ->set('options', $options)
+             ->set('jsonpUrl', $this->jsonpUrl)
+             ->render();
 
 		return $this->getOutput();
 
@@ -364,30 +381,6 @@ class Wiredrive_Plugin
 	{
 		return $this->isImageReel;
 	}
-
-    private function _render($width, $height, $options) {
-        $items = $this->getItems();
-        $pluginUrl = $this->getPluginUrl();
-        $type = 'video';
-        $attributeId = $this->getAttributeId();
-
-        if ($this->getIsImageReel()) {
-            $type = 'image';
-        } else if ($this->useFlash()) {
-            $type = 'flash';
-        }
-
-        $this->template->setTpl('player.php')
-             ->set('options', $options)
-             ->set('attributeId', $attributeId)
-             ->set('type', $type)
-             ->set('height', $height)
-             ->set('width', $width)
-             ->set('pluginUrl', $pluginUrl)
-             ->set('options', $options)
-             ->set('jsonpUrl', $this->jsonpUrl)
-             ->render();
-    }
 
 	/**
 	 * Render any error

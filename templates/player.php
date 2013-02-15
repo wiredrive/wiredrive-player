@@ -4,7 +4,7 @@
      */
     $collapseThumbs = $this->get('collapseThumbs'); //is the thumbnail tray collapseable
     $disableThumbs = $this->get('disableThumbs'); //is there even a thumbnail tray to begin with?
-    $isSlideshow = $this->get('isSlideshow'); $autoslideshow = $this->get('autoslideshow'); //WTF is the difference?
+    $slideshow = $this->get('slideshow');
     $theme = $this->get('theme'); //inline player, grid, etc
     $isMobile = $this->get('isMobile');
     $isIPad = $this->get('isIPad');
@@ -25,6 +25,9 @@
             window.WDP.registerPlayer({
                 id: '<?= $attributeId; ?>',
                 type: '<?= $type; ?>',
+                width: '<?= $width; ?>',
+                height: '<?= $height; ?>',
+                slideshow: <?= $slideshow ? 'true' : 'false'; /* php is a stupid stupid language */?>,
                 jsonpUrl: '<?= $jsonpUrl; ?>'
             });
         }());
