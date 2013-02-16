@@ -9,7 +9,7 @@
     var console = (function () {
             var console = window.console;
 
-            if (typeof console === 'object' && typeof console.log === 'function') {
+            if (typeof console === 'object') {
                 return console;
             }
 
@@ -17,6 +17,32 @@
             console.log = console.warn = console.error = function () {};
 
             return console;
+        }()),
+
+        // Function that checks whether or not the browser supports css transitions
+        // and stashes the result in this scope var which we depend on for fader transitions
+        // between images. If the env doesn't support css transitions, then we need
+        // to do some ugly hacks. See `_NoTransitionTimeoutHack` function below for
+        // a better explaination
+        ENV_SUPPORTS_TRANSITIONS = (function () {
+            var b = document.body || document.documentElement,
+                s = b.style,
+                p = 'transition',
+                v = ['Moz', 'Webkit', 'Khtml', '0', 'ms'];
+
+            if (typeof s[p] === 'string') {
+                return true;
+            }
+
+            p = p.charAt(0).toUpperCase() + p.substr(1);
+
+            for (var i = 0; i < v.length; i++) {
+                if (typeof s[v[i] + p] === 'string') {
+                    return true;
+                }
+            }
+
+            return false;
         }()),
 
         WDP, // our global object that will manage all player instances on the page
@@ -191,6 +217,32 @@
             }
         };
 
+    /**
+     * Hello. This is an ugly hack. Here's what it does:
+     * If the player is transitioned from an image to another image, the DOM is structured
+     * so that two image elements are positioned over each other, the new source is set
+     * on the second image node, the new node fades in and the old node fades out
+     * via a CSS3 opacity transition. If the browser does not support CSS3 transitions,
+     * then there will be no fade. Worse yet, if the redraw is lagging, then you may sometimes
+     * see an even older image (the image that was exchanged prior to this swap operation)
+     * for a split second or two before the browser catches up and renders
+     * the new image source. To prevent this, an "immediate" timeout is called that removes the source
+     * attribute completely before the old image fades out.
+     *
+     * This way if the browser is lagging on changing the source for the new image, the old image
+     * simply goes away and we see the background stage until the new image is loaded, rather than
+     * a stale image that is neither of the images involved in this transition.
+     *
+     * Yes, this is ugly, but I'd rather the player be written to utilize CSS3 with an ugly hack
+     * that can easily be removed later (just remove the conditional in `_setImageSource` that calls
+     * this function) than write it where these ugly hacks are central to its workflow
+     */
+    function _NoTransitionTimeoutHack($image) {
+        setTimeout(function () {
+            $image.removeAttr('src');
+        }, 1);
+    }
+
     function _fitWithin(asset, maxWidth, maxHeight) {
         var ratio = 0,
             width = asset.width,
@@ -223,9 +275,6 @@
     //
     // NOTE: This is not a safe constructor (meaning if you forget to invoke this function via
     // the `new` keyword, it will modify the global scope)
-    //
-    // TODO: I don't remember if IE8 supports Object.create
-    //  If it does, convert this to a safe constructor
     function Player(config) {
         if ($.inArray(config.type, VALID_PLAYER_TYPES) === -1) {
             console.error('WDP: unrecognized type', config.type, 'given to player', config.id);
@@ -422,6 +471,14 @@
 
                 //going from image to image, so transition them.
                 $image.addClass('opaque wd-next-image');
+
+                // If the browser does not support css transitions, then we're probably in either IE8 or IE9
+                // and we need to do some hacks to make things not look weird.
+                // See the `_NoTransitionTimeoutHack` function above for a better explaination
+                if (!ENV_SUPPORTS_TRANSITIONS) {
+                    _NoTransitionTimeoutHack($image);
+                }
+
                 $image = this.$image = $nextImage;
             }
 
