@@ -26,9 +26,10 @@
          */
         IMAGE_TEMPLATE = [
             '<div class="wd-image-container">',
-                '<div class="wd-paginate previous disabled"></div>',
                 '<img class="wd-image" />',
-                '<div class="wd-paginate next"></div>',
+                '<img class="wd-image wd-next-image opaque" />',
+                '<div class="wd-paginate previous-arrow disabled"></div>',
+                '<div class="wd-paginate next-arrow"></div>',
             '</div>'
         ].join(''),
 
@@ -190,6 +191,32 @@
             }
         };
 
+    function _fitWithin(asset, maxWidth, maxHeight) {
+        var ratio = 0,
+            width = asset.width,
+            height = asset.height,
+            newHeight, newWidth;
+
+        if (width > maxWidth) {
+            ratio = maxWidth / width;
+            newWidth = maxWidth;
+            newHeight = height * ratio;
+            height = height * ratio;
+            width = width * ratio;
+        }
+
+        if (height > maxHeight) {
+            ratio = maxHeight / height;
+            newHeight = maxHeight;
+            newWidth = width * ratio;
+        }
+
+        return {
+            height: newHeight,
+            width: newWidth
+        };
+    }
+
     // Constructor function for a player instance. The old player couldn't manage multiple instances
     // of Wiredrive Players, so here we fix that with this Player object that knows how to manage
     // the content inside of its bounding box.
@@ -213,8 +240,8 @@
         this.$player = null;
         this.$image = null;
 
-        this.height = config.height;
-        this.width = config.width;
+        this.height = parseInt(config.height, 10);
+        this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
         this.autoplay = false; //TODO: hookup to config
         this.loop = false; //TODO hookup to config
@@ -297,6 +324,9 @@
                 this._setPlayerSource(index);
             }
 
+            // don't set the current index until everything else is executed, just in case
+            // the called functions need to reference the current index as well as the
+            // supplied index argument
             this.current = index;
 
             return true;
@@ -343,10 +373,10 @@
             // template assumes there is another asset after the first one.
             // double check just to make sure.
             if (instance.items.length < 2) {
-                $imgContainer.find('.next').addClass('disabled');
+                $imgContainer.find('.wd-paginate.next-arrow').addClass('disabled');
             }
 
-            instance.$image = $imgContainer.find('img');
+            instance.$image = $imgContainer.find('.wd-image:not(.wd-next-image)');
 
             // bind a delegator for the left and right pagination arrows
             $stage.delegate('.wd-paginate', 'click', function (e) {
@@ -357,7 +387,7 @@
                     return;
                 }
 
-                direction = $target.hasClass('next') ? 1 : -1;
+                direction = $target.hasClass('next-arrow') ? 1 : -1;
                 index = instance.current + direction;
 
                 instance.slideshow = false;
@@ -367,22 +397,45 @@
 
             !instance.hasVideo() && instance.setReady();
         },
-
+        //
         // function to set the image to the asset at the given index.
         // This is one of those "private" helper functions that is called by
         // `setSource`. Because of this, this function does not validate whether the
         // index is valid or is even an image. It assumes that `setSource` already figured
         // that out.
         _setImageSource: function (index) {
-            var asset = this.items[index],
+            var nextAsset = this.items[index],
+                currentAsset = this.items[this.current],
+                dimensions = _fitWithin(nextAsset, this.width, this.height),
+
                 $image = this.$image,
-                $next = this.$container.find('.next'),
-                $previous = this.$container.find('.previous');
+                $nextImage = this.$container.find('.wd-image.wd-next-image'),
+                $next = this.$container.find('.wd-paginate.next-arrow'),
+                $previous = this.$container.find('.previous-arrow');
 
             $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
             $next[index === this.items.length - 1 ? 'addClass' : 'removeClass']('disabled');
 
-            $image.attr('src', asset.url);
+            if (currentAsset.mimetype === 'image'
+                    && currentAsset.mimetype === nextAsset.mimetype
+                    && currentAsset !== nextAsset) {
+
+                //going from image to image, so transition them.
+                $image.addClass('opaque wd-next-image');
+                $image = this.$image = $nextImage;
+            }
+
+            //do some wonky css hacky positioning because IE8 doesn't understand background-size
+            //When IE8 isn't supported anymore, this hackyness can go away and be replaced with
+            //proper css
+            $image.css({
+                height: dimensions.height,
+                width: dimensions.width,
+                'margin-left': Math.round((this.width - dimensions.width) / 2),
+                'margin-top': Math.round((this.height - dimensions.height) / 2)
+            });
+
+            $image.removeClass('opaque wd-next-image').attr('src', nextAsset.url);
         },
 
         // Returns a booleaning telling us if this player instance is fully initialized
@@ -433,8 +486,9 @@
                     smallThumb = asset.file.small;
 
                 switch (asset.mimeCategory) {
-                    case 'video':
+                    case 'video': break;
                     case 'image':
+                        WDP.preloadImage(primary.url);
                         break;
                     default:
                         console.log('skipping', asset.mimeCategory);
@@ -492,6 +546,10 @@
         // container div.wd-player node's id attribute.
         getPlayer: function (playerId) {
             return _players[playerId];
+        },
+
+        preloadImage: function (url) {
+            $('<img/>').get(0).src = url;
         },
 
         // Creates a callback function to handle a Player's jsonp data request
