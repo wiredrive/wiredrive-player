@@ -17,7 +17,10 @@
     $attributeId = $this->get('attributeId'); //random wordpress id for something
 ?>
 <div id="<?= $attributeId; ?>" class="wd-player">
-    <div class="wd-stage" style="width: <?= $width; ?>; height: <?= $height; ?>;"></div>
+    <div class="wd-stage" style="width: <?= $width; ?>; height: <?= $height; ?>;">
+        <div class="wd-paginate previous-arrow"></div>
+        <div class="wd-paginate next-arrow"></div>
+    </div>
     <script type="text/javascript">
         (function () {
             "use strict";

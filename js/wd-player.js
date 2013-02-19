@@ -54,8 +54,6 @@
             '<div class="wd-image-container">',
                 '<img class="wd-image" />',
                 '<img class="wd-image wd-next-image opaque" />',
-                '<div class="wd-paginate previous-arrow disabled"></div>',
-                '<div class="wd-paginate next-arrow"></div>',
             '</div>'
         ].join(''),
 
@@ -68,8 +66,10 @@
         ].join(''),
 
         VIDEO_TEMPLATE = [
-            '<video class="wd-video" preload="none" x-webkit-airplay="allow"></video>',
-            '<div class="wd-play-button"></div>'
+            '<div class="video-container">',
+                '<video class="wd-video" preload="none" x-webkit-airplay="allow"></video>',
+                '<div class="wd-play-button"></div>',
+            '</div>'
         ].join(''),
 
         VALID_PLAYER_TYPES = ['flash', 'video'],
@@ -90,8 +90,6 @@
                         $tpl = $(VIDEO_TEMPLATE);
 
                     instance.$container.find('.wd-stage').prepend($tpl);
-                    this.loop = false; //TODO hookup to config
-
 
                     $playButton = instance.$container.find('.wd-play-button'),
                     $player = instance.$container.find('video');
@@ -353,12 +351,24 @@
         // This function is responsible for figuring out the type of asset and setting
         // the source correctly, as well as toggling between video and image players
         setSource: function (index) {
-            if (index < 0 || index >= this.items.length) {
-                return false;
+            if (index < 0) {
+                if (!this.loop) {
+                    return false;
+                }
+                    
+                index = this.items.length - 1;
+            } else if (index >= this.items.length) {
+                if (!this.loop) {
+                    return false;
+                }
+
+                index = 0;
             }
 
             var nextAsset = this.items[index],
-                currentAsset = this.items[this.current];
+                currentAsset = this.items[this.current],
+                $next = this.$container.find('.wd-paginate.next-arrow'),
+                $previous = this.$container.find('.previous-arrow');
 
             // this is executed on init, when the next and current asset index is 0.
             // The second condition makes sure that an initialization pass will
@@ -371,6 +381,11 @@
                 this._setImageSource(index);
             } else {
                 this._setPlayerSource(index);
+            }
+
+            if (!this.loop) {
+                $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
+                $next[index === this.items.length - 1 ? 'addClass' : 'removeClass']('disabled');
             }
 
             // don't set the current index until everything else is executed, just in case
@@ -404,6 +419,27 @@
             }
         },
 
+        bind: function () {
+            var instance = this;
+
+            // bind the paginators
+            instance.$container.find('.wd-stage').delegate('.wd-paginate', 'click', function (e) {
+                var $target = $(e.target),
+                    direction, index;
+
+                if ($target.hasClass('disabled')) {
+                    return;
+                }
+
+                direction = $target.hasClass('next-arrow') ? 1 : -1;
+                index = instance.current + direction;
+
+                instance.slideshow = false;
+                instance.setSource(index);
+                instance.play();
+            });
+        },
+
         // Render the image viewer template and bind it. The initialization procedure
         // will only execute this function if images are found in the given presentation
         attachImageViewer: function () {
@@ -419,30 +455,7 @@
                 width: instance.width
             });
 
-            // template assumes there is another asset after the first one.
-            // double check just to make sure.
-            if (instance.items.length < 2) {
-                $imgContainer.find('.wd-paginate.next-arrow').addClass('disabled');
-            }
-
             instance.$image = $imgContainer.find('.wd-image:not(.wd-next-image)');
-
-            // bind a delegator for the left and right pagination arrows
-            $stage.delegate('.wd-paginate', 'click', function (e) {
-                var $target = $(e.target),
-                    direction, index;
-
-                if ($target.hasClass('disabled')) {
-                    return;
-                }
-
-                direction = $target.hasClass('next-arrow') ? 1 : -1;
-                index = instance.current + direction;
-
-                instance.slideshow = false;
-                instance.setSource(index);
-                instance.play();
-            });
 
             !instance.hasVideo() && instance.setReady();
         },
@@ -458,12 +471,7 @@
                 dimensions = _fitWithin(nextAsset, this.width, this.height),
 
                 $image = this.$image,
-                $nextImage = this.$container.find('.wd-image.wd-next-image'),
-                $next = this.$container.find('.wd-paginate.next-arrow'),
-                $previous = this.$container.find('.previous-arrow');
-
-            $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
-            $next[index === this.items.length - 1 ? 'addClass' : 'removeClass']('disabled');
+                $nextImage = this.$container.find('.wd-image.wd-next-image');
 
             if (currentAsset.mimetype === 'image'
                     && currentAsset.mimetype === nextAsset.mimetype
@@ -637,13 +645,13 @@
 
                 // bind image viewer if needed
                 player.hasImages() && player.attachImageViewer();
+                player.bind();
 
                 // flash depends on a callback, so it might not be ready yet.
                 // video and image players will be ready by now, but flash will
                 player.isReady() && player.setSource(0);
 
-                if ((player.slideshow && player.getCurrentType() === 'image')
-                        || (player.autoplay && player.getCurrentType() === 'video')) {
+                if (player.autoplay) {
                     player.play();
                 }
 

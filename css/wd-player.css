@@ -61,18 +61,18 @@
     -webkit-transition-duration: 500ms;
 }
 
-.wd-image-container:hover .wd-paginate:hover {
+.wd-stage:hover .wd-paginate:hover {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.wd-image-container:hover .wd-paginate {
+.wd-stage:hover .wd-paginate {
     opacity: .75;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 }
 
-.wd-image-container:hover .wd-paginate.disabled:hover,
-.wd-image-container:hover .wd-paginate.disabled {
+.wd-stage:hover .wd-paginate.disabled:hover,
+.wd-stage:hover .wd-paginate.disabled {
     opacity: .25;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
     cursor: default;
