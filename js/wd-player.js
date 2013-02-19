@@ -129,6 +129,10 @@
                     player.load();
                 },
 
+                _pauseVideo: function () {
+                    this.$player.get(0).pause();
+                },
+
                 _playVideo: function () {
                     this.$player.get(0).play();
                 },
@@ -140,6 +144,10 @@
 
                     player.setSrc(asset.url);
                     player.load();
+                },
+
+                _pauseVideo: function () {
+                    this.$player.get(0).pause();
                 },
 
                 _playVideo: function () {
@@ -336,6 +344,7 @@
 
                 $imageContainer.addClass('wd-hidden');
             } else {
+                this.pause();
                 this.type === 'flash' ?
                     $flashContainer.addClass('wd-hidden-video') :
                     $video && $video.addClass('wd-hidden'); //there might not actually be a video container
@@ -394,6 +403,12 @@
             this.current = index;
 
             return true;
+        },
+
+        pause: function () {
+            if (this.getCurrentType() === 'video') {
+                this._pauseVideo();
+            }
         },
 
         // Primary play function. Figures out what type of asset is currently loaded
