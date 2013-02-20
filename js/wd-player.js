@@ -68,7 +68,7 @@
         VIDEO_TEMPLATE = [
             '<div class="video-container">',
                 '<video class="wd-video" preload="none" x-webkit-airplay="allow"></video>',
-                '<div class="wd-play-button"></div>',
+                '<div class="wd-play-video-button"></div>',
             '</div>'
         ].join(''),
 
@@ -86,12 +86,26 @@
                     var instance = this,
                         first = instance.items[0],
                         isVideo = first.mimetype === 'video',
+                        $stage = instance.$container.find('.wd-stage'),
                         $player, $playButton,
+
+                        // delegate function for the paginators. To keep all the code related
+                        // to the html5 play button (which is only visible if the html5 player is loaded
+                        // and the first asset is a video and autoplay is off), we have a delegate function
+                        // that we will bind to the paginators. This accounts for the case of where
+                        // the user clicks on the pagintate button to change to the next asset without
+                        // ever playing the first asset.
+                        onceDelegate = function (e) {
+                            $playButton.remove();
+                            $player.removeAttr('poster');
+                            $player.attr('controls', 'controls');
+                            $stage.undelegate('.wd-paginate', 'click', onceDelegate);
+                        },
                         $tpl = $(VIDEO_TEMPLATE);
 
-                    instance.$container.find('.wd-stage').prepend($tpl);
+                    $stage.prepend($tpl);
 
-                    $playButton = instance.$container.find('.wd-play-button'),
+                    $playButton = instance.$container.find('.wd-play-video-button'),
                     $player = instance.$container.find('video');
                     $player.attr('height', instance.height);
                     $player.attr('width', instance.width);
@@ -100,10 +114,9 @@
                         $player.attr('poster', first.poster);
                         $player.attr('src', first.url);
 
+                        $stage.delegate('.wd-paginate', 'click', onceDelegate);
                         $playButton.one('click', function (e) {
-                            $(e.target).remove();
-                            $player.attr('controls', 'controls');
-                            $player.removeAttr('poster');
+                            onceDelegate(e);
                             instance.play();
                         });
                     } else {
@@ -307,6 +320,10 @@
         this.jsonpUrl = config.jsonpUrl;
         this.current = 0;
 
+        if (this.slideshow) {
+            this.$container.find('.wd-stage').addClass('slideshow');
+        }
+
         return this;
     }
 
@@ -328,6 +345,7 @@
             //there is no assurance this instance will have both
             var $imageContainer = this.$container.find('.wd-image-container'),
                 $flashContainer = this.$container.find('.wd-flash-container'),
+                $stage = this.$container.find('.wd-stage'),
                 $video = this.$player;
 
             //NOTE: Flash will lose its handle on the DOM `object` element if any CSS
@@ -343,13 +361,15 @@
                     $video.removeClass('wd-hidden');
 
                 $imageContainer.addClass('wd-hidden');
+                $stage.removeClass('image').addClass('video');
             } else {
-                this.pause();
+                this.pause(); //prevent video from potentially playing in the background
                 this.type === 'flash' ?
                     $flashContainer.addClass('wd-hidden-video') :
                     $video && $video.addClass('wd-hidden'); //there might not actually be a video container
 
                 $imageContainer.removeClass('wd-hidden');
+                $stage.removeClass('video').addClass('image');
             }
         },
 
@@ -408,6 +428,10 @@
         pause: function () {
             if (this.getCurrentType() === 'video') {
                 this._pauseVideo();
+            } else {
+                this.slideshow = false;
+                this.$container.find('.wd-play-slideshow-button').removeClass('playing');
+                clearTimeout(this.timeoutId);
             }
         },
 
@@ -421,12 +445,14 @@
 
             if (mimetype === 'image' && instance.slideshow) {
                 //if we're supposed to slideshow, then let us slideshow!
-                setTimeout(function () {
+                instance.timeoutId = setTimeout(function () {
                     //we're out of the flow, and the user may have interacted with the player
                     //to turn slideshowing off, so make sure we're supposed to still be
                     //slideshowing before we (ahem) slideshow.
                     if (instance.slideshow && instance.setSource(instance.current + 1)) {
                         instance.play();
+                    } else {
+                        instance.pause();
                     }
                 }, 5000); //TODO: make timeout length be configurable via admin settings
             } else if (mimetype === 'video') {
@@ -449,9 +475,23 @@
                 direction = $target.hasClass('next-arrow') ? 1 : -1;
                 index = instance.current + direction;
 
-                instance.slideshow = false;
+                instance.pause();
                 instance.setSource(index);
                 instance.play();
+            });
+
+            instance.$container.find('.wd-play-slideshow-button').on('click', function (e) {
+                var $target = $(e.target);
+
+                if (!$target.hasClass('playing')) {
+                    // going to play
+                    $target.addClass('playing');
+                    instance.slideshow = true;
+                    instance.play();
+                } else {
+                    // going to pause
+                    instance.pause();
+                }
             });
         },
 
@@ -463,7 +503,7 @@
                 $stage = this.$container.find('.wd-stage');
 
             $imgContainer.css({ 'background-color': WDP.options.stage_color });
-            $stage.append($imgContainer);
+            $stage.prepend($imgContainer);
 
             $imgContainer.css({
                 height: instance.height,

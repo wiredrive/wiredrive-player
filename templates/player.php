@@ -20,6 +20,7 @@
     <div class="wd-stage" style="width: <?= $width; ?>; height: <?= $height; ?>;">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>
+        <div class="wd-play-slideshow-button"></div>
     </div>
     <script type="text/javascript">
         (function () {

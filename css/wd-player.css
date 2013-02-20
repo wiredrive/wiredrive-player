@@ -33,8 +33,10 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 }
 
-.wd-player .wd-play-button {
+.wd-player .wd-play-video-button,
+.wd-player .wd-play-slideshow-button {
     background-image: url(../images/play.png);
+    background-color: transparent;
     height: 72px;
     width: 72px;
     cursor: pointer;
@@ -46,27 +48,42 @@
     z-index: 10;
 }
 
-.wd-paginate {
-    height: 60px;
-    width: 40px;
-    position: absolute;
-    top: 50%;
-    margin-top: -30px;
+.wd-player .wd-play-slideshow-button.playing {
+    background-image: none; /* url(../images/pause.png); */
+    background-color: yellow;
+}
+
+.wd-paginate,
+.wd-player .wd-play-slideshow-button {
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    cursor: pointer;
     transition-property: opacity;
     -webkit-transition-property: opacity;
     transition-duration: 500ms;
     -webkit-transition-duration: 500ms;
 }
 
-.wd-stage:hover .wd-paginate:hover {
+.wd-paginate {
+    height: 60px;
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -30px;
+    cursor: pointer;
+}
+
+.wd-stage.video .wd-play-slideshow-button {
+    display: none;
+}
+
+.wd-stage:hover .wd-paginate:hover,
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button:hover {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.wd-stage:hover .wd-paginate {
+.wd-stage:hover .wd-paginate,
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button {
     opacity: .75;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 }
