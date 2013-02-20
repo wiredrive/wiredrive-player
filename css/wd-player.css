@@ -36,21 +36,19 @@
 .wd-player .wd-play-video-button,
 .wd-player .wd-play-slideshow-button {
     background-image: url(../images/play.png);
-    background-color: transparent;
-    height: 72px;
-    width: 72px;
+    height: 100px;
+    width: 100px;
     cursor: pointer;
     position: absolute;
     top: 50%;
     left: 50%;
-    margin-top: -36px;
-    margin-left: -36px;
+    margin-top: -50px;
+    margin-left: -50px;
     z-index: 10;
 }
 
 .wd-player .wd-play-slideshow-button.playing {
-    background-image: none; /* url(../images/pause.png); */
-    background-color: yellow;
+    background-image: url(../images/pause.png);
 }
 
 .wd-paginate,
