@@ -52,7 +52,8 @@
 }
 
 .wd-paginate,
-.wd-player .wd-play-slideshow-button {
+.wd-player .slideshow .wd-play-slideshow-button {
+    display: block;
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     transition-property: opacity;
@@ -60,6 +61,11 @@
     transition-duration: 500ms;
     -webkit-transition-duration: 500ms;
 }
+
+.wd-player .wd-play-slideshow-button {
+    display: none;
+}
+
 
 .wd-paginate {
     height: 60px;

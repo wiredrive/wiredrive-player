@@ -1,4 +1,4 @@
-(function ($) {
+(function () {
     "use strict";
 
     var tinymce = window.tinymce;
@@ -20,7 +20,7 @@
                     }
 
                     WDPA.showDialog();
-				}
+                }
             });
         },
 
@@ -40,4 +40,4 @@
     });
 
     tinymce.PluginManager.add('wdpButton', tinymce.plugins.wdpButton);
-}(window.jQuery));
+}());
