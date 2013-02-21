@@ -117,6 +117,11 @@
                         $stage.delegate('.wd-paginate', 'click', onceDelegate);
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
+
+                            //the once delegator doesn't need to explicitly call `play` because
+                            //that will be handled by the normal event handlers on the paginators
+                            //that call `setSource`. Since the delegator doesn't, here we need
+                            //the explicit call to `play`
                             instance.play();
                         });
                     } else {
@@ -211,7 +216,7 @@
                             // to be reembedded after every video due to the poster frame
                             // not being updateable
                             instance.setReady();
-                            instance.setSource(0);
+                            instance.setSource(0) && instance.autoplay && instance.play();
                         }
 
                         if (eventName === 'complete') {
@@ -311,8 +316,8 @@
         this.height = parseInt(config.height, 10);
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
-        this.autoplay = false; //TODO: hookup to config
-        this.loop = false; //TODO hookup to config
+        this.autoplay = !!config.autoplay;
+        this.loop = !!config.loop;
 
         this.id = config.id;
         this.items = [];
@@ -363,7 +368,10 @@
                 $imageContainer.addClass('wd-hidden');
                 $stage.removeClass('image').addClass('video');
             } else {
-                this.pause(); //prevent video from potentially playing in the background
+                //prevent video from potentially playing in the background
+                //check for the current asset being a video first, otherwise slideshowing
+                //could unintentionally be stopped before it starts
+                this.getCurrentType() === 'video' && this.pause();
                 this.type === 'flash' ?
                     $flashContainer.addClass('wd-hidden-video') :
                     $video && $video.addClass('wd-hidden'); //there might not actually be a video container
@@ -445,6 +453,7 @@
 
             if (mimetype === 'image' && instance.slideshow) {
                 //if we're supposed to slideshow, then let us slideshow!
+                instance.$container.find('.wd-play-slideshow-button').addClass('playing');
                 instance.timeoutId = setTimeout(function () {
                     //we're out of the flow, and the user may have interacted with the player
                     //to turn slideshowing off, so make sure we're supposed to still be
@@ -704,11 +713,7 @@
 
                 // flash depends on a callback, so it might not be ready yet.
                 // video and image players will be ready by now, but flash will
-                player.isReady() && player.setSource(0);
-
-                if (player.autoplay) {
-                    player.play();
-                }
+                player.isReady() && player.setSource(0) && player.autoplay && player.play();
 
                 // Callback is not needed anymore
                 delete WDP._callbacks[cbid];

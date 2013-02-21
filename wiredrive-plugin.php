@@ -122,10 +122,17 @@ class Wiredrive_Plugin
          * Get the height and width from the shortcode
          */
         $shortcode = shortcode_atts(array(
-            'height' => $options['height'] . 'px',
-            'width' => $options['width'] . 'px',
+            'height' => $options['height'],
+            'width' => $options['width'],
             'autoslideshow' => 'off',
+            'loop' => 'off',
+            'autoplay' => 'off',
         ), $atts);
+
+        //legacy sometimes saved the 'px' with the height and width. remove it if they did.
+        //the new frontend injects the px all on its own whereever it needs to.
+        $shortcode['height'] = str_replace('px', '', $shortcode['height']);
+        $shortcode['width'] = str_replace('px', '', $shortcode['width']);
 
 		/*
          * Import the RSS feed
@@ -163,6 +170,8 @@ class Wiredrive_Plugin
 
         $this->template->setTpl('player.php')
              ->set('slideshow', $shortcode['autoslideshow'] === 'on')
+             ->set('autoplay', $shortcode['autoplay'] === 'on')
+             ->set('loop', $shortcode['loop'] === 'on')
              ->set('options', $options)
              ->set('attributeId', $attributeId)
              ->set('type', $type)

@@ -37,6 +37,7 @@ class Wiredrive_Plugin_Admin
 	public function __construct()
 	{
 		$this->template = new Wiredrive_Plugin_Template();
+        $this->options = (new Wiredrive_Plugin_Settings())->getOptions();
 	}
 
 	/**
@@ -48,19 +49,17 @@ class Wiredrive_Plugin_Admin
 		if ( function_exists('plugins_url') ) {
 			$plugin_url = plugins_url('wiredrive-player');
 
+			wp_register_script('wd-admin',
+				($plugin_url  . '/js/wd-admin.js'), 'jquery', '1.0');
+
 			wp_enqueue_script('jquery');
-			wp_enqueue_script('farbtastic');
+			wp_enqueue_script('farbtastic'); //color picker script
 			wp_enqueue_script('jquery-ui-core');
 			wp_enqueue_script('jquery-ui-dialog');
-			wp_register_script('wdp-admin-script',
-				($plugin_url  . '/js/wdp-admin.js'), 'jquery', '1.0');
+			wp_enqueue_script('wd-admin');
 
-			wp_enqueue_script('wdp-admin-script');
-
-			wp_enqueue_style('farbtastic');
-			wp_enqueue_style('wdp-jquery-ui', ($plugin_url  . '/css/jquery-ui.css'), false, '1.2-wdp');
-			wp_enqueue_style('wdp-admin-style', ($plugin_url  . '/css/wdp-admin.css'), false, '1.2');
-
+			wp_enqueue_style('farbtastic'); //color picker script
+			wp_enqueue_style('wd-admin', ($plugin_url  . '/css/wd-admin.css'), false, '1.2');
 		}
 	}
 
@@ -72,8 +71,11 @@ class Wiredrive_Plugin_Admin
 	public function header()
 	{
 		$this->template
-		      ->setTpl('admin_header.php')
-		      ->set('pluginUrl', plugins_url('wiredrive-player') )
+		      ->setTpl('admin.php')
+              ->set('pluginUrl', plugins_url('wiredrive-player'))
+              ->set('height', $this->options['height'])
+              ->set('width', $this->options['width'])
+              ->set('slideshowDuration', $this->options['slideshow_duration'])
 		      ->render();
 
 		echo $this->getOutput();
@@ -90,11 +92,13 @@ class Wiredrive_Plugin_Admin
 	{
 
 		$this->template
-		      ->setTpl('admin_footer.php')
+		      ->setTpl('dialog.php')
+              ->set('height', $options['height'])
+              ->set('width', $options['width'])
+              ->set('duration', $options['slideshow_duration'])
 		      ->render();
 
 		echo $this->getOutput();
-
 	}
 	
 
