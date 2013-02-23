@@ -17,14 +17,121 @@
     padding: 0;
 }
 
+/* get rid of the border radius and box shadow that some themes like to add to
+ * all images across the entire site
+ */
+.entry-content .wd-player img {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.wd-player .wd-thumb-tray {
+    height: 82px;
+    width: 100%;
+    position: relative;
+}
+
+.wd-player .wd-carousel-bb {
+    position: absolute;
+    left: 31px;
+    right: 31px;
+    overflow: hidden;
+}
+
+.wd-player .no-paginate {
+    text-align: center;
+}
+
+.wd-player .no-paginate .wd-carousel-bb {
+    left: 0px;
+    right: 0px;
+}
+
+.wd-player .no-paginate ol {
+    display: inline-block;
+}
+
+.wd-player .wd-carousel-button {
+    color: #fff;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    height: 82px;
+    top: 0;
+    cursor: pointer;
+}
+
+.wd-player .wd-carousel-button div {
+    margin-top: 29px;
+}
+
+.wd-player .wd-carousel-button.previous {
+    left: 0;
+    right: auto;
+}
+
+.wd-player .wd-carousel-button.next {
+    right: 0;
+    left: auto;
+}
+
+.wd-player .no-paginate .wd-carousel-button {
+    display: none;
+}
+
+.wd-player .wd-thumb-tray ol {
+    position: relative;
+    white-space: nowrap;
+    transition-property: margin-left;
+    transition-duration: 750ms;
+    transition-timing-function: ease-out;
+    -webkit-transition-property: margin-left;
+    -webkit-transition-duration: 750ms;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-property: margin-left;
+    -moz-transition-duration: 750ms;
+    -moz-transition-timing-function: ease-out;
+}
+
+.wd-player .wd-thumb-tray li {
+    margin: 0px 1px;
+    list-style-type: none;
+    display: inline-block;
+    line-height: 78px;
+    position: relative;
+    opacity: .75;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+    cursor: pointer;
+    /* transitions look really bad in webkit.
+     * the fade aliasing actually causes the image to flicker in size by a few pixels
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 750ms;
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 750ms;
+    transition-property: opacity;
+    transition-duration: 750ms;
+    */
+}
+
+.wd-player .wd-thumb-tray li img {
+    vertical-align: middle;
+}
+
+.wd-player .wd-thumb-tray li:hover {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+
 .wd-player .wd-image {
     position: absolute;
     max-width: 100%;
     max-height: 100%;
     opacity: 1;
     transition-property: opacity;
+    -moz-transition-property: opacity;
     -webkit-transition-property: opacity;
     transition-duration: 1s;
+    -moz-transition-duration: 1s;
     -webkit-transition-duration: 1s;
 }
 
@@ -57,8 +164,10 @@
     opacity: 0;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     transition-property: opacity;
+    -moz-transition-property: opacity;
     -webkit-transition-property: opacity;
     transition-duration: 500ms;
+    -moz-transition-duration: 500ms;
     -webkit-transition-duration: 500ms;
 }
 

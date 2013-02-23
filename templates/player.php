@@ -16,14 +16,29 @@
     $width = $this->get('width');
     $height = $this->get('height');
     $type = $this->get('type'); //which player template to use
-    $attributeId = $this->get('attributeId'); //random wordpress id for something
+    $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
-<div id="<?= $attributeId; ?>" class="wd-player">
-    <div class="wd-stage" style="width: <?= $width; ?>px; height: <?= $height; ?>px;">
+<div id="<?= $attributeId; ?>" class="wd-player" style="width: <?= $width; ?>px;">
+    <div class="wd-stage" style="height: <?= $height; ?>px;">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>
         <div class="wd-play-slideshow-button"></div>
     </div>
+
+    <? if (!$disableThumbs): ?>
+    <div class="wd-thumb-tray" style="width: <?= $width; ?>px;">
+        <div class="wd-carousel-bb">
+            <ol class="wd-carousel"></ol>
+        </div>
+        <div class="wd-carousel-button previous disabled">
+            <div>&#x25C4;</div>
+        </div>
+        <div class="wd-carousel-button next">
+            <div>&#x25BA;</div>
+        </div>
+    </div>
+    <? endif; ?>
+
     <script type="text/javascript">
         (function () {
             "use strict";
@@ -33,7 +48,7 @@
                 type: '<?= $type; ?>',
                 width: '<?= $width; ?>',
                 height: '<?= $height; ?>',
-                slideshow: <?= $slideshow ? 'true' : 'false'; /* php is a stupid stupid language */?>,
+                slideshow: <?= $slideshow ? 'true' : 'false'; ?>,
                 autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
                 loop: <?= $loop ? 'true' : 'false'; ?>,
                 jsonpUrl: '<?= $jsonpUrl; ?>'

@@ -13,45 +13,27 @@
 </script>
 
 <style type="text/css">
+.wd-player {
+    margin-top: 0px;
+    margin-bottom: 1em;
+}
+
 .wd-player .wd-stage {
     background-color: <?= $options['stage_color']; ?>;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
-/*
-.wd-credits-container {
-    background: <?php echo $options['credit_container_color'] ?>;
-    border-top: 1px solid <?php echo $options['credit_container_border'] ?>;
-    text-align: <?php echo $options['credit_container_alignment'] ?>;
+
+.wd-player .wd-thumb-tray {
+    background-color: <?= $options['thumb_bg_color']; ?>;
 }
-<?php if( $options['credit_container_alignment'] == 'Right') : ?>
-.hide-thumbs .wd-credits-container {
-    padding-right: 35px;
+
+.wd-player .wd-thumb-tray li img {
+    border: 1px solid <?= $options['thumb_bg_color']; ?>;
 }
-<?php endif; ?>
-.wd-nav-prev, .wd-nav-next, .wd-thumb-tray {
-    background: <?php echo $options['thumb_bg_color'] ?>;
+
+.wd-player .wd-thumb-tray li img.selected {
+    border: 1px solid <?= $options['active_item_color']; ?>;
 }
-.wd-left-arrow {
-    border-color: transparent <?php echo $options['arrow_color'] ?> transparent transparent;
-}
-.wd-right-arrow { 
-    border-color: transparent transparent transparent <?php echo $options['arrow_color'] ?>;
-}
-.wd-thumb-list .wd-active {
-    border: 1px solid <?php echo $options['active_item_color'] ?>;
-}
-.wd-title {
-    color: <?php echo $options['title_color'] ?>;
-    font-size: <?php echo $options['title_font_size'] . 'px' ?>;
-}
-.wd-credit {
-    color: <?php echo $options['credit_color'] ?>;
-    font-size: <?php echo $options['credit_font_size'] . 'px' ?>;
-}
-.box-thumbs .wd-thumb-list li a {
-    background-color: #111111;
-    background-color: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity'] ?>);
-}
-*/
 </style>

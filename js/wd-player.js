@@ -47,6 +47,12 @@
 
         WDP, // our global object that will manage all player instances on the page
 
+        // thumbnail dimensions for images inside the thumb tray.
+        // you'll also need to change some css rules (line-height, height)
+        // if you futz with these numbers :-/
+        THUMBNAIL_WIDTH = 80,
+        THUMBNAIL_HEIGHT = 80,
+
         /*
          * Player templates
          */
@@ -72,6 +78,12 @@
             '</div>'
         ].join(''),
 
+        THUMBNAIL_TEMPLATE = [
+            '<li class="wd-thumbnail">',
+                '<img />',
+            '</li>'
+        ].join(''),
+
         VALID_PLAYER_TYPES = ['flash', 'video'],
 
         _uid = 1, //uid value. used for WDP.uniqueId()
@@ -84,9 +96,10 @@
             video: {
                 attachPlayer: function () {
                     var instance = this,
+                        $container = instance.$container,
                         first = instance.items[0],
                         isVideo = first.mimetype === 'video',
-                        $stage = instance.$container.find('.wd-stage'),
+                        $stage = $container.find('.wd-stage'),
                         $player, $playButton,
 
                         // delegate function for the paginators. To keep all the code related
@@ -94,19 +107,21 @@
                         // and the first asset is a video and autoplay is off), we have a delegate function
                         // that we will bind to the paginators. This accounts for the case of where
                         // the user clicks on the pagintate button to change to the next asset without
-                        // ever playing the first asset.
+                        // ever playing the first asset or clicking on a thumbnail
                         onceDelegate = function (e) {
+                            console.log('delegate');
                             $playButton.remove();
                             $player.removeAttr('poster');
                             $player.attr('controls', 'controls');
                             $stage.undelegate('.wd-paginate', 'click', onceDelegate);
+                            $container.undelegate('.wd-thumbnail img', 'click', onceDelegate);
                         },
                         $tpl = $(VIDEO_TEMPLATE);
 
                     $stage.prepend($tpl);
 
-                    $playButton = instance.$container.find('.wd-play-video-button'),
-                    $player = instance.$container.find('video');
+                    $playButton = $container.find('.wd-play-video-button'),
+                    $player = $container.find('video');
                     $player.attr('height', instance.height);
                     $player.attr('width', instance.width);
 
@@ -115,6 +130,7 @@
                         $player.attr('src', first.url);
 
                         $stage.delegate('.wd-paginate', 'click', onceDelegate);
+                        $container.delegate('.wd-thumbnail img', 'click', onceDelegate);
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
 
@@ -267,13 +283,13 @@
         }, 1);
     }
 
-    function _fitWithin(asset, maxWidth, maxHeight) {
+    function _fitWithin(obj, maxWidth, maxHeight, fillHeight) {
         var ratio = 0,
-            width = asset.width,
-            height = asset.height,
+            width = obj.width,
+            height = obj.height,
             newHeight, newWidth;
 
-        if (width > maxWidth) {
+        if (!fillHeight && width > maxWidth) {
             ratio = maxWidth / width;
             newWidth = maxWidth;
             newHeight = height * ratio;
@@ -281,16 +297,27 @@
             width = width * ratio;
         }
 
-        if (height > maxHeight) {
+        if (fillHeight || height > maxHeight) {
             ratio = maxHeight / height;
             newHeight = maxHeight;
             newWidth = width * ratio;
         }
 
         return {
-            height: newHeight,
-            width: newWidth
+            height: Math.round(newHeight),
+            width: Math.round(newWidth)
         };
+    }
+
+    function _calculateWidth($node) {
+        return $node.get(0).offsetWidth +
+            parseInt($node.css('margin-left'), 10) +
+            parseInt($node.css('margin-right'), 10) +
+
+            // IE8 is too stupid to understand border-<side>-width as a number.
+            // Fallback to 0 for these values
+            (parseInt($node.css('border-left-width'), 10) || 0) +
+            (parseInt($node.css('border-right-width'), 10) || 0);
     }
 
     // Constructor function for a player instance. The old player couldn't manage multiple instances
@@ -425,6 +452,11 @@
                 $next[index === this.items.length - 1 ? 'addClass' : 'removeClass']('disabled');
             }
 
+            // update the thumbnail selection
+            // do current first, since initially both index and current are 0
+            this.$container.find('li[data-wd-index=' + this.current + '] img').removeClass('selected');
+            this.$container.find('li[data-wd-index=' + index + '] img').addClass('selected');
+
             // don't set the current index until everything else is executed, just in case
             // the called functions need to reference the current index as well as the
             // supplied index argument
@@ -470,10 +502,11 @@
         },
 
         bind: function () {
-            var instance = this;
+            var instance = this,
+                $container = instance.$container;
 
             // bind the paginators
-            instance.$container.find('.wd-stage').delegate('.wd-paginate', 'click', function (e) {
+            $container.find('.wd-stage').delegate('.wd-paginate', 'click', function (e) {
                 var $target = $(e.target),
                     direction, index;
 
@@ -489,7 +522,8 @@
                 instance.play();
             });
 
-            instance.$container.find('.wd-play-slideshow-button').on('click', function (e) {
+            // bind clicking on the slideshow play button
+            $container.find('.wd-play-slideshow-button').on('click', function (e) {
                 var $target = $(e.target);
 
                 if (!$target.hasClass('playing')) {
@@ -501,6 +535,234 @@
                     // going to pause
                     instance.pause();
                 }
+            });
+        },
+
+        // function to render all the thumbnails into the thumbnail tray (if there is one)
+        // and bind the carouseling functionality.
+        // This function is a bit monolothic, but it keeps all the logic for carouseling and
+        // the thumbnail in one place
+        attachThumbTray: function () {
+            var instance = this,
+                $container = instance.$container,
+
+                $ol = $container.find('.wd-carousel'),
+                $bb = $container.find('.wd-carousel-bb'),
+                $next = $container.find('.wd-carousel-button.next'),
+                $previous = $container.find('.wd-carousel-button.previous'),
+                $tray = $container.find('.wd-thumb-tray'),
+
+                contentWidth = 0, //the width of all the thumbnails bounding boxes added together
+
+                // the carousel determines how far to scroll based on "markers", which is really
+                // just the index of the thumbnail it is using as its scroll destination. When a thumbnail
+                // is used as a marker, it basically means that after the scrolling is finished, the marker
+                // thumbnail will be either the leftmost or rightmost thumbnail and will be completely visible.
+                markerLeft = true, //is the marker on the left or on the right?
+                markerIndex = 0, //what is the marker index?
+                marginLeft = 0, //the overall margin-left that is applied to the ol to cause scrolling
+                lastMarginLeft = 0, //a cache of the previous value of margin-left
+                viewportWidth, //the width of the carousel mask (the area with visible thumbnails)
+                cache = [], // a cache of objects to store width and position calculations of each thumbnail
+
+                updateButtonStates = function () {
+                    $next.removeClass('disabled');
+                    $previous.removeClass('disabled');
+
+                    if (markerIndex === 0) {
+                        //very beginning. disable previous button
+                        $previous.addClass('disabled');
+                    } else if (markerIndex === cache.length - 1) {
+                        //very end. disable next button
+                        $next.addClass('disabled');
+                    }
+                },
+
+                //function for scrolling through the carousel backwards
+                //(marginleft increases from negative towards zero)
+                //TODO: there's probably a smart way to have next and previous scrolling
+                //taken care of by the same function
+                scrollPrevious = function () {
+                    var total; //the total amount we will be mutating marginLeft by
+
+                    // if the marker is already the leftmost asset, ignore
+                    if (markerIndex === 0) {
+                        return;
+                    }
+
+                    if (markerLeft) {
+                        //if the marker is on the left, act like there is a full page to scroll through
+                        markerIndex--; //the new marker will be on the right
+                        total = viewportWidth; //total difference will be the viewport's width
+                    } else {
+                        //the marker is on the right
+                        for (total = 0;
+                             //iterate as long as the marker is not the first asset and the number
+                             //of iterated assets to the left have a total width less than the viewport
+                             markerIndex > 0 && total + cache[markerIndex].width < viewportWidth;
+                             markerIndex--) {
+
+                            total += cache[markerIndex].width;
+                        }
+                    }
+
+                    if (marginLeft + viewportWidth > 0) {
+                        //there isn't a full page to scroll through. We're going backwards, so just reset
+                        //the margins to 0 and set the marker to be the first asset
+                        markerIndex = 0;
+                        marginLeft = 0;
+                        markerLeft = true;
+                    } else {
+                        //there is a full page worth of content, so the new marker will be on the right
+                        marginLeft += total;
+                        markerLeft = false;
+                    }
+
+                    $ol.css({ 'margin-left': marginLeft });
+                    lastMarginLeft = marginLeft;
+
+                    updateButtonStates();
+                },
+
+                // function for scrolling through the carousel forwards
+                // (marginleft decreases from 0 towards negative content width)
+                scrollNext = function () {
+                    var total;
+
+                    // if the marker is already the last asset, ignore
+                    if (markerIndex === cache.length - 1) {
+                        return;
+                    }
+
+                    if (!markerLeft) {
+                        //marker is on the right. if there is a full page of content, the marker
+                        //will end of on the left.
+                        markerIndex++;
+                        total = viewportWidth;
+                    } else {
+                        //marker is on the left, so find out how many thumnails we need to scroll to
+                        for (total = 0;
+                             markerIndex !== cache.length && total + cache[markerIndex].width < viewportWidth;
+                             markerIndex++) {
+
+                            total += cache[markerIndex].width;
+                        }
+                    }
+
+                    if (Math.abs(marginLeft) + viewportWidth * 2 > contentWidth) {
+                        //there isn't enough content for a full page scroll, so just scroll
+                        //to the very end
+                        markerIndex = cache.length - 1;
+                        marginLeft = -(contentWidth - viewportWidth);
+                        markerLeft = false;
+                    } else {
+                        //full page scroll. marker ends up on the left
+                        marginLeft -= total;
+                        markerLeft = true;
+                    }
+
+                    $ol.css({ 'margin-left': marginLeft });
+                    lastMarginLeft = marginLeft;
+
+                    updateButtonStates();
+                };
+
+
+            // there is no container for the thumb tray, so it must be disabled
+            if (!$ol.size()) {
+                return;
+            }
+
+            //the initial viewport width does NOT include the pagination buttons. This is so we can
+            //truely see if there is enough space to fit all thumbnails so that there is no need for
+            //pagination
+            viewportWidth = parseInt($tray.css('width'), 10);
+
+            //loop through each asset and build the thumbnail template, as well as calculate the positions
+            //and offsets to save onto the cache
+            $.each(this.items, function (index, asset) {
+                var $thumb = $(THUMBNAIL_TEMPLATE),
+                    $img = $thumb.find('img'),
+                    thumb = asset.thumbnail,
+
+                    //we want all thumbnails to be vertically flush. The `true` arg
+                    //forces _fitWithin to only scale the height.
+                    //This also means that if you have an image with a very large width
+                    //but a relatively small height, the thumbnail will be scaled by height, meaning
+                    //the thumbnail will be VERY VERY wide. It might even take up the entire viewport
+                    //and then some. It was decided that this is probably an edge case for the types
+                    //of assets most (if not all) users will populate this player with, so it is considered
+                    //an acceptable edge case.
+                    dimensions = _fitWithin(thumb, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, true);
+
+                //set image dimensions
+                $img.attr('src', thumb.url)
+                    .css({
+                        height: dimensions.height,
+                        width: dimensions.width
+                    });
+
+                //the only reason the li container $thumb needs to have an explicit width set is
+                //because if IE8. Every other browser has no problem figuring out the size of the li
+                //based on the explicit width set on the contained image. IE8 wanted to be different #RAGE
+                $thumb.css('width', dimensions.width);
+
+                //so we know which asset this thumbnail indexes
+                $thumb.attr('data-wd-index', index);
+                $ol.append($thumb);
+
+                cache.push({
+                    $node: $thumb,
+                    width: _calculateWidth($thumb),
+                    previousTotal: contentWidth 
+                });
+
+                contentWidth += cache[index].width;
+                cache[index].runningTotal = contentWidth;
+            });
+
+            // originally used white-space: nowrap to keep all the thumbnails in line,
+            // but IE is too stupid to know what that rule means unless it's on a span.
+            // Since we already know what the width of all the content is, just set an
+            // explicit width on the ol container and be done with it :-/
+            // The pre-incrementer accounts for some sizing rounding errors that appears to consistently
+            // undershoot the width by a single pixel, causing the last thumbnail's right border
+            // to fall off.
+            $ol.css('width', ++contentWidth);
+
+            //check to see if we need to worry about pagination
+            if (viewportWidth > contentWidth) {
+                //nope! hooray!
+                $tray.addClass('no-paginate');
+            } else {
+                //pagination required. not all assets will be visible given the viewport area.
+                //adjust the viewport width to account for the pagination buttons
+                viewportWidth = parseInt($bb.css('width'), 10);
+
+                //bind delegators for clicking on the next and previous pagination buttons.
+                $tray.delegate('.wd-carousel-button', 'click', function (e) {
+                    var $target = $(e.currentTarget);
+
+                    if ($target.hasClass('disabled')) {
+                        return;
+                    }
+
+                    if ($target.hasClass('next')) {
+                        scrollNext();
+                    } else {
+                        scrollPrevious();
+                    }
+                });
+            }
+
+            // bind clicking on a thumbnail in the thumbnail tray
+            $tray.delegate('.wd-thumbnail img', 'click', function (e) {
+                var $li = $(e.target).parent('li'),
+                    index = +$li.attr('data-wd-index');
+
+                instance.pause();
+                instance.setSource(index);
+                instance.play();
             });
         },
 
@@ -523,7 +785,7 @@
 
             !instance.hasVideo() && instance.setReady();
         },
-        //
+
         // function to set the image to the asset at the given index.
         // This is one of those "private" helper functions that is called by
         // `setSource`. Because of this, this function does not validate whether the
@@ -552,6 +814,12 @@
                 }
 
                 $image = this.$image = $nextImage;
+            } else if (currentAsset === nextAsset) {
+                //Fix for Firefox: When the image viewer is first initialized, originally the next-image img
+                //element did not have a source. Firefox has a bug where it cannot do a CSS3 transition from
+                //opacity 0 to 1 on an image with no source. This fix sets both the image and the next image
+                //to be the same image if this is the initialization pass (current and index are equal)
+                $nextImage.attr('src', nextAsset.url);
             }
 
             //do some wonky css hacky positioning because IE8 doesn't understand background-size
@@ -628,11 +896,15 @@
 
                 instance.items.push({
                     title: asset.title,
-                    height: primary.height,
-                    width: primary.width,
+                    height: +primary.height,
+                    width: +primary.width,
                     url: primary.url,
                     mimetype: asset.mimeCategory,
-                    thumbnail: smallThumb.url,
+                    thumbnail: {
+                        url: smallThumb.url,
+                        height: +smallThumb.height,
+                        width: +smallThumb.width
+                    },
                     poster: largeThumb.url,
                     description: asset.description,
                     keywords: $.map(asset.keywords, function (item) { return item.label; }),
@@ -709,6 +981,7 @@
 
                 // bind image viewer if needed
                 player.hasImages() && player.attachImageViewer();
+                player.attachThumbTray();
                 player.bind();
 
                 // flash depends on a callback, so it might not be ready yet.
