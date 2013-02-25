@@ -121,6 +121,7 @@ class Wiredrive_Plugin
 		/*
          * Get the height and width from the shortcode
          */
+
         $shortcode = shortcode_atts(array(
             'height' => $options['height'],
             'width' => $options['width'],
@@ -129,6 +130,7 @@ class Wiredrive_Plugin
             'autoplay' => 'off',
             'disablethumbs' => 'off',
             'hidethumbs' => 'off',
+            'duration' => $options['slideshow_duration'],
         ), $atts);
 
         //legacy sometimes saved the 'px' with the height and width. remove it if they did.
@@ -172,6 +174,7 @@ class Wiredrive_Plugin
 
         $this->template->setTpl('player.php')
              ->set('slideshow', $shortcode['autoslideshow'] === 'on')
+             ->set('duration', $shortcode['duration'])
              ->set('autoplay', $shortcode['autoplay'] === 'on')
              ->set('disableThumbs', $shortcode['disablethumbs'] === 'on')
              ->set('collapseThumbs', $shortcode['hidethumbs'] === 'on')

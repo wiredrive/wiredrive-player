@@ -10,6 +10,7 @@
     $theme = $this->get('theme'); //inline player, grid, etc
     $isMobile = $this->get('isMobile');
     $isIPad = $this->get('isIPad');
+    $duration = $this->get('duration');
 
     $jsonpUrl = $this->get('jsonpUrl');
     $options = $this->get('options');
@@ -56,6 +57,7 @@
                 width: '<?= $width; ?>',
                 height: '<?= $height; ?>',
                 slideshow: <?= $slideshow ? 'true' : 'false'; ?>,
+                duration: <?= $duration; ?>,
                 autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
                 loop: <?= $loop ? 'true' : 'false'; ?>,
                 jsonpUrl: '<?= $jsonpUrl; ?>'

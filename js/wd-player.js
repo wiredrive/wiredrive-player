@@ -344,6 +344,7 @@
         this.height = parseInt(config.height, 10);
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
+        this.duration = +config.duration * 1000;
         this.autoplay = !!config.autoplay;
         this.loop = !!config.loop;
 
@@ -500,7 +501,8 @@
                     } else {
                         instance.pause();
                     }
-                }, 5000); //TODO: make timeout length be configurable via admin settings
+                }, instance.duration);
+                console.log(instance.duration);
             } else if (mimetype === 'video') {
                 instance._playVideo();
             }
