@@ -36,4 +36,20 @@
 .wd-player .wd-thumb-tray li img.selected {
     border: 1px solid <?= $options['active_item_color']; ?>;
 }
+
+.wd-player .wd-credit-tray {
+    background-color: <?= $options['credit_container_color']; ?>;
+    text-align: <?= $options['credit_container_alignment']; ?>;
+    border-top: 1px solid <?= $options['credit_container_border']; ?>;
+}
+
+.wd-player .wd-title {
+    color: <?= $options['title_color']; ?>;
+    font-size: <?= $options['title_font_size']; ?>;
+}
+
+.wd-player .wd-credit {
+    color: <?= $options['credit_color']; ?>;
+    font-size: <?= $options['credit_font_size']; ?>;
+}
 </style>

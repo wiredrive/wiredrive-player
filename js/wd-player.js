@@ -1,5 +1,6 @@
 //jquery is the only dependency and it's loaded syncronously.
 //no need for a doc.ready function
+//TODO: change all `delegate` function calls to `on` as per the jQuery recommendation
 (function ($) {
     "use strict";
 
@@ -447,6 +448,10 @@
                 this._setPlayerSource(index);
             }
 
+            if (this.hasCreditTray()) {
+                this.setCredit(nextAsset);
+            }
+
             if (!this.loop) {
                 $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
                 $next[index === this.items.length - 1 ? 'addClass' : 'removeClass']('disabled');
@@ -550,7 +555,8 @@
                 $bb = $container.find('.wd-carousel-bb'),
                 $next = $container.find('.wd-carousel-button.next'),
                 $previous = $container.find('.wd-carousel-button.previous'),
-                $tray = $container.find('.wd-thumb-tray'),
+                $thumbTray = $container.find('.wd-thumb-tray'),
+                $creditTray = $container.find('.wd-credit-tray'),
 
                 contentWidth = 0, //the width of all the thumbnails bounding boxes added together
 
@@ -676,7 +682,7 @@
             //the initial viewport width does NOT include the pagination buttons. This is so we can
             //truely see if there is enough space to fit all thumbnails so that there is no need for
             //pagination
-            viewportWidth = parseInt($tray.css('width'), 10);
+            viewportWidth = parseInt($thumbTray.css('width'), 10);
 
             //loop through each asset and build the thumbnail template, as well as calculate the positions
             //and offsets to save onto the cache
@@ -733,14 +739,14 @@
             //check to see if we need to worry about pagination
             if (viewportWidth > contentWidth) {
                 //nope! hooray!
-                $tray.addClass('no-paginate');
+                $thumbTray.addClass('no-paginate');
             } else {
                 //pagination required. not all assets will be visible given the viewport area.
                 //adjust the viewport width to account for the pagination buttons
                 viewportWidth = parseInt($bb.css('width'), 10);
 
                 //bind delegators for clicking on the next and previous pagination buttons.
-                $tray.delegate('.wd-carousel-button', 'click', function (e) {
+                $thumbTray.delegate('.wd-carousel-button', 'click', function (e) {
                     var $target = $(e.currentTarget);
 
                     if ($target.hasClass('disabled')) {
@@ -756,7 +762,7 @@
             }
 
             // bind clicking on a thumbnail in the thumbnail tray
-            $tray.delegate('.wd-thumbnail img', 'click', function (e) {
+            $thumbTray.delegate('.wd-thumbnail img', 'click', function (e) {
                 var $li = $(e.target).parent('li'),
                     index = +$li.attr('data-wd-index');
 
@@ -764,6 +770,35 @@
                 instance.setSource(index);
                 instance.play();
             });
+
+            // bind mouse hovers to display credits
+            $thumbTray.on('mouseenter mouseleave', '.wd-thumbnail img', function (e) {
+                var index;
+                
+                if (e.type === 'mouseenter') {
+                    index = +$(e.target).parent('li').attr('data-wd-index');
+                    instance.setCredit(instance.items[index]);
+                } else {
+                    instance.setCredit(instance.items[instance.current]);
+                }
+            });
+
+            $creditTray.on('click', '.wd-thumb-collapse', function (e) {
+                var op = $thumbTray.hasClass('collapsed') ? 'removeClass' : 'addClass';
+
+                $thumbTray[op]('collapsed');
+                $(this)[op]('collapsed');
+            });
+
+            // attach a setCredit method to this instance. This can probably be moved out of here
+            // but having it here keeps all the thumb tray logic in one place
+            instance.setCredit = function (asset) {
+                var credit = asset.credits.length ? asset.credits[0].tag : '',
+                    title = asset.title;
+
+                this.$container.find('.wd-credit').text(credit);
+                this.$container.find('.wd-title').text(title);
+            };
         },
 
         // Render the image viewer template and bind it. The initialization procedure
@@ -849,6 +884,14 @@
         // Returns a boolean telling us whether or not this presentation has any videos in it
         hasVideo: function () {
             return this._HAS_VIDEO;
+        },
+
+        hasCreditTray: function () {
+            var ret = !!this.$container.find('.wd-credit-tray').size();
+
+            this.hasCreditTray = function () { return ret; };
+
+            return ret;
         },
 
         // Returns a bool letting us know whether or not this instance's data

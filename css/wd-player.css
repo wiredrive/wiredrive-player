@@ -26,9 +26,40 @@
 }
 
 .wd-player .wd-thumb-tray {
+    position: relative;
     height: 82px;
     width: 100%;
-    position: relative;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 750ms;
+    -webkit-transition-property: height;
+    -webkit-transition-duration: 750ms;
+    -moz-transition-property: height;
+    -moz-transition-duration: 750ms;
+}
+
+.wd-player .wd-thumb-tray.collapsed {
+    height: 0px;
+}
+
+.wd-player .wd-thumb-collapse.collapsed {
+    background-image: url(../images/arrow-down.png);
+}
+
+.wd-player .wd-thumb-collapse {
+    background-color: #7a7a7a;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-image: url(../images/arrow-up.png);
+    background-position: center;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
 }
 
 .wd-player .wd-carousel-bb {
@@ -120,6 +151,11 @@
 .wd-player .wd-thumb-tray li:hover {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+
+.wd-player .wd-credit-tray {
+    padding: 10px;
+    position: relative;
 }
 
 .wd-player .wd-image {

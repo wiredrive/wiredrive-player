@@ -26,7 +26,7 @@
     </div>
 
     <? if (!$disableThumbs): ?>
-    <div class="wd-thumb-tray" style="width: <?= $width; ?>px;">
+    <div class="wd-thumb-tray<?= $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?= $width; ?>px;">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
         </div>
@@ -36,6 +36,13 @@
         <div class="wd-carousel-button next">
             <div>&#x25BA;</div>
         </div>
+    </div>
+    <div class="wd-credit-tray">
+        <span class="wd-title">&nbsp;</span>
+        <span class="wd-credit">&nbsp;</span>
+        <? if ($collapseThumbs): ?>
+        <div class="wd-thumb-collapse collapsed"></div>
+        <? endif; ?>
     </div>
     <? endif; ?>
 
