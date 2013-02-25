@@ -37,9 +37,88 @@ function filter_theme($theme) {
 
     return in_array($ret, $validThemes) ? $ret : 'inline-player';
 }
+function processUrl($url) {
+    $urlParts      = parse_url($url);
+    if (! isset($urlParts['path']) ||
+        ! isset($urlParts['host'])) {
+        echo 'INVALID_URI';
+        exit;
+    }
+    $isShort    = stripos($urlParts['host'], 'wdrv.it') !== false;
+    $isDispatch = stripos($urlParts['path'], 'pld') !== false ||
+                  stripos($urlParts['path'], 'pr') !== false ||
+                  stripos($urlParts['path'], 'plg') !== false ||
+                  stripos($urlParts['path'], 'ppd') !== false ||
+                  stripos($urlParts['path'], 'ppg') !== false;
+    if (! ($isShort || $isDispatch)) {
+        return $url;
+    }
+    /* fetch bitly url using curl */
+    $curl    = curl_init(); 
+    $headers = array();
+    
+    /* callback to stash headers instead of parsing */
+    $headerCallback = function($curl, $header) use (&$headers){
+        $parts = explode(': ', $header);
+        if (count($parts) < 2) {
+            return strlen($header);
+        }
+        $key            = trim($parts[0]);
+        $value          = trim($parts[1]);
+        $headers[$key]  = $value;
+        return strlen($header);
+    };
+    curl_setopt_array(
+        $curl,
+        array(
+            CURLOPT_HEADER => true,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_URL => $url,
+            CURLOPT_HEADERFUNCTION => $headerCallback
+        )
+    );
+    if ($isShort) {
+        curl_setopt($curl, CURLOPT_NOBODY, true);
+        curl_exec($curl);
+        if (! isset($headers['Location'])) {
+            echo 'Invalid wiredrive player url: ' . $url;
+            exit;
+        }
+        $dispatchUrl = $headers['Location'];
+    } else {
+        $dispatchUrl = $url;
+    }
+
+    /* app doens't support head request */
+    curl_setopt($curl, CURLOPT_NOBODY, false);
+    curl_setopt($curl, CURLOPT_URL, $dispatchUrl);
+    $headers    = array();
+    $result     = curl_exec($curl);
+    if (! isset($headers['Location'])) {
+        echo 'Error fetching wiredrive short url: ' . $url;
+        exit;
+    }
+    $link = $headers['Location'];
+    
+    /* if missing domain information, use dispatch url for
+     * missing data
+     */
+    if ($link[0] == '/') {
+        $urlParts   = parse_url($dispatchUrl);
+        if (! isset($urlParts['path']) ||
+            ! isset($urlParts['scheme']) ||
+            ! isset($urlParts['host'])) {
+            echo 'Error parsing wiredrive short url: ' . $url;
+            exit;
+        }
+        $link = $urlParts['scheme'] . '://' . $urlParts['host'] .
+                $link;
+    }
+    return $link;
+}
 
 $url = filter_input(INPUT_GET, 'url', FILTER_VALIDATE_URL);
-
 $options = array(
     'width' => filter_input(INPUT_GET, 'width', FILTER_VALIDATE_INT),
     'height' => filter_input(INPUT_GET, 'height', FILTER_VALIDATE_INT),
@@ -58,12 +137,24 @@ if ($url == false) {
     //this page will always return 200 codes and the caller must parse the body to see
     //if the request was successful.
     //The current way of checking for an error is the content body will simply be the string 'INVALID_URI'
-    echo 'INVALID_URI'; die;
+    echo 'INVALID_URI'; 
+    exit;
 }
-
-$contents = @file_get_contents($url, false, null, -1, 57344); //woooo magic numbers!
-if ($contents == false) {
-    echo 'INVALID_URI'; die;
+$url  = processUrl($url);
+$curl = curl_init();
+curl_setopt_array(
+    $curl,
+    array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_URL     => $url,
+    )
+);
+$result   = curl_exec($curl);
+$httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+if ($httpCode != 200) {
+    echo 'INVALID_URI';
+    exit;
 }
 
 // build out the shortcode for this player
