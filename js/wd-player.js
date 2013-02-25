@@ -1,6 +1,5 @@
 //jquery is the only dependency and it's loaded syncronously.
 //no need for a doc.ready function
-//TODO: change all `delegate` function calls to `on` as per the jQuery recommendation
 (function ($) {
     "use strict";
 
@@ -110,12 +109,11 @@
                         // the user clicks on the pagintate button to change to the next asset without
                         // ever playing the first asset or clicking on a thumbnail
                         onceDelegate = function (e) {
-                            console.log('delegate');
                             $playButton.remove();
                             $player.removeAttr('poster');
                             $player.attr('controls', 'controls');
-                            $stage.undelegate('.wd-paginate', 'click', onceDelegate);
-                            $container.undelegate('.wd-thumbnail img', 'click', onceDelegate);
+                            $stage.off('click', '.wd-paginate', onceDelegate);
+                            $container.off('click', '.wd-thumbnail img', onceDelegate);
                         },
                         $tpl = $(VIDEO_TEMPLATE);
 
@@ -130,8 +128,8 @@
                         $player.attr('poster', first.poster);
                         $player.attr('src', first.url);
 
-                        $stage.delegate('.wd-paginate', 'click', onceDelegate);
-                        $container.delegate('.wd-thumbnail img', 'click', onceDelegate);
+                        $stage.on('click', '.wd-paginate', onceDelegate);
+                        $container.on('click', '.wd-thumbnail img', onceDelegate);
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
 
@@ -502,7 +500,6 @@
                         instance.pause();
                     }
                 }, instance.duration);
-                console.log(instance.duration);
             } else if (mimetype === 'video') {
                 instance._playVideo();
             }
@@ -513,7 +510,7 @@
                 $container = instance.$container;
 
             // bind the paginators
-            $container.find('.wd-stage').delegate('.wd-paginate', 'click', function (e) {
+            $container.find('.wd-stage').on('click', '.wd-paginate', function (e) {
                 var $target = $(e.target),
                     direction, index;
 
@@ -748,7 +745,7 @@
                 viewportWidth = parseInt($bb.css('width'), 10);
 
                 //bind delegators for clicking on the next and previous pagination buttons.
-                $thumbTray.delegate('.wd-carousel-button', 'click', function (e) {
+                $thumbTray.on('click', '.wd-carousel-button', function (e) {
                     var $target = $(e.currentTarget);
 
                     if ($target.hasClass('disabled')) {
@@ -764,7 +761,7 @@
             }
 
             // bind clicking on a thumbnail in the thumbnail tray
-            $thumbTray.delegate('.wd-thumbnail img', 'click', function (e) {
+            $thumbTray.on('click', '.wd-thumbnail img', function (e) {
                 var $li = $(e.target).parent('li'),
                     index = +$li.attr('data-wd-index');
 
