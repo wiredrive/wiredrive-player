@@ -66,7 +66,16 @@
         FLASH_TEMPLATE = [
             '<div class="wd-flash-container">',
                 '<div class="wd-flash-replace">',
-                    "You don't seem to have flash.", //TODO: template
+                    '<div>You require either an HTML5 capable browser or Adobe Flash to view this content.</div>',
+                    '<div>Click an icon to install</div>',
+                    '<div class="wd-install-links">',
+                        '<a href="http://www.apple.com/safari/download" target="_new">',
+                            '<span class="wd-install-safari"></span>',
+                        '</a>',
+                        '<a href="http://get.adobe.com/flashplayer" target="_new">',
+                            '<span class="wd-install-flash"></span>',
+                        '</a>',
+                    '</div>',
                 '</div>',
             '</div>'
         ].join(''),
@@ -172,6 +181,10 @@
             },
             flash: {
                 _setPlayerSource: function (index) {
+                    if (!this.isReady()) {
+                        return;
+                    }
+
                     var asset = this.items[index],
                         player = this.$player.get(0);
 
@@ -180,11 +193,11 @@
                 },
 
                 _pauseVideo: function () {
-                    this.$player.get(0).pause();
+                    this.isReady() && this.$player.get(0).pause();
                 },
 
                 _playVideo: function () {
-                    this.$player.get(0).play2();
+                    this.isReady() && this.$player.get(0).play2();
                 },
 
                 attachPlayer: function () {
@@ -901,6 +914,7 @@
         },
 
         setReady: function () {
+            console.log('set ready');
             this._READY = true;
         },
 
@@ -1028,7 +1042,19 @@
 
                 // flash depends on a callback, so it might not be ready yet.
                 // video and image players will be ready by now, but flash will
-                player.isReady() && player.setSource(0) && player.autoplay && player.play();
+                if (player.getCurrentType === 'video') {
+                    if (player.isReady()) {
+                        //player is ready (probably html5)
+                        player.setSource(0) && player.autoplay && player.play();
+                    } else {
+                        //player is not ready (either flash or flash is disabled.
+                        //Trigger the viewer so that styles and binds don't break
+                        player.toggleViewer('video');
+                    }
+                } else {
+                    //first asset is an image, so it can be displayed
+                    player.setSource(0);
+                }
 
                 // Callback is not needed anymore
                 delete WDP._callbacks[cbid];

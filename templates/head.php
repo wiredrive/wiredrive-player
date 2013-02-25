@@ -48,6 +48,10 @@
     font-size: <?= $options['title_font_size']; ?>;
 }
 
+.wd-player .wd-flash-replace {
+    color: <?= $options['title_color']; ?>;
+}
+
 .wd-player .wd-credit {
     color: <?= $options['credit_color']; ?>;
     font-size: <?= $options['credit_font_size']; ?>;

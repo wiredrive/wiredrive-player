@@ -10,11 +10,39 @@
     left: 0;
 }
 
+.wd-player .wd-flash-replace {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    margin-top: -90px;
+}
+
+.wd-player .wd-install-safari {
+    background-image: url(../images/safari.png);
+}
+
+.wd-player .wd-install-flash {
+    background-image: url(../images/flash.png);
+}
+
+.wd-player .wd-install-links {
+    margin-top: 25px;
+}
+
+.wd-player .wd-install-links span {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+}
+
 .wd-player .wd-hidden-video {
     height: 1px;
     width: 1px;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 /* get rid of the border radius and box shadow that some themes like to add to
@@ -207,6 +235,7 @@
     -webkit-transition-duration: 500ms;
 }
 
+.wd-stage.video .wd-play-slideshow-button,
 .wd-player .wd-play-slideshow-button {
     display: none;
 }
@@ -219,10 +248,6 @@
     top: 50%;
     margin-top: -30px;
     cursor: pointer;
-}
-
-.wd-stage.video .wd-play-slideshow-button {
-    display: none;
 }
 
 .wd-stage:hover .wd-paginate:hover,
