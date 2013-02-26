@@ -1,5 +1,6 @@
 //jquery is the only dependency and it's loaded syncronously.
 //no need for a doc.ready function
+//This file is written with jQuery 1.7.2 as a baseline
 (function ($) {
     "use strict";
 

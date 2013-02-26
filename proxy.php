@@ -37,6 +37,7 @@ function filter_theme($theme) {
 
     return in_array($ret, $validThemes) ? $ret : 'inline-player';
 }
+
 function processUrl($url) {
     $urlParts      = parse_url($url);
     if (! isset($urlParts['path']) ||
@@ -157,9 +158,9 @@ if ($url == false) {
     //I don't know of any way to have this page return a 404 status code if the url is
     //not found or invalid, so until someone finds a friendly way of doing so,
     //this page will always return 200 codes and the caller must parse the body to see
-    //if the request was successful.
-    //The current way of checking for an error is the content body will simply be the string 'INVALID_URI'
-    $error = 'URL cannot be empty';
+    //If the json response has an `error` key, then something went wrong, otherwise the
+    //shortcode will be in json respons under the `shortcode` key
+    $error = 'Error processing supplied URL. Please make sure it is valid.';
     echo json_encode(array(
         'error' => $error
     ));

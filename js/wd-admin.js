@@ -52,14 +52,14 @@
 
             _requesting = true;
 
-            $.get(WDPA.proxyUrl, data, function (shortcode) {
+            $.getJSON(WDPA.proxyUrl, data, function (response) {
                 var editor,
                     tinymce = window.tinymce;
 
                 _requesting = false;
 
-                if (shortcode === 'INVALID_URI') {
-                    alert('Invalid presentation url');
+                if (response.error) {
+                    alert(response.error);
                     return;
                 }
 
@@ -77,7 +77,7 @@
                             editor.selection.moveToBookmark(WDPA.ieBookmark);
                         }
 
-                        editor.execCommand('mceInsertContent', false, shortcode);
+                        editor.execCommand('mceInsertContent', false, response.shortcode);
                     }
                 }
 
