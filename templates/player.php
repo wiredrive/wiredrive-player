@@ -32,17 +32,19 @@
             <ol class="wd-carousel"></ol>
         </div>
         <div class="wd-carousel-button previous disabled">
-            <div>&#x25C4;</div>
+            <div class="wd-triangle left"></div>
         </div>
         <div class="wd-carousel-button next">
-            <div>&#x25BA;</div>
+            <div class="wd-triangle right"></div>
         </div>
     </div>
     <div class="wd-credit-tray">
         <span class="wd-title">&nbsp;</span>
         <span class="wd-credit">&nbsp;</span>
         <? if ($collapseThumbs): ?>
-        <div class="wd-thumb-collapse collapsed"></div>
+        <div class="wd-thumb-collapse collapsed">
+            <div class="wd-triangle down"></div>
+        </div>
         <? endif; ?>
     </div>
     <? endif; ?>

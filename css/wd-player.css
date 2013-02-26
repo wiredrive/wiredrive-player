@@ -70,10 +70,6 @@
     height: 0px;
 }
 
-.wd-player .wd-thumb-collapse.collapsed {
-    background-image: url(../images/arrow-down.png);
-}
-
 .wd-player .wd-thumb-collapse {
     background-color: #7a7a7a;
     position: absolute;
@@ -82,12 +78,13 @@
     height: 20px;
     width: 20px;
     cursor: pointer;
-    background-repeat: no-repeat;
-    background-image: url(../images/arrow-up.png);
-    background-position: center;
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
+}
+
+.wd-player .wd-thumb-collapse div {
+    margin-top: 8px;
 }
 
 .wd-player .wd-carousel-bb {
@@ -120,8 +117,44 @@
     cursor: pointer;
 }
 
+.wd-player .wd-carousel-button.disabled div {
+    opacity: .25;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+}
+
 .wd-player .wd-carousel-button div {
-    margin-top: 29px;
+    margin-top: 35px;
+}
+
+.wd-player .wd-triangle {
+    margin-left: auto;
+    margin-right: auto;
+    width: 0;
+    height: 0;
+}
+
+.wd-player .wd-triangle.left {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid transparent; /* overridden by color settings */
+}
+
+.wd-player .wd-triangle.right {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid transparent; /* overriden by color settings */
+}
+
+.wd-player .wd-triangle.up {
+    border-bottom: 5px solid #fff;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+.wd-player .wd-triangle.down {
+    border-top: 5px solid #fff;;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
 }
 
 .wd-player .wd-carousel-button.previous {
