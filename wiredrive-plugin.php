@@ -56,6 +56,8 @@ class Wiredrive_Plugin
 	protected $postId = NULL;
 	protected $mediaGroup = array();
     protected $jsonpUrl = '';
+    protected $curl = null;
+    protected $isCurlInit = false;
 
 	/**
 	 * Contruct
@@ -85,10 +87,17 @@ class Wiredrive_Plugin
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('swfobject');
 
-		wp_register_script('wd-player', ($plugin_url  . '/js/wd-player.js'), 'jquery', '2.0');
+		wp_register_script(
+            'wd-player', 
+            ($plugin_url  . '/js/wd-player.js'), 
+            'jquery', 
+            '2.0'
+        );
 		wp_enqueue_script('wd-player');
-
-		wp_enqueue_style('wd-player', ($plugin_url . '/css/wd-player.css'));
+		wp_enqueue_style(
+            'wd-player', 
+            ($plugin_url . '/css/wd-player.css')
+        );
 	}
 
 	/**
@@ -149,18 +158,9 @@ class Wiredrive_Plugin
         /*
          * check if the RSS feed is invalid
          */
-		$result = $this->setRss($content);
+		$result = $this->setUrl($content);
         if (! $result) {
 			$this->showError('Invalid Feed');
-			return;
-		}
-
-		/*
-         * Check if the RSS feed is empty
-         */
-		$items = $this->getRssItems();
-		if (empty($items)) {
-			$this->showError('Empty Feed');
 			return;
 		}
 
@@ -189,8 +189,8 @@ class Wiredrive_Plugin
              ->set('jsonpUrl', $this->jsonpUrl)
              ->render();
 
+        $this->closeCurl();
 		return $this->getOutput();
-
 	}
 
 	/**
@@ -264,16 +264,22 @@ class Wiredrive_Plugin
 	 * Get the RSS feed and parse it with Wordpress built in
 	 * SimplePie fetch_feed() function
 	 */
-	public function setRss($url)
+	public function setUrl($url)
 	{
-		$rss = fetch_feed($url);
-        if (is_wp_error($rss)) {
-		    return false;
-		}
-        $this->rss = $rss;
-		$rss->enable_order_by_date(false);
-	    
-        $link = $rss->get_link();
+        /* 
+         * if rss url, parse the feed for the original presentation
+         * url
+         */
+        if (strpos($url, 'rss') !== false) {
+            $rss = fetch_feed($url);
+            if (is_wp_error($rss)) {
+                return false;
+            }
+            $link = $rss->get_link();
+        } else {
+            $link = $url;
+        }
+    
         $url  = parse_url($link);
         if (! isset($url['path']) ||
             ! isset($url['scheme']) ||
@@ -295,29 +301,11 @@ class Wiredrive_Plugin
 	 */
 	private function checkOrigin($url)
 	{
-        $domain = parse_url($url, PHP_URL_HOST);
-		return $domain == 'www.wdcdn.net';
-	}
-
-	/**
-	 * Get Rss
-	 *
-	 * @return SimplePie
-	 */
-	private function getRss()
-	{
-		return $this->rss;
-	}
-
-	/**
-	 * Get Rss Items
-	 *
-	 * @return SimplePie
-	 */
-	private function getRssItems()
-	{
-		return $this->getRss()->get_items();
-	}
+	    $isCdn = strpos($url, 'wdcdn') !== false;
+        $isApp = strpos($url, 'wiredrive') !== false;
+        $isShort = strpos($url, 'wdrv.it') !== false;
+        return $isCdn || $isApp || $isShort;
+    }
 
 	/**
 	 * Set Media
@@ -446,5 +434,38 @@ class Wiredrive_Plugin
 		return $this->postId;
 
 	}
+    
+    /**
+     * Initialize curl
+     */
+    private function initCurl()
+    {
+        $this->curl         = curl_init();
+        $this->isCurlInit   = true;
+        return $this;
+    }
 
+    /**
+     * Get Curl resource, initializes if curl has not been started
+     * yet.
+     */
+    private function getCurl()
+    {
+        if (! $this->isCurlInit) {
+            $this->initCurl();
+        }
+        return $this->curl;
+    }
+
+    /**
+     * Close the curl connection
+     */
+    private function closeCurl()
+    {
+        if (! $this->isCurlInit) {
+            return $this;
+        }
+        curl_close($this->curl);
+        return $this;
+    }
 }
