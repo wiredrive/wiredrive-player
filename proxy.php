@@ -33,7 +33,7 @@ function filter_bool($bool) {
 
 function filter_theme($theme) {
     $ret = filter_var($theme, FILTER_SANITIZE_STRING);
-    $validThemes = array('inline-player');
+    $validThemes = array('inline-player', 'gallery-player');
 
     return in_array($ret, $validThemes) ? $ret : 'inline-player';
 }
@@ -50,6 +50,7 @@ function processUrl($url) {
     }
     $isShort    = stripos($urlParts['host'], 'wdrv.it') !== false;
     $isWD       = stripos($urlParts['host'], 'wiredrive') !== false;
+    $isWDCDN    = stripos($urlParts['host'], 'wdcdn.net') !== false;
     $dispatchList = array(
         'pld',
         'pr', 
@@ -78,7 +79,7 @@ function processUrl($url) {
     }
     $isDispatch = in_array($routeKey, $dispatchList);
     $isPres     = in_array($routeKey, $routeList);
-    if (! $isShort && ! ($isWD && ($isDispatch || $isPres))) {
+    if (! $isWDCDN && ! $isShort && ! ($isWD && ($isDispatch || $isPres))) {
         $error = 'Invalid Wiredrive URL';
         echo json_encode(array(
             'error' => $error
@@ -174,7 +175,11 @@ $options = array(
     'theme' => filter_input(INPUT_GET, 'theme', FILTER_CALLBACK, array('options' => 'filter_theme')),
     'autoplay' => filter_input(INPUT_GET, 'autoplay', FILTER_CALLBACK, array('options' => 'filter_bool')),
     'loop' => filter_input(INPUT_GET, 'loop', FILTER_CALLBACK, array('options' => 'filter_bool')),
-    'duration' => filter_input(INPUT_GET, 'slideshowduration', FILTER_VALIDATE_INT)
+    'duration' => filter_input(INPUT_GET, 'slideshowduration', FILTER_VALIDATE_INT),
+    'linebreak' => filter_input(INPUT_GET, 'linebreak', FILTER_VALIDATE_INT),
+    'thumbwidth' => filter_input(INPUT_GET, 'thumbwidth', FILTER_VALIDATE_INT),
+    'thumbheight' => filter_input(INPUT_GET, 'thumbheight', FILTER_VALIDATE_INT),
+    'letterbox' => filter_input(INPUT_GET, 'letterbox', FILTER_CALLBACK, array('options' => 'filter_bool')),
 );
 
 if ($url == false) {

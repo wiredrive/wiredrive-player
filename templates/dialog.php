@@ -22,7 +22,8 @@
                 <p>Select <strong>Wiredrive Player</strong> from the <strong>Settings menu</strong> in WordPress to set default dimensions.</p>
                 <p>
                     <input type="text" id="wd-dialog-width" class="wd-input-number" style="width:50px" value="<?= $width; ?>"/> &#215; 
-                    <input type="text" id="wd-dialog-height" class="wd-input-number" style="width:50px" value="<?= $height; ?>" /> pixels</p>
+                    <input type="text" id="wd-dialog-height" class="wd-input-number" style="width:50px" value="<?= $height; ?>" /> pixels
+                </p>
                 <p>[width] &#215; [height]</p>
             </div>
 
@@ -30,6 +31,8 @@
                 <p><strong>Choose a player display:</strong></p>
                     <input type="radio" id="wd-theme-player" name="wd-theme" value="inline-player" checked/>
                     <label for="wd-theme-player"> Standard inline<br /></label>
+                    <input type="radio" id="wd-theme-grid" name="wd-theme" value="gallery-player" />
+                    <label for="wd-theme-grid"> Gallery with modal player<br /></label>
                 <!--
                     <input type="radio" id="wd-theme-grid" name="wd-theme" value="grid" /><label for="wd-theme-grid"> Overlay gallery; tiles thumbnails at 180px wide or tall<br /></label>
                     <input type="radio" id="wd-theme-grid-box" name="wd-theme" value="grid box-thumbs" /><label for="wd-theme-grid-box"> Gallery with letterbox, pillarbox<br /></label>
@@ -37,10 +40,18 @@
                 </p>
             </div>
 
-            <div class="wd-options">
-                <p><strong>Other options:</strong></p>
+            <div class="wd-options inline-player">
+                <p><strong>Inline player options:</strong></p>
                 <p>
                     <ul>
+                        <li>
+                            <input type="checkbox" class="wd-autoplay" id="wd-inline-autoplay" />
+                            <label for="wd-inline-autoplay"> Autoplay </label>
+                        </li>
+                        <li>
+                            <input type="checkbox" class="wd-loop" id="wd-inline-loop" />
+                            <label for="wd-inline-loop"> Loop</label>
+                        </li>
                         <li>
                             <input type="checkbox" id="wd-enable-thumbs" checked />
                             <label for="wd-enable-thumbs"> Enable thumbnail and credits</label>
@@ -52,26 +63,52 @@
                             </ul>
                         </li>
                         <li>
-                            <input type="checkbox" id="wd-slideshow" />
-                            <label for="wd-slideshow"> Slideshow images</label>
+                            <input type="checkbox" class="wd-slideshow" id="wd-inline-slideshow" />
+                            <label for="wd-inline-slideshow"> Slideshow images</label>
                             <ul class="wd-disabled">
                                 <li>
-                                    <input disabled type="text" id="wd-slideshow-duration" class="wd-input-number" value="<?= $duration; ?>" />
+                                    <input disabled type="text" id="wd-slideshow-duration" class="wd-input-number wd-slideshow-duration" value="<?= $duration; ?>" />
+                                    <label> Duration (seconds)</label>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+            <div class="wd-options gallery-player wd-hidden">
+                <p><strong>Gallery player options:</strong></p>
+                <p>
+                    <ul>
+                        <li>
+                            <input type="checkbox" class="wd-loop" id="wd-gallery-loop" />
+                            <label for="wd-gallery-loop"> Loop</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="wd-gallery-letterbox" />
+                            <label for="wd-gallery-letterbox"> Letterbox </label>
+                        </li>
+                        <li>
+                            <input type="checkbox" class="wd-slideshow" id="wd-gallery-slideshow" />
+                            <label for="wd-gallery-slideshow"> Slideshow images</label>
+                            <ul class="wd-disabled">
+                                <li>
+                                    <input disabled type="text" id="wd-slideshow-duration" class="wd-input-number wd-slideshow-duration" value="<?= $duration; ?>" />
                                     <label> Duration (seconds)</label>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <input type="checkbox" id="wd-autoplay" />
-                            <label for="wd-autoplay"> Autoplay </label>
+                            Thumbnail dimensions
+                            <input type="text" id="wd-thumbnail-width" class="wd-input-number" style="width:50px" value="180"/> &#215; 
+                            <input type="text" id="wd-thumbnail-height" class="wd-input-number" style="width:50px" value="180" /> pixels
+                </p>
                         </li>
                         <li>
-                            <input type="checkbox" id="wd-loop" />
-                            <label for="wd-loop"> Loop</label>
+                            Line break every <input type="text" id="wd-thumbnails-per-row" class="wd-input-number" /> thumbnails (leave blank to let line breaking happen naturally)
                         </li>
                     </ul>
                 </p>
-            </div>               
+            </div>
         </div>
     </div>
 </div>

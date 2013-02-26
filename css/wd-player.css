@@ -1,3 +1,6 @@
+/*
+ * Base styles
+ */
 .wd-player .wd-hidden {
     display: none !important;
 }
@@ -103,7 +106,7 @@
     right: 0px;
 }
 
-.wd-player .no-paginate ol {
+.wd-player .no-paginate .wd-carousel {
     display: inline-block;
 }
 
@@ -171,9 +174,10 @@
     display: none;
 }
 
-.wd-player .wd-thumb-tray ol {
+.wd-player .wd-carousel {
     position: relative;
     white-space: nowrap;
+    margin: 0px;
     transition-property: margin-left;
     transition-duration: 750ms;
     transition-timing-function: ease-out;
@@ -312,3 +316,7 @@
     right: 0;
     margin-right: 10px;
 }
+
+/*
+ * Grid-Box styles
+ */

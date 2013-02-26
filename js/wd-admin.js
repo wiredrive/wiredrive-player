@@ -26,28 +26,38 @@
                 return;
             }
 
-            var data = {
+            var theme = $('.wd-dialog-content input:radio[name=wd-theme]:checked').val(),
+                data = {
+                    theme: theme,
                     url: $('#wd-dialog-feed').val(),
                     width: $('#wd-dialog-width').val(),
                     height: $('#wd-dialog-height').val(),
-                    autoslideshow: $('#wd-slideshow:checked').val(),
-
-                    //the wording is easier for humans to read, but makes the legacy
-                    //setting a little confusing since we now have to flip the value
-                    disablethumbs: $('#wd-enable-thumbs:checked').val() === 'on' ? 'off' : 'on',
-
-                    theme: $('.wd-dialog-content input:radio[name=wd-theme]:checked').val(),
-                    autoplay: $('#wd-autoplay:checked').val(),
-                    loop: $('#wd-loop:checked').val()
+                    autoslideshow: $('.' + theme + ' .wd-slideshow:checked').val(),
+                    loop: $('.' + theme + ' .wd-loop:checked').val(),
                 };
-
+                
             //only send these settings if the parent settings are enabled
             if (data.autoslideshow === 'on') {
-                data.slideshowduration = $('#wd-slideshow-duration').val();
+                data.slideshowduration = $('.' + theme + ' .wd-slideshow-duration').val();
             }
 
-            if (data.disablethumbs === 'off') {
-                data.hidethumbs = $('#wd-collapsable-thumbs:checked').val();
+            //only send these settings if the theme is inline-player
+            if (theme === 'inline-player') {
+                //the wording is easier for humans to read, but makes the legacy
+                //setting a little confusing since we now have to flip the value
+                data.disablethumbs = $('#wd-enable-thumbs:checked').val() === 'on' ? 'off' : 'on';
+                data.autoplay = $('#wd-inline-autoplay:checked').val();
+
+                if (data.disablethumbs === 'off') {
+                    data.hidethumbs = $('#wd-collapsable-thumbs:checked').val();
+                }
+            }
+
+            if (theme === 'gallery-player') {
+                data.linebreak = $('#wd-thumbnails-per-row').val();
+                data.thumbwidth = $('#wd-thumbnail-width').val();
+                data.thumbheight = $('#wd-thumbnail-height').val();
+                data.letterbox = $('#wd-gallery-letterbox:checked').val();
             }
 
             _requesting = true;
@@ -90,9 +100,9 @@
             _dialog.find('#wd-dialog-feed').attr('value', '');
             _dialog.find('#wd-dialog-width').attr('value', defaults.width);
             _dialog.find('#wd-dialog-height').attr('value', defaults.height);
-            _dialog.find('#wd-slideshow-duration').attr('value', defaults.slideshowDuration);
-            _dialog.find('#wd-loop').removeAttr('checked');
-            _dialog.find('#wd-autoplay').removeAttr('checked');
+            _dialog.find('.wd-slideshow-duration').attr('value', defaults.slideshowDuration);
+            _dialog.find('.wd-loop').removeAttr('checked');
+            _dialog.find('.wd-autoplay').removeAttr('checked');
             _dialog.find('#wd-slideshow')
                 .removeAttr('checked')
                 .siblings('ul')
@@ -120,7 +130,7 @@
                     position: ['center', 'center'],
                     autoOpen: false,
                     width: 750,
-                    height: 615,
+                    height: 650,
                     title: DIALOG_TITLE_TEMPLATE,
                     resizable: true,
                     buttons: {
@@ -131,7 +141,10 @@
 
                 // simple delegator to make sure that sub-options are disabled when the parent
                 // option is unchecked
-                _dialog.delegate('#wd-enable-thumbs, #wd-slideshow', 'click', function (e) {
+                _dialog.on('click', [
+                    '#wd-enable-thumbs,',
+                    '.wd-slideshow',
+                ].join(' '), function (e) {
                     var $target = $(e.target),
                         $ul = $target.siblings('ul');
 
@@ -142,6 +155,13 @@
                         $ul.addClass('wd-disabled');
                         $ul.find('input').attr('disabled', 'disabled').removeAttr('checked');
                     }
+                });
+
+                _dialog.on('click', 'input[name=wd-theme]', function (e) {
+                    _dialog.find('.wd-options')
+                           .addClass('wd-hidden')
+                           .filter('.' + $(e.target).attr('value'))
+                           .removeClass('wd-hidden');
                 });
 
                 // tack on an additiona style to the jQuery-ui generated buttons on the dialog

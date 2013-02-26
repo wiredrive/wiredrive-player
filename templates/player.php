@@ -19,7 +19,7 @@
     $type = $this->get('type'); //which player template to use
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
-<div id="<?= $attributeId; ?>" class="wd-player" style="width: <?= $width; ?>px;">
+<div id="<?= $attributeId; ?>" class="wd-player <?= $theme; ?>" style="width: <?= $width; ?>px;">
     <div class="wd-stage" style="height: <?= $height; ?>px;">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>

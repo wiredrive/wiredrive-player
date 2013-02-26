@@ -36,6 +36,14 @@
     overflow-y: auto;
 }
 
+.wd-dialog .wd-hidden {
+    display: none !important;
+}
+
+.wd-dialog .wd-display-options input {
+    margin-bottom: 5px;
+}
+
 .farbtastic {
     -moz-box-shadow: 0 0 5px #888;
     -webkit-box-shadow: 0 0 5px #888;

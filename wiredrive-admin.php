@@ -93,9 +93,9 @@ class Wiredrive_Plugin_Admin
 
 		$this->template
 		      ->setTpl('dialog.php')
-              ->set('height', $options['height'])
-              ->set('width', $options['width'])
-              ->set('duration', $options['slideshow_duration'])
+              ->set('height', $this->options['height'])
+              ->set('width', $this->options['width'])
+              ->set('duration', $this->options['slideshow_duration'])
 		      ->render();
 
 		echo $this->getOutput();
