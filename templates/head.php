@@ -43,6 +43,14 @@
     border-top: 1px solid <?= $options['credit_container_border']; ?>;
 }
 
+.wd-player .wd-triangle.left {
+    border-right-color: <?= $options['arrow_color']; ?>;
+}
+
+.wd-player .wd-triangle.right {
+    border-left-color: <?= $options['arrow_color']; ?>;
+}
+
 .wd-player .wd-title {
     color: <?= $options['title_color']; ?>;
     font-size: <?= $options['title_font_size']; ?>;

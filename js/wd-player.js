@@ -797,10 +797,15 @@
             });
 
             $creditTray.on('click', '.wd-thumb-collapse', function (e) {
-                var op = $thumbTray.hasClass('collapsed') ? 'removeClass' : 'addClass';
+                var $icon = $(this).find('.wd-triangle');
 
-                $thumbTray[op]('collapsed');
-                $(this)[op]('collapsed');
+                if ($thumbTray.hasClass('collapsed')) {
+                    $thumbTray.removeClass('collapsed');
+                    $icon.removeClass('down').addClass('up');
+                } else {
+                    $thumbTray.addClass('collapsed');
+                    $icon.removeClass('up').addClass('down');
+                }
             });
 
             // attach a setCredit method to this instance. This can probably be moved out of here
@@ -915,7 +920,6 @@
         },
 
         setReady: function () {
-            console.log('set ready');
             this._READY = true;
         },
 
