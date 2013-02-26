@@ -41,7 +41,10 @@ function processUrl($url) {
     $urlParts      = parse_url($url);
     if (! isset($urlParts['path']) ||
         ! isset($urlParts['host'])) {
-        echo 'INVALID_URI';
+        $error = 'Malformed URL';
+        echo json_encode(array(
+            'error' => $error
+        ));
         exit;
     }
     $isShort    = stripos($urlParts['host'], 'wdrv.it') !== false;
@@ -50,9 +53,19 @@ function processUrl($url) {
                   stripos($urlParts['path'], 'plg') !== false ||
                   stripos($urlParts['path'], 'ppd') !== false ||
                   stripos($urlParts['path'], 'ppg') !== false;
-    if (! ($isShort || $isDispatch)) {
+    $isWD       = stripos($urlParts['host'], 'wiredrive') !== false;
+    if (! $isWD && ! $isShort && ! $isDispatch) {
+        $error = 'Invalid Wiredrive URL';
+        echo json_encode(array(
+            'error' => $error
+        ));
+        exit;
+    }
+    
+    if (! $isShort && ! $isDispatch) {
         return $url;
     }
+    
     /* fetch bitly url using curl */
     $curl    = curl_init(); 
     $headers = array();
@@ -82,7 +95,10 @@ function processUrl($url) {
         curl_setopt($curl, CURLOPT_NOBODY, true);
         curl_exec($curl);
         if (! isset($headers['Location'])) {
-            echo 'Invalid wiredrive player url: ' . $url;
+            $error = 'Invalid wiredrive short url: ' . $url;
+            echo json_encode(array(
+                'error' => $error
+            ));
             exit;
         }
         $dispatchUrl = $headers['Location'];
@@ -96,7 +112,10 @@ function processUrl($url) {
     $headers    = array();
     $result     = curl_exec($curl);
     if (! isset($headers['Location'])) {
-        echo 'Error fetching wiredrive short url: ' . $url;
+        $error = 'Error fetching wiredrive email url: ' . $url;
+        echo json_encode(array(
+            'error' => $error
+        ));
         exit;
     }
     $link = $headers['Location'];
@@ -109,7 +128,10 @@ function processUrl($url) {
         if (! isset($urlParts['path']) ||
             ! isset($urlParts['scheme']) ||
             ! isset($urlParts['host'])) {
-            echo 'Error parsing wiredrive short url: ' . $url;
+            $error = 'Error parsing wiredrive url: ' . $url;
+            echo json_encode(array(
+                'error' => $error
+            ));
             exit;
         }
         $link = $urlParts['scheme'] . '://' . $urlParts['host'] .
@@ -137,7 +159,10 @@ if ($url == false) {
     //this page will always return 200 codes and the caller must parse the body to see
     //if the request was successful.
     //The current way of checking for an error is the content body will simply be the string 'INVALID_URI'
-    echo 'INVALID_URI'; 
+    $error = 'URL cannot be empty';
+    echo json_encode(array(
+        'error' => $error
+    ));
     exit;
 }
 $url  = processUrl($url);
@@ -152,8 +177,29 @@ curl_setopt_array(
 );
 $result   = curl_exec($curl);
 $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-if ($httpCode != 200) {
-    echo 'INVALID_URI';
+switch($httpCode) {
+    case 403:
+        $error = 'Presentation is not valid';
+        break;
+    case 404:
+        $error = 'Presentation is cannot be found';
+        break;
+    case 410:
+        $error = 'Presentation is expired';
+        break;
+    case 500:
+        $error = 'Error processing supplied url';
+        break;
+    case 302:
+        $error = 'Password protected presentation cannot be used';
+        break;
+    default:
+        $error = null;
+}
+if ($error) {
+    echo json_encode(array(
+        'error' => $error
+    ));
     exit;
 }
 
@@ -168,4 +214,6 @@ foreach ($options as $key => $value) {
 
 $text .= ']' . $url . '[/wiredrive]';
 
-echo $text;
+echo json_encode(array(
+    'shortcode' => $text,
+));
