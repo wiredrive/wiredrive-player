@@ -37,7 +37,8 @@ class Wiredrive_Plugin_Admin
 	public function __construct()
 	{
 		$this->template = new Wiredrive_Plugin_Template();
-        $this->options = (new Wiredrive_Plugin_Settings())->getOptions();
+        $settings = new Wiredrive_Plugin_Settings();
+        $this->options = $settings->getOptions();
 	}
 
 	/**
