@@ -117,6 +117,11 @@
     cursor: pointer;
 }
 
+.wd-player .wd-carousel-button.disabled div {
+    opacity: .25;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+}
+
 .wd-player .wd-carousel-button div {
     margin-top: 35px;
 }
