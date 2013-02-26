@@ -48,13 +48,36 @@ function processUrl($url) {
         exit;
     }
     $isShort    = stripos($urlParts['host'], 'wdrv.it') !== false;
-    $isDispatch = stripos($urlParts['path'], 'pld') !== false ||
-                  stripos($urlParts['path'], 'pr') !== false ||
-                  stripos($urlParts['path'], 'plg') !== false ||
-                  stripos($urlParts['path'], 'ppd') !== false ||
-                  stripos($urlParts['path'], 'ppg') !== false;
     $isWD       = stripos($urlParts['host'], 'wiredrive') !== false;
-    if (! $isWD && ! $isShort && ! $isDispatch) {
+    $dispatchList = array(
+        'pld',
+        'pr', 
+        'plg',
+        'ppd',
+        'ppg',
+    );
+    $routeList = array(
+        'present-project-gallery',
+        'present-project-detail',
+        'present-library-gallery',
+        'present-library-detail',
+        'present-reel',
+        'rss-presentation-projects', 
+        'rss-presentation-library', 
+    );
+    $path       = trim($urlParts['path'], '/');
+    $pathParts  = explode('/', $path);
+    $queryParts = array();
+    if (isset($urlParts['query'])) {
+        parse_str($urlParts['query'], $queryParts);
+    }
+    $routeKey = $pathParts[0];
+    if (isset($queryParts['routeKey'])) {
+        $routeKey = $queryParts['routeKey'];
+    }
+    $isDispatch = in_array($routeKey, $dispatchList);
+    $isPres     = in_array($routeKey, $routeList);
+    if (! $isShort && ! ($isWD && ($isDispatch || $isPres))) {
         $error = 'Invalid Wiredrive URL';
         echo json_encode(array(
             'error' => $error
@@ -182,7 +205,7 @@ switch($httpCode) {
         $error = 'Presentation is not valid';
         break;
     case 404:
-        $error = 'Presentation is cannot be found';
+        $error = 'Presentation cannot be found';
         break;
     case 410:
         $error = 'Presentation is expired';
