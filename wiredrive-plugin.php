@@ -132,6 +132,7 @@ class Wiredrive_Plugin
          */
 
         $shortcode = shortcode_atts(array(
+            'theme' => 'inline-player',
             'height' => $options['height'],
             'width' => $options['width'],
             'autoslideshow' => 'off',
@@ -140,6 +141,10 @@ class Wiredrive_Plugin
             'disablethumbs' => 'off',
             'hidethumbs' => 'off',
             'duration' => $options['slideshow_duration'],
+            'linebreak' => '0',
+            'thumbwidth' => '180',
+            'thumbheight' => '180',
+            'letterbox' => 'off',
         ), $atts);
 
         //legacy sometimes saved the 'px' with the height and width. remove it if they did.
@@ -173,6 +178,11 @@ class Wiredrive_Plugin
         }
 
         $this->template->setTpl('player.php')
+             ->set('theme', $shortcode['theme'])
+             ->set('linebreak', $shortcode['linebreak'])
+             ->set('isLetterbox', $shortcode['letterbox'] === 'on')
+             ->set('thumbWidth', $shortcode['thumbwidth'])
+             ->set('thumbHeight', $shortcode['thumbheight'])
              ->set('slideshow', $shortcode['autoslideshow'] === 'on')
              ->set('duration', $shortcode['duration'])
              ->set('autoplay', $shortcode['autoplay'] === 'on')

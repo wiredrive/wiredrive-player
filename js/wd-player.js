@@ -51,8 +51,8 @@
         // thumbnail dimensions for images inside the thumb tray.
         // you'll also need to change some css rules (line-height, height)
         // if you futz with these numbers :-/
-        THUMBNAIL_WIDTH = 80,
-        THUMBNAIL_HEIGHT = 80,
+        CAROUSEL_THUMBNAIL_WIDTH = 80,
+        CAROUSEL_THUMBNAIL_HEIGHT = 80,
 
         /*
          * Player templates
@@ -88,11 +88,22 @@
             '</div>'
         ].join(''),
 
-        THUMBNAIL_TEMPLATE = [
+        CAROUSEL_THUMBNAIL_TEMPLATE = [
             '<li class="wd-thumbnail">',
                 '<img />',
             '</li>'
         ].join(''),
+
+        GALLERY_THUMBNAIL_TEMPLATE = [
+            '<li class="wd-thumbnail">',
+                '<div class="wd-credit-tray">',
+                    '<span class="wd-title"></span>',
+                '</div>',
+                '<img />',
+            '</li>'
+        ].join(''),
+
+        LINEBREAK_TEMPLATE = '<li class="wd-linebreak"></li>',
 
         VALID_PLAYER_TYPES = ['flash', 'video'],
 
@@ -300,7 +311,8 @@
         var ratio = 0,
             width = obj.width,
             height = obj.height,
-            newHeight, newWidth;
+            newHeight = height,
+            newWidth = width;
 
         if (!fillHeight && width > maxWidth) {
             ratio = maxWidth / width;
@@ -353,6 +365,10 @@
         this.$player = null;
         this.$image = null;
 
+        this.theme = config.theme;
+        this.galleryThumbWidth = parseInt(config.galleryThumbWidth, 10);
+        this.galleryThumbHeight = parseInt(config.galleryThumbHeight, 10);
+        this.linebreak = +config.linebreak;
         this.height = parseInt(config.height, 10);
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
@@ -556,11 +572,67 @@
             });
         },
 
+        attachThumbTray: function () {
+            if (this.theme === 'inline-player') {
+                this._attachCarousel();
+            } else {
+                this._attachGallery();
+            }
+        },
+
+        //function to render out the gallery of thumbnails
+        _attachGallery: function () {
+            var instance = this,
+                isLetterbox = !!instance.$container.find('.wd-thumb-tray.letterbox').size(),
+                $ol = instance.$container.find('.wd-carousel');
+
+            //loop through each asset and build the thumbnail template
+            $.each(this.items, function (index, asset) {
+                var $thumb = $(GALLERY_THUMBNAIL_TEMPLATE),
+                    $img = $thumb.find('img'),
+                    thumb = asset.thumbnail,
+
+                    dimensions = _fitWithin(thumb, instance.galleryThumbWidth, instance.galleryThumbHeight);
+
+                //set image dimensions
+                $img.attr('src', thumb.url)
+                    .css({
+                        height: dimensions.height,
+                        width: dimensions.width
+                    });
+
+                if (isLetterbox) {
+                    $img.css({
+                        'margin-top': (instance.galleryThumbHeight - dimensions.height) / 2
+                    });
+                    $thumb.css({
+                        width: instance.galleryThumbWidth,
+                        height: instance.galleryThumbHeight
+                    });
+                } else {
+                    $thumb.css({
+                        height: dimensions.height,
+                        width: dimensions.width
+                    });
+                }
+
+                //so we know which asset this thumbnail indexes
+                $thumb.attr('data-wd-index', index);
+                $thumb.find('.wd-title').text(asset.title);
+                $ol.append($thumb);
+
+                //is it time to insert a linebreak?
+                //(The +1 is because normal people don't start counting at 0)
+                if ((index + 1) % instance.linebreak === 0) {
+                    $ol.append($(LINEBREAK_TEMPLATE));
+                }
+            });
+        },
+
         // function to render all the thumbnails into the thumbnail tray (if there is one)
         // and bind the carouseling functionality.
-        // This function is a bit monolothic, but it keeps all the logic for carouseling and
-        // the thumbnail in one place
-        attachThumbTray: function () {
+        // This function is a bit monolithic, but it keeps all the logic for carouseling in one place
+        _attachCarousel: function () {
             var instance = this,
                 $container = instance.$container,
 
@@ -700,7 +772,7 @@
             //loop through each asset and build the thumbnail template, as well as calculate the positions
             //and offsets to save onto the cache
             $.each(this.items, function (index, asset) {
-                var $thumb = $(THUMBNAIL_TEMPLATE),
+                var $thumb = $(CAROUSEL_THUMBNAIL_TEMPLATE),
                     $img = $thumb.find('img'),
                     thumb = asset.thumbnail,
 
@@ -712,7 +784,7 @@
                     //and then some. It was decided that this is probably an edge case for the types
                     //of assets most (if not all) users will populate this player with, so it is considered
                     //an acceptable edge case.
-                    dimensions = _fitWithin(thumb, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT, true);
+                    dimensions = _fitWithin(thumb, CAROUSEL_THUMBNAIL_WIDTH, CAROUSEL_THUMBNAIL_HEIGHT, true);
 
                 //set image dimensions
                 $img.attr('src', thumb.url)
@@ -905,7 +977,8 @@
         },
 
         hasCreditTray: function () {
-            var ret = !!this.$container.find('.wd-credit-tray').size();
+            var ret = this.theme === 'inline-player'
+                      && !!this.$container.find('.wd-credit-tray').size();
 
             this.hasCreditTray = function () { return ret; };
 

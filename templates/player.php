@@ -9,6 +9,10 @@
     $loop = $this->get('loop');
     $theme = $this->get('theme'); //inline player, grid, etc
     $isMobile = $this->get('isMobile');
+    $linebreak = $this->get('linebreak');
+    $thumbWidth = $this->get('thumbWidth');
+    $isLetterbox = $this->get('isLetterbox');
+    $thumbHeight = $this->get('thumbHeight');
     $isIPad = $this->get('isIPad');
     $duration = $this->get('duration');
 
@@ -26,7 +30,7 @@
         <div class="wd-play-slideshow-button"></div>
     </div>
 
-    <? if (!$disableThumbs): ?>
+    <? if ($theme === 'inline-player' && !$disableThumbs): ?>
     <div class="wd-thumb-tray<?= $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?= $width; ?>px;">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
@@ -49,6 +53,14 @@
     </div>
     <? endif; ?>
 
+    <? if ($theme === 'gallery-player'): ?>
+    <div class="wd-thumb-tray<?= $isLetterbox ? ' letterbox' : ''; ?>">
+        <div class="wd-carousel-bb">
+            <ol class="wd-carousel"></ol>
+        </div>
+    </div>
+    <? endif; ?>
+
     <script type="text/javascript">
         (function () {
             "use strict";
@@ -56,12 +68,19 @@
             window.WDP.registerPlayer({
                 id: '<?= $attributeId; ?>',
                 type: '<?= $type; ?>',
+                theme: '<?= $theme; ?>',
                 width: '<?= $width; ?>',
                 height: '<?= $height; ?>',
                 slideshow: <?= $slideshow ? 'true' : 'false'; ?>,
                 duration: <?= $duration; ?>,
-                autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
                 loop: <?= $loop ? 'true' : 'false'; ?>,
+            <? if ($theme === 'inline-player'): ?>
+                autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
+            <? else: ?>
+                galleryThumbWidth: <?= $thumbWidth; ?>,
+                galleryThumbHeight: <?= $thumbHeight; ?>,
+                linebreak: <?= $linebreak; ?>,
+            <? endif; ?>
                 jsonpUrl: '<?= $jsonpUrl; ?>'
             });
         }());
