@@ -77,9 +77,15 @@ function processUrl($url) {
     if (isset($queryParts['routeKey'])) {
         $routeKey = $queryParts['routeKey'];
     }
+    $isRss      = $routeKey == 'rss';
     $isDispatch = in_array($routeKey, $dispatchList);
     $isPres     = in_array($routeKey, $routeList);
-    if (! $isWDCDN && ! $isShort && ! ($isWD && ($isDispatch || $isPres))) {
+    if (! $isWDCDN && 
+        ! $isRss && 
+        ! $isShort && 
+        ! ($isWD && ($isDispatch || $isPres))
+        ) {
+        
         $error = 'Invalid Wiredrive URL';
         echo json_encode(array(
             'error' => $error
@@ -87,10 +93,70 @@ function processUrl($url) {
         exit;
     }
     
-    if (! $isShort && ! $isDispatch) {
+    if (! $isShort && ! $isDispatch && ! $isRss) {
         return $url;
     }
-    
+ 
+    if (! $isRss) {
+        return processRedirectUrl($url, $isShort);
+    } else {
+        return processRssUrl($url);
+    }
+}
+
+function processRssUrl($url) {
+    $curl = curl_init();
+    curl_setopt_array(
+        $curl,
+        array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 10,
+            CURLOPT_URL => $url,
+        )
+    );
+    $rssFeed = curl_exec($curl);
+    if (empty($rssFeed)) {
+        $error = 'Invalid Wiredrive RSS URL';
+        echo json_encode(array(
+            'error' => $error
+        ));
+        exit;
+    }
+    try {
+        $rss = new SimpleXmlElement($rssFeed);
+    } catch (Exception $error) {
+        $error = 'Error parsing Wiredrive RSS';
+        echo json_encode(array(
+            'error' => $error
+        ));
+        exit;
+    }
+    $channel = $rss->channel;
+    if (! $channel) {
+        $error = 'Error in Wiredrive RSS';
+        echo json_encode(array(
+            'error' => $error
+        ));
+        exit;
+    }
+    $presUrl = null;
+    foreach ($channel->children() as $child) {
+        if ('link' === $child->getName()) {
+            $presUrl = (string)$child;
+            break;
+        }
+    }
+    if (! $presUrl) {
+        $error = 'Error in Wiredrive RSS';
+        echo json_encode(array(
+            'error' => $error
+        ));
+        exit;
+    }
+    return $presUrl;
+}
+
+function processRedirectUrl($url, $isShort) {
     /* fetch bitly url using curl */
     $curl    = curl_init(); 
     $headers = array();
@@ -131,6 +197,9 @@ function processUrl($url) {
         $dispatchUrl = $url;
     }
 
+    /* make sure ssl enabled */
+    $dispatchUrl = str_replace('http://', 'https://', $dispatchUrl); 
+
     /* app doens't support head request */
     curl_setopt($curl, CURLOPT_NOBODY, false);
     curl_setopt($curl, CURLOPT_URL, $dispatchUrl);
@@ -144,7 +213,7 @@ function processUrl($url) {
         exit;
     }
     $link = $headers['Location'];
-    
+   
     /* if missing domain information, use dispatch url for
      * missing data
      */
