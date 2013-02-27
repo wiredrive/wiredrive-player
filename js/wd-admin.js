@@ -58,6 +58,7 @@
                 data.thumbwidth = $('#wd-thumbnail-width').val();
                 data.thumbheight = $('#wd-thumbnail-height').val();
                 data.letterbox = $('#wd-gallery-letterbox:checked').val();
+                data.thumbfit = $('.wd-dialog-content input:radio[name=wd-thumb-fit]:checked').val();
             }
 
             _requesting = true;

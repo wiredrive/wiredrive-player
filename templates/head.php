@@ -48,7 +48,7 @@
 
 .wd-player .wd-title {
     color: <?= $options['title_color']; ?>;
-    font-size: <?= $options['title_font_size']; ?>;
+    font-size: <?= $options['title_font_size']; ?>px;
 }
 
 .wd-player .wd-flash-replace {
@@ -57,7 +57,7 @@
 
 .wd-player .wd-credit {
     color: <?= $options['credit_color']; ?>;
-    font-size: <?= $options['credit_font_size']; ?>;
+    font-size: <?= $options['credit_font_size']; ?>px;
 }
 
 /*

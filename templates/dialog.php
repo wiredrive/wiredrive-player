@@ -30,13 +30,9 @@
             <div class="wd-display-options">
                 <p><strong>Choose a player display:</strong></p>
                     <input type="radio" id="wd-theme-player" name="wd-theme" value="inline-player" checked/>
-                    <label for="wd-theme-player"> Standard inline<br /></label>
+                    <label for="wd-theme-player"> Reel/Slideshow player<br /></label>
                     <input type="radio" id="wd-theme-grid" name="wd-theme" value="gallery-player" />
                     <label for="wd-theme-grid"> Gallery with modal player<br /></label>
-                <!--
-                    <input type="radio" id="wd-theme-grid" name="wd-theme" value="grid" /><label for="wd-theme-grid"> Overlay gallery; tiles thumbnails at 180px wide or tall<br /></label>
-                    <input type="radio" id="wd-theme-grid-box" name="wd-theme" value="grid box-thumbs" /><label for="wd-theme-grid-box"> Gallery with letterbox, pillarbox<br /></label>
-                    <input type="radio" id="wd-theme-inline-grid" name="wd-theme" value="inline-grid" /><label for="wd-theme-inline-grid"> Inline video with thumbnails tiled below<br /></label>                                                -->
                 </p>
             </div>
 
@@ -77,6 +73,7 @@
             </div>
             <div class="wd-options gallery-player wd-hidden">
                 <p><strong>Gallery player options:</strong></p>
+                TODO: Make the text for each option more friendly to the layman
                 <p>
                     <ul>
                         <li>
@@ -85,7 +82,13 @@
                         </li>
                         <li>
                             <input type="checkbox" id="wd-gallery-letterbox" />
-                            <label for="wd-gallery-letterbox"> Letterbox </label>
+                            <label for="wd-gallery-letterbox"> Center align thumbnail (may cause letterbox)</label>
+                        </li>
+                        <li>
+                            <input type="radio" id="wd-scale-thumbs" name="wd-thumb-fit" value="scale" checked/>
+                            <label for="wd-scale-thumbs"> Scale thumbnails to fit inside bounding box <br /></label>
+                            <input type="radio" id="wd-crop-thumbs" name="wd-thumb-fit" value="crop" />
+                            <label for="wd-crop-thumbs"> Crop thumbnails by bounding box (center-origin) </label>
                         </li>
                         <li>
                             <input type="checkbox" class="wd-slideshow" id="wd-gallery-slideshow" />

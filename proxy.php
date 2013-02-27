@@ -38,6 +38,13 @@ function filter_theme($theme) {
     return in_array($ret, $validThemes) ? $ret : 'inline-player';
 }
 
+function filter_thumbfit($fit) {
+    $ret = filter_var($fit, FILTER_SANITIZE_STRING);
+    $valid = array('crop', 'scale');
+
+    return in_array($ret, $valid) ? $ret : 'scale';
+}
+
 function processUrl($url) {
     $urlParts      = parse_url($url);
     if (! isset($urlParts['path']) ||
@@ -249,6 +256,7 @@ $options = array(
     'thumbwidth' => filter_input(INPUT_GET, 'thumbwidth', FILTER_VALIDATE_INT),
     'thumbheight' => filter_input(INPUT_GET, 'thumbheight', FILTER_VALIDATE_INT),
     'letterbox' => filter_input(INPUT_GET, 'letterbox', FILTER_CALLBACK, array('options' => 'filter_bool')),
+    'thumbfit' => filter_input(INPUT_GET, 'thumbfit', FILTER_CALLBACK, array('options' => 'filter_thumbfit')),
 );
 
 if ($url == false) {

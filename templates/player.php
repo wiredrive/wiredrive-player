@@ -14,6 +14,7 @@
     $isLetterbox = $this->get('isLetterbox');
     $thumbHeight = $this->get('thumbHeight');
     $isIPad = $this->get('isIPad');
+    $thumbfit = $this->get('thumbfit');
     $duration = $this->get('duration');
 
     $jsonpUrl = $this->get('jsonpUrl');
@@ -79,6 +80,7 @@
             <? else: ?>
                 galleryThumbWidth: <?= $thumbWidth; ?>,
                 galleryThumbHeight: <?= $thumbHeight; ?>,
+                thumbfit: '<?= $thumbfit; ?>',
                 linebreak: <?= $linebreak; ?>,
             <? endif; ?>
                 jsonpUrl: '<?= $jsonpUrl; ?>'

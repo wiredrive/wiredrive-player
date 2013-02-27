@@ -97,7 +97,10 @@
         GALLERY_THUMBNAIL_TEMPLATE = [
             '<li class="wd-thumbnail">',
                 '<div class="wd-credit-tray">',
-                    '<span class="wd-title"></span>',
+                    '<div class="wd-credit-wrapper">',
+                        '<div class="wd-title"></div>',
+                        '<div class="wd-credit"></div>',
+                    '</div>',
                 '</div>',
                 '<img />',
             '</li>'
@@ -375,6 +378,7 @@
         this.duration = +config.duration * 1000;
         this.autoplay = !!config.autoplay;
         this.loop = !!config.loop;
+        this.thumbfit = config.thumbfit;
 
         this.id = config.id;
         this.items = [];
@@ -572,14 +576,6 @@
             });
         },
 
-        attachThumbTray: function () {
-            if (this.theme === 'inline-player') {
-                this._attachCarousel();
-            } else {
-                this._attachGallery();
-            }
-        },
-
         //function to render out the gallery of thumbnails
         _attachGallery: function () {
             var instance = this,
@@ -595,6 +591,7 @@
                     dimensions = _fitWithin(thumb, instance.galleryThumbWidth, instance.galleryThumbHeight);
 
                 //set image dimensions
+                $thumb.addClass(instance.thumbfit);
                 $img.attr('src', thumb.url)
                     .css({
                         height: dimensions.height,
@@ -619,6 +616,11 @@
                 //so we know which asset this thumbnail indexes
                 $thumb.attr('data-wd-index', index);
                 $thumb.find('.wd-title').text(asset.title);
+
+                if (asset.credits[0]) {
+                    $thumb.find('.wd-credit').text(asset.credits[0].tag);
+                }
+
                 $ol.append($thumb);
 
                 //is it time to insert a linebreak?
@@ -1115,7 +1117,14 @@
 
                 // bind image viewer if needed
                 player.hasImages() && player.attachImageViewer();
-                player.attachThumbTray();
+
+                // what kind of thumbnails to attach
+                if (player.theme === 'inline-player') {
+                    player._attachCarousel();
+                } else {
+                    player._attachGallery();
+                }
+
                 player.bind();
 
                 // flash depends on a callback, so it might not be ready yet.

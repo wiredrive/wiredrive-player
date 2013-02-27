@@ -145,6 +145,7 @@ class Wiredrive_Plugin
             'thumbwidth' => '180',
             'thumbheight' => '180',
             'letterbox' => 'off',
+            'thumbfit' => 'scale',
         ), $atts);
 
         //legacy sometimes saved the 'px' with the height and width. remove it if they did.
@@ -195,6 +196,7 @@ class Wiredrive_Plugin
              ->set('height', $shortcode['height'])
              ->set('width', $shortcode['width'])
              ->set('pluginUrl', $pluginUrl)
+             ->set('thumbfit', $shortcode['thumbfit'])
              ->set('options', $options)
              ->set('jsonpUrl', $this->jsonpUrl)
              ->render();
