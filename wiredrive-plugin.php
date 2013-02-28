@@ -148,6 +148,23 @@ class Wiredrive_Plugin
             'thumbfit' => 'scale',
         ), $atts);
 
+        //BACKWARDS COMPATABILITY
+        //translate grid and grid-box themes. They don't mean anything anymore, but have
+        //replacement options in the gallery-player:
+        //
+        // `grid` should be the same as `gallery-player` with default settings
+        // `grid-box` should be the same as `gallery-player` with default settings + letterbox='on'
+        //
+        //the additional options were not available when grid and grid-box themes were, so
+        //we shouldn't need to worry about removing old settings
+        if ($shortcode['theme'] !== 'inline-player' && $shortcode['theme'] !== 'gallery-player') {
+            if ($shortcode['theme'] === 'grid-box') {
+                $shortcode['letterbox'] = 'on';
+            }
+
+            $shortcode['theme'] = 'gallery-player';
+        }
+
         //legacy sometimes saved the 'px' with the height and width. remove it if they did.
         //the new frontend injects the px all on its own whereever it needs to.
         $shortcode['height'] = str_replace('px', '', $shortcode['height']);

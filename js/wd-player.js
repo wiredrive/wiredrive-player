@@ -49,7 +49,7 @@
         WDP, // our global object that will manage all player instances on the page
 
         // thumbnail dimensions for images inside the thumb tray.
-        // you'll also need to change some css rules (line-height, height)
+        // you'll also need to change some css rules
         // if you futz with these numbers :-/
         CAROUSEL_THUMBNAIL_WIDTH = 60,
         CAROUSEL_THUMBNAIL_HEIGHT = 60,
