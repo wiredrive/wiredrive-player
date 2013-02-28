@@ -51,8 +51,8 @@
         // thumbnail dimensions for images inside the thumb tray.
         // you'll also need to change some css rules (line-height, height)
         // if you futz with these numbers :-/
-        CAROUSEL_THUMBNAIL_WIDTH = 80,
-        CAROUSEL_THUMBNAIL_HEIGHT = 80,
+        CAROUSEL_THUMBNAIL_WIDTH = 60,
+        CAROUSEL_THUMBNAIL_HEIGHT = 60,
 
         /*
          * Player templates
@@ -580,6 +580,7 @@
         _attachGallery: function () {
             var instance = this,
                 isLetterbox = !!instance.$container.find('.wd-thumb-tray.letterbox').size(),
+                isScale = instance.thumbfit === 'scale',
                 $ol = instance.$container.find('.wd-carousel');
 
             //loop through each asset and build the thumbnail template
@@ -598,18 +599,39 @@
                         width: dimensions.width
                     });
 
-                if (isLetterbox) {
+                // The three if statements below apply css to account for the following
+                //  conditions, depending on the configuration of this gallery player:
+                //
+                // scale without letterboxing: collapse li borders around the scaled image 
+                // scale with    letterboxing: scale image, vertical align to li via margin-top
+                // crop  without letterboxing: background-image on li. no li border collapse
+                // crop  with    letterboxing: background-image on li. no li border collapse
+
+                if (instance.thumbfit === 'crop') {
+                    // set as background image. let css do our cropping for us
+                    $thumb.css({
+                        'background-image': 'url(' + thumb.url + ')'
+                    });
+                }
+
+                if (isLetterbox && instance.thumbfit === 'scale') {
+                    //offset the image to be vertically centered
                     $img.css({
                         'margin-top': (instance.galleryThumbHeight - dimensions.height) / 2
                     });
-                    $thumb.css({
-                        width: instance.galleryThumbWidth,
-                        height: instance.galleryThumbHeight
-                    });
-                } else {
+                }
+
+                if (!isLetterbox && instance.thumbfit === 'scale') {
+                    //collapse the dimensions of the container to fit the image
                     $thumb.css({
                         height: dimensions.height,
                         width: dimensions.width
+                    });
+                } else {
+                    //force the dimensions of the container
+                    $thumb.css({
+                        width: instance.galleryThumbWidth,
+                        height: instance.galleryThumbHeight
                     });
                 }
 

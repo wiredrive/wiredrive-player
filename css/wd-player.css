@@ -91,7 +91,7 @@
     position: absolute;
     text-align: center;
     width: 30px;
-    height: 82px;
+    height: 62px;
     top: 0;
     cursor: pointer;
 }
@@ -102,7 +102,9 @@
 }
 
 .wd-player .wd-carousel-button div {
-    margin-top: 35px;
+    position: relative;
+    top: 50%;
+    margin-top: -8px;
 }
 
 .wd-player .wd-triangle {
@@ -150,10 +152,20 @@
     display: none;
 }
 
+.wd-player .wd-thumbnail.crop img {
+    display: none;
+}
+
+.wd-player .wd-thumbnail.crop {
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .wd-player .wd-carousel {
     position: relative;
     margin: 0px;
     padding: 0px;
+    line-height: 0;
     transition-property: margin-left;
     transition-duration: 750ms;
     transition-timing-function: ease-out;
@@ -283,7 +295,6 @@
     margin: 0px 1px;
     list-style-type: none;
     display: inline-block;
-    line-height: 78px;
     position: relative;
     opacity: .75;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
@@ -310,7 +321,7 @@
 
 .wd-player.inline-player .wd-thumb-tray {
     position: relative;
-    height: 82px;
+    height: 62px;
     width: 100%;
     overflow: hidden;
     transition-property: height;
