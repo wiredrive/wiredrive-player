@@ -14,28 +14,16 @@
 
 <style type="text/css">
 /*
- * Base styles
+ * Theme styles
  */
-.wd-player {
-    margin-top: 0px;
-    margin-bottom: 1em;
-}
-
 .wd-player .wd-stage {
     background-color: <?= $options['stage_color']; ?>;
-    position: relative;
-    overflow: hidden;
-    width: 100%;
 }
 
 .wd-player .wd-credit-tray {
     background-color: <?= $options['credit_container_color']; ?>;
     text-align: <?= $options['credit_container_alignment']; ?>;
     border-top: 1px solid <?= $options['credit_container_border']; ?>;
-}
-
-.wd-player.gallery-player .wd-credit-tray {
-    border: none;
 }
 
 .wd-player .wd-triangle.left {
@@ -60,9 +48,7 @@
     font-size: <?= $options['credit_font_size']; ?>px;
 }
 
-/*
- * inline player styles
- */
+/* inline player styles */
 .wd-player.inline-player .wd-thumb-tray {
     background-color: <?= $options['thumb_bg_color']; ?>;
 }
@@ -75,11 +61,19 @@
     border: 1px solid <?= $options['active_item_color']; ?>;
 }
 
-/*
- * Gallery styles
- */
+/* Gallery styles */
 .wd-player.gallery-player .wd-thumb-tray.letterbox li {
     background-color: #111;
     background-color: rgba(17, 17, 17, <?= $options['thumb_box_opacity']; ?>);
+
+    /* ohai IE8 (which unfortunately is also picked up by IE9) :P */
+    <? $hex = dechex($options['thumb_box_opacity'] * 100); ?>
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?= $hex; ?>111111,endColorStr=#<?= $hex; ?>111111);
+    background-image: url("about:blank");
+    background-attachment: scroll\9;
+    background-repeat: repeat\9;
+    background-position-x: 0%\9;
+    background-position-y: 0%\9;
+    background-color: transparent\9;
 }
 </style>

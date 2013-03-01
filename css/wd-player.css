@@ -1,8 +1,20 @@
 /*
  * Base styles
  */
-.wd-player .wd-hidden {
+.wd-hidden {
     display: none !important;
+}
+
+.wd-player {
+    margin-top: 0px;
+    margin-bottom: 1em;
+}
+
+.wd-player .wd-stage {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 .wd-player .wd-flash-container {
@@ -231,7 +243,6 @@
     display: none;
 }
 
-
 .wd-paginate {
     height: 60px;
     width: 40px;
@@ -242,7 +253,8 @@
 }
 
 .wd-stage:hover .wd-paginate:hover,
-.wd-stage.image.slideshow:hover .wd-play-slideshow-button:hover {
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button:hover,
+#wd-skrim .wd-paginate:hover {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
@@ -254,7 +266,9 @@
 }
 
 .wd-stage:hover .wd-paginate.disabled:hover,
-.wd-stage:hover .wd-paginate.disabled {
+.wd-stage:hover .wd-paginate.disabled,
+#wd-skrim .wd-paginate.disabled:hover,
+#wd-skrim .wd-paginate.disabled {
     opacity: .25;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
     cursor: default;
@@ -263,12 +277,93 @@
 .wd-paginate.previous-arrow {
     background-image: url(../images/previous.png);
     margin-left: 10px;
+    left: 0;
 }
 
 .wd-paginate.next-arrow {
     background-image: url(../images/next.png);
     right: 0;
     margin-right: 10px;
+}
+
+/*
+ * Skrim styles
+ */
+html.wd-skrim-visible {
+    overflow: hidden;
+    height: 100%;
+}
+
+#wd-skrim {
+    cursor: pointer;
+    z-index: 100001;
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.75);
+
+    /* IE 8 hacks. The idea is that only IE8 picks up the \9 rules,
+     * but unfortunately IE9 still recognizes the filter property and is still parsed
+     * even with a \9, and in IE if you have a filter with a transparent bg, your element
+     * is unclickable so we have to add the background image to about:blank to make the skrim clickable
+     * again in IE.
+     *
+     * Sane browsers don't care about about:blank, so it still works
+     */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);
+    background-image: url("about:blank");
+    background-attachment: scroll\9;
+    background-repeat: repeat\9;
+    background-position-x: 0%\9;
+    background-position-y: 0%\9;
+    background-color: transparent\9;
+}
+
+#wd-skrim .wd-player {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    top: 20px;
+    background: none;
+}
+
+#wd-skrim .wd-stage {
+    background: none;
+    height: auto;
+}
+
+/* disable transitions on paginators when in skrim mode. They look weird
+ * in webkit for some reasons
+ */
+#wd-skrim .wd-paginate {
+    transition-property: none;
+    -moz-transition-property: none;
+    -webkit-transition-property: none;
+}
+
+#wd-skrim .wd-paginate {
+    opacity: .75;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+}
+
+#wd-skrim .wd-paginate.previous-arrow {
+    margin-left: 25px;
+}
+
+#wd-skrim .wd-paginate.next-arrow {
+    margin-right: 25px;
+}
+
+#wd-skrim .wd-player .wd-credit-tray {
+    background-color: transparent;
+    border: none;
 }
 
 /*
@@ -289,6 +384,11 @@
     height: 25px;
     padding: 10px;
     position: relative;
+}
+
+.wd-player.inline-player .wd-credit-tray span {
+    display: inline-block;
+    margin-right: 7px;
 }
 
 .wd-player.inline-player .wd-thumb-tray li {
@@ -342,6 +442,10 @@
  */
 .wd-player.gallery-player .wd-stage {
     display: none;
+}
+
+.wd-player.gallery-player .wd-credit-tray {
+    border: none;
 }
 
 .wd-player.gallery-player .wd-thumb-tray li {

@@ -190,7 +190,6 @@ function processRedirectUrl($url, $isShort) {
         )
     );
     if ($isShort) {
-        curl_setopt($curl, CURLOPT_NOBODY, true);
         curl_exec($curl);
         if (! isset($headers['Location'])) {
             $error = 'Invalid wiredrive short url: ' . $url;
@@ -208,7 +207,6 @@ function processRedirectUrl($url, $isShort) {
     $dispatchUrl = str_replace('http://', 'https://', $dispatchUrl); 
 
     /* app doens't support head request */
-    curl_setopt($curl, CURLOPT_NOBODY, false);
     curl_setopt($curl, CURLOPT_URL, $dispatchUrl);
     $headers    = array();
     $result     = curl_exec($curl);

@@ -24,12 +24,14 @@
     $type = $this->get('type'); //which player template to use
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
-<div id="<?= $attributeId; ?>" class="wd-player <?= $theme; ?>" style="width: <?= $width; ?>px;">
-    <div class="wd-stage" style="height: <?= $height; ?>px;">
+<div id="<?= $attributeId; ?>" class="wd-player">
+    <? if ($theme === 'inline-player'): ?>
+    <div class="wd-stage">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>
         <div class="wd-play-slideshow-button"></div>
     </div>
+    <? endif; ?>
 
     <? if ($theme === 'inline-player' && !$disableThumbs): ?>
     <div class="wd-thumb-tray<?= $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?= $width; ?>px;">

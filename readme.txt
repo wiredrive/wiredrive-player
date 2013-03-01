@@ -39,6 +39,12 @@ Functionality Specs:
 * If the feed does not exist an error is returned
 * Works with MRSS feeds, short links and presentation URLs.
 
+Known issues:
+
+* Internet Explorer 8: The shortcode for the wiredrive player will always be inserted at the beginning of the post regardless of where the cursor is. This is a bug in TinyMCE. If you are using IE8, you will need to manually cut/paste the generated shortcode for the wiredrive player into place in your post.
+* Firefox: When a gallery modal player opens, the page behind the skrim may jump to the top of the page, and the return to the previously scrolled position after the modal closes. If this happens, check to make sure that your Wordpress Theme does not declare an important margin-top rule on the html tag. If it does, removing the important declaration should fix this.
+* If the user has disabled local caching on their browser, they may see flashes of incorrect and badly scaled images from elsewhere in the presentation. The image player transitions by fading between two images, the current image and the "next" image. If caching is disabled, it will need to fetch the "next" image every time, leaving the previous "next" image in place until the real "next" image is loaded again.
+
 == Installation ==
 
 1.	Log into your WordPress administration page and select Add New from the Plugins menu
