@@ -141,7 +141,7 @@
                     var instance = this,
                         $container = instance.$container,
                         first = instance.items[0],
-                        isVideo = first.mimetype === 'video',
+                        isFirstVideo = first.mimetype === 'video',
                         $stage = $container.find('.wd-stage'),
                         $player, $playButton,
 
@@ -164,10 +164,11 @@
 
                     $playButton = $container.find('.wd-play-video-button'),
                     $player = $container.find('video');
-                    $player.attr('height', instance.height);
-                    $player.attr('width', instance.width);
 
-                    if (isVideo && !instance.isModal()) {
+                    // only show the poster image if the first asset is a video
+                    // and we're not in a modal (modal will autoplay once opened, so
+                    // no use for poster)
+                    if (isFirstVideo && !instance.isModal()) {
                         $player.attr('poster', first.poster);
                         $player.attr('src', first.url);
 
@@ -471,7 +472,7 @@
             //require a complete reembed of the strobe player whenever the video src changes
             if (mimetype === 'video') {
                 this.type === 'flash' ?
-                    $flashContainer.removeClass('wd-hidden-video') :
+                    $flashContainer.removeClass('wd-hidden-flash') :
                     $video.removeClass('wd-hidden');
 
                 $imageContainer.addClass('wd-hidden');
@@ -481,9 +482,14 @@
                 //check for the current asset being a video first, otherwise slideshowing
                 //could unintentionally be stopped before it starts
                 this.getCurrentType() === 'video' && this.pause();
-                this.type === 'flash' ?
-                    $flashContainer.addClass('wd-hidden-video') :
-                    $video && $video.addClass('wd-hidden'); //there might not actually be a video container
+                
+                if (this.type === 'flash') {
+                    //override any inline dimension styles that may be on the flash container
+                    $flashContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
+                } else {
+                    //if there is a video container, hide it
+                    $video && $video.addClass('wd-hidden');
+                }
 
                 $imageContainer.removeClass('wd-hidden');
                 $stage.removeClass('video').addClass('image');
@@ -555,6 +561,9 @@
             // the called functions need to reference the current index as well as the
             // supplied index argument
             this.current = index;
+
+            //resize the stage if this is a model, otherwise, just let CSS do it's thing
+            this.resize();
 
             return true;
         },
@@ -981,10 +990,12 @@
 
             $stage.prepend($imgContainer);
 
-            $imgContainer.css({
-                height: instance.height,
-                width: instance.width
-            });
+            if (!this.isModal()) {
+                $imgContainer.css({
+                    height: instance.height,
+                    width: instance.width
+                });
+            }
 
             instance.$image = $imgContainer.find('.wd-image:not(.wd-next-image)');
 
@@ -999,7 +1010,8 @@
         _setImageSource: function (index) {
             var nextAsset = this.items[index],
                 currentAsset = this.items[this.current],
-                dimensions = _fitWithin(nextAsset, this.width, this.height),
+                $stage = this.$container.find('.wd-stage').css('margin-top', 0),
+                dimensions = _fitWithin(nextAsset, $stage.width(), $stage.height()),
 
                 $image = this.$image,
                 $nextImage = this.$container.find('.wd-image.wd-next-image');
@@ -1033,11 +1045,53 @@
             $image.css({
                 height: dimensions.height,
                 width: dimensions.width,
-                'margin-left': Math.round((this.width - dimensions.width) / 2),
-                'margin-top': Math.round((this.height - dimensions.height) / 2)
+                'margin-left': Math.round(($stage.width() - dimensions.width) / 2),
+                'margin-top': Math.round(($stage.height() - dimensions.height) / 2)
             });
 
             $image.removeClass('opaque wd-next-image').attr('src', nextAsset.url);
+        },
+
+        // Modal: resize
+        resize: function () {
+            var $container = this.$container,
+                $credits = $container.find('.wd-credit-tray'),
+                $stage = $container.find('.wd-stage'),
+                asset = this.items[this.current],
+                $video, $image, dimensions;
+
+            if (this.getCurrentType() === 'video' && this.isModal()) {
+                $video = $stage.find('.wd-flash-container, .video-container'),
+
+                dimensions = _fitWithin(
+                    asset,
+                    $container.width(),
+                    $container.height() - $credits.height()),
+
+                $video.css({
+                    height: dimensions.height,
+                    width: dimensions.width
+                });
+
+                $stage.css({
+                    'margin-top': ($container.height() - $stage.height()) / 2
+                });
+            } else if (this.getCurrentType() === 'image') {
+                dimensions = _fitWithin(
+                    asset,
+                    $stage.width(),
+                    $stage.height()
+                );
+
+                $image = $container.find('.wd-image:not(.wd-next-image)');
+
+                $image.css({
+                    height: dimensions.height,
+                    width: dimensions.width,
+                    'margin-left': Math.round(($stage.width() - dimensions.width) / 2),
+                    'margin-top': Math.round(($stage.height() - dimensions.height) / 2)
+                });
+            }
         },
 
         // Returns a booleaning telling us if this player instance is fully initialized
@@ -1201,20 +1255,10 @@
         },
 
         _initGalleryPlayer: function (player) {
-            if (player.theme !== 'gallery-player') {
-                console.error('WDP._initGalleryPlayer: player', player.id, 'is not a gallery player');
-                return;
-            }
-
             player.attachGallery();
         },
 
         _initInlinePlayer: function (player) {
-            if (player.theme !== 'inline-player') {
-                console.error('WDP._initInlinePlayer: player', player.id, 'is not an inline player');
-                return;
-            }
-
             // mixin the correct player if this presentation has videos
             if (player.hasVideo()) {
                 $.extend(player, mixins[player.type]);
@@ -1290,7 +1334,6 @@
             resize = $.proxy(modalPlayer.resize, modalPlayer);
 
             this._initInlinePlayer(modalPlayer);
-
             $window.on('resize', resize);
 
             if (modalPlayer.isReady()) {
