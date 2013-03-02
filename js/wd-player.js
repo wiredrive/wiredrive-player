@@ -23,7 +23,7 @@
         // Function that checks whether or not the browser supports css transitions
         // and stashes the result in this scope var which we depend on for fader transitions
         // between images. If the env doesn't support css transitions, then we need
-        // to do some ugly hacks. See `_NoTransitionTimeoutHack` function below for
+        // to do some ugly hacks. See `_noTransitionTimeoutHack` function below for
         // a better explaination
         ENV_SUPPORTS_TRANSITIONS = (function () {
             var b = document.body || document.documentElement,
@@ -328,7 +328,7 @@
      * that can easily be removed later (just remove the conditional in `_setImageSource` that calls
      * this function) than write it where these ugly hacks are central to its workflow
      */
-    function _NoTransitionTimeoutHack($image) {
+    function _noTransitionTimeoutHack($image) {
         setTimeout(function () {
             $image.removeAttr('src');
         }, 1);
@@ -387,7 +387,6 @@
         }
 
         this._READY = false;
-        this._DATA_PARSED = false;
         this._HAS_VIDEO = false;
         this._HAS_IMAGE = false;
         this.$container = $container = $('#' + config.id);
@@ -444,11 +443,13 @@
             return this.items[this.current].mimetype;
         },
 
+        // remove this player from the DOM completely
         destroy: function () {
             this.pause();
             this.$container.remove();
         },
 
+        // is this player the modal player?
         isModal: function () {
             return this.id === MODAL_CONTAINER_ID;
         },
@@ -543,9 +544,7 @@
                 this._setPlayerSource(index);
             }
 
-            if (this.hasCreditTray()) {
-                this.setCredit(nextAsset);
-            }
+            this.setCredit(nextAsset);
 
             if (!this.loop) {
                 $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
@@ -561,8 +560,6 @@
             // the called functions need to reference the current index as well as the
             // supplied index argument
             this.current = index;
-
-            //resize the stage if this is a model, otherwise, just let CSS do it's thing
             this.resize();
 
             return true;
@@ -890,7 +887,7 @@
                     });
 
                 //the only reason the li container $thumb needs to have an explicit width set is
-                //because if IE8. Every other browser has no problem figuring out the size of the li
+                //because of IE8. Every other browser has no problem figuring out the size of the li
                 //based on the explicit width set on the contained image. IE8 wanted to be different #RAGE
                 $thumb.css('width', dimensions.width);
 
@@ -982,23 +979,21 @@
         attachImageViewer: function () {
             var instance = this,
                 $imgContainer = $(IMAGE_TEMPLATE),
+                css = {},
                 $stage = this.$container.find('.wd-stage');
-
-            $imgContainer.css({
-                'background-color': instance.isModal() ? 'transparent' : WDP.options.stage_color
-            });
 
             $stage.prepend($imgContainer);
 
-            if (!this.isModal()) {
-                $imgContainer.css({
-                    height: instance.height,
-                    width: instance.width
-                });
+            if (this.isModal()) {
+                css['background-color'] = 'transparent';
+            } else {
+                css['background-color'] = WDP.options.stage_color;
+                css.height = instance.height;
+                css.width = instance.width;
             }
 
+            $imgContainer.css(css);
             instance.$image = $imgContainer.find('.wd-image:not(.wd-next-image)');
-
             !instance.hasVideo() && instance.setReady();
         },
 
@@ -1025,9 +1020,9 @@
 
                 // If the browser does not support css transitions, then we're probably in either IE8 or IE9
                 // and we need to do some hacks to make things not look weird.
-                // See the `_NoTransitionTimeoutHack` function above for a better explaination
+                // See the `_noTransitionTimeoutHack` function above for a better explaination
                 if (!ENV_SUPPORTS_TRANSITIONS) {
-                    _NoTransitionTimeoutHack($image);
+                    _noTransitionTimeoutHack($image);
                 }
 
                 $image = this.$image = $nextImage;
@@ -1037,22 +1032,24 @@
                 //opacity 0 to 1 on an image with no source. This fix sets both the image and the next image
                 //to be the same image if this is the initialization pass (current and index are equal)
                 $nextImage.attr('src', nextAsset.url);
-            }
 
-            //do some wonky css hacky positioning because IE8 doesn't understand background-size
-            //When IE8 isn't supported anymore, this hackyness can go away and be replaced with
-            //proper css
-            $image.css({
-                height: dimensions.height,
-                width: dimensions.width,
-                'margin-left': Math.round(($stage.width() - dimensions.width) / 2),
-                'margin-top': Math.round(($stage.height() - dimensions.height) / 2)
-            });
+                //resize the next image, otherwise it could be misaligned and get in the way of the
+                //skrim click off close
+                $nextImage.css({
+                    height: dimensions.height,
+                    width: dimensions.width,
+                    'margin-left': Math.round(($stage.width() - dimensions.width) / 2),
+                    'margin-top': Math.round(($stage.height() - dimensions.height) / 2)
+                });
+            }
 
             $image.removeClass('opaque wd-next-image').attr('src', nextAsset.url);
         },
 
-        // Modal: resize
+        // function to resize the current viewer to be vertically and horizontally centered within the stage.
+        // This does nothing if the current asset is a video inside an inline player (not a modal) as
+        // the positioning is done via CSS. For images in an inline player (thanks to IE8) and images/videos
+        // inside the modal, js math is needed to ensure aspect ratios and control locations
         resize: function () {
             var $container = this.$container,
                 $credits = $container.find('.wd-credit-tray'),
@@ -1110,22 +1107,6 @@
             return this._HAS_VIDEO;
         },
 
-        hasCreditTray: function () {
-            var ret = this.theme === 'inline-player'
-                      && !!this.$container.find('.wd-credit-tray').size();
-
-            this.hasCreditTray = function () { return ret; };
-
-            return ret;
-        },
-
-        // Returns a bool letting us know whether or not this instance's data
-        // has been parsed and loaded
-        // TODO: can this go away? It's not currently used, but might come in handy later?
-        isDataLoaded: function () {
-            return this._DATA_PARSED;
-        },
-
         setReady: function () {
             this._READY = true;
         },
@@ -1181,8 +1162,6 @@
                     })
                 });
             });
-
-            instance._DATA_PARSED = true;
         }
     };
 
@@ -1287,6 +1266,9 @@
             }
         },
 
+        // create a modal player and use the contents of the given player as the modal's contents.
+        // The modal player is basically an inline player with different css rules applied to it
+        // along with some js math and style tweaks along the way.
         showModal: function (gallery) {
             $('body').append(MODAL_TEMPLATE);
 
@@ -1310,7 +1292,7 @@
             // nature of the !important rule.
             //
             // This is why you should never use !important rules when expecting
-            // user defined markup.
+            // user defined stylesheets.
             if ($document.scrollTop() === 0) {
                 $html.css({ 'margin-top': -scrollY });
             }
@@ -1328,7 +1310,6 @@
 
             modalPlayer.current = gallery.current;
             modalPlayer.items = gallery.items;
-            modalPlayer._DATA_PARSED = true;
             modalPlayer._HAS_VIDEO = gallery._HAS_VIDEO;
             modalPlayer._HAS_IMAGE = gallery._HAS_IMAGE;
             resize = $.proxy(modalPlayer.resize, modalPlayer);
