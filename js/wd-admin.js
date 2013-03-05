@@ -33,6 +33,8 @@
                     width: $('#wd-dialog-width').val(),
                     height: $('#wd-dialog-height').val(),
                     autoslideshow: $('.' + theme + ' .wd-slideshow:checked').val(),
+                    creditcount: $('.' + theme + ' #wd-credit-count').val(),
+                    creditlabel: $('.' + theme + ' input[name=wd-credit-label]').val(),
                     loop: $('.' + theme + ' .wd-loop:checked').val(),
                 };
                 

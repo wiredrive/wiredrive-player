@@ -24,6 +24,8 @@
     background-color: <?= $options['credit_container_color']; ?>;
     text-align: <?= $options['credit_container_alignment']; ?>;
     border-top: 1px solid <?= $options['credit_container_border']; ?>;
+    color: <?= $options['credit_color']; ?>;
+    font-size: <?= $options['credit_font_size']; ?>px;
 }
 
 .wd-player .wd-triangle.left {
@@ -41,11 +43,6 @@
 
 .wd-player .wd-flash-replace {
     color: <?= $options['title_color']; ?>;
-}
-
-.wd-player .wd-credit {
-    color: <?= $options['credit_color']; ?>;
-    font-size: <?= $options['credit_font_size']; ?>px;
 }
 
 /* inline player styles */

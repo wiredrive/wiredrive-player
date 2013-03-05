@@ -99,11 +99,19 @@
                 '<div class="wd-credit-tray">',
                     '<div class="wd-credit-wrapper">',
                         '<div class="wd-title"></div>',
-                        '<div class="wd-credit"></div>',
+                        '<div class="wd-tag"></div>',
                     '</div>',
                 '</div>',
                 '<img />',
             '</li>'
+        ].join(''),
+
+        CREDIT_TEMPLATE = [
+            '<div class="wd-credit">',
+                '<span class="wd-credit-label"></span>',
+                '<span class="wd-tag"></span>',
+            '</div>',
+            '<span class="wd-credit-separator"></span>'
         ].join(''),
 
         MODAL_CONTAINER_ID = 'wd-modal-player',
@@ -118,8 +126,7 @@
                     '<div class="wd-paginate next-arrow"></div>',
 
                     '<div class="wd-credit-tray">',
-                        '<span class="wd-title">&nbsp;</span>',
-                        '<span class="wd-credit">&nbsp;</span>',
+                        '<span class="wd-title"></span>',
                     '</div>',
                 '</div>',
             '</div>'
@@ -168,7 +175,7 @@
                     // only show the poster image if the first asset is a video
                     // and we're not in a modal (modal will autoplay once opened, so
                     // no use for poster)
-                    if (isFirstVideo && !instance.isModal()) {
+                    if (isFirstVideo && !instance.isModal() && !instance.autoplay) {
                         $player.attr('poster', first.poster);
                         $player.attr('src', first.url);
 
@@ -400,6 +407,8 @@
         this.galleryThumbWidth = parseInt(config.galleryThumbWidth, 10);
         this.galleryThumbHeight = parseInt(config.galleryThumbHeight, 10);
         this.linebreak = +config.linebreak;
+        this.creditCount = +config.creditCount;
+        this.showCreditLabel = !!config.showCreditLabel;
 
         this.height = parseInt(config.height, 10);
         this.$container.find
@@ -424,7 +433,7 @@
         $container.addClass(this.theme);
         $container.attr('id', this.id);
 
-        if (!this.isModal()) {
+        if (this.theme === 'inline-player' && !this.isModal()) {
             $container.css({ width: this.width });
             $stage.css({ height: this.height });
         }
@@ -461,8 +470,8 @@
             //there is no assurance this instance will have both
             var $imageContainer = this.$container.find('.wd-image-container'),
                 $flashContainer = this.$container.find('.wd-flash-container'),
-                $stage = this.$container.find('.wd-stage'),
-                $video = this.$player;
+                $videoContainer = this.$player && this.$player.parent('.video-container'),
+                $stage = this.$container.find('.wd-stage');
 
             //NOTE: Flash will lose its handle on the DOM `object` element if any CSS
             //rules make the player invisible. To prevent the handle from being lost,
@@ -473,8 +482,8 @@
             //require a complete reembed of the strobe player whenever the video src changes
             if (mimetype === 'video') {
                 this.type === 'flash' ?
-                    $flashContainer.removeClass('wd-hidden-flash') :
-                    $video.removeClass('wd-hidden');
+                    $flashContainer.css({ width: 'auto', height: 'auto' }).removeClass('wd-hidden-flash') :
+                    $videoContainer.removeClass('wd-hidden');
 
                 $imageContainer.addClass('wd-hidden');
                 $stage.removeClass('image').addClass('video');
@@ -489,7 +498,7 @@
                     $flashContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
                 } else {
                     //if there is a video container, hide it
-                    $video && $video.addClass('wd-hidden');
+                    $videoContainer && $videoContainer.addClass('wd-hidden');
                 }
 
                 $imageContainer.removeClass('wd-hidden');
@@ -498,11 +507,38 @@
         },
 
         setCredit: function (asset) {
-            var credit = asset.credits.length ? asset.credits[0].tag : '',
-                title = asset.title;
+            var instance = this,
+                $title = this.$container.find('.wd-title'),
+                title = asset.title,
+                iterator = function (index, credit) {
+                    if (index >= instance.creditCount) {
+                        return false;
+                    }
 
-            this.$container.find('.wd-credit').text(credit);
-            this.$container.find('.wd-title').text(title);
+                    var $credit = $(CREDIT_TEMPLATE);
+
+                    if (instance.showCreditLabel) {
+                        $credit.find('.wd-credit-label').text(credit.credit);
+                    } else {
+                        $credit.find('.wd-credit-label').remove();
+                    }
+
+                    $credit.find('.wd-tag').text(credit.tag);
+                    $credit.insertAfter($title);
+                };
+
+            //remove the old credits
+            this.$container.find('.wd-credit, .wd-credit-separator').remove();
+            $title.text(title); //set the title
+            
+            if (this.theme === 'inline-player') {
+                $.each(asset.credits, iterator);
+            } else if (asset.credits.length) {
+                iterator(0, asset.credits[0]);
+            }
+
+            //remove the trailing comma (I wish IE8 didn't suck at pseudo selectors)
+            this.$container.find('.wd-credit-separator').last().remove();
         },
 
         // Sets the source of the player to be the asset at the given index and returns a boolean
@@ -671,9 +707,7 @@
 
                 if (instance.thumbfit === 'crop') {
                     // set as background image. let css do our cropping for us
-                    $thumb.css({
-                        'background-image': 'url(' + thumb.url + ')'
-                    });
+                    $thumb.css('background-image', 'url(' + thumb.url + ')');
                 }
 
                 if (isLetterbox && instance.thumbfit === 'scale') {
@@ -702,7 +736,7 @@
                 $thumb.find('.wd-title').text(asset.title);
 
                 if (asset.credits[0]) {
-                    $thumb.find('.wd-credit').text(asset.credits[0].tag);
+                    $thumb.find('.wd-tag').text(asset.credits[0].tag);
                 }
 
                 $ol.append($thumb);
@@ -1262,7 +1296,7 @@
                 }
             } else {
                 //first asset is an image, so it can be displayed
-                player.setSource(player.current);
+                player.setSource(player.current) && player.autoplay && player.play();
             }
         },
 
@@ -1305,6 +1339,8 @@
                 width: gallery.width,
                 slideshow: gallery.slideshow,
                 duration: gallery.duration,
+                showCreditLabel: gallery.showCreditLabel,
+                creditCount: gallery.creditCount,
                 loop: gallery.loop
             });
 
@@ -1323,7 +1359,7 @@
 
             //bind the click off close on the skrim
             $skrim.on('click', function (e) {
-                if ($(e.target).is('#wd-skrim, #wd-modal-player, .wd-stage')) {
+                if ($(e.target).is('#wd-skrim, #wd-modal-player, .wd-stage, .wd-credit-tray')) {
                     modalPlayer.destroy();
 
                     $skrim.off('click');
@@ -1343,6 +1379,6 @@
 
             _players[player.id] = player;
             player.fetchData();
-        },
+        }
     };
 }(window.jQuery));

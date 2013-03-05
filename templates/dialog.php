@@ -59,6 +59,13 @@
                             </ul>
                         </li>
                         <li>
+                            <input type="checkbox" id="wd-inline-credit-label" name="wd-credit-label" />
+                            <label for="wd-inline-credit-label"> Show credit label</label>
+                        </li>
+                        <li>
+                            Show <input type="text" id="wd-credit-count" class="wd-input-number" value="1" /> credits
+                        </li>
+                        <li>
                             <input type="checkbox" class="wd-slideshow" id="wd-inline-slideshow" />
                             <label for="wd-inline-slideshow"> Slideshow images</label>
                             <ul class="wd-disabled">
@@ -79,6 +86,13 @@
                         <li>
                             <input type="checkbox" class="wd-loop" id="wd-gallery-loop" />
                             <label for="wd-gallery-loop"> Loop</label>
+                        </li>
+                        <li>
+                            <input type="checkbox" id="wd-gallery-credit-label" name="wd-credit-label" />
+                            <label for="wd-gallery-credit-label"> Show credit label</label>
+                        </li>
+                        <li>
+                            Show <input type="text" id="wd-credit-count" class="wd-input-number" value="1" /> credits
                         </li>
                         <li>
                             <input type="checkbox" id="wd-gallery-letterbox" />

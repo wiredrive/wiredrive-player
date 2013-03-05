@@ -251,6 +251,8 @@ $options = array(
     'loop' => filter_input(INPUT_GET, 'loop', FILTER_CALLBACK, array('options' => 'filter_bool')),
     'duration' => filter_input(INPUT_GET, 'slideshowduration', FILTER_VALIDATE_INT),
     'linebreak' => filter_input(INPUT_GET, 'linebreak', FILTER_VALIDATE_INT),
+    'creditcount' => filter_input(INPUT_GET, 'creditcount', FILTER_VALIDATE_INT),
+    'creditlabel' => filter_input(INPUT_GET, 'creditlabel', FILTER_CALLBACK, array('options' => 'filter_bool')),
     'thumbwidth' => filter_input(INPUT_GET, 'thumbwidth', FILTER_VALIDATE_INT),
     'thumbheight' => filter_input(INPUT_GET, 'thumbheight', FILTER_VALIDATE_INT),
     'letterbox' => filter_input(INPUT_GET, 'letterbox', FILTER_CALLBACK, array('options' => 'filter_bool')),

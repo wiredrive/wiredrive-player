@@ -146,6 +146,8 @@ class Wiredrive_Plugin
             'thumbheight' => '180',
             'letterbox' => 'off',
             'thumbfit' => 'scale',
+            'creditcount' => '1',
+            'creditlabel' => 'off',
         ), $atts);
 
         //BACKWARDS COMPATABILITY
@@ -208,6 +210,8 @@ class Wiredrive_Plugin
              ->set('collapseThumbs', $shortcode['hidethumbs'] === 'on')
              ->set('loop', $shortcode['loop'] === 'on')
              ->set('options', $options)
+             ->set('creditLabel', $shortcode['creditlabel'] === 'on')
+             ->set('creditCount', $shortcode['creditcount'])
              ->set('attributeId', $attributeId)
              ->set('type', $type)
              ->set('height', $shortcode['height'])
@@ -263,7 +267,6 @@ class Wiredrive_Plugin
                return false; 	   
           }
         */
-	   
        return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
 			|| strpos($_SERVER['HTTP_USER_AGENT'], "MSIE")			
 			|| strpos($_SERVER['HTTP_USER_AGENT'], "Chrome");

@@ -16,6 +16,8 @@
     $isIPad = $this->get('isIPad');
     $thumbfit = $this->get('thumbfit');
     $duration = $this->get('duration');
+    $showCreditLabel = $this->get('creditLabel');
+    $creditCount = $this->get('creditCount');
 
     $jsonpUrl = $this->get('jsonpUrl');
     $options = $this->get('options');
@@ -46,8 +48,7 @@
         </div>
     </div>
     <div class="wd-credit-tray">
-        <span class="wd-title">&nbsp;</span>
-        <span class="wd-credit">&nbsp;</span>
+        <div class="wd-title">&nbsp;</div>
         <? if ($collapseThumbs): ?>
         <div class="wd-thumb-collapse collapsed">
             <div class="wd-triangle down"></div>
@@ -77,6 +78,8 @@
                 slideshow: <?= $slideshow ? 'true' : 'false'; ?>,
                 duration: <?= $duration; ?>,
                 loop: <?= $loop ? 'true' : 'false'; ?>,
+                creditCount: <?= $creditCount; ?>,
+                showCreditLabel: <?= $showCreditLabel ? 'true' : 'false'; ?>,
             <? if ($theme === 'inline-player'): ?>
                 autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
             <? else: ?>
