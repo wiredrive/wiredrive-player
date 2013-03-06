@@ -84,6 +84,10 @@ function processUrl($url) {
     if (isset($queryParts['routeKey'])) {
         $routeKey = $queryParts['routeKey'];
     }
+    $dotPos = strpos($routeKey, '.');
+    if ($dotPos !== false) {
+        $routeKey = str_replace('.jsonp', '', $routeKey); 
+    }
     $isRss      = $routeKey == 'rss';
     $isDispatch = in_array($routeKey, $dispatchList);
     $isPres     = in_array($routeKey, $routeList);
@@ -101,6 +105,9 @@ function processUrl($url) {
     }
     
     if (! $isShort && ! $isDispatch && ! $isRss) {
+        if ($dotPos !== false) {
+            $url = str_replace('.jsonp', '', $url);
+        }
         return $url;
     }
  
