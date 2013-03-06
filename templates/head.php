@@ -16,7 +16,8 @@
 /*
  * Theme styles
  */
-.wd-player .wd-stage {
+.wd-player .wd-stage,
+.wd-player .wd-poster {
     background-color: <?= $options['stage_color']; ?>;
 }
 

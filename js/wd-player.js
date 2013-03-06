@@ -78,6 +78,10 @@
                         '</a>',
                     '</div>',
                 '</div>',
+                '<div class="wd-poster">',
+                    '<img />',
+                    '<div class="wd-play-video-button"></div>',
+                '</div>',
             '</div>'
         ].join(''),
 
@@ -159,6 +163,10 @@
                         // the user clicks on the pagintate button to change to the next asset without
                         // ever playing the first asset or clicking on a thumbnail
                         onceDelegate = function (e) {
+                            if ($(e.target).hasClass('disabled')) {
+                                return;
+                            }
+
                             $playButton.remove();
                             $player.removeAttr('poster');
                             $player.attr('controls', 'controls');
@@ -244,10 +252,31 @@
 
                 attachPlayer: function () {
                     var instance = this,
+                        $container = instance.$container,
                         $tpl = $(FLASH_TEMPLATE),
+                        $poster = $tpl.find('.wd-poster'),
+                        $img = $poster.find('img'),
+                        $playButton = $poster.find('.wd-play-video-button'),
+
                         cbid = WDP.flashCallbackId(),
                         id = 'wd-flash' + WDP.uniqueId(),
-                        flashvars, params, first = {};
+
+                        first = instance.items[0],
+                        isFirstVideo = first.mimetype === 'video',
+                        dimensions = _fitWithin(first, instance.width, instance.height),
+
+                        onceDelegate = function (e) {
+                            if ($(e.target).hasClass('disabled')) {
+                                return;
+                            }
+
+                            $poster.remove();
+                            $container.off('click', '.wd-paginate', onceDelegate);
+                            $container.off('click', '.wd-thumbnail img', onceDelegate);
+                        },
+
+                        flashvars, params;
+
 
                     $.each(instance.items, function (index, asset) {
                         if (asset.mimetype === 'video') {
@@ -264,7 +293,7 @@
                         //if urls are not uri encoded, their querystrings will get
                         //lost in the flashvars
                         src: encodeURIComponent(first.url),
-                        poster: encodeURIComponent(first.poster)
+                        playButtonOverlay: false
                     },
                     params = {
                         wmode: 'transparent',
@@ -281,10 +310,6 @@
                             // We need to set the instance source to the first asset because
                             // what flash initialized with might not actually be the first
                             // asset (if it was an image), but rather the first _video_ asset
-                            //
-                            // TODO: this logic might change if it turns out that flash needs
-                            // to be reembedded after every video due to the poster frame
-                            // not being updateable
                             instance.setReady();
                             instance.setSource(instance.current);
 
@@ -300,6 +325,31 @@
 
                     $tpl.find('div.wd-flash-replace').attr('id', id);
                     instance.$container.find('.wd-stage').prepend($tpl);
+
+                    // figure out of we need to show a poster or not
+                    if (isFirstVideo && !instance.isModal() && !instance.autoplay) {
+                        $container.on('click', '.wd-paginate', onceDelegate);
+                        $container.on('click', '.wd-thumbnail img', onceDelegate);
+                        $playButton.one('click', function (e) {
+                            onceDelegate(e);
+                            instance.play();
+                        });
+
+                        $poster.css({
+                            width: instance.width,
+                            height: instance.height
+                        });
+
+                        $img.attr('src', first.poster)
+                            .css({
+                                width: dimensions.width,
+                                height: dimensions.height,
+                                'margin-top': (instance.height - dimensions.height) / 2
+                            });
+                    } else {
+                        $poster.remove();
+                    }
+
 
                     window.swfobject.embedSWF(
                         WDP.options.pluginUrl + '/flash/StrobeMediaPlayback.swf',
@@ -478,8 +528,6 @@
             //the flash player is not hidden, but rather resized to be a 1x1 pixel box,
             //which explains some of the wonky logic here. HTML5 video players don't seem
             //to have this problem and can therefore simply be hidden via `display: none;`
-            //This may change if the Strobe poster image needs to change since that would
-            //require a complete reembed of the strobe player whenever the video src changes
             if (mimetype === 'video') {
                 this.type === 'flash' ?
                     $flashContainer.css({ width: 'auto', height: 'auto' }).removeClass('wd-hidden-flash') :
@@ -581,6 +629,9 @@
             }
 
             this.setCredit(nextAsset);
+
+            //if there is a carousel, tell it to scroll to make the currently selected asset visible
+            this.scrollTo && this.scrollTo(index);
 
             if (!this.loop) {
                 $previous[index === 0 ? 'addClass' : 'removeClass']('disabled');
@@ -1006,6 +1057,32 @@
                     $icon.removeClass('up').addClass('down');
                 }
             });
+
+            //attach the carouseling functions to this instance
+            instance.scrollNext = scrollNext;
+            instance.scrollPrevious = scrollPrevious;
+
+            //attach a function that will tell the carousel to scroll to a position that makes
+            //the specified index visible
+            instance.scrollTo = function (index) {
+                var startdiff = cache[index].previousTotal + marginLeft,
+                    enddiff = cache[index].runningTotal + marginLeft,
+                    op, pages;
+
+                if (startdiff < 0) {
+                    op = 'scrollPrevious';
+                    pages = Math.abs(Math.floor(startdiff / viewportWidth));
+                } else if (enddiff > viewportWidth) {
+                    op = 'scrollNext';
+                    pages = Math.floor(enddiff / viewportWidth);
+                }
+
+                if (op) {
+                    for (var i = 0; i < pages; i++) {
+                        this[op]();
+                    }
+                }
+            }
         },
 
         // Render the image viewer template and bind it. The initialization procedure

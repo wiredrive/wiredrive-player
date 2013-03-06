@@ -26,6 +26,12 @@
     margin-right: auto;
 }
 
+.wd-player .wd-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .wd-player .wd-image-container,
 .wd-player .video-container {
     margin-left: auto;
