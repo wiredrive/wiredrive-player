@@ -271,7 +271,9 @@
 }
 
 .wd-stage:hover .wd-paginate,
-.wd-stage.image.slideshow:hover .wd-play-slideshow-button {
+.wd-player:hover .wd-paginate,
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button,
+#wd-skrim .wd-player:hover .image.slideshow .wd-play-slideshow-button {
     opacity: .75;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 }
@@ -338,10 +340,10 @@ html.wd-skrim-visible {
 
 #wd-skrim .wd-player {
     position: absolute;
-    bottom: 50px;
-    left: 50px;
-    right: 50px;
-    top: 50px;
+    bottom: 40px;
+    left: 20px;
+    right: 20px;
+    top: 40px;
     background: none;
 }
 
@@ -352,20 +354,6 @@ html.wd-skrim-visible {
 
 #wd-skrim .wd-stage.image {
     height: 100%;
-}
-
-/* disable transitions on paginators when in skrim mode. They look weird
- * in webkit for some reasons
- */
-#wd-skrim .wd-paginate {
-    transition-property: none;
-    -moz-transition-property: none;
-    -webkit-transition-property: none;
-}
-
-#wd-skrim .wd-paginate {
-    opacity: .75;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 }
 
 #wd-skrim .wd-paginate.previous-arrow {

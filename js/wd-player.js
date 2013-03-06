@@ -277,14 +277,6 @@
 
                         flashvars, params;
 
-
-                    $.each(instance.items, function (index, asset) {
-                        if (asset.mimetype === 'video') {
-                            first = instance.items[index];
-                            return false;
-                        }
-                    });
-
                     flashvars = {
                         javascriptCallbackFunction: 'WDP._callbacks.' + cbid,
 
