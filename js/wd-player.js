@@ -167,11 +167,24 @@
                                 return;
                             }
 
+                            // The iPad is slow. The onceDelegate properly removes the poster attribute,
+                            // but iPad safari doesn't redraw the video quickly enough. In the case where the
+                            // first asset is a video, the user then switches to an image, and then switches back to
+                            // a video, there will be a flash of the stale poster image from the first video before
+                            // the new video loads.
+                            // This little hack forces a redraw for whatever the nebulus reasons may be
+                            // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
+                            if (instance.isMobile) {
+                                $player.css('display', 'none');
+                                $player.get(0).offsetHeight;
+                                $player.css('display', 'block');
+                            }
+
                             $playButton.remove();
                             $player.removeAttr('poster');
                             $player.attr('controls', 'controls');
-                            $container.off('click', '.wd-paginate', onceDelegate);
-                            $container.off('click', '.wd-thumbnail img', onceDelegate);
+                            $container.off('touch click', '.wd-paginate', onceDelegate);
+                            $container.off('touch click', '.wd-thumbnail img', onceDelegate);
                         },
                         $tpl = $(VIDEO_TEMPLATE);
 
@@ -187,8 +200,8 @@
                         $player.attr('poster', first.poster);
                         $player.attr('src', first.url);
 
-                        $container.on('click', '.wd-paginate', onceDelegate);
-                        $container.on('click', '.wd-thumbnail img', onceDelegate);
+                        $container.on('touch click', '.wd-paginate', onceDelegate);
+                        $container.on('touch click', '.wd-thumbnail img', onceDelegate);
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
 
@@ -201,6 +214,8 @@
                     } else {
                         $playButton.remove();
                         $player.attr('controls', 'controls');
+                        $player.attr('src', first.url);
+                        $player.get(0).load();
                     }
 
                     instance.$player = $player;
@@ -208,6 +223,13 @@
                     $player.on('ended', function (e) {
                         instance.setSource(instance.current + 1) && instance.play();
                     });
+
+                    $player.on('canplay', function (e) { console.log('i can play video now!'); });
+                    $player.on('error', function (e) { console.log('error', e); });
+                    $player.on('loadstart', function (e) { console.log('loadstart', e); });
+                    $player.on('loadeddata', function (e) { console.log('loadeddata', e); });
+                    $player.on('loadedmetadata', function (e) { console.log('loadedmetadata', e); });
+                    $player.on('abort', function (e) { console.log('abort', e); });
 
                     instance.setReady();
                 },
@@ -227,6 +249,7 @@
 
                 _playVideo: function () {
                     this.$player.get(0).play();
+                    console.log('hitting play');
                 },
             },
             flash: {
@@ -452,12 +475,12 @@
         this.creditCount = +config.creditCount;
         this.showCreditLabel = !!config.showCreditLabel;
 
+        this.isMobile = !!config.isMobile;
         this.height = parseInt(config.height, 10);
-        this.$container.find
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
         this.duration = +config.duration;
-        this.autoplay = !!config.autoplay;
+        this.autoplay = !config.isMobile && !!config.autoplay; //autoplay doesn't work on iOS
         this.loop = !!config.loop;
         this.thumbfit = config.thumbfit;
 
@@ -520,10 +543,17 @@
             //the flash player is not hidden, but rather resized to be a 1x1 pixel box,
             //which explains some of the wonky logic here. HTML5 video players don't seem
             //to have this problem and can therefore simply be hidden via `display: none;`
+            //
+            //ADDITIONAL NOTE: It used to be that only flash had this problem, but then along came
+            //the iPad, where it has trouble playing a video if the video was hidden (well, maybe not
+            //hidden, but the browser didn't redraw fast enough to unhide the element, even though at the
+            //time of the load call, it's not hidden in the DOM tree. Hooray laggy redraw!) when the load
+            //request came in. The easy fix was to apply the flash strategy to html5 video, all
+            //thanks to the wonderful wonderful ipad.
             if (mimetype === 'video') {
                 this.type === 'flash' ?
                     $flashContainer.css({ width: 'auto', height: 'auto' }).removeClass('wd-hidden-flash') :
-                    $videoContainer.removeClass('wd-hidden');
+                    $videoContainer.css({ width: '100%', height: '100%' }).removeClass('wd-hidden-flash');
 
                 $imageContainer.addClass('wd-hidden');
                 $stage.removeClass('image').addClass('video');
@@ -538,7 +568,7 @@
                     $flashContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
                 } else {
                     //if there is a video container, hide it
-                    $videoContainer && $videoContainer.addClass('wd-hidden');
+                    $videoContainer && $videoContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
                 }
 
                 $imageContainer.removeClass('wd-hidden');
@@ -1017,7 +1047,8 @@
             }
 
             // bind clicking on a thumbnail in the thumbnail tray
-            $thumbTray.on('click', '.wd-thumbnail img', function (e) {
+            $thumbTray.on('touch click', '.wd-thumbnail img', function (e) {
+                console.log('thumbnail click');
                 var $li = $(e.target).parent('li'),
                     index = +$li.attr('data-wd-index');
 

@@ -208,6 +208,7 @@ class Wiredrive_Plugin
              ->set('autoplay', $shortcode['autoplay'] === 'on')
              ->set('disableThumbs', $shortcode['disablethumbs'] === 'on')
              ->set('collapseThumbs', $shortcode['hidethumbs'] === 'on')
+             ->set('isMobile', $this->isIpad() || $this->isMobile())
              ->set('loop', $shortcode['loop'] === 'on')
              ->set('options', $options)
              ->set('creditLabel', $shortcode['creditlabel'] === 'on')

@@ -18,7 +18,7 @@
     $duration = $this->get('duration');
     $showCreditLabel = $this->get('creditLabel');
     $creditCount = $this->get('creditCount');
-
+    $isMobile = $this->get('isMobile');
     $jsonpUrl = $this->get('jsonpUrl');
     $options = $this->get('options');
     $width = $this->get('width');
@@ -73,6 +73,7 @@
                 id: '<?= $attributeId; ?>',
                 type: '<?= $type; ?>',
                 theme: '<?= $theme; ?>',
+                isMobile: <?= $isMobile ? 'true' : 'false'; ?>,
                 width: '<?= $width; ?>',
                 height: '<?= $height; ?>',
                 slideshow: <?= $slideshow ? 'true' : 'false'; ?>,

@@ -12,9 +12,17 @@
 
 .wd-player .wd-stage {
     position: relative;
-    overflow: hidden;
     width: 100%;
     height: 100%;
+    /* overflow: hidden;
+     *  this causes safari 6 to not consistently show the video controls on hover
+     *  for reasons unknown. */
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) {
+    .wd-player .wd-stage {
+        overflow: hidden;
+    }
 }
 
 .wd-player .wd-flash-container {
@@ -271,7 +279,7 @@
 }
 
 .wd-stage:hover .wd-paginate,
-.wd-player:hover .wd-paginate,
+#wd-skrim .wd-player:hover .wd-paginate,
 .wd-stage.image.slideshow:hover .wd-play-slideshow-button,
 #wd-skrim .wd-player:hover .image.slideshow .wd-play-slideshow-button {
     opacity: .75;
