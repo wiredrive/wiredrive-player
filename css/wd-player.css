@@ -23,6 +23,31 @@
     .wd-player .wd-stage {
         overflow: hidden;
     }
+
+    /* pagination arrows are hidden on mobile due to the ipad bug
+     * that doesn't process events on elements positioned over a video
+     * element
+     */
+    .wd-player .wd-stage .wd-paginate {
+        display: none;
+    }
+
+    #wd-skrim .wd-player .wd-paginate {
+        opacity: .75;
+    }
+
+    #wd-skrim .wd-player .wd-paginate.next-arrow {
+        margin-right: -20px;
+    }
+
+    #wd-skrim .wd-player .wd-paginate.previous-arrow {
+        margin-left: -20px;
+    }
+
+    #wd-skrim .wd-player {
+        left: 40px;
+        right: 40px;
+    }
 }
 
 .wd-player .wd-flash-container {

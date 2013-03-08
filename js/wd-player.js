@@ -247,9 +247,17 @@
                     this.$player.get(0).pause();
                 },
 
-                _playVideo: function () {
-                    this.$player.get(0).play();
-                    console.log('hitting play');
+                _playVideo: function (bindOnceCanStart) {
+                    var $player = this.$player,
+                        player = $player.get(0);
+
+                    player.play();
+
+                    // hack for iPad. If the source hasn't loaded enough to where it can start playing
+                    // right away, bind a canstart once listener to assure that the video starts.
+                    bindOnceCanStart && $player.one('canstart', function () {
+                        player.play();
+                    });
                 },
             },
             flash: {
@@ -328,7 +336,8 @@
                             instance.setReady();
                             instance.setSource(instance.current);
 
-                            if (instance.autoplay || instance.id === MODAL_CONTAINER_ID) {
+                            if ((instance.getCurrentType() === 'video' && instance.autoplay)
+                                    || instance.id === MODAL_CONTAINER_ID) {
                                 instance.play();
                             }
                         }
@@ -480,7 +489,7 @@
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
         this.duration = +config.duration;
-        this.autoplay = !config.isMobile && !!config.autoplay; //autoplay doesn't work on iOS
+        this.autoplay = !!config.autoplay;
         this.loop = !!config.loop;
         this.thumbfit = config.thumbfit;
 
@@ -680,8 +689,14 @@
             } else {
                 this.slideshow = false;
                 this.$container.find('.wd-play-slideshow-button').removeClass('playing');
-                clearTimeout(this.timeoutId);
+                this.clearTimeout();
             }
+        },
+
+        // Clear the slideshow timeout
+        clearTimeout: function () {
+            clearTimeout(this.timeoutId);
+            this.timeoutId = null;
         },
 
         // Primary play function. Figures out what type of asset is currently loaded
@@ -695,7 +710,11 @@
             if (mimetype === 'image' && instance.slideshow) {
                 //if we're supposed to slideshow, then let us slideshow!
                 instance.$container.find('.wd-play-slideshow-button').addClass('playing');
-                instance.timeoutId = setTimeout(function () {
+
+                // make sure a timeout isn't already ticking
+                !instance.timeoutId && (instance.timeoutId = setTimeout(function () {
+                    instance.clearTimeout();
+
                     //we're out of the flow, and the user may have interacted with the player
                     //to turn slideshowing off, so make sure we're supposed to still be
                     //slideshowing before we (ahem) slideshow.
@@ -704,15 +723,20 @@
                     } else {
                         instance.pause();
                     }
-                }, instance.duration * 1000);
+                }, instance.duration * 1000));
             } else if (mimetype === 'video') {
-                instance._playVideo();
+                // This case may exist on slower desktops, but iPad seems to consitently have
+                // a problem playing videos when the load call doesn't load fast enough.
+                // If we're on a mobile device, tell playVideo to bind a once event on canstart
+                // that assures the video will start playing eventually, even if not right away
+                instance._playVideo(instance.isMobile);
             }
         },
 
         bind: function () {
             var instance = this,
-                $container = instance.$container;
+                $container = instance.$container,
+                iPadHack = false; //have we executed our ipad hack already?
 
             // bind the paginators
             $container.on('click', '.wd-paginate', function (e) {
@@ -740,6 +764,29 @@
                     $target.addClass('playing');
                     instance.slideshow = true;
                     instance.play();
+
+                    // iPad does not support autoplay. This also means that you can not
+                    // programatically trigger an html5 video to start playing unless said
+                    // code comes from an execution stack that started with a user interaction event
+                    // (click, touch, etc).
+                    // In the case where we have an autoslideshow on a presentation containing both
+                    // images and videos where the first asset is an image: If the user presses the
+                    // slideshow play button, when it autoslideshows to the next asset that is a video,
+                    // the play command came from a timeout, which is not user interaction, therefore
+                    // the video will not start playing. This hack says that if we're on mobile,
+                    // then the first time the slideshow play button is clicked, play the hidden video and immediately
+                    // pause it. This frees the video from not autoplaying since we technically already
+                    // started playing it via a user event. The subsequent timeouts from an image slideshow
+                    // can now start playing the video. This is kind of a dirty hack, but so is iPad HTML5
+                    // video support (Gee, if only we could use the flash player on the ipad...).
+                    // This only needs to happen here and only needs to happen once. Any other way of
+                    // getting to the first video involes an execution path that begins with an interaction
+                    // event, so the hack is not needed
+                    if (instance.isMobile && !iPadHack) {
+                        iPadHack = true;
+                        instance._playVideo(); //make sure NOT to pass a truthy argument here!!!
+                        instance.pause();
+                    }
                 } else {
                     // going to pause
                     instance.pause();
@@ -1296,6 +1343,16 @@
                     })
                 });
             });
+
+            // autoplay is not supported on iOS for bandwidth reasons. With the additional restriction of not
+            // being able to programatically start html5 video unless the command is in an execution stack
+            // that originated from a user interaction event, autoplay really only means anything on an ipad
+            // if the presentation is nothing but images. If the first asset is an image and autoplay
+            // and slideshow are on, then the timeout that transitions from a slideshowing image to a video
+            // will not have access to start playing the video.
+            if (instance.isMobile && instance.autoplay && instance._HAS_VIDEO) {
+                instance.autoplay = false;
+            }
         }
     };
 
@@ -1427,7 +1484,12 @@
             //
             // This is why you should never use !important rules when expecting
             // user defined stylesheets.
-            if ($document.scrollTop() === 0) {
+            //
+            // iPad still allows touch scrolling on the background document because
+            // of how poorly they handle event propogation and video elements.
+            // Don't bother repositioning anything if we're on mobile. Just let
+            // them scroll whereever they want in the background
+            if (!gallery.isMobile && $document.scrollTop() === 0) {
                 $html.css({ 'margin-top': -scrollY });
             }
 
@@ -1468,7 +1530,7 @@
                     $html.removeClass('wd-skrim-visible');
 
                     $html.css({ 'margin-top': 0 });
-                    $document.scrollTop(scrollY);
+                    !gallery.isMobile && $document.scrollTop(scrollY);
                 }
             });
         },
