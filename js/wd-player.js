@@ -1301,9 +1301,9 @@
             // I thought jQuery was supposed to be really good at being consistent :-/
             // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
-                var primary = asset.file.primary,
-                    largeThumb = asset.file.large,
-                    smallThumb = asset.file.small;
+                var primary = asset.media.primary,
+                    largeThumb = asset.media.large,
+                    smallThumb = asset.media.small;
 
                 switch (asset.mimeCategory) {
                     case 'video': break;
