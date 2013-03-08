@@ -115,7 +115,8 @@
 .wd-player .wd-thumb-collapse {
     background-color: #7a7a7a;
     position: absolute;
-    top: 12px;
+    top: 50%;
+    margin-top: -10px;
     right: 12px;
     height: 20px;
     width: 20px;
@@ -427,9 +428,12 @@ html.wd-skrim-visible {
 }
 
 .wd-player.inline-player .wd-credit-tray {
-    height: 25px;
     padding: 10px;
     position: relative;
+}
+
+.wd-player.inline-player .wd-credit-tray.collapsible {
+    padding-right: 35px;
 }
 
 .wd-player.inline-player .wd-thumb-tray li {

@@ -47,7 +47,7 @@
             <div class="wd-triangle right"></div>
         </div>
     </div>
-    <div class="wd-credit-tray">
+    <div class="wd-credit-tray<?= $collapseThumbs ? ' collapsible' : ''; ?>">
         <div class="wd-title">&nbsp;</div>
         <? if ($collapseThumbs): ?>
         <div class="wd-thumb-collapse collapsed">
