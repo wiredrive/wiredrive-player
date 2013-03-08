@@ -224,13 +224,6 @@
                         instance.setSource(instance.current + 1) && instance.play();
                     });
 
-                    $player.on('canplay', function (e) { console.log('i can play video now!'); });
-                    $player.on('error', function (e) { console.log('error', e); });
-                    $player.on('loadstart', function (e) { console.log('loadstart', e); });
-                    $player.on('loadeddata', function (e) { console.log('loadeddata', e); });
-                    $player.on('loadedmetadata', function (e) { console.log('loadedmetadata', e); });
-                    $player.on('abort', function (e) { console.log('abort', e); });
-
                     instance.setReady();
                 },
 
