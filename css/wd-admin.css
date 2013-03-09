@@ -36,12 +36,47 @@
     overflow-y: auto;
 }
 
-.wd-dialog .wd-hidden {
-    display: none !important;
+.wd-dialog #wd-url {
+    width: 100%;
+    text-align: left;
 }
 
-.wd-dialog input {
-    margin-bottom: 5px;
+.wd-dialog .wd-player-options {
+    float: left;
+    width: 46%;
+    background-color: #efefef;
+    padding: 10px;
+    height: 200px;
+}
+
+.wd-dialog input[type=text] {
+    width: 40px;
+    text-align: center;
+}
+
+.wd-dialog input[disabled] {
+    opacity: 0.3;
+}
+
+.wd-dialog ul.disabled {
+    color: #ccc;
+}
+
+.wd-dialog .wd-help {
+    clear: both;
+    padding-top: 10px;
+}
+
+.wd-dialog .wd-theme-options {
+    float: right;
+    width: 46%;
+    padding: 10px;
+    background-color: #efefef;
+    height: 200px;
+}
+
+.wd-dialog .wd-hidden {
+    display: none !important;
 }
 
 .farbtastic {
@@ -89,10 +124,6 @@
 .wd-dialog .wd-disabled,
 .wd-dialog .wd-disabled input[type="text"] {
     color: #ccc;
-}
-
-.wd-dialog .wd-input-number {
-    width: 50px;
 }
 
 /* Wordpress doesn't seem to include any jquery-ui styles, so here they are
