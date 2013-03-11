@@ -1,0 +1,77 @@
+Complete Changelog
+====
+
+## 1.0
+* First stable release.
+
+### 1.1
+* Fixed issues when showing multiple slideshows on the one page.
+* Fixed issue where Flash player would set all the stages to have a transparent background.
+* Cleaned up code.
+* Updated readme.txt and embed dialog box. 
+
+## 2.0
+* Added AirPlay compatibility
+* New settings page that allows customization of the player
+* New letter- or pillar- box grid layout
+
+### 2.0.1
+* Fixed a bug where entering an RSS that started with 'feed://' gave an error.
+* Fixed a bug where thumbnails in a grid layout didn't stack correctly.
+
+### 2.0.2
+* Fixed a bug which caused all "Settings" links on the Plugins page to link to players settings page.
+
+### 2.0.3
+* Updated readme.txt file.
+
+## 2.1
+* Added play button on HTML5 video.
+* Added play.wdp and ended.wdp events to player.
+
+### 2.1.1
+* Bug fix.
+
+### 2.1.2
+* Fixed width/height bug.  Fixed credit list bug
+
+## 2.2.0
+* fixed bug where & characters in asset URLs were not being passed to flash correctly.
+* fixed a bug when hidethumbs was enabled. tag wasn't closed properly.
+* fix for html entities being displayed instead of applicable characters.
+* removing poster element which caused a thumbnail bug when a video was played.
+* fix for html entities being displayed instead of applicable characters.
+* height/width resize fix. courtesy Visual23 - Robb Bennett (rbennett@visual23.com)
+* removing poster element which caused a thumbnail bug when a video was played
+* renamed files so they will work better with other plugins.  settings.php was conflicting with other plugins settings files in php5.2
+
+### 2.2.1
+* Fixed README layout issue with wordpress.org
+
+### 2.2.2
+* renamed README.txt to readme.txt for issue with wordpress.org
+* Added GPLv2 license
+
+### 2.2.3
+* Bumping version to make wordpress.org behave
+
+### 2.2.4
+* Added poster image to html5 template
+
+### 2.2.5
+* Bugfix: Preventing slideshow instances from disappearing/reappearing and affecting other player instances in the same document
+
+## 2.3
+* Player now properly supports multiple instances on a single page
+* Presentation data is now recieved as JSONP
+* Player can now display both images and videos as part of the same presentation
+* Now accepts any valid (non password protected) Wiredrive presentation url (short link, mRSS, email, etc.)
+* Grid and Grid-Box themes have been replaced by the Gallery theme
+* Player can now loop entire presentations
+* Slideshow functionality can now be controlled via on hover play/pause buttons
+* Duration between slideshows is now customizable
+* Number of credits being displayed is now customizable
+* Added option to choose whether or not the credit label is displayed with each credit
+* Gallery thumbnails can now be either constrained to fit within the thumbnail bounding box (Scale) or the bounding box can be used as a cropping mask for the thumbnail (Crop)
+* Gallery players can now specify a linebreak, that is how many thumbnails will be rendered before the next thumbnail is forced to the line below
+* Bugfix: Flash volume slider now works (Open Video Player has been replaced with Adobe Strobe)
