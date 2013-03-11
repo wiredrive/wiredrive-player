@@ -8,7 +8,26 @@ Wiredrive Player (Wordpress Plugin)
 
 ### Description
 
-A plugin that allows you to easily embed videos and images from Wiredrive presentations into your Wordpress-powered website.
+A plugin that allows you to easily embed videos and images from Wiredrive presentations into your Wordpress-powered website:
+
+* Embed mixed media presentations (video and images)
+* Point-and-click installation
+* Elegantly replaces YouTube, Vimeo, and other media hosting sites
+* Customize the appearance of your player
+* Two different layout options (an inline video/image slideshow or a gallery of thumbnails)
+* Optional expandable thumbnail tray
+* Click through assets or play them as a slideshow (with a configurable timeout setting)
+* Multiple players on a single page
+* Show a configurable number of credits (with or without the credit label)
+* Loop
+
+Once the plugin is installed, simply create or edit a post and click on the Wiredrive Player button in the Kitchen Sink menu to create a Wiredrive Player instance. Enter the url to the Wiredrive presentation you wish to display, customize it, and click "Okay". Shortcode will be inserted into the visual editor at the location of your cursor (except for IE8: see Known Issues below). Save and view the post and you'll see your media from the Wiredrive presentation embedded right in your post!
+
+Supported Platforms
+----
+The Wiredrive Player is written with the following environments in mind: Internet Explorer 8 and 9, the lastest versions of Firefox, Chrome, Safari, and Safari on the iPad.
+
+Depending on the environment, the player will load one of two video players (if the presentation contains videos): The native HTML5 player will be used on Safari and iPad, all other browsers will use Adobe Strobe (Flash).
 
 Installation
 ----
@@ -47,7 +66,18 @@ As of version 2.3, the structure of the HTML markup of the player has changed si
 
 FAQ
 ----
-[Please see "Wiredrive extensions for Wordpress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
+
+### What happened to the Grid and Grid-box display options?
+In version 2.3, we decided to combine the grid and grid-box options into a single theme called the Gallery Theme. Any players that were created as grid or grid-box displays will automatically convert themselves to the proper Gallery player at render time. See the "Backwards Compatibility Notes" section above for more info
+
+### What is the difference between the "Scale" and "Crop" thumbnail strategies for the Gallery player?
+When using the Gallery theme, each asset thumbnail is rendered to the DOM as follows: A thumbnail container element is drawn with the dimensions specified in the "Thumbnail dimensions" section of the Gallery theme options. The thumbnail strategy defines the rest:
+
+* When in scale mode, an image element whose source is the asset's thumbnail is drawn inside the bounding box. The image is scaled to fit within side the bounding box while preserving the original image's aspect ratio. Once the image is scaled to fit within the specified bounding box, the bounding box will collapse around the scaled image (unless the "Center-align thumbnail (letterbox)" option is checked, in which case, the bounding box will remain its specified size and the areas of the bounding box that do not overlap the scaled image will be shaded in with a dark gray color set to the opacity specified by the "Pillarbox and letterbox opacity" setting in the Wiredrive Player Settings admin page)
+* When in crop mode, the thumbnail image is used as the horizontally-and-vertically-centered background image of the thumbnail bounding box. This means that the dimensions you specify for the thumbnails now act as the dimensions for a horizontally and vertically centered cropping mask over the original thumbnail.
+
+### Why aren't there any animations in Internet Explorer?
+The new player was built with evolving and current web standards in mind. The animations no longer rely on jQuery's animation layer and instead use a pure CSS3 solution. This unfortunately means that browsers that lag behind this curve will not have some of the nice polish like thumbnail carousel animations and fading transitions.
 
 Recent Changelog
 ----
