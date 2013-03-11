@@ -315,6 +315,25 @@ if ($error) {
     ));
     exit;
 }
+$dom = new DomDocument();
+@$dom->loadHtml($result);
+
+$playerUrl = null;
+foreach ($dom->getElementsByTagName('meta') as $meta) {
+    $attribs = $meta->attributes;
+    $item    = $attribs->getNamedItem('name');
+    if (isset($item->value) && ($item->value == 'wd-player-url')) {
+        $content = $attribs->getNamedItem('content');
+        $playerUrl = $content->value;
+        break;
+    }
+}
+if (! $playerUrl) {
+    echo json_encode(array(
+        'error' => 'Error discovering player url: ' . $url
+    ));
+    exit;
+}
 
 // build out the shortcode for this player
 $text = '[wiredrive';
@@ -325,7 +344,7 @@ foreach ($options as $key => $value) {
     }
 }
 
-$text .= ']' . $url . '[/wiredrive]';
+$text .= ']' . $playerUrl . '[/wiredrive]';
 
 echo json_encode(array(
     'shortcode' => $text,

@@ -308,24 +308,31 @@ class Wiredrive_Plugin
             if (is_wp_error($rss)) {
                 return false;
             }
-            $link = $rss->get_link();
+            $metaTags = $rss->get_feed_tags('', 'meta');
+            $metaTag  = current($metaTags);
+            if (! $metaTag) {
+                throw new RuntimeException(
+                    'Rss feed is out of date, please update the feed'
+                );
+            }
+            if (! isset($metaTag['attribs'])) {
+                throw new RuntimeException(
+                    'RSS feed is out of date, please update the feed'
+                );
+            }
+            $attribs = current($metaTag['attribs']);
+            if (! $attribs || ! isset($attribs['name']) || ! isset($attribs['content'])) {
+                throw new RuntimeException('Invalid meta tag found in RSS feed');
+            }
+            if ('wd-player-url' !== $attribs['name']) {
+                throw new RuntimeException('Invalid meta tag found in RSS feed');
+            }
+            $link = $attribs['content'];
         } else {
             $link = $url;
         }
     
-        $url  = parse_url($link);
-        if (! isset($url['path']) ||
-            ! isset($url['scheme']) ||
-            ! isset($url['host'])) {
-            
-            return false; 
-        }
-        $path = $url['path'];
-        $path = trim($path, '/');
-        $parts = explode('/', $path);
-        $parts[0] = $parts[0] . '.jsonp';
-        $this->jsonpUrl = $url['scheme'] . '://' . $url['host'] . '/' . 
-                          implode('/', $parts);
+        $this->jsonpUrl = $link; 
         return true;
     }
 
