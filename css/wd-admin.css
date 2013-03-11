@@ -295,6 +295,7 @@ body .ui-resizable-autohide .ui-resizable-handle {
 .ui-dialog.wd-dialog .ui-dialog-titlebar-close-hover,
 .ui-dialog.wd-dialog .ui-dialog-titlebar-close:hover {
 	background: url(../images/admin-panel-close-hover.gif) 0 0 no-repeat;
+    border: none;
 }
 
 .ui-dialog-titlebar-close:active {
