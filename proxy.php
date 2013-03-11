@@ -193,7 +193,8 @@ function processRedirectUrl($url, $isShort) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,
             CURLOPT_URL => $url,
-            CURLOPT_HEADERFUNCTION => $headerCallback
+            CURLOPT_HEADERFUNCTION => $headerCallback,
+            CURLOPT_SSL_VERIFYPEER => false,
         )
     );
     if ($isShort) {
@@ -215,7 +216,6 @@ function processRedirectUrl($url, $isShort) {
 
     /* app doens't support head request */
     curl_setopt($curl, CURLOPT_URL, $dispatchUrl);
-    $headers    = array();
     $result     = curl_exec($curl);
     if (! isset($headers['Location'])) {
         $error = 'Error fetching wiredrive email url: ' . $url;
