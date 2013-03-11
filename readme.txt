@@ -142,3 +142,16 @@ Known issues:
 
 = 1.0 =
 * First stable release.
+
+== Upgrade Notice ==
+
+= 2.3 =
+* Addressed all outstanding bugs and added additional features.
+* See the 2.3 changelog above for a complete list of changes.
+* See Backwards Compatability section above before upgrading.
+
+= 2.2.6 =
+* Bugfix: Making HTML5 video instances not resize after switching to the next video
+
+= 2.2.5 =
+* Bugfix: Preventing slideshow instances from disappearing/reappearing and affecting other player instances in the same document
