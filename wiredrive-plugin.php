@@ -309,7 +309,7 @@ class Wiredrive_Plugin
                 return false;
             }
             $tags = $rss->get_feed_tags(
-                'http://wwww.wiredrive.com/rss/1/dtd', 'wd-player-url'
+                'http://wwww.wiredrive.com/rss/1/dtd', 'wp-data'
             );
             $tag  = current($tags);
             if (! $tag) {

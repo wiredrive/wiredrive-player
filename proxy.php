@@ -321,8 +321,8 @@ $dom = new DomDocument();
 $playerUrl = null;
 foreach ($dom->getElementsByTagName('meta') as $meta) {
     $attribs = $meta->attributes;
-    $item    = $attribs->getNamedItem('name');
-    if (isset($item->value) && ($item->value == 'wd-player-url')) {
+    $item    = $attribs->getNamedItem('property');
+    if (isset($item->value) && ($item->value == 'wiredrive:wp-data')) {
         $content = $attribs->getNamedItem('content');
         $playerUrl = $content->value;
         break;
