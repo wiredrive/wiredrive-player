@@ -308,26 +308,19 @@ class Wiredrive_Plugin
             if (is_wp_error($rss)) {
                 return false;
             }
-            $metaTags = $rss->get_feed_tags('', 'meta');
-            $metaTag  = current($metaTags);
-            if (! $metaTag) {
+            $tags = $rss->get_feed_tags(
+                'http://wwww.wiredrive.com/rss/1/dtd', 'wd-player-url'
+            );
+            $tag  = current($tags);
+            if (! $tag) {
                 throw new RuntimeException(
                     'Rss feed is out of date, please update the feed'
                 );
             }
-            if (! isset($metaTag['attribs'])) {
-                throw new RuntimeException(
-                    'RSS feed is out of date, please update the feed'
-                );
+            if (! isset($tag['data'])) {
+                throw new RuntimeException('Invalid wd player url tag found');
             }
-            $attribs = current($metaTag['attribs']);
-            if (! $attribs || ! isset($attribs['name']) || ! isset($attribs['content'])) {
-                throw new RuntimeException('Invalid meta tag found in RSS feed');
-            }
-            if ('wd-player-url' !== $attribs['name']) {
-                throw new RuntimeException('Invalid meta tag found in RSS feed');
-            }
-            $link = $attribs['content'];
+            $link = $tag['data'];
         } else {
             $link = $url;
         }
