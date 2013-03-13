@@ -170,22 +170,47 @@ function processRssUrl($url) {
     return $presUrl;
 }
 
-function processRedirectUrl($url, $isShort) {
-    /* fetch bitly url using curl */
-    $curl    = curl_init(); 
-    $headers = array();
-    
-    /* callback to stash headers instead of parsing */
-    $headerCallback = function($curl, $header) use (&$headers){
+/* callback to stash headers instead of parsing */
+class HeaderCallback {
+    /**
+     * Parsed Headers
+     *
+     * @var array
+     */
+    public $headers = array();
+
+    /**
+     * Function to split headers and create an associated array
+     */
+    public function process($curl, $header)
+    {
         $parts = explode(': ', $header);
         if (count($parts) < 2) {
             return strlen($header);
         }
         $key            = trim($parts[0]);
         $value          = trim($parts[1]);
-        $headers[$key]  = $value;
+        $this->headers[$key]  = $value;
         return strlen($header);
-    };
+    }
+
+    public function clearHeaders()
+    {
+        $this->headers = array();
+        return $this;
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+}
+
+function processRedirectUrl($url, $isShort) {
+    /* fetch bitly url using curl */
+    $curl    = curl_init(); 
+    $headerCallback = new HeaderCallback();
+     
     curl_setopt_array(
         $curl,
         array(
@@ -193,12 +218,14 @@ function processRedirectUrl($url, $isShort) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,
             CURLOPT_URL => $url,
-            CURLOPT_HEADERFUNCTION => $headerCallback,
+            CURLOPT_HEADERFUNCTION => array($headerCallback, 'process'),
             CURLOPT_SSL_VERIFYPEER => false,
         )
     );
     if ($isShort) {
         curl_exec($curl);
+        $headers = $headerCallback->getHeaders();
+        $headerCallback->clearHeaders();
         if (! isset($headers['Location'])) {
             $error = 'Invalid wiredrive short url: ' . $url;
             echo json_encode(array(
@@ -217,6 +244,8 @@ function processRedirectUrl($url, $isShort) {
     /* app doens't support head request */
     curl_setopt($curl, CURLOPT_URL, $dispatchUrl);
     $result     = curl_exec($curl);
+    $headers = $headerCallback->getHeaders();
+    $headerCallback->clearHeaders();
     if (! isset($headers['Location'])) {
         $error = 'Error fetching wiredrive email url: ' . $url;
         echo json_encode(array(
