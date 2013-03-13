@@ -88,9 +88,15 @@ function processUrl($url) {
     if ($dotPos !== false) {
         $routeKey = str_replace('.jsonp', '', $routeKey); 
     }
+    $isWordPress = $routeKey == 'present-wordpress';
     $isRss      = $routeKey == 'rss';
     $isDispatch = in_array($routeKey, $dispatchList);
     $isPres     = in_array($routeKey, $routeList);
+   
+    if ($isWordPress) {
+        return $url; 
+    }
+    
     if (! $isWDCDN && 
         ! $isRss && 
         ! $isShort && 
@@ -344,24 +350,29 @@ if ($error) {
     ));
     exit;
 }
-$dom = new DomDocument();
-@$dom->loadHtml($result);
 
-$playerUrl = null;
-foreach ($dom->getElementsByTagName('meta') as $meta) {
-    $attribs = $meta->attributes;
-    $item    = $attribs->getNamedItem('property');
-    if (isset($item->value) && ($item->value == 'wiredrive:wp-data')) {
-        $content = $attribs->getNamedItem('content');
-        $playerUrl = $content->value;
-        break;
+if (strpos($url, 'wordpress') === false) {
+    $dom = new DomDocument();
+    @$dom->loadHtml($result);
+
+    $playerUrl = null;
+    foreach ($dom->getElementsByTagName('meta') as $meta) {
+        $attribs = $meta->attributes;
+        $item    = $attribs->getNamedItem('property');
+        if (isset($item->value) && ($item->value == 'wiredrive:wp-data')) {
+            $content = $attribs->getNamedItem('content');
+            $playerUrl = $content->value;
+            break;
+        }
     }
-}
-if (! $playerUrl) {
-    echo json_encode(array(
-        'error' => 'Error discovering player url: ' . $url
-    ));
-    exit;
+    if (! $playerUrl) {
+        echo json_encode(array(
+            'error' => 'Error discovering player url: ' . $url
+        ));
+        exit;
+    }
+} else {
+    $playerUrl = $url;
 }
 
 // build out the shortcode for this player
