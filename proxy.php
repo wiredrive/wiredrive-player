@@ -132,6 +132,7 @@ function processRssUrl($url) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,
             CURLOPT_URL => $url,
+            CURLOPT_SSL_VERIFYPEER => false,
         )
     );
     $rssFeed = curl_exec($curl);
@@ -313,14 +314,17 @@ if ($url == false) {
     ));
     exit;
 }
-$url  = processUrl($url);
-$curl = curl_init();
+$url    = processUrl($url);
+/* make sure ssl enabled in final presentation url */
+$url    = str_replace('http://', 'https://', $url); 
+$curl   = curl_init();
 curl_setopt_array(
     $curl,
     array(
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_TIMEOUT => 10,
         CURLOPT_URL     => $url,
+        CURLOPT_SSL_VERIFYPEER => false,
     )
 );
 $result   = curl_exec($curl);
