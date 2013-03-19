@@ -65,7 +65,12 @@
     background-color: rgba(17, 17, 17, <?= $options['thumb_box_opacity']; ?>);
 
     /* ohai IE8 (which unfortunately is also picked up by IE9) :P */
-    <? $hex = dechex($options['thumb_box_opacity'] * 100); ?>
+    <?
+        $hex = sprintf(
+            '%02s',
+            dechex(round(255 * ((float) $options['thumb_box_opacity'] * 100) / 100, 0))
+        );
+    ?>
     filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?= $hex; ?>111111,endColorStr=#<?= $hex; ?>111111);
     background-image: url("about:blank");
     background-attachment: scroll\9;

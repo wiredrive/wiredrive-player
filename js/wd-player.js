@@ -503,7 +503,15 @@
         this.duration = +config.duration;
         this.autoplay = !!config.autoplay;
         this.loop = !!config.loop;
-        this.thumbfit = config.thumbfit;
+
+        // Crop mode doesn't work in IE8 (but it does in emulated IE8...)
+        // Rather than do UA sniffing, just check for a feature that IE8 sorely lacks
+        // to see if we should force scale mode. Sure, this means that any browser that
+        // doesn't have indexOf defined on Array gets grouped in with IE8, but
+        // if you're a browser that doesn't know what indexOf is by now, you're no
+        // better than IE8
+        this.thumbfit = typeof Array.prototype.indexOf === 'undefined' ?
+            'scale' : config.thumbfit;
 
         this.id = config.id;
         this.items = [];
@@ -573,7 +581,7 @@
             //thanks to the wonderful wonderful ipad.
             if (mimetype === 'video') {
                 this.type === 'flash' ?
-                    $flashContainer.css({ width: 'auto', height: 'auto' }).removeClass('wd-hidden-flash') :
+                    $flashContainer.css({ width: '100%', height: '100%' }).removeClass('wd-hidden-flash') :
                     $videoContainer.css({ width: '100%', height: '100%' }).removeClass('wd-hidden-flash');
 
                 $imageContainer.addClass('wd-hidden');
