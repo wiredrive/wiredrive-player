@@ -49,13 +49,13 @@ class Wiredrive_Plugin_Settings
 			'title_font_size'            => '12',
 			'credit_font_size'           => '12',
 			'thumb_box_opacity'          => '0.3',
+            'slideshow_duration'         => '5',
 		);
 
 		/*
 		 * Get options saved to the database
 		 */
 		$this->options = get_option($this->optionsNs);
-
 	}
 	
 	/**
@@ -88,7 +88,7 @@ class Wiredrive_Plugin_Settings
 		);
 
 		add_settings_section('main_section',
-			'Default dimensions',
+			'Default settings',
 			array($this, 'section_text'),
 			__FILE__
 		);
@@ -203,6 +203,12 @@ class Wiredrive_Plugin_Settings
 			'text_colors_section'
 		);
 
+        add_settings_field('slideshow_duration',
+            'Slideshow duration',
+            array($this, 'slideshow_duration'),
+            __FILE__,
+            'main_section'
+        );
 	}
 
 	/**
@@ -233,7 +239,7 @@ class Wiredrive_Plugin_Settings
 	public function width()
 	{
 		$width = $this->getValue('width');
-		echo $this->textboxInput($width,'width', 'px');
+		echo $this->textboxInput($width,'width', ' px');
 	}
 
 	/**
@@ -244,8 +250,14 @@ class Wiredrive_Plugin_Settings
 	public function height()
 	{
 		$height = $this->getValue('height');
-		echo $this->textboxInput($height,'height', 'px');
+		echo $this->textboxInput($height,'height', ' px');
 	}
+
+    public function slideshow_duration()
+    {
+        $duration = $this->getValue('slideshow_duration');
+        echo $this->textboxInput($duration, 'slideshow_duration', ' seconds');
+    }
 
 	/**
 	 * Stage Color
@@ -407,6 +419,7 @@ class Wiredrive_Plugin_Settings
 		$clean['arrow_color']    = wp_filter_nohtml_kses($input['arrow_color']);
 		$clean['title_color']    = wp_filter_nohtml_kses($input['title_color']);
 		$clean['credit_color']   = wp_filter_nohtml_kses($input['credit_color']);
+        $clean['slideshow_duration'] = wp_filter_nohtml_kses($input['slideshow_duration']);
 		
         $clean['active_item_color'] 
                    = wp_filter_nohtml_kses($input['active_item_color']);
@@ -434,7 +447,7 @@ class Wiredrive_Plugin_Settings
 	public function options_page()
 	{
 ?>
-	<div class="wdp-settings wrap">
+	<div class="wd-settings wrap">
 		<div class="icon32" id="icon-options-general"><br></div>
 		<h2>Wiredrive Player Settings</h2>
 		You can config the Wiredrive Player's appearance below.
@@ -509,13 +522,13 @@ class Wiredrive_Plugin_Settings
 	private function textboxInputColorpicker($value,$inputName,$showComment = false)
     {
 
-        $str  =  "<div class='wdp-color-input-wrap'>";
+        $str  =  "<div class='wd-color-input-wrap'>";
 	   	$str .= "<input id='". $inputName ."'";
-        $str .= "class='wdp-colorpicker' ";
+        $str .= "class='wd-colorpicker' ";
 		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
 		          $value . "' style='background-color:". $value .";' />";
-        $str .= "<span class='wdp-color-button'></span>";
-        $str .= "<div class='wdp-color-picker-wrap ". $inputName ."'></div>";
+        $str .= "<span class='wd-color-button'></span>";
+        $str .= "<div class='wd-color-picker-wrap ". $inputName ."'></div>";
         
         if ($showComment !== false) {
 		   $str .=  "<span>". $showComment ."</span>";	
