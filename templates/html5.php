@@ -1,9 +1,0 @@
-<video id="<?php echo $this->get('attributeId') ?>" class='wd-video-player' src="<?php echo $this->get('link') ?>"
-                        width="<?php echo $this->get('width') ?>"
-                        height="<?php echo $this->get('height') ?>"
-                        poster="<?php echo $this->get('thumbnail') ?>"
-                        preload="none"
-                        x-webkit-airplay="allow"
-                        >
-</video>
-<div class="wd-play-big-button"></div>

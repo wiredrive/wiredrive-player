@@ -49,7 +49,7 @@ class Wiredrive_Button
 
     function mce_external_plugins($plugin_array)
     {
-        $plugin_array['wdpButton'] = plugins_url('/wiredrive-player/js/editor_plugin.js');
+        $plugin_array['wdpButton'] = plugins_url('/wiredrive-player/js/wd-mce-button.js');
         return $plugin_array;
     }
 

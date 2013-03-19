@@ -1,0 +1,569 @@
+/*
+ * Base styles
+ */
+.wd-hidden {
+    display: none !important;
+}
+
+.wd-player {
+    margin-top: 0px;
+    margin-bottom: 1em;
+}
+
+.wd-player .wd-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden;
+     *  this causes safari 6 to not consistently show the video controls on hover
+     *  for reasons unknown. */
+}
+
+@media all and (device-width: 768px) and (device-height: 1024px) {
+    .wd-player .wd-stage {
+        overflow: hidden;
+    }
+
+    /* pagination arrows are hidden on mobile due to the ipad bug
+     * that doesn't process events on elements positioned over a video
+     * element
+     */
+    .wd-player .wd-stage .wd-paginate {
+        display: none;
+    }
+
+    #wd-skrim .wd-player .wd-paginate {
+        opacity: .75;
+    }
+
+    #wd-skrim .wd-player .wd-paginate.next-arrow {
+        margin-right: -20px;
+    }
+
+    #wd-skrim .wd-player .wd-paginate.previous-arrow {
+        margin-left: -20px;
+    }
+
+    #wd-skrim .wd-player {
+        left: 40px;
+        right: 40px;
+    }
+}
+
+.wd-player .wd-flash-container {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wd-player .wd-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.wd-player .wd-image-container,
+.wd-player .video-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wd-player .wd-flash-replace {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    margin-top: -90px;
+}
+
+.wd-player .wd-install-safari {
+    background-image: url(../images/safari.png);
+}
+
+.wd-player .wd-install-flash {
+    background-image: url(../images/flash.png);
+}
+
+.wd-player .wd-install-links {
+    margin-top: 25px;
+}
+
+.wd-player .wd-install-links span {
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100px;
+    width: 100px;
+    display: inline-block;
+}
+
+.wd-player .wd-hidden-flash {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* get rid of the border radius and box shadow that some themes like to add to
+ * all images across the entire site
+ */
+.entry-content .wd-player img {
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.wd-player .wd-thumb-collapse {
+    background-color: #7a7a7a;
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 12px;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+}
+
+.wd-player .wd-thumb-collapse div {
+    margin-top: 8px;
+}
+
+.wd-player .no-paginate {
+    text-align: center;
+}
+
+.wd-player .no-paginate .wd-carousel-bb {
+    left: 0px;
+    right: 0px;
+}
+
+.wd-player .no-paginate .wd-carousel {
+    display: inline-block;
+}
+
+.wd-player .wd-carousel-button {
+    color: #fff;
+    position: absolute;
+    text-align: center;
+    width: 30px;
+    height: 62px;
+    top: 0;
+    cursor: pointer;
+}
+
+.wd-player .wd-carousel-button.disabled div {
+    opacity: .25;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+}
+
+.wd-player .wd-carousel-button div {
+    position: relative;
+    top: 50%;
+    margin-top: -8px;
+}
+
+.wd-player .wd-triangle {
+    margin-left: auto;
+    margin-right: auto;
+    width: 0;
+    height: 0;
+}
+
+.wd-player .wd-triangle.left {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid transparent; /* overridden by color settings */
+}
+
+.wd-player .wd-triangle.right {
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid transparent; /* overriden by color settings */
+}
+
+.wd-player .wd-triangle.up {
+    border-bottom: 5px solid #fff;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+.wd-player .wd-triangle.down {
+    border-top: 5px solid #fff;;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+}
+
+.wd-player .wd-carousel-button.previous {
+    left: 0;
+    right: auto;
+}
+
+.wd-player .wd-carousel-button.next {
+    right: 0;
+    left: auto;
+}
+
+.wd-player .no-paginate .wd-carousel-button {
+    display: none;
+}
+
+.wd-player .wd-thumbnail.crop img {
+    display: none;
+}
+
+.wd-player .wd-thumbnail.crop {
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.wd-player .wd-carousel {
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    line-height: 0;
+    transition-property: margin-left;
+    transition-duration: 750ms;
+    transition-timing-function: ease-out;
+    -webkit-transition-property: margin-left;
+    -webkit-transition-duration: 750ms;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-property: margin-left;
+    -moz-transition-duration: 750ms;
+    -moz-transition-timing-function: ease-out;
+}
+
+.wd-player .wd-image {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    opacity: 1;
+    transition-property: opacity;
+    -moz-transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -webkit-transition-duration: 1s;
+}
+
+.wd-player .wd-image.opaque {
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
+.wd-player .wd-play-video-button,
+.wd-player .wd-play-slideshow-button {
+    background-image: url(../images/play.png);
+    height: 100px;
+    width: 100px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    z-index: 10;
+}
+
+.wd-player .wd-play-slideshow-button.playing {
+    background-image: url(../images/pause.png);
+}
+
+.wd-paginate,
+.wd-player .slideshow .wd-play-slideshow-button {
+    display: block;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    transition-property: opacity;
+    -moz-transition-property: opacity;
+    -webkit-transition-property: opacity;
+    transition-duration: 500ms;
+    -moz-transition-duration: 500ms;
+    -webkit-transition-duration: 500ms;
+}
+
+.wd-stage.video .wd-play-slideshow-button,
+.wd-player .wd-play-slideshow-button {
+    display: none;
+}
+
+.wd-paginate {
+    height: 60px;
+    width: 40px;
+    position: absolute;
+    top: 50%;
+    margin-top: -30px;
+    cursor: pointer;
+}
+
+.wd-stage:hover .wd-paginate:hover,
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button:hover,
+#wd-skrim .wd-paginate:hover {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+
+.wd-stage:hover .wd-paginate,
+#wd-skrim .wd-player:hover .wd-paginate,
+.wd-stage.image.slideshow:hover .wd-play-slideshow-button,
+#wd-skrim .wd-player:hover .image.slideshow .wd-play-slideshow-button {
+    opacity: .75;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+}
+
+.wd-stage:hover .wd-paginate.disabled:hover,
+.wd-stage:hover .wd-paginate.disabled,
+#wd-skrim .wd-paginate.disabled:hover,
+#wd-skrim .wd-paginate.disabled {
+    opacity: .25;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
+    cursor: default;
+}
+
+.wd-paginate.previous-arrow {
+    background-image: url(../images/previous.png);
+    margin-left: 10px;
+    left: 0;
+}
+
+.wd-paginate.next-arrow {
+    background-image: url(../images/next.png);
+    right: 0;
+    margin-right: 10px;
+}
+
+/*
+ * Skrim styles
+ */
+html.wd-skrim-visible {
+    overflow: hidden;
+    height: 100%;
+}
+
+#wd-skrim {
+    cursor: pointer;
+    z-index: 100001;
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.75);
+
+    /* IE 8 hacks. The idea is that only IE8 picks up the \9 rules,
+     * but unfortunately IE9 still recognizes the filter property and is still parsed
+     * even with a \9, and in IE if you have a filter with a transparent bg, your element
+     * is unclickable so we have to add the background image to about:blank to make the skrim clickable
+     * again in IE.
+     *
+     * Sane browsers don't care about about:blank, so it still works
+     */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);
+    background-image: url("about:blank");
+    background-attachment: scroll\9;
+    background-repeat: repeat\9;
+    background-position-x: 0%\9;
+    background-position-y: 0%\9;
+    background-color: transparent\9;
+}
+
+#wd-skrim .wd-player {
+    position: absolute;
+    bottom: 40px;
+    left: 20px;
+    right: 20px;
+    top: 40px;
+    background: none;
+}
+
+#wd-skrim .wd-stage {
+    background: none;
+    height: auto;
+}
+
+#wd-skrim .wd-stage.image {
+    height: 100%;
+}
+
+#wd-skrim .wd-paginate.previous-arrow {
+    margin-left: 25px;
+}
+
+#wd-skrim .wd-paginate.next-arrow {
+    margin-right: 25px;
+}
+
+#wd-skrim .wd-player .wd-credit-tray {
+    background-color: transparent;
+    border: none;
+}
+
+/*
+ * Inline player styles
+ */
+.wd-player.inline-player {
+    position: relative;
+}
+
+.wd-player.inline-player .video-container,
+.wd-player.inline-player video {
+    height: 100%;
+    width: 100%;
+}
+
+.wd-player.inline-player .wd-carousel {
+    white-space: nowrap;
+}
+
+.wd-player.inline-player .wd-carousel-bb {
+    position: absolute;
+    left: 31px;
+    right: 31px;
+    overflow: hidden;
+}
+
+.wd-player.inline-player .wd-credit-tray {
+    padding: 10px;
+    position: relative;
+}
+
+.wd-player.inline-player .wd-credit-tray.collapsible {
+    padding-right: 35px;
+}
+
+.wd-player.inline-player .wd-thumb-tray li {
+    margin: 0px 1px;
+    list-style-type: none;
+    display: inline-block;
+    position: relative;
+    opacity: .75;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+    cursor: pointer;
+    /* transitions look really bad in webkit.
+     * the fade aliasing actually causes the image to flicker in size by a few pixels
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 750ms;
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 750ms;
+    transition-property: opacity;
+    transition-duration: 750ms;
+    */
+}
+
+.wd-player.inline-player .wd-thumb-tray li img {
+    vertical-align: middle;
+}
+
+.wd-player.inline-player .wd-thumb-tray li:hover {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+
+.wd-player.inline-player .wd-thumb-tray {
+    position: relative;
+    height: 62px;
+    width: 100%;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: 750ms;
+    -webkit-transition-property: height;
+    -webkit-transition-duration: 750ms;
+    -moz-transition-property: height;
+    -moz-transition-duration: 750ms;
+}
+
+.wd-player.inline-player .wd-thumb-tray.collapsed {
+    height: 0px;
+}
+
+.wd-player.inline-player .wd-credit-tray .wd-title {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.wd-player.inline-player .wd-credit-tray .wd-credit {
+    display: inline-block;
+}
+
+.wd-player.inline-player .wd-credit-separator::after {
+    content: ',';
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.wd-player.inline-player .wd-credit-label::after {
+    content: ':';
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.wd-player.inline-player .wd-credit-separator:after {
+    content: ',';
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.wd-player.inline-player .wd-credit-label:after {
+    content: ':';
+    display: inline-block;
+    margin-right: 5px;
+}
+/*
+ * Gallery player styles
+ */
+.wd-player.gallery-player .wd-stage {
+    display: none;
+}
+
+.wd-player.gallery-player .wd-credit-tray {
+    border: none;
+}
+
+.wd-player.gallery-player .wd-thumb-tray li {
+    margin: 0px 2px 2px 0px;
+    list-style-type: none;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.wd-player.gallery-player .wd-thumb-tray.letterbox li {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.wd-player.gallery-player .wd-thumb-tray li.wd-linebreak {
+    display: block;
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    visibility: hidden;
+}
+
+.wd-player.gallery-player .wd-credit-tray {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    opacity: .8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+
+.wd-player.gallery-player .wd-credit-tray .wd-credit-wrapper {
+    line-height: 1.3;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 7px;
+}
+
+.wd-player.gallery-player li:hover .wd-credit-tray {
+    display: table;
+}
+
