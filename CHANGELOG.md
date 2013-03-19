@@ -61,7 +61,10 @@ Complete Changelog
 ### 2.2.5
 * Bugfix: Preventing slideshow instances from disappearing/reappearing and affecting other player instances in the same document
 
-## 2.3
+### 2.2.6
+* Bugfix: Preventing HTML5 player from resizing incorrectly after switching to the next video
+
+## 3.0b1
 * Player now properly supports multiple instances on a single page
 * Presentation data is now recieved as JSONP
 * Player can now display both images and videos as part of the same presentation

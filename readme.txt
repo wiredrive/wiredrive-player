@@ -4,7 +4,8 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 3.5
-Stable tag: 2.3
+Stable tag: 2.2.6
+Development tag: 3.0b1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +41,7 @@ Functionality Specs:
 
 Backwards Compatability Notes:
 
-* Theme changes: As of version 2.3, Grid and Grid-box themes have been merged into one theme called the Gallery theme. When the player detects a post with shortcode from an older version of the player that used either grid or grid-box themes, it will translate them as best it can into a Gallery theme equivalent, hopefully meaning you won't need to regenerate the shortcode for your post. The theme translation strategy is as follows:
+* Theme changes: As of version 3.0, Grid and Grid-box themes have been merged into one theme called the Gallery theme. When the player detects a post with shortcode from an older version of the player that used either grid or grid-box themes, it will translate them as best it can into a Gallery theme equivalent, hopefully meaning you won't need to regenerate the shortcode for your post. The theme translation strategy is as follows:
   * "grid" theme becomes "gallery-player" with thumbnail strategy set to "scale" and the thumbnail dimensions set to 180x180
   * "grid-box" theme becomes "gallery-player" with the thumbnail strategy set to "scale", the thumbnail dimensions set to 180x180, and center-align thumbnails (letterboxing) turned on
 * The structure of the markup has drastically changed. If you have custom stylesheets defined to override the default styles of the player (styles that are _not_ covered by the Player's admin color preferences), they will need to be updated to reflect the new markup.
@@ -68,7 +69,7 @@ Known issues:
 
 == Changelog ==
 
-= 2.3 =
+= 3.0b1 =
 * Player now properly supports multiple instances on a single page
 * Presentation data is now recieved as JSONP
 * Player can now display both images and videos as part of the same presentation
@@ -82,6 +83,9 @@ Known issues:
 * Gallery thumbnails can now be either constrained to fit within the thumbnail bounding box (Scale) or the bounding box can be used as a cropping mask for the thumbnail (Crop)
 * Gallery players can now specify a linebreak, that is how many thumbnails will be rendered before the next thumbnail is forced to the line below
 * Bugfix: Flash volume slider now works (Open Video Player has been replaced with Adobe Strobe)
+
+= 2.2.6 =
+* Bugfix: Preventing HTML5 player from resizing incorrectly after switching to the next video
 
 = 2.2.5 =
 * Bugfix: Preventing slideshow instances from disappearing/reappearing and affecting other player instances in the same document
@@ -145,9 +149,9 @@ Known issues:
 
 == Upgrade Notice ==
 
-= 2.3 =
+= 3.0b1 =
 * Addressed all outstanding bugs and added additional features.
-* See the 2.3 changelog above for a complete list of changes.
+* See the 3.0b1 changelog above for a complete list of changes.
 * See Backwards Compatability section above before upgrading.
 
 = 2.2.6 =

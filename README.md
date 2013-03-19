@@ -2,7 +2,8 @@ Wiredrive Player (Wordpress Plugin)
 ====
 * Requires at least: Wordpress 3.4.0
 * Contributors: Wiredrive
-* Stable tag: 2.3
+* Stable tag: 2.2.6
+* Development tag: 3.0b1
 * License: GPLv2 or later
 * Dependencies: jQuery 1.7.2 or higher, jQuery UI 1.8.20 or higher
 
@@ -55,7 +56,7 @@ Known Issues
 Backwards Compatibility Notes
 ----
 ### Merging of Grid and Grid-box themes
-As of version 2.3, Grid and Grid-box themes have been merged into one theme called the Gallery theme. When the player detects a post with shortcode (the `[wiredrive ...][/wiredrive]` text that gets inserted into your post) from an older version of the player that used grid or grid-box themes, it will automatically translate them as best it can into a Gallery theme with equivalent settings. Hopefully this means that you will not need to regenerate the player shortcode for players that now contain deprecated themes/settings
+As of version 3.0, Grid and Grid-box themes have been merged into one theme called the Gallery theme. When the player detects a post with shortcode (the `[wiredrive ...][/wiredrive]` text that gets inserted into your post) from an older version of the player that used grid or grid-box themes, it will automatically translate them as best it can into a Gallery theme with equivalent settings. Hopefully this means that you will not need to regenerate the player shortcode for players that now contain deprecated themes/settings
 
 The translation strategy is as follows:
 
@@ -63,13 +64,13 @@ The translation strategy is as follows:
 * "grid-box" is the same as "grid" translation, but with Center-align Thumbnail (`letterbox`) turned on: "grid-box" becomes "gallery-player", thumbfit is set to "scale", letterbox is turned "on", and the thumbnail dimensions are set to 180x180
 
 ### Markup structure change
-As of version 2.3, the structure of the HTML markup of the player has changed significantly (new structure, new class names, etc). If you have custom stylesheets defined to override/enhance the default styles of the player (styles that are *not* covered by the Player's admin color preferences), they will need to be updated to reflect the new markup structure.
+As of version 3.0, the structure of the HTML markup of the player has changed significantly (new structure, new class names, etc). If you have custom stylesheets defined to override/enhance the default styles of the player (styles that are *not* covered by the Player's admin color preferences), they will need to be updated to reflect the new markup structure.
 
 FAQ
 ----
 
 ### What happened to the Grid and Grid-box display options?
-In version 2.3, we decided to combine the grid and grid-box options into a single theme called the Gallery Theme. Any players that were created as grid or grid-box displays will automatically convert themselves to the proper Gallery player at render time. See the "Backwards Compatibility Notes" section above for more info
+In version 3.0, we decided to combine the grid and grid-box options into a single theme called the Gallery Theme. Any players that were created as grid or grid-box displays will automatically convert themselves to the proper Gallery player at render time. See the "Backwards Compatibility Notes" section above for more info
 
 ### What is the difference between the "Scale" and "Crop" thumbnail strategies for the Gallery player?
 When using the Gallery theme, each asset thumbnail is rendered to the DOM as follows: A thumbnail container element is drawn with the dimensions specified in the "Thumbnail dimensions" section of the Gallery theme options. The thumbnail strategy defines the rest:
@@ -83,7 +84,7 @@ The new player was built with evolving and current web standards in mind. The an
 Recent Changelog
 ----
 
-### 2.3
+### 3.0b1
 * Player now properly supports multiple instances on a single page
 * Presentation data is now recieved as JSONP
 * Player can now display both images and videos as part of the same presentation
