@@ -142,7 +142,7 @@
                     autoOpen: false,
                     resizable: false,
                     width: 750,
-                    height: 512,
+                    height: 535,
                     modal: true,
                     title: DIALOG_TITLE_TEMPLATE,
                     buttons: {

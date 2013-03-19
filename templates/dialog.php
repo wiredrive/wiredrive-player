@@ -10,7 +10,9 @@
                 <p>Enter the address of the Wiredrive presentation or Wiredrive mRSS feed you'd like to display. Presentations can contain any combination of video and image files (JPG, GIF or PNG). Any files that are not recognized as video or image will be ignored.
                 <p><strong>Examples:</strong></p>
                 <p class="wd-examples">
-                    <code>(TODO: acceptable examples)</code>
+                    <code>https://iowa.wiredrive.com/present-reel/token/fa7b8e8e8624199b8c0fd311f9e37c29</code>
+                    <code>http://www.wdcdn.net/rss/presentation/library/client/iowa/id/fa7b8e8e8624199b8c0fd311f9e37c29</code>
+                    <code>http://wdrv.it/10C73Oy</code>
                 </p>
                 <p><input type="text" id="wd-url" /></p>
             </div>
@@ -22,8 +24,8 @@
                         <span class="wd-label">Theme:</span>
                         <span class="wd-value">
                             <select name="theme" id="wd-theme">
-                                <option value="inline-player">Reel/Slideshow player</option>
-                                <option value="gallery-player">Gallery with modal player</option>
+                                <option value="inline-player">Reel/Slideshow</option>
+                                <option value="gallery-player">Gallery</option>
                             </select>
                         </span>
                     </li>
@@ -109,8 +111,8 @@
                     </li>
                     <li>
                         <input id="wd-linebreak-enabled" type="checkbox" />
-                        <label for="wd-linebreak-enabled">Linebreak every</label>
-                        <input type="text" id="wd-linebreak" name="linebreak" value="1" disabled /> thumbnail(s)
+                        <input type="text" id="wd-linebreak" name="linebreak" value="4" disabled />
+                        <label for="wd-linebreak-enabled">thumbnails per row</label>
                     </li>
                     <li>
                         <input id="wd-gallery-credit-label" name="creditlabel" type="checkbox" />

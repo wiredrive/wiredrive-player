@@ -198,12 +198,14 @@
                     // no use for poster)
                     if (isFirstVideo && !instance.isModal() && !instance.autoplay) {
                         $player.attr('poster', first.poster);
-                        $player.attr('src', first.url);
 
                         $container.on('touch click', '.wd-paginate', onceDelegate);
                         $container.on('touch click', '.wd-thumbnail img', onceDelegate);
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
+
+                            $player.attr('src', first.url);
+                            $player.load();
 
                             //the once delegator doesn't need to explicitly call `play` because
                             //that will be handled by the normal event handlers on the paginators
@@ -240,17 +242,34 @@
                     this.$player.get(0).pause();
                 },
 
-                _playVideo: function (bindOnceCanStart) {
+                _playVideo: function (bindOnceCanPlay) {
                     var $player = this.$player,
-                        player = $player.get(0);
+                        player = $player.get(0),
+                        iPadHackFn = function () {
+                            $player.load();
+                            player.play();
+                        },
+                        iPadInterval;
+
+                    if (bindOnceCanPlay) {
+                        //it seems that iPad's still have some issues playing the first video
+                        //asset. Even with a canplay listener, when the first video is
+                        //loaded, it simply waits to recieve data but never actually recieves data.
+                        //It just sits there indefinitely. The fix is hacky (as always for iPad).
+                        // Delay the actual call to reload and play the video, and just keep trying
+                        // every two seconds until the video actually plays.
+                        // If you know of a way to get the iPad to cooperate, submit a pull request.
+                        $player.one('canplay', function (e) {
+                            clearInterval(iPadInterval);
+                        });
+
+                        setTimeout(function () {
+                            iPadInterval = setInterval(iPadHackFn, 2000);
+                            iPadHackFn();
+                        }, 100);
+                    }
 
                     player.play();
-
-                    // hack for iPad. If the source hasn't loaded enough to where it can start playing
-                    // right away, bind a canstart once listener to assure that the video starts.
-                    bindOnceCanStart && $player.one('canstart', function () {
-                        player.play();
-                    });
                 },
             },
             flash: {
@@ -861,7 +880,7 @@
                 }
             });
 
-            instance.$container.on('click', '.wd-thumbnail', function (e) {
+            instance.$container.on('touchstart click', '.wd-thumbnail', function (e) {
                 var index = +$(e.currentTarget).attr('data-wd-index');
 
                 instance.current = index;
@@ -1088,7 +1107,6 @@
 
             // bind clicking on a thumbnail in the thumbnail tray
             $thumbTray.on('touch click', '.wd-thumbnail img', function (e) {
-                console.log('thumbnail click');
                 var $li = $(e.target).parent('li'),
                     index = +$li.attr('data-wd-index');
 
@@ -1438,7 +1456,7 @@
             if (player.getCurrentType() === 'video') {
                 if (player.isReady()) {
                     //player is ready (probably html5)
-                    player.setSource(player.current) && player.autoplay && player.play();
+                    player.autoplay && player.setSource(player.current) && player.play();
                 } else {
                     //player is not ready (either flash or flash is disabled.
                     //Trigger the viewer so that styles and binds don't break
@@ -1509,6 +1527,7 @@
             $window.on('resize', resize);
 
             if (modalPlayer.isReady()) {
+                modalPlayer.resize();
                 modalPlayer.play();
             }
 
