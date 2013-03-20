@@ -31,7 +31,8 @@
                     theme: theme,
                     url: $('#wd-url').val(),
                     autoslideshow: $('#wd-slideshow:checked').val(),
-                    loop: $('#wd-loop:checked').val()
+                    loop: $('#wd-loop:checked').val(),
+                    action: 'wd-url-validator'
                 };
                 
             //only send these settings if the parent settings are enabled
@@ -71,7 +72,7 @@
 
             _requesting = true;
 
-            $.getJSON(WDPA.proxyUrl, data, function (response) {
+            $.post(WDPA.validatorUrl, data, function (response) {
                 var editor,
                     tinymce = window.tinymce;
 
@@ -101,7 +102,7 @@
                 }
 
                 _dialogClose();
-            });
+            }, 'json');
         },
         _dialogReset = function () {
             var defaults = WDPA.defaults;
