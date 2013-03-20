@@ -63,6 +63,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    text-align: center;
 }
 
 .wd-player .wd-image-container,
