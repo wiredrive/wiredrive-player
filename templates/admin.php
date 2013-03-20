@@ -15,6 +15,6 @@
         width: <?= $width; ?>
     };
 
-    WDPA.proxyUrl = '<?= $pluginUrl; ?>/proxy.php';
+    WDPA.validatorUrl = '<?= admin_url('admin.php') ?>';
 }());
 </script>
