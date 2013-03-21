@@ -759,21 +759,25 @@
                 iPadHack = false; //have we executed our ipad hack already?
 
             // bind the paginators
-            $container.on('click', '.wd-paginate', function (e) {
-                var $target = $(e.target),
-                    direction, index;
+            if (instance.items.length > 1) {
+                $container.on('click', '.wd-paginate', function (e) {
+                    var $target = $(e.target),
+                        direction, index;
 
-                if ($target.hasClass('disabled')) {
-                    return;
-                }
+                    if ($target.hasClass('disabled')) {
+                        return;
+                    }
 
-                direction = $target.hasClass('next-arrow') ? 1 : -1;
-                index = instance.current + direction;
+                    direction = $target.hasClass('next-arrow') ? 1 : -1;
+                    index = instance.current + direction;
 
-                instance.pause();
-                instance.setSource(index);
-                instance.play();
-            });
+                    instance.pause();
+                    instance.setSource(index);
+                    instance.play();
+                });
+            } else {
+                $container.find('.wd-paginate').addClass('wd-hidden');
+            }
 
             // bind clicking on the slideshow play button
             $container.find('.wd-play-slideshow-button').on('click', function (e) {
