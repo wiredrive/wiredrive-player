@@ -360,7 +360,7 @@ class WdUrlValidator
             }
             if (! $playerUrl) {
                 echo json_encode(array(
-                    'error' => 'Error discovering player url: ' . $url
+                    'error' => 'Error discovering player url'
                 ));
                 exit;
             }
