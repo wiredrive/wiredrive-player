@@ -155,7 +155,7 @@ class WdUrlValidator
         try {
             $rss = new SimpleXmlElement($rssFeed);
         } catch (Exception $error) {
-            $error = 'Error parsing Wiredrive RSS';
+            $error = 'Error in Wiredrive RSS';
             echo json_encode(array(
                 'error' => $error
             ));
@@ -221,7 +221,7 @@ class WdUrlValidator
             $headers = $this->headers;
             $this->headers = array();
             if (! isset($headers['Location'])) {
-                $error = 'Invalid wiredrive short url: ' . $url;
+                $error = 'Invalid Wiredrive short url';
                 echo json_encode(array(
                     'error' => $error
                 ));
@@ -241,7 +241,7 @@ class WdUrlValidator
         $headers = $this->headers;
         $this->headers = array();
         if (! isset($headers['Location'])) {
-            $error = 'Error fetching wiredrive email url: ' . $url;
+            $error = 'Error fetching Wiredrive email url';
             echo json_encode(array(
                 'error' => $error
             ));
@@ -257,7 +257,7 @@ class WdUrlValidator
             if (! isset($urlParts['path']) ||
                 ! isset($urlParts['scheme']) ||
                 ! isset($urlParts['host'])) {
-                $error = 'Error parsing wiredrive url: ' . $url;
+                $error = 'Error in Wiredrive url';
                 echo json_encode(array(
                     'error' => $error
                 ));
