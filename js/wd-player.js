@@ -1344,7 +1344,7 @@
                 instance['_HAS_' + asset.mimeCategory.toUpperCase()] = true;
 
                 instance.items.push({
-                    title: asset.title,
+                    title: asset.title || asset.label,
                     height: +primary.height,
                     width: +primary.width,
                     url: primary.url,
