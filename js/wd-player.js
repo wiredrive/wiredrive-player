@@ -118,6 +118,12 @@
             '<span class="wd-credit-separator"></span>'
         ].join(''),
 
+        EMPTY_TEMPLATE = [
+            '<div class="wd-empty-presentation">',
+                '<span>Wiredrive Player: No presentable assets found in presentation!</span>',
+            '</div>'
+        ].join(''),
+
         MODAL_CONTAINER_ID = 'wd-modal-player',
         MODAL_TEMPLATE = [
             '<div id="wd-skrim">',
@@ -1367,6 +1373,11 @@
                 });
             });
 
+            // if we didn't end up parsing any presentable assets
+            if (!instance.items.length) {
+                return false;
+            }
+
             // autoplay is not supported on iOS for bandwidth reasons. With the additional restriction of not
             // being able to programatically start html5 video unless the command is in an execution stack
             // that originated from a user interaction event, autoplay really only means anything on an ipad
@@ -1376,6 +1387,8 @@
             if (instance.isMobile && instance.autoplay && instance._HAS_VIDEO) {
                 instance.autoplay = false;
             }
+
+            return true;
         }
     };
 
@@ -1432,12 +1445,14 @@
                 var player = _players[id],
                     $stage = $('#' + id + ' .wd-stage');
 
-                player.parse(data);
-
-                if (player.theme === 'inline-player') {
-                    WDP._initInlinePlayer(player);
+                if (player.parse(data)) {
+                    if (player.theme === 'inline-player') {
+                        WDP._initInlinePlayer(player);
+                    } else {
+                        WDP._initGalleryPlayer(player);
+                    }
                 } else {
-                    WDP._initGalleryPlayer(player);
+                    WDP._initEmptyPlayer(player);
                 }
 
                 // Callback is not needed anymore
@@ -1449,6 +1464,11 @@
 
         _initGalleryPlayer: function (player) {
             player.attachGallery();
+        },
+
+        _initEmptyPlayer: function (player) {
+            player.$container.find('> div').addClass('wd-hidden');
+            player.$container.append(EMPTY_TEMPLATE);
         },
 
         _initInlinePlayer: function (player) {
