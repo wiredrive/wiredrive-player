@@ -304,8 +304,15 @@ class WdUrlValidator
             exit;
         }
         $url    = $this->processUrl($url);
-        /* make sure ssl enabled in final presentation url */
-        $url    = str_replace('http://', 'https://', $url); 
+        if ((strpos($url, 'wordpress') !== false) && 
+            (strpos($url, 'wdcdn') !== false)) {
+            /* if wordpress url, make sure no ssl */
+            $url = str_replace('https://', 'http://', $url);
+        } else {
+            /* make sure ssl enabled in final presentation url */
+            $url = str_replace('http://', 'https://', $url);
+        }
+        
         $curl   = curl_init();
         curl_setopt_array(
             $curl,
