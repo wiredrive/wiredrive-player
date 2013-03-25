@@ -27,15 +27,15 @@
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
 <div id="<?= $attributeId; ?>" class="wd-player">
-    <? if ($theme === 'inline-player'): ?>
+    <?php if ($theme === 'inline-player'): ?>
     <div class="wd-stage">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>
         <div class="wd-play-slideshow-button"></div>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if ($theme === 'inline-player' && !$disableThumbs): ?>
+    <?php if ($theme === 'inline-player' && !$disableThumbs): ?>
     <div class="wd-thumb-tray<?= $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?= $width; ?>px;">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
@@ -49,21 +49,21 @@
     </div>
     <div class="wd-credit-tray<?= $collapseThumbs ? ' collapsible' : ''; ?>">
         <div class="wd-title">&nbsp;</div>
-        <? if ($collapseThumbs): ?>
+        <?php if ($collapseThumbs): ?>
         <div class="wd-thumb-collapse collapsed">
             <div class="wd-triangle down"></div>
         </div>
-        <? endif; ?>
+        <?php endif; ?>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if ($theme === 'gallery-player'): ?>
+    <?php if ($theme === 'gallery-player'): ?>
     <div class="wd-thumb-tray<?= $isLetterbox ? ' letterbox' : ''; ?>">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
         </div>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
     <script type="text/javascript">
         (function () {
@@ -81,14 +81,14 @@
                 loop: <?= $loop ? 'true' : 'false'; ?>,
                 creditCount: <?= $creditCount; ?>,
                 showCreditLabel: <?= $showCreditLabel ? 'true' : 'false'; ?>,
-            <? if ($theme === 'inline-player'): ?>
+            <?php if ($theme === 'inline-player'): ?>
                 autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
-            <? else: ?>
+            <?php else: ?>
                 galleryThumbWidth: <?= $thumbWidth; ?>,
                 galleryThumbHeight: <?= $thumbHeight; ?>,
                 thumbfit: '<?= $thumbfit; ?>',
                 linebreak: <?= $linebreak; ?>,
-            <? endif; ?>
+            <?php endif; ?>
                 jsonpUrl: '<?= $jsonpUrl; ?>'
             });
         }());
