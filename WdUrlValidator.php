@@ -271,7 +271,11 @@ class WdUrlValidator
 
     public function process()
     {
-        $url = filter_input(INPUT_POST, 'url', FILTER_VALIDATE_URL);
+        $url = false;
+        if (isset($_POST['url'])) {
+            $url = trim($_POST['url']);
+        }
+        $url = filter_var($url, FILTER_VALIDATE_URL);
         $options = array(
             'width' => filter_input(INPUT_POST, 'width', FILTER_VALIDATE_INT),
             'height' => filter_input(INPUT_POST, 'height', FILTER_VALIDATE_INT),
@@ -303,6 +307,7 @@ class WdUrlValidator
             ));
             exit;
         }
+        
         $url    = $this->processUrl($url);
         if ((strpos($url, 'wordpress') !== false) && 
             (strpos($url, 'wdcdn') !== false)) {
