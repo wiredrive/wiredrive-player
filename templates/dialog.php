@@ -125,7 +125,7 @@
             </div>
 
             <div class="wd-help">
-                <a href="http://labs.wiredrive.com/wordpress/classic2/">What does it all mean?</a>
+                <a target="_new" href="http://labs.wiredrive.com/wordpress/classic2/">What does it all mean?</a>
             </div>
         </div>
     </div>
