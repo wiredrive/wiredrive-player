@@ -5,7 +5,7 @@ Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 3.5
 Stable tag: 2.2.6
-Development tag: 3.0b1
+Development tag: 3.0b2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -68,6 +68,15 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+
+= 3.0b2 =
+* proxy calls to retrieve a presentation url can now only be made by authenticated WordPress admins
+* Removed all PHP short tags
+* Fixed video poster image justification
+* Pagination arrows now only appear if there is more than one asset in the presentation
+* A presentation with no viewable assets now renders out an error message in place of the player. It no longer generat
+es JavaScript errors.
+* Added loading indicator to post Dialog window on submit.
 
 = 3.0b1 =
 * Player now properly supports multiple instances on a single page

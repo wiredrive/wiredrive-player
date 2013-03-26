@@ -38,7 +38,7 @@
                         <span class="wd-label">
                             <input id="wd-slideshow" name="autoslideshow" type="checkbox" />
                             <label for="wd-slideshow">Slideshow images every</label>
-                            <input id="wd-duration" name="duration" type="text" value="<?= $duration; ?>" disabled /> seconds
+                            <input id="wd-duration" name="duration" type="text" value="<?php echo $duration; ?>" disabled /> seconds
                         </span>
                     </li>
                 </ul>
@@ -52,8 +52,8 @@
                             Player dimensions:
                         </span>
                         <span class="wd-value">
-                            <input type="text" id="wd-width" name="width" value="<?= $width; ?>" />px wide &#215;
-                            <input type="text" id="wd-height" name="height" value="<?= $height; ?>" />px tall
+                            <input type="text" id="wd-width" name="width" value="<?php echo $width; ?>" />px wide &#215;
+                            <input type="text" id="wd-height" name="height" value="<?php echo $height; ?>" />px tall
                         </span>
                     </li>
                     <li>
@@ -125,7 +125,7 @@
             </div>
 
             <div class="wd-help">
-                <a href="#">What does it all mean?</a>
+                <a target="_new" href="http://labs.wiredrive.com/wordpress/classic2/">What does it all mean?</a>
             </div>
         </div>
     </div>

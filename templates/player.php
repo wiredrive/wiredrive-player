@@ -26,17 +26,17 @@
     $type = $this->get('type'); //which player template to use
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
-<div id="<?= $attributeId; ?>" class="wd-player">
-    <? if ($theme === 'inline-player'): ?>
+<div id="<?php echo $attributeId; ?>" class="wd-player">
+    <?php if ($theme === 'inline-player'): ?>
     <div class="wd-stage">
         <div class="wd-paginate previous-arrow"></div>
         <div class="wd-paginate next-arrow"></div>
         <div class="wd-play-slideshow-button"></div>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if ($theme === 'inline-player' && !$disableThumbs): ?>
-    <div class="wd-thumb-tray<?= $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?= $width; ?>px;">
+    <?php if ($theme === 'inline-player' && !$disableThumbs): ?>
+    <div class="wd-thumb-tray<?php echo $collapseThumbs ? ' collapsed' : ''; ?>" style="width: <?php echo $width; ?>px;">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
         </div>
@@ -47,49 +47,49 @@
             <div class="wd-triangle right"></div>
         </div>
     </div>
-    <div class="wd-credit-tray<?= $collapseThumbs ? ' collapsible' : ''; ?>">
+    <div class="wd-credit-tray<?php echo $collapseThumbs ? ' collapsible' : ''; ?>">
         <div class="wd-title">&nbsp;</div>
-        <? if ($collapseThumbs): ?>
+        <?php if ($collapseThumbs): ?>
         <div class="wd-thumb-collapse collapsed">
             <div class="wd-triangle down"></div>
         </div>
-        <? endif; ?>
+        <?php endif; ?>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
-    <? if ($theme === 'gallery-player'): ?>
-    <div class="wd-thumb-tray<?= $isLetterbox ? ' letterbox' : ''; ?>">
+    <?php if ($theme === 'gallery-player'): ?>
+    <div class="wd-thumb-tray<?php echo $isLetterbox ? ' letterbox' : ''; ?>">
         <div class="wd-carousel-bb">
             <ol class="wd-carousel"></ol>
         </div>
     </div>
-    <? endif; ?>
+    <?php endif; ?>
 
     <script type="text/javascript">
         (function () {
             "use strict";
 
             window.WDP.registerPlayer({
-                id: '<?= $attributeId; ?>',
-                type: '<?= $type; ?>',
-                theme: '<?= $theme; ?>',
-                isMobile: <?= $isMobile ? 'true' : 'false'; ?>,
-                width: '<?= $width; ?>',
-                height: '<?= $height; ?>',
-                slideshow: <?= $slideshow ? 'true' : 'false'; ?>,
-                duration: <?= $duration; ?>,
-                loop: <?= $loop ? 'true' : 'false'; ?>,
-                creditCount: <?= $creditCount; ?>,
-                showCreditLabel: <?= $showCreditLabel ? 'true' : 'false'; ?>,
-            <? if ($theme === 'inline-player'): ?>
-                autoplay: <?= $autoplay ? 'true' : 'false'; ?>,
-            <? else: ?>
-                galleryThumbWidth: <?= $thumbWidth; ?>,
-                galleryThumbHeight: <?= $thumbHeight; ?>,
-                thumbfit: '<?= $thumbfit; ?>',
-                linebreak: <?= $linebreak; ?>,
-            <? endif; ?>
-                jsonpUrl: '<?= $jsonpUrl; ?>'
+                id: '<?php echo $attributeId; ?>',
+                type: '<?php echo $type; ?>',
+                theme: '<?php echo $theme; ?>',
+                isMobile: <?php echo $isMobile ? 'true' : 'false'; ?>,
+                width: '<?php echo $width; ?>',
+                height: '<?php echo $height; ?>',
+                slideshow: <?php echo $slideshow ? 'true' : 'false'; ?>,
+                duration: <?php echo $duration; ?>,
+                loop: <?php echo $loop ? 'true' : 'false'; ?>,
+                creditCount: <?php echo $creditCount; ?>,
+                showCreditLabel: <?php echo $showCreditLabel ? 'true' : 'false'; ?>,
+            <?php if ($theme === 'inline-player'): ?>
+                autoplay: <?php echo $autoplay ? 'true' : 'false'; ?>,
+            <?php else: ?>
+                galleryThumbWidth: <?php echo $thumbWidth; ?>,
+                galleryThumbHeight: <?php echo $thumbHeight; ?>,
+                thumbfit: '<?php echo $thumbfit; ?>',
+                linebreak: <?php echo $linebreak; ?>,
+            <?php endif; ?>
+                jsonpUrl: '<?php echo $jsonpUrl; ?>'
             });
         }());
     </script>

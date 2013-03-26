@@ -7,8 +7,8 @@
 (function () {
     "use strict";
 
-    window.WDP.options = <?= json_encode($options); ?>;
-    window.WDP.options.pluginUrl = '<?= $pluginUrl; ?>';
+    window.WDP.options = <?php echo json_encode($options); ?>;
+    window.WDP.options.pluginUrl = '<?php echo $pluginUrl; ?>';
 }());
 </script>
 
@@ -18,60 +18,60 @@
  */
 .wd-player .wd-stage,
 .wd-player .wd-poster {
-    background-color: <?= $options['stage_color']; ?>;
+    background-color: <?php echo $options['stage_color']; ?>;
 }
 
 .wd-player .wd-credit-tray {
-    background-color: <?= $options['credit_container_color']; ?>;
-    text-align: <?= $options['credit_container_alignment']; ?>;
-    border-top: 1px solid <?= $options['credit_container_border']; ?>;
-    color: <?= $options['credit_color']; ?>;
-    font-size: <?= $options['credit_font_size']; ?>px;
+    background-color: <?php echo $options['credit_container_color']; ?>;
+    text-align: <?php echo $options['credit_container_alignment']; ?>;
+    border-top: 1px solid <?php echo $options['credit_container_border']; ?>;
+    color: <?php echo $options['credit_color']; ?>;
+    font-size: <?php echo $options['credit_font_size']; ?>px;
 }
 
 .wd-player .wd-triangle.left {
-    border-right-color: <?= $options['arrow_color']; ?>;
+    border-right-color: <?php echo $options['arrow_color']; ?>;
 }
 
 .wd-player .wd-triangle.right {
-    border-left-color: <?= $options['arrow_color']; ?>;
+    border-left-color: <?php echo $options['arrow_color']; ?>;
 }
 
 .wd-player .wd-title {
-    color: <?= $options['title_color']; ?>;
-    font-size: <?= $options['title_font_size']; ?>px;
+    color: <?php echo $options['title_color']; ?>;
+    font-size: <?php echo $options['title_font_size']; ?>px;
 }
 
 .wd-player .wd-flash-replace {
-    color: <?= $options['title_color']; ?>;
+    color: <?php echo $options['title_color']; ?>;
 }
 
 /* inline player styles */
 .wd-player.inline-player .wd-thumb-tray {
-    background-color: <?= $options['thumb_bg_color']; ?>;
+    background-color: <?php echo $options['thumb_bg_color']; ?>;
 }
 
 .wd-player.inline-player .wd-thumb-tray li img {
-    border: 1px solid <?= $options['thumb_bg_color']; ?>;
+    border: 1px solid <?php echo $options['thumb_bg_color']; ?>;
 }
 
 .wd-player.inline-player .wd-thumb-tray li img.selected {
-    border: 1px solid <?= $options['active_item_color']; ?>;
+    border: 1px solid <?php echo $options['active_item_color']; ?>;
 }
 
 /* Gallery styles */
 .wd-player.gallery-player .wd-thumb-tray.letterbox li {
     background-color: #111;
-    background-color: rgba(17, 17, 17, <?= $options['thumb_box_opacity']; ?>);
+    background-color: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity']; ?>);
 
     /* ohai IE8 (which unfortunately is also picked up by IE9) :P */
-    <?
+    <?php
         $hex = sprintf(
             '%02s',
             dechex(round(255 * ((float) $options['thumb_box_opacity'] * 100) / 100, 0))
         );
     ?>
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?= $hex; ?>111111,endColorStr=#<?= $hex; ?>111111);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?php echo $hex; ?>111111,endColorStr=#<?php echo $hex; ?>111111);
     background-image: url("about:blank");
     background-attachment: scroll\9;
     background-repeat: repeat\9;

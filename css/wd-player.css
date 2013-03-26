@@ -19,6 +19,15 @@
      *  for reasons unknown. */
 }
 
+.wd-player div.wd-empty-presentation {
+    background-color: #a90000;
+    border: 2px solid #f10000;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
 @media all and (device-width: 768px) and (device-height: 1024px) {
     .wd-player .wd-stage {
         overflow: hidden;

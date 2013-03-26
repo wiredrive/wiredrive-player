@@ -78,3 +78,11 @@ Complete Changelog
 * Gallery thumbnails can now be either constrained to fit within the thumbnail bounding box (Scale) or the bounding box can be used as a cropping mask for the thumbnail (Crop)
 * Gallery players can now specify a linebreak, that is how many thumbnails will be rendered before the next thumbnail is forced to the line below
 * Bugfix: Flash volume slider now works (Open Video Player has been replaced with Adobe Strobe)
+
+### 3.0b2
+* proxy calls to retrieve a presentation url can now only be made by authenticated WordPress admins
+* Removed all PHP short tags
+* Fixed video poster image justification
+* Pagination arrows now only appear if there is more than one asset in the presentation
+* A presentation with no viewable assets now renders out an error message in place of the player. It no longer generates JavaScript errors.
+* Added loading indicator to post Dialog window on submit.

@@ -27,11 +27,13 @@
             }
 
             var theme = $('#wd-theme').val(),
+                $loading = $('.ui-dialog-buttonset .wd-loading'),
                 data = {
                     theme: theme,
                     url: $('#wd-url').val(),
                     autoslideshow: $('#wd-slideshow:checked').val(),
-                    loop: $('#wd-loop:checked').val()
+                    loop: $('#wd-loop:checked').val(),
+                    action: 'wd-url-validator'
                 };
                 
             //only send these settings if the parent settings are enabled
@@ -70,12 +72,14 @@
             }
 
             _requesting = true;
+            $loading.removeClass('wd-hidden');
 
-            $.getJSON(WDPA.proxyUrl, data, function (response) {
+            $.post(WDPA.validatorUrl, data, function (response) {
                 var editor,
                     tinymce = window.tinymce;
 
                 _requesting = false;
+                $loading.addClass('wd-hidden');
 
                 if (response.error) {
                     alert(response.error);
@@ -101,7 +105,7 @@
                 }
 
                 _dialogClose();
-            });
+            }, 'json');
         },
         _dialogReset = function () {
             var defaults = WDPA.defaults;
@@ -194,6 +198,7 @@
 
                 // tack on an additiona style to the jQuery-ui generated buttons on the dialog
                 $('.ui-dialog button').addClass('button');
+                $('.wd-dialog .ui-dialog-buttonset').prepend('<span class="wd-loading wd-hidden"></span>');
             },
 
             //bind all the color pickers that may or may not be on the page.

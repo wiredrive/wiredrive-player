@@ -37,6 +37,21 @@
     background-color: #fff;
 }
 
+.wd-dialog .wd-loading {
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    background-color: #333;
+    background-image: url(../images/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
 .ui-dialog.wd-dialog {
     border: 4px solid #aaa;
 }

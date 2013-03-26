@@ -4,7 +4,7 @@ Plugin Name: Wiredrive Player
 Plugin URI: http://wordpress.org/extend/plugins/wiredrive-player/
 Description: This plug-in allows you to embed Wiredrive video reels and image galleries into your WordPress-powered website.
 Author: Wiredrive
-Version:  3.0b1
+Version:  3.0b2
 Author URI: http://www.wiredrive.com/
 */
 
@@ -51,6 +51,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     include_once 'wiredrive-button.php';
     include_once 'wiredrive-template.php';
     include_once 'wiredrive-settings.php';  
+    include_once 'WdUrlValidator.php';  
     include_once ABSPATH . WPINC . '/feed.php';
     
     $wiredrivePlugin = new Wiredrive_Plugin();
@@ -80,6 +81,9 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     	add_action('admin_head', array($wiredriveAdmin, 'header' ));
     	add_action('admin_footer', array($wiredriveAdmin, 'footer'));
         add_filter('plugin_action_links', array($wiredriveAdmin, 'settings_link'), 10, 2);    	
+    
+        $validator = new WdUrlValidator();  
+        add_action('admin_action_wd-url-validator', array($validator, 'process'));
     }
     
     add_shortcode('wiredrive', array($wiredrivePlugin, 'render'));
