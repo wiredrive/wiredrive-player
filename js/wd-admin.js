@@ -27,6 +27,7 @@
             }
 
             var theme = $('#wd-theme').val(),
+                $loading = $('.ui-dialog-buttonset .wd-loading'),
                 data = {
                     theme: theme,
                     url: $('#wd-url').val(),
@@ -71,12 +72,14 @@
             }
 
             _requesting = true;
+            $loading.removeClass('wd-hidden');
 
             $.post(WDPA.validatorUrl, data, function (response) {
                 var editor,
                     tinymce = window.tinymce;
 
                 _requesting = false;
+                $loading.addClass('wd-hidden');
 
                 if (response.error) {
                     alert(response.error);
@@ -195,6 +198,7 @@
 
                 // tack on an additiona style to the jQuery-ui generated buttons on the dialog
                 $('.ui-dialog button').addClass('button');
+                $('.wd-dialog .ui-dialog-buttonset').prepend('<span class="wd-loading wd-hidden"></span>');
             },
 
             //bind all the color pickers that may or may not be on the page.
