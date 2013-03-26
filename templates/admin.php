@@ -10,11 +10,11 @@
     "use strict";
 
     WDPA.defaults = {
-        slideshowDuration: <?= $duration; ?>,
-        height: <?= $height; ?>,
-        width: <?= $width; ?>
+        slideshowDuration: <?php echo $duration; ?>,
+        height: <?php echo $height; ?>,
+        width: <?php echo $width; ?>
     };
 
-    WDPA.validatorUrl = '<?= admin_url('admin.php') ?>';
+    WDPA.validatorUrl = '<?php echo admin_url('admin.php') ?>';
 }());
 </script>
