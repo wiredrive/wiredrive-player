@@ -3,7 +3,7 @@ Wiredrive Player (Wordpress Plugin)
 * Requires at least: Wordpress 3.4.0
 * Contributors: Wiredrive
 * Stable tag: 2.2.6
-* Development tag: 3.0b1
+* Development tag: 3.0b2
 * License: GPLv2 or later
 * Dependencies: jQuery 1.7.2 or higher, jQuery UI 1.8.20 or higher
 
@@ -83,6 +83,15 @@ The new player was built with evolving and current web standards in mind. The an
 
 Recent Changelog
 ----
+
+## 3.0b2
+* proxy calls to retrieve a presentation url can now only be made by authenticated WordPress admins
+* Removed all PHP short tags
+* Fixed video poster image justification
+* Pagination arrows now only appear if there is more than one asset in the presentation
+* A presentation with no viewable assets now renders out an error message in place of the player. It no longer generat
+es JavaScript errors.
+* Added loading indicator to post Dialog window on submit.
 
 ### 3.0b1
 * Player now properly supports multiple instances on a single page
