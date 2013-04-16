@@ -40,6 +40,12 @@ class WdUrlValidator
         return $ret ? 'on' : 'off';
     }
 
+    public function filter_int_zero($int) {
+        $ret = filter_var($int, FILTER_VALIDATE_INT) === 0 || !filter_var($int, FILTER_VALIDATE_INT) === False && $int >= 0;
+
+        return $ret ? $int : 1;
+    }
+
     public function filter_theme($theme) {
         $ret = filter_var($theme, FILTER_SANITIZE_STRING);
         $validThemes = array('inline-player', 'gallery-player');
@@ -287,7 +293,7 @@ class WdUrlValidator
             'loop' => filter_input(INPUT_POST, 'loop', FILTER_CALLBACK, array('options' => array($this, 'filter_bool'))),
             'duration' => filter_input(INPUT_POST, 'slideshowduration', FILTER_VALIDATE_INT),
             'linebreak' => filter_input(INPUT_POST, 'linebreak', FILTER_VALIDATE_INT),
-            'creditcount' => filter_input(INPUT_POST, 'creditcount', FILTER_VALIDATE_INT),
+            'creditcount' => filter_input(INPUT_POST, 'creditcount', FILTER_CALLBACK, array('options' => array($this, 'filter_int_zero'))),
             'creditlabel' => filter_input(INPUT_POST, 'creditlabel', FILTER_CALLBACK, array('options' => array($this, 'filter_bool'))),
             'thumbwidth' => filter_input(INPUT_POST, 'thumbwidth', FILTER_VALIDATE_INT),
             'thumbheight' => filter_input(INPUT_POST, 'thumbheight', FILTER_VALIDATE_INT),
@@ -384,7 +390,7 @@ class WdUrlValidator
         $text = '[wiredrive';
 
         foreach ($options as $key => $value) {
-            if ($options[$key]) {
+            if (isset($options[$key])) {
                 $text .= ' ' . $key . '="' . $value . '"';
             }
         }

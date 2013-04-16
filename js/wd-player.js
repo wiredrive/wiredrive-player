@@ -885,7 +885,7 @@
                 $thumb.attr('data-wd-index', index);
                 $thumb.find('.wd-title').text(asset.title);
 
-                if (asset.credits[0]) {
+                if (instance.creditCount > 0 && asset.credits[0]) {
                     $thumb.find('.wd-tag').text(asset.credits[0].tag);
                 }
 
