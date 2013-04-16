@@ -58,7 +58,7 @@
          * Player templates
          */
         IMAGE_TEMPLATE = [
-            '<div class="wd-image-container">',
+            '<div class="wd-image-container wd-hidden">',
                 '<img class="wd-image" />',
                 '<img class="wd-image wd-next-image opaque" />',
             '</div>'
@@ -222,7 +222,7 @@
                     } else {
                         $playButton.remove();
                         $player.attr('controls', 'controls');
-                        $player.attr('src', first.url);
+                        $player.attr('src', instance.items[instance.current].url);
                         $player.get(0).load();
                     }
 
@@ -1338,7 +1338,7 @@
             // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
                 var primary = asset.media.primary,
-                    largeThumb = asset.media.large,
+                    maxThumb = asset.media.max,
                     smallThumb = asset.media.small;
 
                 switch (asset.mimeCategory) {
@@ -1364,7 +1364,7 @@
                         height: +smallThumb.height,
                         width: +smallThumb.width
                     },
-                    poster: largeThumb.url,
+                    poster: maxThumb.url,
                     description: asset.description,
                     keywords: $.map(asset.keywords, function (item) { return item.label; }),
                     credits: $.map(asset.metadata, function (credit) {
