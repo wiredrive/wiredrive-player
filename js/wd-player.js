@@ -58,7 +58,7 @@
          * Player templates
          */
         IMAGE_TEMPLATE = [
-            '<div class="wd-image-container wd-hidden">',
+            '<div class="wd-image-container">',
                 '<img class="wd-image" />',
                 '<img class="wd-image wd-next-image opaque" />',
             '</div>'
@@ -1494,7 +1494,7 @@
             if (player.getCurrentType() === 'video') {
                 if (player.isReady()) {
                     //player is ready (probably html5)
-                    player.autoplay && player.setSource(player.current) && player.play();
+                    player.setSource(player.current) && player.autoplay && player.play();
                 } else {
                     //player is not ready (either flash or flash is disabled.
                     //Trigger the viewer so that styles and binds don't break
