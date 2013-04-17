@@ -2,8 +2,7 @@ Wiredrive Player (Wordpress Plugin)
 ====
 * Requires at least: Wordpress 3.4.0
 * Contributors: Wiredrive
-* Stable tag: 2.2.6
-* Development tag: 3.0b2
+* Stable tag: 3.0
 * License: GPLv2 or later
 * Dependencies: jQuery 1.7.2 or higher, jQuery UI 1.8.20 or higher
 
@@ -83,8 +82,15 @@ The new player was built with evolving and current web standards in mind. The an
 
 Recent Changelog
 ----
+## 3.0
+* Video poster images now use the largest thumbnail
+* Overlay pagination arrows should no longer be visible on iPad 1
+* Bugfix: If a presentation contains both images and videos, set to slideshow, no autoplay, and the first asset is a video, the slideshow button no longer conflicts with the play button.
+* Bugfix: HTML5 - Image viewer no longer visible at init if first asset is video (regression: lead to rendering errors)
+* Bugfix: HTML5 Gallery thumbnails now play the correct video.
+* Bugfix: Setting the credit count to 0 now behaves correctly
 
-## 3.0b2
+### 3.0b2
 * proxy calls to retrieve a presentation url can now only be made by authenticated WordPress admins
 * Removed all PHP short tags
 * Fixed video poster image justification

@@ -4,8 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 3.5
-Stable tag: 2.2.6
-Development tag: 3.0b2
+Stable tag: 3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,11 +47,13 @@ Backwards Compatability Notes:
 
 Known issues:
 
-* iPad: Autoplay is not supported on iPad. This is a limitation set by Apple. Because of this limitation, autoplay will only perform a function on iOS if the entire presentation consists of images and slideshow is enabled. If there is a video at any position in the presentation, it can not be guaranteed that the video will start playing when slideshow'ed into due to the additional limitation of only being able to programmatically play html5 video on ISO if the play command is in an execution stack that originates with a user interaction event (click, touch, etc)
-* iPad: The pagination arrows overlayed over the currently playing asset will not be visible on mobile devices. This is due to an iPad bug that does not allow processing of events on elements that are positioned over a video element with native controls.
-* Internet Explorer 8: The shortcode for the wiredrive player will always be inserted at the beginning of the post regardless of where the cursor is. This is a bug in TinyMCE. If you are using IE8, you will need to manually cut/paste the generated shortcode for the wiredrive player into place in your post.
+* iPad: Autoplay videos is not supported on the ipad. This is a limitation set by Apple with no workarounds. Because of this limitation, autoplay will only perform a function on iOS if the entire presentation consists of images and slideshow is enabled. If there is a video at any position in the presentation, it can not be guaranteed that the video will start playing when slideshow'ed into due to the additional limitation of only being able to programmatically play html5 video on iOS if the play command is in an execution stack that originates with a user interaction event (click, touch, etc) (Slideshows change the asset through a timeout, which is not a user interaction event)
+* iPad: No flick/swipe gesture support for the carousel. We'd like to keep the dependencies of this plugin as small as possible (jQuery and jQuery UI being the only dependencies) and support for this is not built into jQuery. We felt this feature alone wasn't worth adding an additional dependency or the increased size of the player script by 33%.
+* iPad: Pagination arrows will not appear in the inline player on mobile devices due to an iPad bug that does not allow processing of events on elements that are positioned over a video element with native controls
+* IE8 does not support the Crop thumbnail strategy for galleries (although strangely enough, it works in IE8 emulation mode inside of IE9...). The crop strategy renders the thumbnail bounding box according to its specified dimensions and then sets the thumbnail of the asset as the background image of the bounding box (centered vertically and horizontally), making the bounding box act as a cropping mask for the thumbnail. IE8 does not handle background image scaling/positioning well, and the pillarbox/letterbox opacity -ms-filter directive conflicts with the background image. Because of this, IE8 will render all gallery thumbnails using the Scale strategy. All other supported browsers will respect the Crop strategy.
+* IE8: Shortcode will always be inserted at the beginning of the text editor, regardless of where the text cursor is. This is a bug inside TinyMCE.
 * Firefox: When the gallery modal player is opened, the main page behind the skrim may jump to the top of the page while the skrim is open and then when the skrim is closed jump back to the scroll position the page was in before the skrim opened. This is probably because there is a rule in the wordpress theme stylesheet (or perhaps another plugin) that defines an important margin-top css rule on the html element. Firefox automatically scrolls to the top of the page when overflow: hidden is applied to the html element. To counter this, the page is programmatically shifted to the correct position via an inline margin-top rule applied to the html element. An important rule will supersede this countermeasure, causing the bug to reappear.
-* A flash of miscaled, misaligned stale images may appear while transitioning between two images. This is probably because the user has local caching disabled. Image transitions happen by opacity fading between two absolutely positioned image elements (the current image and the next image). The player preloads all presentation images in memory to avoid this flickering, but if local caching is disabled, it will have to fetch the next image every time causing a delay in the correct image appearing that the fader cannot anticipate. 
+* A flash of miscaled, misaligned stale images may appear while transitioning between two images. This is probably because the user has local caching disabled. Image transitions happen by opacity fading between two absolutely positioned image elements (the current image and the next image). The player preloads all presentation images in memory to avoid this flickering, but if local caching is disabled, it will have to fetch the next image every time causing a delay in the correct image appearing that the fader cannot anticipate.
 
 == Installation ==
 
@@ -68,6 +69,14 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+
+= 3.0 =
+* Video poster images now use the largest thumbnail
+* Overlay pagination arrows should no longer be visible on iPad 1
+* Bugfix: If a presentation contains both images and videos, set to slideshow, no autoplay, and the first asset is a video, the slideshow button no longer conflicts with the play button.
+* Bugfix: HTML5 - Image viewer no longer visible at init if first asset is video (regression: lead to rendering errors)
+* Bugfix: HTML5 Gallery thumbnails now play the correct video.
+* Bugfix: Setting the credit count to 0 now behaves correctly
 
 = 3.0b2 =
 * proxy calls to retrieve a presentation url can now only be made by authenticated WordPress admins
@@ -158,9 +167,9 @@ es JavaScript errors.
 
 == Upgrade Notice ==
 
-= 3.0b1 =
+= 3.0 =
 * Addressed all outstanding bugs and added additional features.
-* See the 3.0b1 changelog above for a complete list of changes.
+* See the 3.0, 3.0b1, and 3.0b2 changelog above for a complete list of changes.
 * See Backwards Compatability section above before upgrading.
 
 = 2.2.6 =

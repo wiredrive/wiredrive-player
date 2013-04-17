@@ -86,3 +86,11 @@ Complete Changelog
 * Pagination arrows now only appear if there is more than one asset in the presentation
 * A presentation with no viewable assets now renders out an error message in place of the player. It no longer generates JavaScript errors.
 * Added loading indicator to post Dialog window on submit.
+
+## 3.0
+* Video poster images now use the largest thumbnail
+* Overlay pagination arrows should no longer be visible on iPad 1
+* Bugfix: If a presentation contains both images and videos, set to slideshow, no autoplay, and the first asset is a video, the slideshow button no longer conflicts with the play button.
+* Bugfix: HTML5 - Image viewer no longer visible at init if first asset is video (regression: lead to rendering errors)
+* Bugfix: HTML5 Gallery thumbnails now play the correct video.
+* Bugfix: Setting the credit count to 0 now behaves correctly
