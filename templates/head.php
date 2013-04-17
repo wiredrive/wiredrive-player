@@ -62,21 +62,27 @@
 /* Gallery styles */
 .wd-player.gallery-player .wd-thumb-tray.letterbox li {
     background-color: #111;
+    background-image: url("about:blank");
     background-color: rgba(17, 17, 17, <?php echo $options['thumb_box_opacity']; ?>);
 
-    /* ohai IE8 (which unfortunately is also picked up by IE9) :P */
+}
+</style>
+<!--[if lt ie 9]>
+<style type="text/css">
+.wd-player.gallery-player .wd-thumb-tray.letterbox li {
+    background-color: transparent\9;
+    /* ohai IE8 (which unfortunately is also picked up by IE9, hence the conditional) */
     <?php
         $hex = sprintf(
             '%02s',
             dechex(round(255 * ((float) $options['thumb_box_opacity'] * 100) / 100, 0))
         );
     ?>
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?php echo $hex; ?>111111,endColorStr=#<?php echo $hex; ?>111111);
-    background-image: url("about:blank");
+    -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(startColorStr=#<?php echo $hex; ?>111111,endColorStr=#<?php echo $hex; ?>111111)';
     background-attachment: scroll\9;
     background-repeat: repeat\9;
     background-position-x: 0%\9;
     background-position-y: 0%\9;
-    background-color: transparent\9;
-}
+
 </style>
+<![endif]-->
