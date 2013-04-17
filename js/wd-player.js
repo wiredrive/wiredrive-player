@@ -1388,6 +1388,12 @@
                 instance.autoplay = false;
             }
 
+            // turn off slideshow mode if the presentation has no images
+            if (instance.slideshow && !instance._HAS_IMAGE) {
+                instance.slideshow = false;
+                instance.$container.find('.wd-stage').removeClass('slideshow');
+            }
+
             return true;
         }
     };
