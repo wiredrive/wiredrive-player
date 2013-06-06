@@ -1587,8 +1587,15 @@
 
         // Registers a new Player instance and initializes it by triggering the request for its data
         registerPlayer: function (config) {
-            var player = new Player(config);
+            var player;
 
+            if (_players[config.id]) {
+                throw new Error(
+                    "WiredrivePlayer: attempting to initialize an already registered player id: " + config.id
+                );
+            }
+
+            player = new Player(config);
             _players[player.id] = player;
             player.fetchData();
         }
