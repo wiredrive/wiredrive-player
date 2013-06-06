@@ -481,9 +481,18 @@
         var $container,
             $stage;
 
-        if ($.inArray(config.type, VALID_PLAYER_TYPES) === -1) {
-            console.error('WDP: unrecognized type', config.type, 'given to player', config.id);
-        }
+        //do some ua sniffing to see if we're on an iOS device.
+        //TODO: probably better to use a media query to put a class on the container
+        //that tells us we're on mobile.
+        this.isMobile = navigator.userAgent.match(/iPad/i) != null
+            || navigator.userAgent.match(/iPhone/i) != null
+            || navigator.userAgent.match(/iPod/i) != null;
+
+        //feature detect Safari. Currently only Safari will play HTML5,
+        //so look for a specific quirk about Safari:
+        //  http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
+        this.type = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 ?
+            'video' : 'flash';
 
         this._READY = false;
         this._HAS_VIDEO = false;
@@ -502,7 +511,6 @@
         this.creditCount = +config.creditCount;
         this.showCreditLabel = !!config.showCreditLabel;
 
-        this.isMobile = !!config.isMobile;
         this.height = parseInt(config.height, 10);
         this.width = parseInt(config.width, 10);
         this.slideshow = !!config.slideshow;
@@ -521,7 +529,6 @@
 
         this.id = config.id;
         this.items = [];
-        this.type = config.type;
         this.jsonpUrl = config.jsonpUrl;
         this.current = 0;
 

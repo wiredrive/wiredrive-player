@@ -190,12 +190,7 @@ class Wiredrive_Plugin
 		}
 
         $pluginUrl = $this->getPluginUrl();
-        $type = 'video';
         $attributeId = $this->getAttributeId();
-
-        if ($this->useFlash()) {
-            $type = 'flash';
-        }
 
         $this->template->setTpl('player.php')
              ->set('theme', $shortcode['theme'])
@@ -208,13 +203,11 @@ class Wiredrive_Plugin
              ->set('autoplay', $shortcode['autoplay'] === 'on')
              ->set('disableThumbs', $shortcode['disablethumbs'] === 'on')
              ->set('collapseThumbs', $shortcode['hidethumbs'] === 'on')
-             ->set('isMobile', $this->isIpad() || $this->isMobile())
              ->set('loop', $shortcode['loop'] === 'on')
              ->set('options', $options)
              ->set('creditLabel', $shortcode['creditlabel'] === 'on')
              ->set('creditCount', $shortcode['creditcount'])
              ->set('attributeId', $attributeId)
-             ->set('type', $type)
              ->set('height', $shortcode['height'])
              ->set('width', $shortcode['width'])
              ->set('pluginUrl', $pluginUrl)
@@ -225,52 +218,6 @@ class Wiredrive_Plugin
 
         $this->closeCurl();
 		return $this->getOutput();
-	}
-
-	/**
-	 * Determine is user is on an iPad
-	 *
-	 * @return bool
-	 */
-	public function isIpad()
-	{
-		return strpos($_SERVER['HTTP_USER_AGENT'], "iPad");
-
-	}
-
-	/**
-	 * Determine is user is on a mobile device
-	 *
-	 * @return bool
-	 */
-	public function isMobile()
-	{
-		return (strpos($_SERVER['HTTP_USER_AGENT'], "iPhone")
-			|| strpos($_SERVER['HTTP_USER_AGENT'], "Android"));
-
-	}
-
-	/**
-	 * Determine if Flash player should be used
-	 *
-	 * @return bool
-	 */
-	public function useFlash()
-	{
-	   
-	   /*
-	    * Do not use falsh for ie9 because it supports h.264 natively with html5
-	    */
-	   
-        /*
-         * @TODO:  Once we have IE9 playing H.264 .MOV files, this should work.
-           if(strpos($_SERVER['HTTP_USER_AGENT'], "MSIE 9.0")) {
-               return false; 	   
-          }
-        */
-       return strpos($_SERVER['HTTP_USER_AGENT'], "Firefox")
-			|| strpos($_SERVER['HTTP_USER_AGENT'], "MSIE")			
-			|| strpos($_SERVER['HTTP_USER_AGENT'], "Chrome");
 	}
 
 	/**

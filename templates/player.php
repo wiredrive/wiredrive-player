@@ -8,7 +8,6 @@
     $autoplay = $this->get('autoplay');
     $loop = $this->get('loop');
     $theme = $this->get('theme'); //inline player, grid, etc
-    $isMobile = $this->get('isMobile');
     $linebreak = $this->get('linebreak');
     $thumbWidth = $this->get('thumbWidth');
     $isLetterbox = $this->get('isLetterbox');
@@ -23,7 +22,6 @@
     $options = $this->get('options');
     $width = $this->get('width');
     $height = $this->get('height');
-    $type = $this->get('type'); //which player template to use
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
 ?>
 <div id="<?php echo $attributeId; ?>" class="wd-player">
@@ -71,9 +69,7 @@
 
             window.WDP.registerPlayer({
                 id: '<?php echo $attributeId; ?>',
-                type: '<?php echo $type; ?>',
                 theme: '<?php echo $theme; ?>',
-                isMobile: <?php echo $isMobile ? 'true' : 'false'; ?>,
                 width: '<?php echo $width; ?>',
                 height: '<?php echo $height; ?>',
                 slideshow: <?php echo $slideshow ? 'true' : 'false'; ?>,
