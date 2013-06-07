@@ -94,3 +94,6 @@ Complete Changelog
 * Bugfix: HTML5 - Image viewer no longer visible at init if first asset is video (regression: lead to rendering errors)
 * Bugfix: HTML5 Gallery thumbnails now play the correct video.
 * Bugfix: Setting the credit count to 0 now behaves correctly
+
+### 3.0.1
+* Bugfix: Moved player strategy logic to JavaScript from PHP to address (issue 34)[https://github.com/wiredrive/wiredrive-player/issues/34]

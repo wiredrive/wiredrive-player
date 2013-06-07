@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 3.5
-Stable tag: 3.0
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,8 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+= 3.0.1 =
+* Bugfix: Moved player strategy logic to JavaScript from PHP to address to prevent caching layers from caching the strategy of the first browser to cause a cache miss.
 
 = 3.0 =
 * Video poster images now use the largest thumbnail
@@ -166,6 +168,9 @@ es JavaScript errors.
 * First stable release.
 
 == Upgrade Notice ==
+
+= 3.0.1 =
+* Bugfix: Moved player strategy logic to JavaScript from PHP to prevent caching layers to cache the strategy of the first browser to cause a cache miss
 
 = 3.0 =
 * Addressed all outstanding bugs and added additional features.
