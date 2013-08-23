@@ -292,7 +292,13 @@
                 },
 
                 _pauseVideo: function () {
-                    this.isReady() && this.$player.get(0).pause();
+                    if (this.isReady()) {
+                        try {
+                            this.$player.get(0).pause();
+                        } catch (e) {
+                            console.warn('WiredrivePlayer: NPObject error pausing flash video');
+                        }
+                    }
                 },
 
                 _playVideo: function () {
