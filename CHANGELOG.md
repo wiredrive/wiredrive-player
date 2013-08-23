@@ -97,3 +97,7 @@ Complete Changelog
 
 ### 3.0.1
 * Bugfix: Moved player strategy logic to JavaScript from PHP to address (issue 34)[https://github.com/wiredrive/wiredrive-player/issues/34]
+
+### 3.0.2
+* Bugfix: Updated to fix admin style issues with WordPress 6
+* Bugfix: If Flash fails to load a video, it no longer prevents you from loading another video

@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 3.5
-Stable tag: 3.0.1
+Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,10 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+= 3.0.2 =
+* Bugfix: Updated to fix admin style issues with WordPress 6
+* Bugfix: If Flash fails to load a video, it no longer prevents you from loading another video
+
 = 3.0.1 =
 * Bugfix: Moved player strategy logic to JavaScript from PHP to address to prevent caching layers from caching the strategy of the first browser to cause a cache miss.
 
