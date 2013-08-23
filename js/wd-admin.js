@@ -19,6 +19,10 @@
         },
         _dialogOpen = function () {
             _dialogReset();
+
+            //jquery-ui won't let you set HTML in the title, even if you know what you're doing
+            _dialog.parent().find('.ui-dialog-title').html(DIALOG_TITLE_TEMPLATE);
+
             _dialog.dialog('open');
         },
         _dialogOkay = function () {
@@ -148,7 +152,6 @@
                     width: 750,
                     height: 535,
                     modal: true,
-                    title: DIALOG_TITLE_TEMPLATE,
                     buttons: {
                         Okay: _dialogOkay,
                         Cancel: _dialogClose
