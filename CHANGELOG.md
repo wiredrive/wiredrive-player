@@ -101,3 +101,6 @@ Complete Changelog
 ### 3.0.2
 * Bugfix: Updated to fix admin style issues with WordPress 6
 * Bugfix: If Flash fails to load a video, it no longer prevents you from loading another video
+
+### 3.0.3
+* Fixed bug in IE11 that prevented some videos in the gallery modal from scaling correctly, causing the video player to scale to 0x0.

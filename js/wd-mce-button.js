@@ -34,7 +34,7 @@
                 author: 'Wiredrive',
                 authorurl: 'http://wiredrive.com',
                 infourl: 'http://wiredrive.com',
-                version: "3.0.2"
+                version: "3.0.3"
             };
         }
     });
