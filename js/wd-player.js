@@ -1281,20 +1281,22 @@
                 $video, $image, dimensions;
 
             if (this.getCurrentType() === 'video' && this.isModal()) {
-                $video = $stage.find('.wd-flash-container, .video-container'),
+                setTimeout(function () {
+                    $video = $stage.find('.wd-flash-container, .video-container'),
 
-                dimensions = _fitWithin(
-                    asset,
-                    $container.width(),
-                    $container.height() - $credits.height()),
+                    dimensions = _fitWithin(
+                        asset,
+                        $container.width(),
+                        $container.height() - $credits.height()),
 
-                $video.css({
-                    height: dimensions.height,
-                    width: dimensions.width
-                });
+                    $video.css({
+                        height: dimensions.height,
+                        width: dimensions.width
+                    });
 
-                $stage.css({
-                    'margin-top': ($container.height() - $stage.height()) / 2
+                    $stage.css({
+                        'margin-top': ($container.height() - $stage.height()) / 2
+                    });
                 });
             } else if (this.getCurrentType() === 'image') {
                 dimensions = _fitWithin(
