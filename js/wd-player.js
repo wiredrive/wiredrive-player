@@ -1281,6 +1281,10 @@
                 $video, $image, dimensions;
 
             if (this.getCurrentType() === 'video' && this.isModal()) {
+                // bug in IE11 where sometimes the element will not have fully rendered yet, causing the
+                // sizing of the player to collapse to 0x0. Hackily break the resize logic out of this
+                // execution stack so that when it does execute, the container has size.
+                // a horrible fix for a horrible browser.
                 setTimeout(function () {
                     $video = $stage.find('.wd-flash-container, .video-container'),
 
