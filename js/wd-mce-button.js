@@ -32,8 +32,8 @@
             return {
                 longname: 'Wiredrive Video Player Button',
                 author: 'Wiredrive',
-                authorurl: 'http://wiredrive.com',
-                infourl: 'http://wiredrive.com',
+                authorurl: 'https://wiredrive.com',
+                infourl: 'https://wiredrive.com',
                 version: "3.1.0"
             };
         }
