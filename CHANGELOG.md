@@ -94,3 +94,13 @@ Complete Changelog
 * Bugfix: HTML5 - Image viewer no longer visible at init if first asset is video (regression: lead to rendering errors)
 * Bugfix: HTML5 Gallery thumbnails now play the correct video.
 * Bugfix: Setting the credit count to 0 now behaves correctly
+
+### 3.0.1
+* Bugfix: Moved player strategy logic to JavaScript from PHP to address (issue 34)[https://github.com/wiredrive/wiredrive-player/issues/34]
+
+### 3.0.2
+* Bugfix: Updated to fix admin style issues with WordPress 6
+* Bugfix: If Flash fails to load a video, it no longer prevents you from loading another video
+
+### 3.0.3
+* Fixed bug in IE11 that prevented some videos in the gallery modal from scaling correctly, causing the video player to scale to 0x0.

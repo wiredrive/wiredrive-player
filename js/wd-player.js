@@ -292,7 +292,13 @@
                 },
 
                 _pauseVideo: function () {
-                    this.isReady() && this.$player.get(0).pause();
+                    if (this.isReady()) {
+                        try {
+                            this.$player.get(0).pause();
+                        } catch (e) {
+                            console.warn('WiredrivePlayer: NPObject error pausing flash video');
+                        }
+                    }
                 },
 
                 _playVideo: function () {
@@ -1284,20 +1290,26 @@
                 $video, $image, dimensions;
 
             if (this.getCurrentType() === 'video' && this.isModal()) {
-                $video = $stage.find('.wd-flash-container, .video-container'),
+                // bug in IE11 where sometimes the element will not have fully rendered yet, causing the
+                // sizing of the player to collapse to 0x0. Hackily break the resize logic out of this
+                // execution stack so that when it does execute, the container has size.
+                // a horrible fix for a horrible browser.
+                setTimeout(function () {
+                    $video = $stage.find('.wd-flash-container, .video-container'),
 
-                dimensions = _fitWithin(
-                    asset,
-                    $container.width(),
-                    $container.height() - $credits.height()),
+                    dimensions = _fitWithin(
+                        asset,
+                        $container.width(),
+                        $container.height() - $credits.height()),
 
-                $video.css({
-                    height: dimensions.height,
-                    width: dimensions.width
-                });
+                    $video.css({
+                        height: dimensions.height,
+                        width: dimensions.width
+                    });
 
-                $stage.css({
-                    'margin-top': ($container.height() - $stage.height()) / 2
+                    $stage.css({
+                        'margin-top': ($container.height() - $stage.height()) / 2
+                    });
                 });
             } else if (this.getCurrentType() === 'image') {
                 dimensions = _fitWithin(
