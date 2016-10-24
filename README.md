@@ -2,7 +2,7 @@ Wiredrive Player (Wordpress Plugin)
 ====
 * Requires at least: Wordpress 3.4.0
 * Contributors: Wiredrive
-* Stable tag: 3.0.3
+* Stable tag: 3.1.0
 * License: GPLv2 or later
 * Dependencies: jQuery 1.7.2 or higher, jQuery UI 1.8.20 or higher
 
