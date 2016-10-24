@@ -91,7 +91,7 @@ class Wiredrive_Plugin
             'wd-player', 
             ($plugin_url  . '/js/wd-player.js'), 
             'jquery', 
-            '3.0.1'
+            '3.1.0'
         );
 		wp_enqueue_script('wd-player');
 		wp_enqueue_style(
