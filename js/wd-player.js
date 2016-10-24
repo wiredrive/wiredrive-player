@@ -1365,14 +1365,14 @@
             // I thought jQuery was supposed to be really good at being consistent :-/
             // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
-                var primary = asset.media.primary,
+                var content = asset.media.web | asset.media.primary,
                     maxThumb = asset.media.max,
                     smallThumb = asset.media.small;
 
                 switch (asset.mimeCategory) {
                     case 'video': break;
                     case 'image':
-                        WDP.preloadImage(primary.url);
+                        WDP.preloadImage(content.url);
                         break;
                     default:
                         console.log('skipping', asset.mimeCategory);
@@ -1383,9 +1383,9 @@
 
                 instance.items.push({
                     title: asset.title || asset.label,
-                    height: +primary.height,
-                    width: +primary.width,
-                    url: primary.url,
+                    height: +content.height,
+                    width: +content.width,
+                    url: content.url,
                     mimetype: asset.mimeCategory,
                     thumbnail: {
                         url: smallThumb.url,
