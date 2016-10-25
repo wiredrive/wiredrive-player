@@ -1365,7 +1365,7 @@
             // I thought jQuery was supposed to be really good at being consistent :-/
             // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
-                var content = asset.media.web | asset.media.primary,
+                var content = asset.media.web || asset.media.primary,
                     maxThumb = asset.media.max,
                     smallThumb = asset.media.small;
 
