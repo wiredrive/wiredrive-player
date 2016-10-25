@@ -494,7 +494,7 @@ class Wiredrive_Plugin_Settings
 	private function textboxInput($value,$inputName,$showComment = false)
     {
 
-	   	$str .= "<input id='". $inputName . "'";
+		$str = "<input id='". $inputName . "'";
 		$str .= "name='". $this->optionsNs ."[". $inputName . "]' size='10' type='text' value='" .
 		          $value . "' />";
 		          
