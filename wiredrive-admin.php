@@ -111,7 +111,7 @@ class Wiredrive_Plugin_Admin
         static $plugin = 'wiredrive-player/player.php';
                 
         if ($file == $plugin){
-            $settings_link = '<a href="options-general.php?page=wiredrive-player/settings.php">'.__("Settings").'</a>';
+            $settings_link = '<a href="options-general.php?page=wiredrive-player/wiredrive-settings.php">'.__("Settings").'</a>';
             array_unshift($links, $settings_link);
         }
         return $links;
