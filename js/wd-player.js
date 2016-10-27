@@ -211,7 +211,7 @@
                             onceDelegate(e);
 
                             $player.attr('src', first.url);
-                            $player.load();
+                            $player.get(0).load();
 
                             //the once delegator doesn't need to explicitly call `play` because
                             //that will be handled by the normal event handlers on the paginators
