@@ -211,6 +211,11 @@ class WdUrlValidator
         /* fetch bitly url using curl */
         $curl    = curl_init(); 
          
+        if ($isShort) {
+            $url = str_replace('http://', 'https://', $url);
+            /* Otherwise we would be redirected to short url again */
+        }
+
         curl_setopt_array(
             $curl,
             array(
