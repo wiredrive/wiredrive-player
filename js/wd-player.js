@@ -210,6 +210,9 @@
                         $playButton.one('click', function (e) {
                             onceDelegate(e);
 
+                            $player.attr('src', first.url);
+                            $player.get(0).load();
+
                             //the once delegator doesn't need to explicitly call `play` because
                             //that will be handled by the normal event handlers on the paginators
                             //that call `setSource`. Since the delegator doesn't, here we need
@@ -219,6 +222,8 @@
                     } else {
                         $playButton.remove();
                         $player.attr('controls', 'controls');
+                        $player.attr('src', instance.items[instance.current].url);
+                        $player.get(0).load();
                     }
 
                     instance.$player = $player;
