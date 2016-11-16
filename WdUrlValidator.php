@@ -148,6 +148,7 @@ class WdUrlValidator
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_URL => $url,
                 CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
             )
         );
         $rssFeed = curl_exec($curl);
@@ -211,6 +212,11 @@ class WdUrlValidator
         /* fetch bitly url using curl */
         $curl    = curl_init(); 
          
+        if ($isShort) {
+            $url = str_replace('http://', 'https://', $url);
+            /* Otherwise we would be redirected to short url again */
+        }
+
         curl_setopt_array(
             $curl,
             array(
@@ -220,6 +226,7 @@ class WdUrlValidator
                 CURLOPT_URL => $url,
                 CURLOPT_HEADERFUNCTION => array($this, 'processHeader'),
                 CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
             )
         );
         if ($isShort) {
@@ -332,6 +339,7 @@ class WdUrlValidator
                 CURLOPT_TIMEOUT => 10,
                 CURLOPT_URL     => $url,
                 CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
             )
         );
         $result   = curl_exec($curl);

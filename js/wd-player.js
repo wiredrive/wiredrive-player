@@ -211,7 +211,7 @@
                             onceDelegate(e);
 
                             $player.attr('src', first.url);
-                            $player.load();
+                            $player.get(0).load();
 
                             //the once delegator doesn't need to explicitly call `play` because
                             //that will be handled by the normal event handlers on the paginators
@@ -485,7 +485,22 @@
     // the `new` keyword, it will modify the global scope)
     function Player(config) {
         var $container,
+            test = document.createElement('video'),
             $stage;
+
+        //see if we can play html5 video somewhat reliably.
+        //Don't bother checking for ogg or webm. The majority of WD clients appear to use mp4
+        if (!!test.canPlayType && test.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '') === 'probably') {
+            this.type = 'video';
+        } else {
+            this.type = 'flash';
+        }
+
+        //detect IE9 and force it to use flash. It still is glitchy with h264,
+        //even though it passes the above test
+        if (document.documentMode === 9) {
+            this.type = 'flash';
+        }
 
         //do some ua sniffing to see if we're on an iOS device.
         //TODO: probably better to use a media query to put a class on the container
@@ -493,12 +508,6 @@
         this.isMobile = navigator.userAgent.match(/iPad/i) != null
             || navigator.userAgent.match(/iPhone/i) != null
             || navigator.userAgent.match(/iPod/i) != null;
-
-        //feature detect Safari. Currently only Safari will play HTML5,
-        //so look for a specific quirk about Safari:
-        //  http://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
-        this.type = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 ?
-            'video' : 'flash';
 
         this._READY = false;
         this._HAS_VIDEO = false;
@@ -1356,14 +1365,14 @@
             // I thought jQuery was supposed to be really good at being consistent :-/
             // Meh. It's probably a legacy thing :(
             $.each(data.list, function (index, asset) {
-                var primary = asset.media.primary,
+                var content = asset.media.web || asset.media.primary,
                     maxThumb = asset.media.max,
                     smallThumb = asset.media.small;
 
                 switch (asset.mimeCategory) {
                     case 'video': break;
                     case 'image':
-                        WDP.preloadImage(primary.url);
+                        WDP.preloadImage(content.url);
                         break;
                     default:
                         console.log('skipping', asset.mimeCategory);
@@ -1374,9 +1383,9 @@
 
                 instance.items.push({
                     title: asset.title || asset.label,
-                    height: +primary.height,
-                    width: +primary.width,
-                    url: primary.url,
+                    height: +content.height,
+                    width: +content.width,
+                    url: content.url,
                     mimetype: asset.mimeCategory,
                     thumbnail: {
                         url: smallThumb.url,

@@ -104,3 +104,6 @@ Complete Changelog
 
 ### 3.0.3
 * Fixed bug in IE11 that prevented some videos in the gallery modal from scaling correctly, causing the video player to scale to 0x0.
+
+### 3.1.0
+* Switched to HTML5 video player by default
