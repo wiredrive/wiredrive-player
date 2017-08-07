@@ -1,0 +1,5173 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>@wd/grauman 0.2.5-beta.4 | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+</head>
+<body class='documentation'>
+  <div class='max-width-4 mx-auto'>
+    <div class='clearfix md-mxn2'>
+      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>@wd/grauman</h3>
+          <div class='mb1'><code>0.2.5-beta.4</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#introduction'
+                  class="h5 bold black caps">
+                  Introduction
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#cors'
+                  class="h5 bold black caps">
+                  CORS
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#code-splitting'
+                  class="h5 bold black caps">
+                  Code Splitting
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ingest-pipeline'
+                  class="h5 bold black caps">
+                  Ingest Pipeline
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#mediafile'
+                  class=" toggle-sibling">
+                  MediaFile
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#MediaFile#height'
+                        class='regular pre-open'>
+                        #height
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#waveform'
+                        class='regular pre-open'>
+                        #waveform
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#is360'
+                        class='regular pre-open'>
+                        #is360
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#mimeType'
+                        class='regular pre-open'>
+                        #mimeType
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#poster'
+                        class='regular pre-open'>
+                        #poster
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#stereoscopicLayout'
+                        class='regular pre-open'>
+                        #stereoscopicLayout
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#url'
+                        class='regular pre-open'>
+                        #url
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#extension'
+                        class='regular pre-open'>
+                        #extension
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#width'
+                        class='regular pre-open'>
+                        #width
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#fps'
+                        class='regular pre-open'>
+                        #fps
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#duration'
+                        class='regular pre-open'>
+                        #duration
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#channels'
+                        class='regular pre-open'>
+                        #channels
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaFile#title'
+                        class='regular pre-open'>
+                        #title
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#stereoscopic_layouts'
+                  class=" toggle-sibling">
+                  STEREOSCOPIC_LAYOUTS
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#STEREOSCOPIC_LAYOUTSLEFT_RIGHT'
+                        class='regular pre-open'>
+                        .LEFT_RIGHT
+                      </a></li>
+                    
+                      <li><a
+                        href='#STEREOSCOPIC_LAYOUTSTOP_BOTTOM'
+                        class='regular pre-open'>
+                        .TOP_BOTTOM
+                      </a></li>
+                    
+                      <li><a
+                        href='#STEREOSCOPIC_LAYOUTSNONE'
+                        class='regular pre-open'>
+                        .NONE
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#container-sizing'
+                  class="h5 bold black caps">
+                  Container Sizing
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#keyboard-shortcuts'
+                  class="h5 bold black caps">
+                  Keyboard Shortcuts
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#localstorage'
+                  class="h5 bold black caps">
+                  LocalStorage
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#mediaplayer'
+                  class=" toggle-sibling">
+                  MediaPlayer
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#MediaPlayer.publicPath'
+                        class='regular pre-open'>
+                        .publicPath
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#stop'
+                        class='regular pre-open'>
+                        #stop
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#seek'
+                        class='regular pre-open'>
+                        #seek
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#seekTo'
+                        class='regular pre-open'>
+                        #seekTo
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#play'
+                        class='regular pre-open'>
+                        #play
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#pause'
+                        class='regular pre-open'>
+                        #pause
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#keyboardShortcutsEnabled'
+                        class='regular pre-open'>
+                        #keyboardShortcutsEnabled
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#localStorageEnabled'
+                        class='regular pre-open'>
+                        #localStorageEnabled
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#localStorageKey'
+                        class='regular pre-open'>
+                        #localStorageKey
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#isFullscreenEnabled'
+                        class='regular pre-open'>
+                        #isFullscreenEnabled
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#isVolumeControllable'
+                        class='regular pre-open'>
+                        #isVolumeControllable
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#autoplay'
+                        class='regular pre-open'>
+                        #autoplay
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#container'
+                        class='regular pre-open'>
+                        #container
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#containerHeight'
+                        class='regular pre-open'>
+                        #containerHeight
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#containerWidth'
+                        class='regular pre-open'>
+                        #containerWidth
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#currentTime'
+                        class='regular pre-open'>
+                        #currentTime
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#duration'
+                        class='regular pre-open'>
+                        #duration
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#file'
+                        class='regular pre-open'>
+                        #file
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#fullscreen'
+                        class='regular pre-open'>
+                        #fullscreen
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#height'
+                        class='regular pre-open'>
+                        #height
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#loop'
+                        class='regular pre-open'>
+                        #loop
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#muted'
+                        class='regular pre-open'>
+                        #muted
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#playbackSpeed'
+                        class='regular pre-open'>
+                        #playbackSpeed
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#upscale'
+                        class='regular pre-open'>
+                        #upscale
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#volume'
+                        class='regular pre-open'>
+                        #volume
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#width'
+                        class='regular pre-open'>
+                        #width
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#decreaseSpeed'
+                        class='regular pre-open'>
+                        #decreaseSpeed
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#destroy'
+                        class='regular pre-open'>
+                        #destroy
+                      </a></li>
+                      
+                      <li><a
+                        href='#MediaPlayer#increaseSpeed'
+                        class='regular pre-open'>
+                        #increaseSpeed
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'>Events</li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:stalled'
+                          class='regular pre-open'>
+                          ⓔ stalled
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:play'
+                          class='regular pre-open'>
+                          ⓔ play
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:abort'
+                          class='regular pre-open'>
+                          ⓔ abort
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:canplay'
+                          class='regular pre-open'>
+                          ⓔ canplay
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:canplaythrough'
+                          class='regular pre-open'>
+                          ⓔ canplaythrough
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:ended'
+                          class='regular pre-open'>
+                          ⓔ ended
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:error'
+                          class='regular pre-open'>
+                          ⓔ error
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:loadeddata'
+                          class='regular pre-open'>
+                          ⓔ loadeddata
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:loadedmetadata'
+                          class='regular pre-open'>
+                          ⓔ loadedmetadata
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:loadend'
+                          class='regular pre-open'>
+                          ⓔ loadend
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:loadstart'
+                          class='regular pre-open'>
+                          ⓔ loadstart
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:pause'
+                          class='regular pre-open'>
+                          ⓔ pause
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:playing'
+                          class='regular pre-open'>
+                          ⓔ playing
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:progress'
+                          class='regular pre-open'>
+                          ⓔ progress
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:ratechange'
+                          class='regular pre-open'>
+                          ⓔ ratechange
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:seeked'
+                          class='regular pre-open'>
+                          ⓔ seeked
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:seeking'
+                          class='regular pre-open'>
+                          ⓔ seeking
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:suspend'
+                          class='regular pre-open'>
+                          ⓔ suspend
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:timeupdate'
+                          class='regular pre-open'>
+                          ⓔ timeupdate
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:volumechange'
+                          class='regular pre-open'>
+                          ⓔ volumechange
+                        </a></li>
+                      
+                        <li><a
+                          href='#MediaPlayer.event:waiting'
+                          class='regular pre-open'>
+                          ⓔ waiting
+                        </a></li>
+                      
+                    </ul>
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#viewers'
+                  class="h5 bold black caps">
+                  Viewers
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#upscale_modes'
+                  class=" toggle-sibling">
+                  UPSCALE_MODES
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  <ul class='list-reset py1-ul pl1'>
+                    <li class='h5'><span>Static members</span></li>
+                    
+                      <li><a
+                        href='#UPSCALE_MODESFULLSCREEN_ONLY'
+                        class='regular pre-open'>
+                        .FULLSCREEN_ONLY
+                      </a></li>
+                    
+                      <li><a
+                        href='#UPSCALE_MODESALWAYS'
+                        class='regular pre-open'>
+                        .ALWAYS
+                      </a></li>
+                    
+                      <li><a
+                        href='#UPSCALE_MODESNEVER'
+                        class='regular pre-open'>
+                        .NEVER
+                      </a></li>
+                    
+                    </ul>
+                  
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div class='fix-margin-3'>
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='introduction' class='mt0'>
+    Introduction
+  </h2>
+
+  
+    <p>Grauman is a framework-agnostic HTML5 File viewer that can view MP4, M4A, Encrypted HLS M3U8 Playlist, PDF, JPEG, GIF, PNG, and BMP files natively in a browser. </p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='cors' class='mt0'>
+    CORS
+  </h2>
+
+  
+    <p>Talk about how everybody loves CORS, and what it means for video and 360 playback (hello, Safari)
+When PDFs are supported by this repo, talk about pdf.js and CORS here, too.</p>
+<p>NOTE: Somewhere we gotta talk about the iOS safari situation
+NOTE: Another section with a bad name. Think of something better than "CORS"</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='code-splitting' class='mt0'>
+    Code Splitting
+  </h2>
+
+  
+    <p>Talk about the Media Player's use of Webpack's Code Splitting and about setting
+the MediaPlayer.publicPath static property.</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='ingest-pipeline' class='mt0'>
+    Ingest Pipeline
+  </h2>
+
+  
+    <p>Talk about wd-thumb, selective-transcode, waveform, and how this repo makes use of
+them.</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='mediafile'>
+      MediaFile
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Construct a new MediaFile, which is an object that tells the MediaPlayer
+how to display a file at a given URL.</p>
+<p>The MediaPlayer is optimized to work with files that have been processed
+by the Wiredrive asset ingestion pipeline (wd-thumb); specifially, video
+and audio assets that have been processed by selective-transcode (transmux.py).
+For more information, see <a href="#ingest-pipeline">#ingest-pipeline</a>.</p>
+
+
+  <div class='pre p1 fill-light mt0'>new MediaFile(file: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>): <a href="#mediafile">MediaFile</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>file</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    A hash to initialize the MediaFile with.
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.extension</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+                  </td>
+                  <td class='break-word'><span>Extension of the file.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.mimeType</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+                  </td>
+                  <td class='break-word'><span>MIME Type of the file.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.url</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+                  </td>
+                  <td class='break-word'><span>URL of the file to display.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.duration</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+                  </td>
+                  <td class='break-word'><span>Total playback length, in seconds.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.poster</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+                  
+                    (default <code>null</code>)
+                  </td>
+                  <td class='break-word'><span>URL to an image to use as a poster image.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.is360</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>?</code>
+                  
+                    (default <code>false</code>)
+                  </td>
+                  <td class='break-word'><span>Is the file content formatted for a 360/panoramic viewer?
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.stereoscopicLayout</span> <code class='quiet'><a href="#stereoscopic_layouts">STEREOSCOPIC_LAYOUTS</a>?</code>
+                  
+                    (default <code>NONE</code>)
+                  </td>
+                  <td class='break-word'><span>The stereoscopic layout of the content, if applicable.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.height</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+                  
+                    (default <code>0</code>)
+                  </td>
+                  <td class='break-word'><span>The intended display height, in pixels, of the file.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.width</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+                  
+                    (default <code>0</code>)
+                  </td>
+                  <td class='break-word'><span>The intended display width, in pixels, of the file.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.fps</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+                  
+                    (default <code>0.0</code>)
+                  </td>
+                  <td class='break-word'><span>Frames-per-second playback speed of video content.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>file.channels</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>?</code>
+                  
+                    (default <code>0</code>)
+                  </td>
+                  <td class='break-word'><span>Number of audio channels.
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#mediafile">MediaFile</a></code>:
+        The newly instantiated MediaFile object.
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Throws</div>
+    <ul>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a>: Thrown if a required property on the 
+<code>file</code>
+ object hash is of the wrong type.
+</li>
+      
+    </ul>
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='MediaFile#height'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>height</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The intended display height, in pixels, of the file.</p>
+<p>The media player will never scale the viewer for this file past this height, e.g. if
+you had a MediaFile of size 500x500 rendering in a MediaPlayer whose container is 800x800,
+you will see the 500x500 MediaAsset vertically and horizontally centered within the 800x800
+container</p>
+
+
+  <div class='pre p1 fill-light mt0'>height</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#waveform'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>waveform</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>URL to the waveform image for this file generated by <a href="https://github.com/rzurad/waveform">waveform</a></p>
+
+
+  <div class='pre p1 fill-light mt0'>waveform</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#is360'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>is360</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Is the file intended to be displayed in a 360 or panoramic viewer?</p>
+
+
+  <div class='pre p1 fill-light mt0'>is360</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>is360</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#mimeType'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>mimeType</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The MIME Type of the file.</p>
+<p>TODO: Talk about the fickle nature of mimetypes (should that also go in the
+ingest-pipeline section?)</p>
+
+
+  <div class='pre p1 fill-light mt0'>mimeType</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-string">"video/mp4"</span>
+<span class="hljs-string">"audio/m4a"</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#poster'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>poster</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A URL to an image that will be used as a poster image.</p>
+
+
+  <div class='pre p1 fill-light mt0'>poster</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>poster</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#stereoscopicLayout'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stereoscopicLayout</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>What is the 360 content's stereoscopic format?</p>
+<p>This property is ignored by the MediaPlayer if <code>is360</code> is <code>false</code>.</p>
+
+
+  <div class='pre p1 fill-light mt0'>stereoscopicLayout</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>stereoscopicLayout</span> <code class='quiet'>(<a href="#stereoscopic_layouts">STEREOSCOPIC_LAYOUTS</a>?)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#url'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>url</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The URL of the file. Subject to CORS restrictions. See <a href="#cors.md">#cors.md</a></p>
+
+
+  <div class='pre p1 fill-light mt0'>url</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#extension'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>extension</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The extension of the file.</p>
+<p>TODO: Explicitly list supported extensions (but also talk about how file extensions
+don't really matter <a href="">or... would that be too confusing?</a>)</p>
+
+
+  <div class='pre p1 fill-light mt0'>extension</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-string">"mp4"</span>
+<span class="hljs-string">"m4a"</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#width'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>width</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The intended display width, in pixels, of the file.</p>
+<p>The media player will never scale the viewer for this file past this width, e.g. if
+you had a MediaFile of size 500x500 rendering in a MediaPlayer whose container is 800x800,
+you will see the 500x500 MediaAsset vertically and horizontally centered within the 800x800
+container</p>
+
+
+  <div class='pre p1 fill-light mt0'>width</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#fps'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>fps</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Frames-per-second playback speed of the file.</p>
+
+
+  <div class='pre p1 fill-light mt0'>fps</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#duration'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>duration</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Total playback length of the file, in seconds.</p>
+
+
+  <div class='pre p1 fill-light mt0'>duration</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#channels'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>channels</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Number of audio channels.</p>
+
+
+  <div class='pre p1 fill-light mt0'>channels</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaFile#title'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>title</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Title of the File.</p>
+
+
+  <div class='pre p1 fill-light mt0'>title</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='stereoscopic_layouts'>
+      STEREOSCOPIC_LAYOUTS
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Enum for the various layouts of 360 stereoscopic content.</p>
+
+
+  <div class='pre p1 fill-light mt0'>STEREOSCOPIC_LAYOUTS</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='STEREOSCOPIC_LAYOUTSLEFT_RIGHT'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>LEFT_RIGHT</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The content is arranged TOP/BOTTOM, meaning the content for the left eye occupies the
+top half of the frame, and the content for the right eye occupies the bottom
+half of the frame.</p>
+
+
+  <div class='pre p1 fill-light mt0'>LEFT_RIGHT</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='STEREOSCOPIC_LAYOUTSTOP_BOTTOM'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>TOP_BOTTOM</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The content is arranged LEFT/RIGHT, meaning the content for the left eye occupies the
+left half of the frame, and the content for the right eye occupies the right
+half of the frame.</p>
+
+
+  <div class='pre p1 fill-light mt0'>TOP_BOTTOM</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='STEREOSCOPIC_LAYOUTSNONE'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>NONE</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The content is not stereoscopic</p>
+
+
+  <div class='pre p1 fill-light mt0'>NONE</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='container-sizing' class='mt0'>
+    Container Sizing
+  </h2>
+
+  
+    <p>Talk about how the media player sizes itself in reaction to changes in the
+supplied <code>container</code> element and the size of the displayed MediaFile.</p>
+<p>This is the place to talk about the resize sensor and asset upscaling and downscaling</p>
+<p>The name "Container Sizing" for this section seems inadequate. Try and think of something better.</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='keyboard-shortcuts' class='mt0'>
+    Keyboard Shortcuts
+  </h2>
+
+  
+    <p>Explicitly list the keyboard shortcuts. If we ever get around to allowing consumers to
+specify their own config for the key bindings, this would be the place to document it.</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='localstorage' class='mt0'>
+    LocalStorage
+  </h2>
+
+  
+    <p>This is the place to list all of the settings that are saved/read from localstorage, and how the
+localstorage instance keys work.</p>
+<ul>
+<li>muted, loop, volume, playbackSpeed</li>
+</ul>
+<p>TODO: timeFormat</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='mediaplayer'>
+      MediaPlayer
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Constructs a new MediaPlayer, which is a web component for viewing media assets
+in a Web Browser.</p>
+
+
+  <div class='pre p1 fill-light mt0'>new MediaPlayer(container: <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">HTMLElement</a>, settings: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>??): <a href="#mediaplayer">MediaPlayer</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">HTMLElement</a>)</code>
+	    An HTMLElement DOM node that will be the
+MediaPlayer instance's main view element. The MediaPlayer uses this
+element to determine it's maximum allowed size.
+<p>See <a href="#container-sizing">#container-sizing</a> for more information on how the MediaPlayer
+uses the <code>container</code> to calculate its size</p>
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>??
+            = <code>{}</code>)</code>
+	    A hash of config values to initialize the MediaPlayer with.
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.autoplay</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+                  </td>
+                  <td class='break-word'><span>Start playing the MediaFile automatically after
+it loads.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.file</span> <code class='quiet'><a href="#mediafile">MediaFile</a></code>
+                  </td>
+                  <td class='break-word'><span>A MediaFile to load immediately after initializing
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.keyboardShortcutsEnabled</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+                  </td>
+                  <td class='break-word'><span>A flag to enable or disable this MediaPlayer's
+keyboard shortcut bindings.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.localStorageEnabled</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+                  </td>
+                  <td class='break-word'><span>A flag to enable or disable this MediaPlayer
+reading from and writing to browser localStorage.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.localStorageKey</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+                  </td>
+                  <td class='break-word'><span>The key that this MediaPlayer instance will use
+to read from and write to localStorage, if it is enabled.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.loop</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a></code>
+                  </td>
+                  <td class='break-word'><span>When the Media stream has reached the end, automatically start
+playing the media from the beginning.
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.playbackSpeed</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+                  </td>
+                  <td class='break-word'><span>TODO
+</span></td>
+                </tr>
+              
+                <tr>
+                  <td class='break-word'><span class='code bold'>settings.volume</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a></code>
+                  </td>
+                  <td class='break-word'><span>TODO
+</span></td>
+                </tr>
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="#mediaplayer">MediaPlayer</a></code>:
+        The newly instantiated MediaPlayer object
+
+      
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Throws</div>
+    <ul>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError">TypeError</a>: If the 
+<code>container</code>
+ parameter is not supplied or is not
+an instance of an HTMLElement
+</li>
+      
+    </ul>
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">var</span> container = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'#your-container'</span>);
+<span class="hljs-keyword">var</span> mediaPlayer = <span class="hljs-keyword">new</span> MediaPlayer(container);
+
+<span class="hljs-comment">// or, with a settings object</span>
+<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> make the indentation not suck when documentation renders it</span>
+<span class="hljs-keyword">var</span> mediaPlayer = <span class="hljs-keyword">new</span> MediaPlayer(container, {
+<span class="hljs-attr">autoplay</span>: <span class="hljs-literal">true</span>,
+<span class="hljs-attr">volume</span>: <span class="hljs-number">0.5</span>,
+<span class="hljs-attr">localStorageEnabled</span>: <span class="hljs-literal">false</span>,
+<span class="hljs-attr">file</span>: <span class="hljs-keyword">new</span> MediaFile({
+<span class="hljs-attr">extension</span>: <span class="hljs-string">'mp4'</span>,
+<span class="hljs-attr">mimeType</span>: <span class="hljs-string">'video/mp4'</span>,
+<span class="hljs-attr">url</span>: <span class="hljs-string">'http://example.com/clip.mp4'</span>
+})
+});</pre>
+    
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='MediaPlayer.publicPath'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>publicPath</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Set's the URL path to the MediaPlayer's other build chunks.</p>
+<p>Since MediaPlayer uses Webpack's code splitting feature, which caches the chunks after
+they are dynamically requested, it is highly recommended that you not modify this
+property after the first MediaPlayer instance is created.</p>
+<p>Furthermore, since many aspects of JavaScript are subject to CORS restrictions,
+it is highly recommended that you keep the chunks located on the same origin
+as the main media-player index file.</p>
+<p>See <a href="#code-splitting">#code-splitting</a> for more information.</p>
+
+
+  <div class='pre p1 fill-light mt0'>publicPath</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='MediaPlayer#stop'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stop()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Stops playback. Equivalent to pausing playback and seeking back
+to the beginning. Has no effect if playback is already stopped.</p>
+
+
+  <div class='pre p1 fill-light mt0'>stop()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#seek'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>seek(time)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Seek/jump forwards or backwards by the specified relative time. See <a href="seekTo">seekTo</a>.</p>
+<p>If the relative time given will cause the file to seek past its duration, it will
+seek to the end of the file. If the relative time given causes the file to seek before
+its beginning, it will seek to the beginning of the file.</p>
+<p>Seeking does not change playback state.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seek(time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>time</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The relative time, in seconds, to seek by. Postive numbers seek
+forwards in time, negative numbers seek backwards in time.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#seekTo'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>seekTo(time)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Seek/jump to the specified time. See <a href="seek">seek</a>.</p>
+<p>If the given time is greater than the file's playback duration, the
+player will seek to the end of the file.</p>
+<p>Does not change the playback state, i.e. if the MediaPlayer is playing,
+it will seek to the specified time and resume playing from that time. If the
+player is paused, it will seek to the specified time and remain paused.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seekTo(time: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>time</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">number</a>)</code>
+	    The playback time, in seconds, to seek to.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#play'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>play()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells the MediaPlayer to play the file, starting from the beginning if the
+file has not yet been played. If the player is paused, playback will resume
+from the pause point. If playback has ended, it will restart from the beginning.</p>
+<p>Calling <code>play</code> while the MediaPlayer is already playing has no effect.</p>
+
+
+  <div class='pre p1 fill-light mt0'>play()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#pause'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pause()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Tells the MediaPlayer to pause playback. Has no effect if the MediaPlayer
+is paused.</p>
+<p>TODO: if playback has ended or is in error, should calling pause reset
+the playhead to the beginning? or should it do nothing, as documented?</p>
+
+
+  <div class='pre p1 fill-light mt0'>pause()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#keyboardShortcutsEnabled'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>keyboardShortcutsEnabled</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set a boolean indicating whether or not to enable the MediaPlayer's default
+keyboard shortcuts.</p>
+<p>Set this to false if you wish to define your own keyboard shortcuts
+external to the MediaPlayer. See <a href="#keyboard-shortcuts.md">#keyboard-shortcuts.md</a></p>
+
+
+  <div class='pre p1 fill-light mt0'>keyboardShortcutsEnabled</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>keyboardShortcutsEnabled</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>?)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#localStorageEnabled'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>localStorageEnabled</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or sets a boolean indicating whether or not the MediaPlayer should read and save
+certain properties in LocalStorage so that they will be remembered the next time
+a MediaPlayer instance is created.</p>
+<p>See the <a href="localStorageKey">localStorageKey</a> property to set the base key this MediaPlayer instance
+will use to save/read localstorage information.</p>
+<p>NOTE: If localStorage is not availabe in the browser and this property is <code>true</code>, all
+attempts by the MediaPlayer to read and write to localStorage will fail silently.</p>
+
+
+  <div class='pre p1 fill-light mt0'>localStorageEnabled</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>localStorageEnabled</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#localStorageKey'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>localStorageKey</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the key that the MediaPlayer will use as an index in localStorage. See
+<a href="localStorageEnabled">localStorageEnabled</a> for more information.</p>
+
+
+  <div class='pre p1 fill-light mt0'>localStorageKey</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Properties</div>
+    <div>
+      
+        <div class='space-bottom0'>
+          <span class='code bold'>localStorageKey</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+          
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#isFullscreenEnabled'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isFullscreenEnabled</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A read-only boolean indicating whether or not the environment supports programmatically
+entering and exiting fullscreen mode. If this property is false, the UI fullscreen button
+will not be visible and any attempt to change this instances <code>fullscreen</code> property will
+throw an Error</p>
+
+
+  <div class='pre p1 fill-light mt0'>isFullscreenEnabled</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#isVolumeControllable'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>isVolumeControllable</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>A read-only boolean indicating whether or not the environment supports programatically
+changing the volume of a MediaElement (iOS does not currently support this). If this property
+is false, the UI will not show the volume slider (you can still toggle mute) and setting
+the <code>volume</code> property on this instance will fail silently.</p>
+
+
+  <div class='pre p1 fill-light mt0'>isVolumeControllable</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#autoplay'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>autoplay</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set a boolean indicating whether to start playing the media file automatically
+and without user intervention as soon as enough has been progressivly
+downloaded to do so.</p>
+<p>Note that some devices and user agents block this functionality, effectively stripping
+this property of all purpose, all meaning, and all motivation. Autoplay is rejected
+and ignored in these user agents, and quickly succumbs to a life of crippling depression and
+alcoholism.</p>
+
+
+  <div class='pre p1 fill-light mt0'>autoplay</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#container'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>container</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the MediaPlayer's HTMLElement container.</p>
+<p>Setting this property will cause the MediaPlayer to destroy itself and reinitialize
+itself with the new container.</p>
+
+
+  <div class='pre p1 fill-light mt0'>container</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#containerHeight'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>containerHeight</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the height, in pixels, of the MediaPlayer's container HTMLElement.</p>
+
+
+  <div class='pre p1 fill-light mt0'>containerHeight</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#containerWidth'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>containerWidth</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the width, in pixels of the actual player inside the container.</p>
+
+
+  <div class='pre p1 fill-light mt0'>containerWidth</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#currentTime'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>currentTime</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets the current time, in seconds, of playback. Returns <code>0</code> if no MediaFile is loaded.</p>
+
+
+  <div class='pre p1 fill-light mt0'>currentTime</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#duration'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>duration</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the duration of the loaded MediaFile. If the MediaFile specifies its duration,
+this will be the MediaFile's <code>duration</code> value. If the MediaFile does not know its duration,
+this will be the duration as determined by the underlying MediaElement</p>
+
+
+  <div class='pre p1 fill-light mt0'>duration</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#file'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>file</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the MediaFile for the MediaPlayer to play.</p>
+<p>Setting this property will cause the MediaPlayer to unload the current MediaFile
+(and Viewer, if necessary) and load the newly set MediaFile.</p>
+
+
+  <div class='pre p1 fill-light mt0'>file</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#fullscreen'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>fullscreen</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets or sets a boolean indicating whether or not this MediaPlayer <em>thinks</em> it's
+in fullscreen mode.</p>
+<p>Emphasis <em>thinks</em>, because cross-browser support for the Fullscreen API is spotty.
+Currently, in some browsers and under some conditions, the MediaPlayer will think
+it is in fullscreen mode when in actuality it isn't.</p>
+<p>Would you kindly submit a bug report if you find reproducable oddities with this property?</p>
+
+
+  <div class='pre p1 fill-light mt0'>fullscreen</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#height'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>height</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Gets the height of the actual player element inside the MediaPlayer's container</p>
+
+
+  <div class='pre p1 fill-light mt0'>height</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#loop'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loop</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or sets a boolean indicating whether or not the Media should automatically
+start playing the Media from the beginning in response to an "ended" event.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loop</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#muted'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>muted</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or sets a boolean indicating whether or not the audio is muted. Note that
+the <code>muted</code> is not tied to the <code>volume</code> property.</p>
+
+
+  <div class='pre p1 fill-light mt0'>muted</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#playbackSpeed'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>playbackSpeed</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the MediaPlayer's playback speed.</p>
+<p>Can only be set to the following values: 0.5, 1, 1.25, and 1.5.
+Default value is 1</p>
+
+
+  <div class='pre p1 fill-light mt0'>playbackSpeed</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#upscale'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>upscale</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the MediaPlayer's rules for upscaling video.</p>
+
+
+  <div class='pre p1 fill-light mt0'>upscale</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#volume'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>volume</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get or set the MediaPlayer's volume.</p>
+<p>Any set value will be clamped to not be greater than 1 or less than 0.</p>
+
+
+  <div class='pre p1 fill-light mt0'>volume</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#width'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>width</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Get the width, in pixels, of the MediaPlayer's container HTMLElement.</p>
+
+
+  <div class='pre p1 fill-light mt0'>width</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#decreaseSpeed'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>decreaseSpeed()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Decrease the playback speed to the next allowed multiplier. Has no effect
+if playback speed is already at the minimum allowed speed.</p>
+
+
+  <div class='pre p1 fill-light mt0'>decreaseSpeed()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#destroy'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>destroy()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Destroys a MediaPlayer instance.</p>
+<p>Invoking <code>destroy</code> will <em>not</em> destroy the HTMLElement object referenced by the
+<code>container</code> property, but it will destroy all of the container's child elements.</p>
+
+
+  <div class='pre p1 fill-light mt0'>destroy()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer#increaseSpeed'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>increaseSpeed()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Increase the playback speed to the next allowed multiplier. Has no effect
+if playback speed is already at the maximum allowed speed.</p>
+
+
+  <div class='pre p1 fill-light mt0'>increaseSpeed()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Events</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='MediaPlayer.event:stalled'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stalled</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>stalled</code> event. Fired when the user agent is trying to fetch data, but the data is
+not being received.</p>
+<p>Binding to this event is the same as binding directly to the <code>stalled</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>stalled</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:play'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>play</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>play</code> event. Fired when the playback has begun or resumed from pause.</p>
+<p>Binding to this event is the same as binding directly to the <code>play</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>play</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:abort'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>abort</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>abort</code> event. Fires when the loading of the Media resource has been aborted by
+the user agent.</p>
+<p>Binding to this event is the same as binding directly to the <code>abort</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>abort</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:canplay'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>canplay</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>canplay</code> event. Fires when the user agent has enough data downloaded to start playing
+the media, but estimates that not enough data has been loaded to play the media up to
+its end without having to buffer.</p>
+<p>Binding to this event is the same as binding directly to the <code>canplay</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>canplay</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:canplaythrough'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>canplaythrough</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>canplaythrough</code> event. Fires when the user agent estimates that it has enough data loaded
+to play the media all the way through to its end without needing to buffer.</p>
+<p>Binding to this event is the same as binding directly to the <code>canplaythrough</code> event on
+an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>canplaythrough</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:ended'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ended</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>ended</code> event. Fires when playback stops because the end of the media has been reached.</p>
+<p>Binding to this event is the same as binding directly to the <code>ended</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>ended</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:error'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>error</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>error</code> event. Fires when a Media resource fails to load.</p>
+<p>Binding to this event is the same as binding directly to the <code>error</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>error</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:loadeddata'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadeddata</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>loadeddata</code> event. Fires when the first frame of the media resource has finished loading.</p>
+<p>Binding to this event is the same as binding directly to the <code>loadeddata</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadeddata</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:loadedmetadata'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadedmetadata</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>loadedmetadata</code> event. Fires when the Media resource's metadata has been loaded
+(internal file metadata in the binary stream, not external system metadata).</p>
+<p>Binding to this event is the same as binding directly to the <code>loadedmetadata</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadedmetadata</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:loadend'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadend</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>loadend</code> event. Fires when progress has stopped loading on the Media resource. This
+fires after a "error", "abort", or "load" events have been dispatched.</p>
+<p>Binding to this event is the same as binding directly to the <code>loadend</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadend</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:loadstart'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>loadstart</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>loadstart</code> event. Fires when progress has begun on loading the Media resource.</p>
+<p>Binding to this event is the same as binding directly to the <code>loadstart</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>loadstart</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:pause'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pause</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>pause</code> event. Fires when playback stops because it has been paused.</p>
+<p>Binding to this event is the same as binding directly to the <code>pause</code> event
+on an HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>pause</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:playing'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>playing</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>playing</code> event. Fired when playback is ready to start after having been paused or
+after having buffered.</p>
+<p>Binding to this event is the same as binding directly to the <code>playing</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>playing</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:progress'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>progress</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>progress</code> event. Fires to indicate the progress of loading the Media resource.</p>
+<p>Binding to this event is the same as binding directly to the <code>progress</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>progress</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:ratechange'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ratechange</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>ratechange</code> event. Fires when the playbackSpeed has changed.</p>
+<p>Binding to this event is the same as binding directly to the <code>ratechange</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>ratechange</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:seeked'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>seeked</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>seeked</code> event. Fired when a seek operation has completed.</p>
+<p>Binding to this event is the same as binding directly to the <code>seeked</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seeked</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:seeking'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>seeking</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>seeking</code> event. Fired when a seeking operation has begin.</p>
+<p>Binding to this event is the same as binding directly to the <code>seeking</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seeking</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:suspend'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>suspend</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>suspend</code> event. Fired when loading the media resource has been suspended.</p>
+<p>Binding to this event is the same as binding directly to the <code>suspend</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>suspend</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:timeupdate'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>timeupdate</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>timeupdate</code> event. Fired to indicate that the currentTime of playback has changed.</p>
+<p>User agents vary their frequency of this event depending on system load. The average
+frequency of this event being emitted could be between 4 and 70 times per second.
+If you are listening to this event and triggering a UI redraw or any kind of heavy
+update in direct response to your event handler for this event, it is <em>highly</em>
+recommended you throttle or debounce your redraws.</p>
+<p>Better yet, just throttle <em>every</em> callback you bind to this event. You've been warned.</p>
+<p>Binding to this event is the same as binding directly to the <code>timeupdate</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>timeupdate</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:volumechange'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>volumechange</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>volumechange</code> event. Fired when the volume has been changed or when the <code>muted</code>
+property has changed.</p>
+<p>Binding to this event is the same as binding directly to the <code>volumechange</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>volumechange</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='MediaPlayer.event:waiting'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>waiting</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p><code>waiting</code> event. Fired when playback has stopped due to a temporary lack of data.</p>
+<p>Binding to this event is the same as binding directly to the <code>waiting</code> event on an
+HTMLMediaElement object.</p>
+
+
+  <div class='pre p1 fill-light mt0'>waiting</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>container</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>settings</span> <code class='quiet'>(any?
+            = <code>{}</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+</section>
+
+          
+        
+          
+            <div class='keyline-top-not py2'><section class='py2 clearfix'>
+
+  <h2 id='viewers' class='mt0'>
+    Viewers
+  </h2>
+
+  
+    <p>Document and demonstrate the different viewers and how they work. This is the place to
+show examples of what exactly STEREOSCOPIC_LAYOUT means, with, you know, screenshots
+and things (or, can we put that right in the documentation of the STEREOSCOPIC_LAYOUT
+enum itself?... if we can, that's probably a better place for it)</p>
+<p>NOTE: This isn't the place to talk about how the actual components work internally
+at a code level. This is the place for an overview of the various UI states, and
+how they relate to the public interfaces of this library.</p>
+
+  
+</section>
+</div>
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='upscale_modes'>
+      UPSCALE_MODES
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Enume for the various modes of upscaling the MediaPlayer can be set to. Upscaling is the process of
+resizing the MediaPlayer beyond the dimensions of the given MediaFile to completely fill the area of the
+MediaPlayer's container without skewing the MediaFile's aspect ratio.</p>
+
+
+  <div class='pre p1 fill-light mt0'>UPSCALE_MODES</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Static Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='UPSCALE_MODESFULLSCREEN_ONLY'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>FULLSCREEN_ONLY</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Content will only be upscaled when the MediaPlayer is in fullscreen mode.</p>
+
+
+  <div class='pre p1 fill-light mt0'>FULLSCREEN_ONLY</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='UPSCALE_MODESALWAYS'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>ALWAYS</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Content will always be upscaled</p>
+
+
+  <div class='pre p1 fill-light mt0'>ALWAYS</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='UPSCALE_MODESNEVER'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>NEVER</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Content will never be upscaled. The MediaPlayer will never scale beyond the dimensions
+of the MediaFile, even when the MediaPlayer is in fullscreen mode.</p>
+
+
+  <div class='pre p1 fill-light mt0'>NEVER</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>
