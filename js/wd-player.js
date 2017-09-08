@@ -143,7 +143,7 @@
                         // that we will bind to the paginators. This accounts for the case of where
                         // the user clicks on the pagintate button to change to the next asset without
                         // ever playing the first asset or clicking on a thumbnail
-                        onceDelegate = function (e) {
+                    onceDelegate = function (e) {
                             if ($(e.target).hasClass('disabled')) {
                                 return;
                             }
@@ -166,9 +166,9 @@
                             $player.attr('controls', 'controls');
                             $container.off('touch click', '.wd-paginate', onceDelegate);
                             $container.off('touch click', '.wd-thumbnail img', onceDelegate);
-                        },
-
-                        $tpl = $(GRAUMAN_TEMPLATE(this.id));
+                    },
+                        
+                    $tpl = $(GRAUMAN_TEMPLATE(this.id));
 
                     $stage.prepend($tpl);
                     console.log({"container": $container});
@@ -340,15 +340,7 @@
         //Don't bother checking for ogg or webm. The majority of WD clients appear to use mp4
         if (!!test.canPlayType && test.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '') === 'probably') {
             this.type = 'video';
-            // } else {
-            //     this.type = 'flash';
         }
-
-        //detect IE9 and force it to use flash. It still is glitchy with h264,
-        //even though it passes the above test
-        // if (document.documentMode === 9) {
-        //     this.type = 'flash';
-        // }
 
         //do some ua sniffing to see if we're on an iOS device.
         //TODO: probably better to use a media query to put a class on the container
