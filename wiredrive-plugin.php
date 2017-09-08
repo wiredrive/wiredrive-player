@@ -87,19 +87,27 @@ class Wiredrive_Plugin
 		$plugin_url = plugins_url('wiredrive-player');
 
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('swfobject');
-
+		wp_register_style('grauman_css', ($plugin_url . '/grauman/grauman.css'));
+		wp_register_script( 'grauman_js', ($plugin_url . '/grauman/grauman.js') );
+		for($i = 0; $i < 4; $i++){
+			wp_register_script( "grauman_{$i}", ($plugin_url . '/grauman/grauman.component' . $i .'.min.js') );
+		}
 		wp_register_script(
-            'wd-player', 
-            ($plugin_url  . '/js/wd-player.js'), 
-            'jquery', 
-            '3.1.0'
-        );
+			'wd-player',
+			($plugin_url  . '/js/wd-player.js'),
+			'jquery',
+			'3.1.0'
+		);
+		wp_enqueue_script( 'grauman_js' );
+		for ($i = 0; $i < 4; $i++){
+			wp_enqueue_script( "grauman_{$i}" );
+		}
 		wp_enqueue_script('wd-player');
+		wp_enqueue_style( 'grauman_css' );
 		wp_enqueue_style(
-            'wd-player', 
-            ($plugin_url . '/css/wd-player.css')
-        );
+			'wd-player',
+			($plugin_url . '/css/wd-player.css')
+		);
 	}
 
 	/**
