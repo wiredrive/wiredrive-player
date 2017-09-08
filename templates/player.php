@@ -2,6 +2,7 @@
     /*
      * Settings
      */
+    global $wp;
     $collapseThumbs = $this->get('collapseThumbs'); //is the thumbnail tray collapseable
     $disableThumbs = $this->get('disableThumbs'); //is there even a thumbnail tray to begin with?
     $slideshow = $this->get('slideshow');
@@ -23,6 +24,9 @@
     $width = $this->get('width');
     $height = $this->get('height');
     $attributeId = $this->get('attributeId'); //some kind of wordpress id that works well as the container id
+    $pluginId = $this->get('pluginId');
+    $siteUrl =  home_url(add_query_arg(array(),$wp->request));
+    $domain = get_site_url();
 ?>
 <div id="<?php echo $attributeId; ?>" class="wd-player">
     <?php if ($theme === 'inline-player'): ?>
@@ -85,7 +89,10 @@
                 thumbfit: '<?php echo $thumbfit; ?>',
                 linebreak: <?php echo $linebreak; ?>,
             <?php endif; ?>
-                jsonpUrl: '<?php echo $jsonpUrl; ?>'
+                jsonpUrl: '<?php echo $jsonpUrl; ?>', 
+                pluginId: '<?php echo $pluginId; ?>',
+                siteUrl: '<?php echo $siteUrl; ?>',
+                domain: '<?php echo $domain; ?>'
             });
         }());
     </script>

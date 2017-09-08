@@ -58,6 +58,7 @@ class Wiredrive_Plugin
     protected $jsonpUrl = '';
     protected $curl = null;
     protected $isCurlInit = false;
+	protected $pluginId = null;
 
 	/**
 	 * Contruct
@@ -75,6 +76,7 @@ class Wiredrive_Plugin
          * Get the post id from wordpress
          */
 		$this->postId = the_Id();
+		$this->setPluginId();
 	}
 
 	/**
@@ -228,6 +230,19 @@ class Wiredrive_Plugin
 	public function getPluginUrl()
 	{
 		return $this->pluginUrl;
+	}
+
+	/**
+	 *  Unique id for plugin
+	 */
+	public function setPluginId()
+	{
+		$this->pluginId =  get_option('wdp_uuid');
+	}
+
+	public function getPluginId()
+	{
+		return $this->pluginId;
 	}
 
 	/**

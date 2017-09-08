@@ -90,4 +90,23 @@ if (version_compare(PHP_VERSION, '5.0.0', '<')) {
     add_action('init', array($wiredriveButton, 'init'));
     add_filter('wp_feed_cache_transient_lifetime', create_function( '$a', 'return 5;' ) );
 
+	/**
+	 * Plugin uuid generation on activation
+	 */
+	register_activation_hook( __FILE__, 'on_plugin_activation' );
+
+	register_uninstall_hook( __FILE__, 'on_plugin_uninstall' );
+
+}
+
+function on_plugin_activation() {
+	$uuid = 'wdp-' . uniqid();
+	add_option( 'wdp_uuid', $uuid );
+}
+
+
+function on_plugin_uninstall() {
+
+	delete_option( 'wdp_uuid' );
+
 }
