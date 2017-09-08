@@ -3,10 +3,10 @@
 //This file is written with jQuery 1.7.2 as a baseline
 (function ($) {
     "use strict";
-
-        //in case we're in IE8, we're going to define a local var `console`
-        //to clobber the global one inside this scope so that we can log
-        //to our heart's content without IE8 complaining about its ingornace
+    Grauman.publicPath = '../grauman';
+    //in case we're in IE8, we're going to define a local var `console`
+    //to clobber the global one inside this scope so that we can log
+    //to our heart's content without IE8 complaining about its ingornace
     var console = (function () {
             var console = window.console;
 
@@ -15,7 +15,8 @@
             }
 
             console = {};
-            console.log = console.warn = console.error = function () {};
+            console.log = console.warn = console.error = function () {
+            };
 
             return console;
         }()),
@@ -57,94 +58,68 @@
         /*
          * Player templates
          */
-        IMAGE_TEMPLATE = [
-            '<div class="wd-image-container">',
-                '<img class="wd-image" />',
-                '<img class="wd-image wd-next-image opaque" />',
-            '</div>'
-        ].join(''),
-
-        FLASH_TEMPLATE = [
-            '<div class="wd-flash-container">',
-                '<div class="wd-flash-replace">',
-                    '<div>You require either an HTML5 capable browser or Adobe Flash to view this content.</div>',
-                    '<div>Click an icon to install</div>',
-                    '<div class="wd-install-links">',
-                        '<a href="http://www.apple.com/safari/download" target="_new">',
-                            '<span class="wd-install-safari"></span>',
-                        '</a>',
-                        '<a href="http://get.adobe.com/flashplayer" target="_new">',
-                            '<span class="wd-install-flash"></span>',
-                        '</a>',
-                    '</div>',
-                '</div>',
-                '<div class="wd-poster">',
-                    '<img />',
-                    '<div class="wd-play-video-button"></div>',
-                '</div>',
-            '</div>'
-        ].join(''),
-
-        VIDEO_TEMPLATE = [
-            '<div class="video-container">',
-                '<video class="wd-video" preload="none" x-webkit-airplay="allow"></video>',
+        GRAUMAN_TEMPLATE = (id) => {
+            return [
+                `<div id="grauman-${id}" class="container full container-viewer wd-video" x-webkit-airplay="allow">`,
                 '<div class="wd-play-video-button"></div>',
-            '</div>'
-        ].join(''),
+                '</div>'
+            ].join('')
+        },
 
         CAROUSEL_THUMBNAIL_TEMPLATE = [
             '<li class="wd-thumbnail">',
-                '<img />',
+            '<img />',
             '</li>'
         ].join(''),
 
         GALLERY_THUMBNAIL_TEMPLATE = [
             '<li class="wd-thumbnail">',
-                '<div class="wd-credit-tray">',
-                    '<div class="wd-credit-wrapper">',
-                        '<div class="wd-title"></div>',
-                        '<div class="wd-tag"></div>',
-                    '</div>',
-                '</div>',
-                '<img />',
+            '<div class="wd-credit-tray">',
+            '<div class="wd-credit-wrapper">',
+            '<div class="wd-credit-wrapper">',
+            '<div class="wd-title"></div>',
+            '<div class="wd-tag"></div>',
+            '</div>',
+            '</div>',
+            '<img />',
             '</li>'
         ].join(''),
 
         CREDIT_TEMPLATE = [
             '<div class="wd-credit">',
-                '<span class="wd-credit-label"></span>',
-                '<span class="wd-tag"></span>',
+            '<span class="wd-credit-label"></span>',
+            '<span class="wd-tag"></span>',
             '</div>',
             '<span class="wd-credit-separator"></span>'
         ].join(''),
 
         EMPTY_TEMPLATE = [
             '<div class="wd-empty-presentation">',
-                '<span>Wiredrive Player: No presentable assets found in presentation!</span>',
+            '<span>Wiredrive Player: No presentable assets found in presentation!</span>',
             '</div>'
         ].join(''),
 
         MODAL_CONTAINER_ID = 'wd-modal-player',
         MODAL_TEMPLATE = [
             '<div id="wd-skrim">',
-                '<div id="' + MODAL_CONTAINER_ID + '" class="wd-player inline-player">',
-                    '<div class="wd-stage">',
-                        '<div class="wd-play-slideshow-button"></div>',
-                    '</div>',
+            '<div id="' + MODAL_CONTAINER_ID + '" class="wd-player inline-player">',
+            '<div class="wd-stage">',
+            '<div class="wd-play-slideshow-button"></div>',
+            '</div>',
 
-                    '<div class="wd-paginate previous-arrow"></div>',
-                    '<div class="wd-paginate next-arrow"></div>',
+            '<div class="wd-paginate previous-arrow"></div>',
+            '<div class="wd-paginate next-arrow"></div>',
 
-                    '<div class="wd-credit-tray">',
-                        '<span class="wd-title"></span>',
-                    '</div>',
-                '</div>',
+            '<div class="wd-credit-tray">',
+            '<span class="wd-title"></span>',
+            '</div>',
+            '</div>',
             '</div>'
         ].join(''),
 
         LINEBREAK_TEMPLATE = '<li class="wd-linebreak"></li>',
 
-        VALID_PLAYER_TYPES = ['flash', 'video'],
+        VALID_PLAYER_TYPES = ['grauman'],
 
         _uid = 1, //uid value. used for WDP.uniqueId()
         _players = {}, //"private" list of all player instances
@@ -153,7 +128,7 @@
          * Mixins for Player objects that connect it to the given media player
          */
         mixins = {
-            video: {
+            grauman: {
                 attachPlayer: function () {
                     var instance = this,
                         $container = instance.$container,
@@ -192,12 +167,18 @@
                             $container.off('touch click', '.wd-paginate', onceDelegate);
                             $container.off('touch click', '.wd-thumbnail img', onceDelegate);
                         },
-                        $tpl = $(VIDEO_TEMPLATE);
+
+                        $tpl = $(GRAUMAN_TEMPLATE(this.id));
 
                     $stage.prepend($tpl);
-
-                    $playButton = $container.find('.wd-play-video-button'),
+                    console.log({"container": $container});
+                    // console.log($container[0].innerHTML);
+                    $playButton = $container.find('.wd-play-video-button');
+                    // this.render()
                     $player = $container.find('video');
+                    console.log({"video": $player});
+                    // $player = $container.find('video');
+                    // $player = $container.getElementByTagName('video');
 
                     // only show the poster image if the first asset is a video
                     // and we're not in a modal (modal will autoplay once opened, so
@@ -211,7 +192,8 @@
                             onceDelegate(e);
 
                             $player.attr('src', first.url);
-                            $player.get(0).load();
+                            console.log(first.url);
+                            // $player.get(0).load();
 
                             //the once delegator doesn't need to explicitly call `play` because
                             //that will be handled by the normal event handlers on the paginators
@@ -223,7 +205,8 @@
                         $playButton.remove();
                         $player.attr('controls', 'controls');
                         $player.attr('src', instance.items[instance.current].url);
-                        $player.get(0).load();
+                        console.log(instance.items[instance.current].url);
+                        // $player.get(0).load();
                     }
 
                     instance.$player = $player;
@@ -234,26 +217,21 @@
 
                     instance.setReady();
                 },
-
                 _setPlayerSource: function (index) {
-                    var asset = this.items[index],
-                        $player = this.$player,
-                        player = $player.get(0);
+                    this.render(index);
 
-                    $player.attr('src', asset.url);
-                    player.load();
                 },
 
                 _pauseVideo: function () {
-                    this.$player.get(0).pause();
+                    // this.$player.get(0).pause();
                 },
 
                 _playVideo: function (bindOnceCanPlay) {
                     var $player = this.$player,
-                        player = $player.get(0),
+                        // player = $player.get(0),
                         iPadHackFn = function () {
-                            $player.load();
-                            player.play();
+                            // $player.load();
+                            // player.play();
                         },
                         iPadInterval;
 
@@ -275,142 +253,11 @@
                         }, 100);
                     }
 
-                    player.play();
-                },
-            },
-            flash: {
-                _setPlayerSource: function (index) {
-                    if (!this.isReady()) {
-                        return;
-                    }
-
-                    var asset = this.items[index],
-                        player = this.$player.get(0);
-
-                    player.setSrc(asset.url);
-                    player.load();
+                    // player.play();
                 },
 
-                _pauseVideo: function () {
-                    if (this.isReady()) {
-                        try {
-                            this.$player.get(0).pause();
-                        } catch (e) {
-                            console.warn('WiredrivePlayer: NPObject error pausing flash video');
-                        }
-                    }
-                },
-
-                _playVideo: function () {
-                    this.isReady() && this.$player.get(0).play2();
-                },
-
-                attachPlayer: function () {
-                    var instance = this,
-                        $container = instance.$container,
-                        $tpl = $(FLASH_TEMPLATE),
-                        $poster = $tpl.find('.wd-poster'),
-                        $img = $poster.find('img'),
-                        $playButton = $poster.find('.wd-play-video-button'),
-
-                        cbid = WDP.flashCallbackId(),
-                        id = 'wd-flash' + WDP.uniqueId(),
-
-                        first = instance.items[0],
-                        isFirstVideo = first.mimetype === 'video',
-                        dimensions = _fitWithin(first, instance.width, instance.height),
-
-                        onceDelegate = function (e) {
-                            if ($(e.target).hasClass('disabled')) {
-                                return;
-                            }
-
-                            $poster.remove();
-                            $container.off('click', '.wd-paginate', onceDelegate);
-                            $container.off('click', '.wd-thumbnail img', onceDelegate);
-                        },
-
-                        flashvars, params;
-
-                    flashvars = {
-                        javascriptCallbackFunction: 'WDP._callbacks.' + cbid,
-
-                        //these need to be uri encoded for flashvars because the
-                        //flashvars value is basically a querystring, therefore
-                        //if urls are not uri encoded, their querystrings will get
-                        //lost in the flashvars
-                        src: encodeURIComponent(first.url),
-                        playButtonOverlay: false
-                    },
-                    params = {
-                        wmode: 'transparent',
-                        allowFullScreen: 'true',
-                        allowscriptaccess: 'always'
-                    };
-
-                    WDP._callbacks[cbid] = function (id, eventName, updatedProperties) {
-                        if (!instance.$player) {
-                            instance.$player = instance.$container.find('object');
-
-                            // since flash needs this callback, we need to set
-                            // ready on ourselves and tell the instance to load the first asset.
-                            // We need to set the instance source to the first asset because
-                            // what flash initialized with might not actually be the first
-                            // asset (if it was an image), but rather the first _video_ asset
-                            instance.setReady();
-                            instance.setSource(instance.current);
-
-                            if ((instance.getCurrentType() === 'video' && instance.autoplay)
-                                    || instance.id === MODAL_CONTAINER_ID) {
-                                instance.play();
-                            }
-                        }
-
-                        if (eventName === 'complete') {
-                            instance.setSource(instance.current + 1) && instance.play();
-                        }
-                    };
-
-                    $tpl.find('div.wd-flash-replace').attr('id', id);
-                    instance.$container.find('.wd-stage').prepend($tpl);
-
-                    // figure out of we need to show a poster or not
-                    if (isFirstVideo && !instance.isModal() && !instance.autoplay) {
-                        $container.on('click', '.wd-paginate', onceDelegate);
-                        $container.on('click', '.wd-thumbnail img', onceDelegate);
-                        $playButton.one('click', function (e) {
-                            onceDelegate(e);
-                            instance.play();
-                        });
-
-                        $poster.css({
-                            width: instance.width,
-                            height: instance.height
-                        });
-
-                        $img.attr('src', first.poster)
-                            .css({
-                                width: dimensions.width,
-                                height: dimensions.height,
-                                'margin-top': (instance.height - dimensions.height) / 2
-                            });
-                    } else {
-                        $poster.remove();
-                    }
-
-
-                    window.swfobject.embedSWF(
-                        WDP.options.pluginUrl + '/flash/StrobeMediaPlayback.swf',
-                        id,
-                        '100%',
-                        '100%',
-                        '10.1.0',
-                        WDP.options.pluginUrl + '/flash/expressInstall.swf',
-                        flashvars,
-                        params
-                    );
-                }
             }
+
         };
 
     /**
@@ -477,12 +324,13 @@
             (parseInt($node.css('border-right-width'), 10) || 0);
     }
 
-    // Constructor function for a player instance. The old player couldn't manage multiple instances
-    // of Wiredrive Players, so here we fix that with this Player object that knows how to manage
-    // the content inside of its bounding box.
-    //
-    // NOTE: This is not a safe constructor (meaning if you forget to invoke this function via
-    // the `new` keyword, it will modify the global scope)
+    /**
+     * Constructor function for a player instance. The old player couldn't manage multiple instances
+     * of Wiredrive Players, so here we fix that with this Player object that knows how to manage
+     * the content inside of its bounding box.
+     * NOTE: This is not a safe constructor (meaning if you forget to invoke this function via
+     * the `new` keyword, it will modify the global scope)
+     */
     function Player(config) {
         var $container,
             test = document.createElement('video'),
@@ -492,15 +340,15 @@
         //Don't bother checking for ogg or webm. The majority of WD clients appear to use mp4
         if (!!test.canPlayType && test.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '') === 'probably') {
             this.type = 'video';
-        } else {
-            this.type = 'flash';
+            // } else {
+            //     this.type = 'flash';
         }
 
         //detect IE9 and force it to use flash. It still is glitchy with h264,
         //even though it passes the above test
-        if (document.documentMode === 9) {
-            this.type = 'flash';
-        }
+        // if (document.documentMode === 9) {
+        //     this.type = 'flash';
+        // }
 
         //do some ua sniffing to see if we're on an iOS device.
         //TODO: probably better to use a media query to put a class on the container
@@ -544,8 +392,11 @@
 
         this.id = config.id;
         this.items = [];
+        this.mediaItems = [];
         this.jsonpUrl = config.jsonpUrl;
         this.current = 0;
+        this.domain = config.domain;
+        this.pluginId = config.pluginId;
 
         //make DOM changes based on config
         if (this.slideshow) {
@@ -556,8 +407,8 @@
         $container.attr('id', this.id);
 
         if (this.theme === 'inline-player' && !this.isModal()) {
-            $container.css({ width: this.width });
-            $stage.css({ height: this.height });
+            $container.css({width: this.width});
+            $stage.css({height: this.height});
         }
 
         return this;
@@ -568,12 +419,91 @@
         // you really shouldn't need this property, since Player instances should be created
         // through WDP.registerPlayer, but there's no harm in piggybacking off ES5 conventions
         constructor: Player,
-
-        // Returns the mimetype of the currently selected asset (`video` or `image`)
+        //
+        // // Returns the mimetype of the currently selected asset (`video` or `image`)
         getCurrentType: function () {
             return this.items[this.current].mimetype;
         },
+        //
+        getJsonData: function (file, callback, keys) {
 
+            let httpReq = new XMLHttpRequest();
+            httpReq.addEventListener("load", (e) => {
+                let data = JSON.parse(e.target.responseText);
+            // items = [];
+            const assets = data["assets"];
+            keys = keys || Object.keys(data);
+            console.log(data);
+            console.log(assets);
+            assets.forEach((el) => {
+                let media = el.media.filter(x => x.type === 'web');
+            console.log(el);
+            if (media.length === 0) {
+                media = el.media.filter(x => x.type === 'original');
+            }
+            media = media[0];
+            let file = {
+                "extension": media.extension,
+                "title": el.label,
+                "mimeType": media.mimeType,
+                "channels": media.metadata["audio-channels"],
+                "url": media.url,
+                "height": media.height,
+                "width": media.width
+            };
+            this.mediaItems.push(new Grauman.MediaFile(file));
+        });
+            console.log(this.mediaItems);
+            callback(this.mediaItems);
+        });
+
+            httpReq.open('GET', file);
+            httpReq.send();
+        },
+
+        render: function (file) {
+            let files = this.mediaItems;
+            let container = document.getElementById(`grauman-${this.id}`),
+                grauman;
+
+            container.style.width = this.width + "px";
+            container.style.height = this.height + "px";
+
+            function createPlayer(container, file) {
+                grauman = new Grauman(container, {
+                    autoplay: true
+                });
+
+                if (file) {
+                    grauman.file = file;
+                }
+                window.grauman = grauman;
+            }
+
+            function destroyPlayer() {
+                if (grauman) {
+                    grauman.destroy();
+                }
+                window.grauman = grauman = null;
+            }
+
+            function changeFile(file) {
+                if (!grauman) {
+                    createPlayer(container, file);
+                }
+                grauman.file = file;
+            }
+
+            if(typeof file == 'undefined'){
+                createPlayer(container, files[0]);
+            } else {
+                // console.log(file);
+                file = files[parseInt(file, 10)];
+                // console.log(file);
+                changeFile(file);
+            }
+
+        },
         // remove this player from the DOM completely
         destroy: function () {
             this.pause();
@@ -585,53 +515,6 @@
             return this.id === MODAL_CONTAINER_ID;
         },
 
-        // Swaps between the video player and the image player based on the given
-        // `type` (`video` or `image`)
-        toggleViewer: function (mimetype) {
-            //keep in mind there might only be one player (image or video)
-            //there is no assurance this instance will have both
-            var $imageContainer = this.$container.find('.wd-image-container'),
-                $flashContainer = this.$container.find('.wd-flash-container'),
-                $videoContainer = this.$player && this.$player.parent('.video-container'),
-                $stage = this.$container.find('.wd-stage');
-
-            //NOTE: Flash will lose its handle on the DOM `object` element if any CSS
-            //rules make the player invisible. To prevent the handle from being lost,
-            //the flash player is not hidden, but rather resized to be a 1x1 pixel box,
-            //which explains some of the wonky logic here. HTML5 video players don't seem
-            //to have this problem and can therefore simply be hidden via `display: none;`
-            //
-            //ADDITIONAL NOTE: It used to be that only flash had this problem, but then along came
-            //the iPad, where it has trouble playing a video if the video was hidden (well, maybe not
-            //hidden, but the browser didn't redraw fast enough to unhide the element, even though at the
-            //time of the load call, it's not hidden in the DOM tree. Hooray laggy redraw!) when the load
-            //request came in. The easy fix was to apply the flash strategy to html5 video, all
-            //thanks to the wonderful wonderful ipad.
-            if (mimetype === 'video') {
-                this.type === 'flash' ?
-                    $flashContainer.css({ width: '100%', height: '100%' }).removeClass('wd-hidden-flash') :
-                    $videoContainer.css({ width: '100%', height: '100%' }).removeClass('wd-hidden-flash');
-
-                $imageContainer.addClass('wd-hidden');
-                $stage.removeClass('image').addClass('video');
-            } else {
-                //prevent video from potentially playing in the background
-                //check for the current asset being a video first, otherwise slideshowing
-                //could unintentionally be stopped before it starts
-                this.getCurrentType() === 'video' && this.pause();
-                
-                if (this.type === 'flash') {
-                    //override any inline dimension styles that may be on the flash container
-                    $flashContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
-                } else {
-                    //if there is a video container, hide it
-                    $videoContainer && $videoContainer.css({ width: 1, height: 1 }).addClass('wd-hidden-flash');
-                }
-
-                $imageContainer.removeClass('wd-hidden');
-                $stage.removeClass('video').addClass('image');
-            }
-        },
 
         setCredit: function (asset) {
             var instance = this,
@@ -657,7 +540,7 @@
             //remove the old credits
             this.$container.find('.wd-credit, .wd-credit-separator').remove();
             $title.text(title); //set the title
-            
+
             if (this.theme === 'inline-player') {
                 $.each(asset.credits, iterator);
             } else if (asset.credits.length) {
@@ -679,7 +562,7 @@
                 if (!this.loop) {
                     return false;
                 }
-                    
+
                 index = this.items.length - 1;
             } else if (index >= this.items.length) {
                 if (!this.loop) {
@@ -697,15 +580,8 @@
             // this is executed on init, when the next and current asset index is 0.
             // The second condition makes sure that an initialization pass will
             // set the player correctly for the first asset
-            if (nextAsset.mimetype !== currentAsset.mimetype || nextAsset === currentAsset) {
-                this.toggleViewer(nextAsset.mimetype);
-            }
 
-            if (nextAsset.mimetype === 'image') {
-                this._setImageSource(index);
-            } else {
-                this._setPlayerSource(index);
-            }
+            this._setPlayerSource(index);
 
             this.setCredit(nextAsset);
 
@@ -872,7 +748,7 @@
                 // The three if statements below apply css to account for the following
                 //  conditions, depending on the configuration of this gallery player:
                 //
-                // scale without letterboxing: collapse li borders around the scaled image 
+                // scale without letterboxing: collapse li borders around the scaled image
                 // scale with    letterboxing: scale image, vertical align to li via margin-top
                 // crop  without letterboxing: background-image on li. no li border collapse
                 // crop  with    letterboxing: background-image on li. no li border collapse
@@ -987,8 +863,8 @@
                     } else {
                         //the marker is on the right
                         for (total = 0;
-                             //iterate as long as the marker is not the first asset and the number
-                             //of iterated assets to the left have a total width less than the viewport
+                            //iterate as long as the marker is not the first asset and the number
+                            //of iterated assets to the left have a total width less than the viewport
                              markerIndex > 0 && total + cache[markerIndex].width < viewportWidth;
                              markerIndex--) {
 
@@ -1008,7 +884,7 @@
                         markerLeft = false;
                     }
 
-                    $ol.css({ 'margin-left': marginLeft });
+                    $ol.css({'margin-left': marginLeft});
                     lastMarginLeft = marginLeft;
 
                     updateButtonStates();
@@ -1051,7 +927,7 @@
                         markerLeft = true;
                     }
 
-                    $ol.css({ 'margin-left': marginLeft });
+                    $ol.css({'margin-left': marginLeft});
                     lastMarginLeft = marginLeft;
 
                     updateButtonStates();
@@ -1104,7 +980,7 @@
                 cache.push({
                     $node: $thumb,
                     width: _calculateWidth($thumb),
-                    previousTotal: contentWidth 
+                    previousTotal: contentWidth
                 });
 
                 contentWidth += cache[index].width;
@@ -1158,7 +1034,7 @@
             // bind mouse hovers to display credits
             $thumbTray.on('mouseenter mouseleave', '.wd-thumbnail img', function (e) {
                 var index;
-                
+
                 if (e.type === 'mouseenter') {
                     index = +$(e.target).parent('li').attr('data-wd-index');
                     instance.setCredit(instance.items[index]);
@@ -1206,77 +1082,6 @@
             }
         },
 
-        // Render the image viewer template and bind it. The initialization procedure
-        // will only execute this function if images are found in the given presentation
-        attachImageViewer: function () {
-            var instance = this,
-                $imgContainer = $(IMAGE_TEMPLATE),
-                css = {},
-                $stage = this.$container.find('.wd-stage');
-
-            $stage.prepend($imgContainer);
-
-            if (this.isModal()) {
-                css['background-color'] = 'transparent';
-            } else {
-                css['background-color'] = WDP.options.stage_color;
-                css.height = instance.height;
-                css.width = instance.width;
-            }
-
-            $imgContainer.css(css);
-            instance.$image = $imgContainer.find('.wd-image:not(.wd-next-image)');
-            !instance.hasVideo() && instance.setReady();
-        },
-
-        // function to set the image to the asset at the given index.
-        // This is one of those "private" helper functions that is called by
-        // `setSource`. Because of this, this function does not validate whether the
-        // index is valid or is even an image. It assumes that `setSource` already figured
-        // that out.
-        _setImageSource: function (index) {
-            var nextAsset = this.items[index],
-                currentAsset = this.items[this.current],
-                $stage = this.$container.find('.wd-stage').css('margin-top', 0),
-                dimensions = _fitWithin(nextAsset, $stage.width(), $stage.height()),
-
-                $image = this.$image,
-                $nextImage = this.$container.find('.wd-image.wd-next-image');
-
-            if (currentAsset.mimetype === 'image'
-                    && currentAsset.mimetype === nextAsset.mimetype
-                    && currentAsset !== nextAsset) {
-
-                //going from image to image, so transition them.
-                $image.addClass('opaque wd-next-image');
-
-                // If the browser does not support css transitions, then we're probably in either IE8 or IE9
-                // and we need to do some hacks to make things not look weird.
-                // See the `_noTransitionTimeoutHack` function above for a better explaination
-                if (!ENV_SUPPORTS_TRANSITIONS) {
-                    _noTransitionTimeoutHack($image);
-                }
-
-                $image = this.$image = $nextImage;
-            } else if (currentAsset === nextAsset) {
-                //Fix for Firefox: When the image viewer is first initialized, originally the next-image img
-                //element did not have a source. Firefox has a bug where it cannot do a CSS3 transition from
-                //opacity 0 to 1 on an image with no source. This fix sets both the image and the next image
-                //to be the same image if this is the initialization pass (current and index are equal)
-                $nextImage.attr('src', nextAsset.url);
-
-                //resize the next image, otherwise it could be misaligned and get in the way of the
-                //skrim click off close
-                $nextImage.css({
-                    height: dimensions.height,
-                    width: dimensions.width,
-                    'margin-left': Math.round(($stage.width() - dimensions.width) / 2),
-                    'margin-top': Math.round(($stage.height() - dimensions.height) / 2)
-                });
-            }
-
-            $image.removeClass('opaque wd-next-image').attr('src', nextAsset.url);
-        },
 
         // function to resize the current viewer to be vertically and horizontally centered within the stage.
         // This does nothing if the current asset is a video inside an inline player (not a modal) as
@@ -1297,15 +1102,15 @@
                 setTimeout(function () {
                     $video = $stage.find('.wd-flash-container, .video-container'),
 
-                    dimensions = _fitWithin(
-                        asset,
-                        $container.width(),
-                        $container.height() - $credits.height()),
+                        dimensions = _fitWithin(
+                            asset,
+                            $container.width(),
+                            $container.height() - $credits.height()),
 
-                    $video.css({
-                        height: dimensions.height,
-                        width: dimensions.width
-                    });
+                        $video.css({
+                            height: dimensions.height,
+                            width: dimensions.width
+                        });
 
                     $stage.css({
                         'margin-top': ($container.height() - $stage.height()) / 2
@@ -1370,9 +1175,10 @@
                     smallThumb = asset.media.small;
 
                 switch (asset.mimeCategory) {
-                    case 'video': break;
+                    case 'video':
+                        break;
                     case 'image':
-                        WDP.preloadImage(content.url);
+                        // WDP.preloadImage(content.url);
                         break;
                     default:
                         console.log('skipping', asset.mimeCategory);
@@ -1394,11 +1200,23 @@
                     },
                     poster: maxThumb.url,
                     description: asset.description,
-                    keywords: $.map(asset.keywords, function (item) { return item.label; }),
+                    keywords: $.map(asset.keywords, function (item) {
+                        return item.label;
+                    }),
                     credits: $.map(asset.metadata, function (credit) {
-                        return { credit: credit.label, tag: credit.tags[0].label };
+                        return {credit: credit.label, tag: credit.tags[0].label};
                     })
                 });
+                // Grauman media player
+                let file = {
+                    "extension": asset.extension,
+                    "title": asset.title || asset.label,
+                    "mimeType": asset.mimeType,
+                    "url": content.url,
+                    "height": +content.height,
+                    "width": +content.width
+                };
+                instance.mediaItems.push(new Grauman.MediaFile(file));
             });
 
             // if we didn't end up parsing any presentable assets
@@ -1433,11 +1251,6 @@
         // A globally accessible object to store all of the callbacks needed for
         // strobe and jsonp
         _callbacks: {},
-
-        // Generates a key name for a callback to use for a strobe bridge request
-        flashCallbackId: function () {
-            return 'flash' + WDP.uniqueId();
-        },
 
         // Generates a key name for a callback to use for a jsonp request
         jsonpCallbackId: function () {
@@ -1507,13 +1320,13 @@
 
         _initInlinePlayer: function (player) {
             // mixin the correct player if this presentation has videos
-            if (player.hasVideo()) {
-                $.extend(player, mixins[player.type]);
-                player.attachPlayer();
-            }
+            // if (player.hasVideo()) {
+            $.extend(player, mixins["grauman"]);
+            player.attachPlayer();
+            // }
 
             // bind image viewer if needed
-            player.hasImages() && player.attachImageViewer();
+            // player.hasImages() && player.attachImageViewer();
             player.attachCarousel();
             player.bind();
 
@@ -1521,17 +1334,20 @@
             // video and image players will be ready by now, but flash will
             if (player.getCurrentType() === 'video') {
                 if (player.isReady()) {
-                    //player is ready (probably html5)
+                    //         //player is ready (probably html5)
                     player.setSource(player.current) && player.autoplay && player.play();
+                    player.play();
                 } else {
                     //player is not ready (either flash or flash is disabled.
                     //Trigger the viewer so that styles and binds don't break
                     player.toggleViewer('video');
                 }
             } else {
-                //first asset is an image, so it can be displayed
+                //     //first asset is an image, so it can be displayed
                 player.setSource(player.current) && player.autoplay && player.play();
             }
+            console.log(_players);
+            _players[player.id].render();
         },
 
         // create a modal player and use the contents of the given player as the modal's contents.
@@ -1567,7 +1383,7 @@
             // Don't bother repositioning anything if we're on mobile. Just let
             // them scroll whereever they want in the background
             if (!gallery.isMobile && $document.scrollTop() === 0) {
-                $html.css({ 'margin-top': -scrollY });
+                $html.css({'margin-top': -scrollY});
             }
 
             modalPlayer = new Player({
@@ -1607,7 +1423,7 @@
                     $window.off('resize', resize);
                     $html.removeClass('wd-skrim-visible');
 
-                    $html.css({ 'margin-top': 0 });
+                    $html.css({'margin-top': 0});
                     !gallery.isMobile && $document.scrollTop(scrollY);
                 }
             });
@@ -1626,6 +1442,7 @@
             player = new Player(config);
             _players[player.id] = player;
             player.fetchData();
+
         }
     };
 }(window.jQuery));
