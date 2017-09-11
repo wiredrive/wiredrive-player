@@ -167,12 +167,11 @@
                             $container.off('touch click', '.wd-paginate', onceDelegate);
                             $container.off('touch click', '.wd-thumbnail img', onceDelegate);
                     },
-                        
+
                     $tpl = $(GRAUMAN_TEMPLATE(this.id));
 
                     $stage.prepend($tpl);
                     console.log({"container": $container});
-                    // console.log($container[0].innerHTML);
                     $playButton = $container.find('.wd-play-video-button');
                     // this.render()
                     $player = $container.find('video');
@@ -192,7 +191,6 @@
                             onceDelegate(e);
 
                             $player.attr('src', first.url);
-                            console.log(first.url);
                             // $player.get(0).load();
 
                             //the once delegator doesn't need to explicitly call `play` because
@@ -205,7 +203,6 @@
                         $playButton.remove();
                         $player.attr('controls', 'controls');
                         $player.attr('src', instance.items[instance.current].url);
-                        console.log(instance.items[instance.current].url);
                         // $player.get(0).load();
                     }
 
@@ -425,11 +422,8 @@
             // items = [];
             const assets = data["assets"];
             keys = keys || Object.keys(data);
-            console.log(data);
-            console.log(assets);
             assets.forEach((el) => {
                 let media = el.media.filter(x => x.type === 'web');
-            console.log(el);
             if (media.length === 0) {
                 media = el.media.filter(x => x.type === 'original');
             }
@@ -445,7 +439,6 @@
             };
             this.mediaItems.push(new Grauman.MediaFile(file));
         });
-            console.log(this.mediaItems);
             callback(this.mediaItems);
         });
 
@@ -489,9 +482,9 @@
             if(typeof file == 'undefined'){
                 createPlayer(container, files[0]);
             } else {
-                // console.log(file);
+
                 file = files[parseInt(file, 10)];
-                // console.log(file);
+
                 changeFile(file);
             }
 
@@ -1338,7 +1331,6 @@
                 //     //first asset is an image, so it can be displayed
                 player.setSource(player.current) && player.autoplay && player.play();
             }
-            console.log(_players);
             _players[player.id].render();
         },
 
