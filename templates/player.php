@@ -89,7 +89,7 @@
                 thumbfit: '<?php echo $thumbfit; ?>',
                 linebreak: <?php echo $linebreak; ?>,
             <?php endif; ?>
-                jsonpUrl: '<?php echo $jsonpUrl; ?>', 
+                jsonpUrl: '<?php echo $jsonpUrl; ?>',
                 pluginId: '<?php echo $pluginId; ?>',
                 siteUrl: '<?php echo $siteUrl; ?>',
                 domain: '<?php echo $domain; ?>'

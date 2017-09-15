@@ -4,7 +4,7 @@ Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
 Tested up to: 4.8
-Stable tag: 3.2.0
+Stable tag: 4.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,8 +69,8 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
-= 3.2.0 =
-* Switched to Grauman media player by default
+= 4.0.0 =
+* Switched to Grauman media player(360-video support) by default
 
 = 3.1.0 =
 * Switched to HTML5 video player by default
