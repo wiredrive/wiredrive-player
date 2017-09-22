@@ -60,11 +60,12 @@
          */
         GRAUMAN_TEMPLATE = (id) => {
             return [
-                `<div id="grauman-${id}" class="container full container-viewer wd-video" x-webkit-airplay="allow">`,
-                '<div class="wd-play-video-button"></div>',
-                '</div>'
-            ].join('')
+            `<div id="grauman-${id}" class="container full container-viewer wd-video" x-webkit-airplay="allow">`,
+            '<div class="wd-play-video-button"></div>',
+            '</div>'
+        ].join('')
         },
+
 
         CAROUSEL_THUMBNAIL_TEMPLATE = [
             '<li class="wd-thumbnail">',
@@ -144,41 +145,42 @@
                         // the user clicks on the pagintate button to change to the next asset without
                         // ever playing the first asset or clicking on a thumbnail
                     onceDelegate = function (e) {
-                            if ($(e.target).hasClass('disabled')) {
-                                return;
-                            }
+                        if ($(e.target).hasClass('disabled')) {
+                            return;
+                        }
 
-                            // The iPad is slow. The onceDelegate properly removes the poster attribute,
-                            // but iPad safari doesn't redraw the video quickly enough. In the case where the
-                            // first asset is a video, the user then switches to an image, and then switches back to
-                            // a video, there will be a flash of the stale poster image from the first video before
-                            // the new video loads.
-                            // This little hack forces a redraw for whatever the nebulus reasons may be
-                            // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
-                            if (instance.isMobile) {
-                                $player.css('display', 'none');
-                                $player.get(0).offsetHeight;
-                                $player.css('display', 'block');
-                            }
+                        // The iPad is slow. The onceDelegate properly removes the poster attribute,
+                        // but iPad safari doesn't redraw the video quickly enough. In the case where the
+                        // first asset is a video, the user then switches to an image, and then switches back to
+                        // a video, there will be a flash of the stale poster image from the first video before
+                        // the new video loads.
+                        // This little hack forces a redraw for whatever the nebulus reasons may be
+                        // http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
+                        if (instance.isMobile) {
+                            $player.css('display', 'none');
+                            $player.get(0).offsetHeight;
+                            $player.css('display', 'block');
+                        }
 
-                            $playButton.remove();
-                            $player.removeAttr('poster');
-                            $player.attr('controls', 'controls');
-                            $container.off('touch click', '.wd-paginate', onceDelegate);
-                            $container.off('touch click', '.wd-thumbnail img', onceDelegate);
+                        $playButton.remove();
+                        $player.removeAttr('poster');
+                        $player.attr('controls', 'controls');
+                        $container.off('touch click', '.wd-paginate', onceDelegate);
+                        $container.off('touch click', '.wd-thumbnail img', onceDelegate);
                     },
 
                     $tpl = $(GRAUMAN_TEMPLATE(this.id));
 
                     $stage.prepend($tpl);
                     console.log({"container": $container});
+                    // console.log($container[0].innerHTML);
                     $playButton = $container.find('.wd-play-video-button');
                     // this.render()
                     $player = $container.find('video');
                     console.log({"video": $player});
                     // $player = $container.find('video');
                     // $player = $container.getElementByTagName('video');
-
+                    
                     // only show the poster image if the first asset is a video
                     // and we're not in a modal (modal will autoplay once opened, so
                     // no use for poster)
@@ -191,6 +193,7 @@
                             onceDelegate(e);
 
                             $player.attr('src', first.url);
+                            console.log(first.url);
                             // $player.get(0).load();
 
                             //the once delegator doesn't need to explicitly call `play` because
@@ -203,14 +206,16 @@
                         $playButton.remove();
                         $player.attr('controls', 'controls');
                         $player.attr('src', instance.items[instance.current].url);
+                        console.log(instance.items[instance.current].url);
                         // $player.get(0).load();
                     }
 
                     instance.$player = $player;
 
-                    $player.on('ended', function (e) {
-                        instance.setSource(instance.current + 1) && instance.play();
-                    });
+                    // $player.on('ended', function (e) {
+                    //     instance.setSource(instance.current + 1);
+                    // });
+
 
                     instance.setReady();
                 },
@@ -335,9 +340,12 @@
 
         //see if we can play html5 video somewhat reliably.
         //Don't bother checking for ogg or webm. The majority of WD clients appear to use mp4
-        if (!!test.canPlayType && test.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '') === 'probably') {
+        // if (!!test.canPlayType && test.canPlayType('video/mp4; codecs="avc1.42E01E"').replace(/^no$/, '') === 'probably') {
             this.type = 'video';
-        }
+        //     // } else {
+        //     //     this.type = 'flash';
+        // }
+
 
         //do some ua sniffing to see if we're on an iOS device.
         //TODO: probably better to use a media query to put a class on the container
@@ -386,6 +394,7 @@
         this.current = 0;
         this.domain = config.domain;
         this.pluginId = config.pluginId;
+        this.playNext = false;
 
         //make DOM changes based on config
         if (this.slideshow) {
@@ -419,44 +428,47 @@
             let httpReq = new XMLHttpRequest();
             httpReq.addEventListener("load", (e) => {
                 let data = JSON.parse(e.target.responseText);
-            // items = [];
-            const assets = data["assets"];
-            keys = keys || Object.keys(data);
-            assets.forEach((el) => {
-                let media = el.media.filter(x => x.type === 'web');
-            if (media.length === 0) {
-                media = el.media.filter(x => x.type === 'original');
-            }
-            media = media[0];
-            let file = {
-                "extension": media.extension,
-                "title": el.label,
-                "mimeType": media.mimeType,
-                "channels": media.metadata["audio-channels"],
-                "url": media.url,
-                "height": media.height,
-                "width": media.width
-            };
-            this.mediaItems.push(new Grauman.MediaFile(file));
-        });
-            callback(this.mediaItems);
-        });
+                // items = [];
+                const assets = data["assets"];
+                keys = keys || Object.keys(data);
+                assets.forEach((el) => {
+                    let media = el.media.filter(x => x.type === 'web');
+                    if (media.length === 0) {
+                        media = el.media.filter(x => x.type === 'original');
+                    }
+                    media = media[0];
+                    let file = {
+                        "extension": media.extension,
+                        "title": el.label,
+                        "mimeType": media.mimeType,
+                        "channels": media.metadata["audio-channels"],
+                        "url": media.url,
+                        "height": media.height,
+                        "width": media.width
+                    };
+                    this.mediaItems.push(new Grauman.MediaFile(file));
+                });
+                callback(this.mediaItems);
+            });
 
             httpReq.open('GET', file);
             httpReq.send();
         },
 
-        render: function (file) {
-            let files = this.mediaItems;
-            let container = document.getElementById(`grauman-${this.id}`),
-                grauman;
+        getFile: function (index) {
+            return this.mediaItems[parseInt(index, 10)];
+        },
 
+        render: function (file) {
+            let self = this;
+            let container = document.getElementById(`grauman-${self.id}`),
+                grauman;
             container.style.width = this.width + "px";
             container.style.height = this.height + "px";
 
             function createPlayer(container, file) {
                 grauman = new Grauman(container, {
-                    autoplay: true
+                    autoplay: self.autoplay
                 });
 
                 if (file) {
@@ -480,19 +492,28 @@
             }
 
             if(typeof file == 'undefined'){
-                createPlayer(container, files[0]);
+                createPlayer(container, self.mediaItems[0]);
             } else {
-
-                file = files[parseInt(file, 10)];
-
-                changeFile(file);
+                changeFile(self.getFile(parseInt(file, 10)));
             }
+            window.grauman.viewer.on("ended", function(e) {
+                changeFile(self.getFile(self.current + 1));
+                self.current += 1;
+            });
 
+        },
+
+        destroyGrauman:  function() {
+            if (grauman) {
+                grauman.destroy();
+            }
+            window.grauman = grauman = null;
         },
         // remove this player from the DOM completely
         destroy: function () {
             this.pause();
-            this.$container.remove();
+            // this.$container.remove();
+            this.destroyGrauman();
         },
 
         // is this player the modal player?
@@ -1142,8 +1163,34 @@
         // Registers a callback and does an async script load to fetch this
         // Player's presentation data as jsonp
         fetchData: function () {
-            var cbid = WDP.addCallback(this.id);
-            $.getScript(this.jsonpUrl + '/callback/' + cbid);
+            var self = this;
+            $.ajax({
+                type: "POST",
+                url: this.jsonpUrl,
+                data: { pluginId: this.pluginId, domain: this.domain, siteUrl: this.siteUrl },
+                dataType: "json",
+                success: function (res) {
+                    var id = self.id;
+
+                    (function (data) {
+                        var player = _players[id],
+                            $stage = $('#' + id + ' .wd-stage');
+
+                        if (player.parse(data)) {
+
+                            if (player.theme === 'inline-player') {
+                                WDP._initInlinePlayer(player);
+                            } else {
+                                WDP._initGalleryPlayer(player);
+                            }
+                        } else {
+                            WDP._initEmptyPlayer(player);
+                        }
+
+                    })(res['data']);
+
+                }
+            });
         },
 
         parse: function (data) {
@@ -1233,14 +1280,6 @@
      * The global object to manage all Wiredrive Player instances on this page
      */
     WDP = window.WDP = {
-        // A globally accessible object to store all of the callbacks needed for
-        // strobe and jsonp
-        _callbacks: {},
-
-        // Generates a key name for a callback to use for a jsonp request
-        jsonpCallbackId: function () {
-            return 'jsonp' + WDP.uniqueId();
-        },
 
         // Incredibly simple counter used to build unique ids
         uniqueId: function () {
@@ -1259,41 +1298,6 @@
             $('<img/>').get(0).src = url;
         },
 
-        // Creates a callback function to handle a Player's jsonp data request
-        // and returns a string to the location of the callback function from global scope.
-        //
-        // Ex: `console.log(window[WDP.addCallback(playerId)]);` will log the
-        //  callback function that this function creates.
-        //
-        // This function does not make any data requests, but sets it up so that
-        // a jsonp data request can be made using the returned string path as
-        // the callback querystring argument to the jsonp request
-        addCallback: function (playerId) {
-            var id = playerId,
-                cbid = WDP.jsonpCallbackId();
-
-            // dump the callback into the object
-            this._callbacks[cbid] = function (data) {
-                var player = _players[id],
-                    $stage = $('#' + id + ' .wd-stage');
-
-                if (player.parse(data)) {
-                    if (player.theme === 'inline-player') {
-                        WDP._initInlinePlayer(player);
-                    } else {
-                        WDP._initGalleryPlayer(player);
-                    }
-                } else {
-                    WDP._initEmptyPlayer(player);
-                }
-
-                // Callback is not needed anymore
-                delete WDP._callbacks[cbid];
-            };
-
-            return 'WDP._callbacks.' + cbid;
-        },
-
         _initGalleryPlayer: function (player) {
             player.attachGallery();
         },
@@ -1304,22 +1308,18 @@
         },
 
         _initInlinePlayer: function (player) {
-            // mixin the correct player if this presentation has videos
-            // if (player.hasVideo()) {
+
             $.extend(player, mixins["grauman"]);
             player.attachPlayer();
-            // }
 
-            // bind image viewer if needed
-            // player.hasImages() && player.attachImageViewer();
             player.attachCarousel();
             player.bind();
 
             // flash depends on a callback, so it might not be ready yet.
             // video and image players will be ready by now, but flash will
-            if (player.getCurrentType() === 'video') {
+            // if (player.getCurrentType() === 'video') {
                 if (player.isReady()) {
-                    //         //player is ready (probably html5)
+            //         //player is ready (probably html5)
                     player.setSource(player.current) && player.autoplay && player.play();
                     player.play();
                 } else {
@@ -1327,10 +1327,10 @@
                     //Trigger the viewer so that styles and binds don't break
                     player.toggleViewer('video');
                 }
-            } else {
-                //     //first asset is an image, so it can be displayed
-                player.setSource(player.current) && player.autoplay && player.play();
-            }
+            // } else {
+            // //     //first asset is an image, so it can be displayed
+            //     player.setSource(player.current) && player.autoplay && player.play();
+            // }
             _players[player.id].render();
         },
 
