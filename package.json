@@ -17,9 +17,9 @@
   "author": "WireDrive.com",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/demeshko/wiredrive-player/issues"
+    "url": "https://github.com/wiredrive/wiredrive-player/issues"
   },
-  "homepage": "https://github.com/demeshko/wiredrive-player#readme",
+  "homepage": "https://github.com/wiredrive/wiredrive-player#readme",
   "devDependencies": {
     "grauman": "^0.2.5",
     "gulp": "^3.9.1",
