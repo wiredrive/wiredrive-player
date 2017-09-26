@@ -1,0 +1,33 @@
+{
+  "name": "wiredrive-player",
+  "version": "1.0.0",
+  "description": "WireDrive gulp project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "grauman-build": "npm install --save-dev grauman@0.2.5 | gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/demeshko/wiredrive-player.git"
+  },
+  "keywords": [
+    "wiredrive-player"
+  ],
+  "author": "WireDrive.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/demeshko/wiredrive-player/issues"
+  },
+  "homepage": "https://github.com/demeshko/wiredrive-player#readme",
+  "devDependencies": {
+    "grauman": "^0.2.5",
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.0.1",
+    "gulp-minify": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglifyjs": "^0.6.2"
+  }
+}

@@ -512,8 +512,8 @@
         // remove this player from the DOM completely
         destroy: function () {
             this.pause();
-            this.$container.remove();
-            // this.destroyGrauman();
+            // this.$container.remove();
+            this.destroyGrauman();
         },
 
         // is this player the modal player?

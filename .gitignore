@@ -58,10 +58,11 @@ fabric.properties
 
 .gitignore
 .idea/
-node_modules/
 css/wd-admin-min.css
 css/wd-player-min.css
 js/wd-admin-min.js
 js/wd-mce-button-min.js
 js/wd-player-min.js
+node_modules/
 package-lock.json
+
