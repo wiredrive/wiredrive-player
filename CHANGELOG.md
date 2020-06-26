@@ -107,3 +107,6 @@ Complete Changelog
 
 ### 3.1.0
 * Switched to HTML5 video player by default
+
+### 3.1.1
+* Force https when loading presentation feed

@@ -3,8 +3,8 @@ Contributors: Wiredrive
 Donate link: http://www.wiredrive.com/mrss
 Tags: wiredrive, mrss, video, html5, jsonp
 Requires at least: 3.4.0
-Tested up to: 4.6
-Stable tag: 3.1.0
+Tested up to: 4.9
+Stable tag: 3.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,6 +69,9 @@ Known issues:
 [Please see "Wiredrive extensions for WordPress" on Wiredrive.com](http://www.wiredrive.com/support/getting-started/wiredrive-extensions-for-wordpress/)
 
 == Changelog ==
+= 3.1.1 =
+* Force https when loading presentation feed
+
 = 3.1.0 =
 * Switched to HTML5 video player by default
 

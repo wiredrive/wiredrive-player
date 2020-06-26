@@ -2,7 +2,7 @@ Wiredrive Player (Wordpress Plugin)
 ====
 * Requires at least: Wordpress 3.4.0
 * Contributors: Wiredrive
-* Stable tag: 3.1.0
+* Stable tag: 3.1.1
 * License: GPLv2 or later
 * Dependencies: jQuery 1.7.2 or higher, jQuery UI 1.8.20 or higher
 
@@ -82,6 +82,9 @@ The new player was built with evolving and current web standards in mind. The an
 
 Recent Changelog
 ----
+### 3.1.1
+* Force https when loading presentation feed
+
 ### 3.1.0
 * Switched to HTML5 video player by default
 
