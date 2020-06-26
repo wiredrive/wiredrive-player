@@ -269,7 +269,7 @@ class Wiredrive_Plugin
             }
             $link = $tag['data'];
         } else {
-            $link = $url;
+            $link = str_replace('http://', 'https://', $url);
         }
     
         $this->jsonpUrl = $link; 
